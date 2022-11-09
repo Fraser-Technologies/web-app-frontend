@@ -8,7 +8,15 @@ module.exports = {
 				sans: ["Poppins", ...defaultTheme.fontFamily.sans],
 			},
 			backgroundImage: {
-				"signin-hero-bg": "url('/public/assets/images/fraser-signin-bg-img.svg')",
+				"signin-hero-bg":
+					"url('/public/assets/images/fraser-signin-bg-img.svg')",
+				"signup-hero-bg-mobile":
+					"url('/public/assets/images/fraser-signup-bg-img-mobile.svg')",
+			},
+			colors: {
+				primary: {
+					100: "#00FF6A",
+				},
 			},
 		},
 	},

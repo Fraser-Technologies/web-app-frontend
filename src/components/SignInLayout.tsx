@@ -18,7 +18,7 @@ const Layout = ({ children }: Props) => {
 					</div>
 					<div className="flex justify-between items-center space-x-12">
 						<div className="text-white ">Home</div>
-						<button className="bg-green-500 px-3 py-2 rounded-md">
+						<button className="bg-primary-100 px-3 py-2 rounded-md">
 							Book a ride
 						</button>
 					</div>
