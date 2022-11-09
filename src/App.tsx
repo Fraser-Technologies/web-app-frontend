@@ -2,7 +2,7 @@ import React from 'react'
 
 const App = () => {
   return (
-    <div>App</div>
+    <div className="font-sans text-2xl font-black">App</div>
   )
 }
 
