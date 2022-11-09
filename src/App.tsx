@@ -1,8 +1,11 @@
 import React from 'react'
+import SignIn from "./pages/signin"
 
 const App = () => {
   return (
-    <div className="font-sans text-2xl font-black">App</div>
+    <>
+      <SignIn/>
+    </>
   )
 }
 

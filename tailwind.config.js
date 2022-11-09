@@ -7,6 +7,9 @@ module.exports = {
 			fontFamily: {
 				sans: ["Poppins", ...defaultTheme.fontFamily.sans],
 			},
+			backgroundImage: {
+				"signin-hero-bg": "url('/public/assets/images/fraser-signin-bg-img.svg')",
+			},
 		},
 	},
 	plugins: [],
