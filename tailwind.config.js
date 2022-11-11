@@ -11,7 +11,7 @@ module.exports = {
 				"signin-hero-bg":
 					"url('/public/assets/images/fraser-signin-bg-img.svg')",
 				"signup-hero-bg-mobile":
-					"url('/public/assets/images/fraser-signup-bg-img-mobile.svg')",
+					"url('/public/assets/images/fraser-signin-bg-img-mobile.svg')",
 			},
 			colors: {
 				primary: {
