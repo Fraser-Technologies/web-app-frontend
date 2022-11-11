@@ -1,6 +1,6 @@
 import React from "react";
 import { Button } from "../components/Button";
-import Layout from "../components/SignInLayout";
+import Layout from "../components/layouts/SignInLayout";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { Helmet } from "react-helmet";
@@ -10,6 +10,7 @@ const SignIn = () => {
 	const [phone, setPhone] = React.useState<any>("");
 	const [isView, setIsView] = React.useState<boolean>(false);
 	const [otp, setOtp] = React.useState<any>("");
+	const [user, setUser] = React.useState<any>("");
 
 	const handleSignIn = () => {
 		setIsView(true);
@@ -25,7 +26,7 @@ const SignIn = () => {
 	};
 
 	return (
-		<Layout>
+		<Layout user={user}>
 			<Helmet>
 				<meta charSet="utf-8" />
 				<title>Sign In - Fraser</title>
