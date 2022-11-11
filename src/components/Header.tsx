@@ -14,7 +14,6 @@ export const Header = ({ user }: Props) => {
 					<img
 						src="/assets/images/fraser-white-logo.svg"
 						alt="Fraser Logo"
-						// width={80}
 						className="w-14 lg:w-20"
 					/>
 				</div>
