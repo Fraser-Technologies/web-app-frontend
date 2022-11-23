@@ -129,8 +129,8 @@ const Bookings = () => {
 									</div>
 								</div>
 							</div>
-							<div className="mt-8 border-b lg:border-[#EFF3EF] pb-10">
-								<h1 className="text-3xl font-semibold leading-[54px] tracking-[-5%] lg:hidden block">
+							<div className="mt-8 lg:border-b lg:border-[#EFF3EF] pb-10">
+								<h1 className="lg:text-3xl md:text-2xl font-semibold leading-[54px] tracking-[-5%] lg:hidden block">
 									When?
 								</h1>
 								<div className="flex justify-between mt-6">
@@ -152,16 +152,16 @@ const Bookings = () => {
 						</div>
 					</div>
 					{/* {trip details} */}
-					<div className="w-11/12 lg:w-[680px] mt-5 lg:mt-0">
+					<div className="w-11/12 lg:w-[680px] my-5 lg:mt-0">
 						<div className="lg:bg-white lg:py-12 lg:px-8 px-0 rounded-md w-full">
-							<div className="flex justify-between md:justify-start space-x-4 mb-8">
-								<button className="w-2/5 sm:w-1/6 py-2 lg:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
+							<div className="flex justify-between lg:justify-start space-x-4 mb-8">
+								<button className="w-2/5 sm:w-1/6 py-2 md:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
 									Cheapest
 								</button>
-								<button className="w-2/5 sm:w-1/6 py-2 lg:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
+								<button className="w-2/5 sm:w-1/6 py-2 md:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
 									Fastest
 								</button>
-								<button className="w-2/5 sm:w-1/6 py-2 lg:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
+								<button className="w-2/5 sm:w-1/6 py-2 md:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
 									Earliest
 								</button>
 							</div>
