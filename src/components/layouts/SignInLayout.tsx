@@ -3,17 +3,17 @@ import { Header } from "../Header";
 
 interface Props {
 	children: React.ReactNode;
-	user: string;
+	user?: string;
+	bg?: string;
+	childClass?: string;
 }
 
-const Layout = ({ children, user }: Props) => {
+const Layout = ({ children, user, bg, childClass }: Props) => {
 	return (
 		<div className="h-screen font-sans">
-			<div className="h-screen xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat">
+			<div className={`h-screen ${bg}`}>
 				<Header user={user} />
-				<div className="flex justify-center items-center w-full h-5/6 m-auto">
-					{children}
-				</div>
+				<div className={`${childClass}`}>{children}</div>
 			</div>
 		</div>
 	);

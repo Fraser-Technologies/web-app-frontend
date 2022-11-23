@@ -2,7 +2,7 @@ import React from "react";
 import { HiMenu } from "react-icons/hi";
 
 interface Props {
-	user: string;
+	user?: string;
 }
 
 export const Header = ({ user }: Props) => {

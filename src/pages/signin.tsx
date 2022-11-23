@@ -11,10 +11,28 @@ const SignIn = () => {
 	const [isView, setIsView] = React.useState<boolean>(false);
 	const [otp, setOtp] = React.useState<any>("");
 	const [user, setUser] = React.useState<any>("");
+	const [phoneError, setPhoneError] = React.useState<any>("");
 
 	const handleSignIn = () => {
-		setIsView(true);
-		console.log(phone);
+		if (phone) {
+			setIsView(true);
+			console.log(phone);
+		} else {
+			setPhoneError("Please enter your phone number");
+		}
+		// try {
+		// 	fetch("http://localhost:3000/api/login", {
+		// 		method: "POST",
+		// 		headers: {
+		// 			"Content-Type": "application/json",
+		// 		},
+		// 		body: JSON.stringify({ phone }),
+		// 	}).then((res) => {
+		// 		if (res.status === 200) {
+		// 			setIsView(true);
+		// 		}
+		// 	})
+		// } catch (error) {}
 	};
 
 	const handleChange = (enteredOtp: any) => {
@@ -26,7 +44,13 @@ const SignIn = () => {
 	};
 
 	return (
-		<Layout user={user}>
+		<Layout
+			user={user}
+			bg={
+				"md:h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
+			}
+			childClass={"flex justify-center items-center w-full h-5/6 m-auto"}
+		>
 			<Helmet>
 				<meta charSet="utf-8" />
 				<title>Sign In - Fraser</title>
@@ -50,7 +74,11 @@ const SignIn = () => {
 								smartCaret={true}
 								autoComplete="tel"
 								withCountryCallingCode={true}
+								required
 							/>
+							{phoneError && (
+								<div className="text-red-500 text-sm mt-2">{phoneError}</div>
+							)}
 						</div>
 						<Button
 							title="Proceed"
