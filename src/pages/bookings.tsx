@@ -84,7 +84,7 @@ const Bookings = () => {
 			) : (
 				//second view
 				<div className="flex flex-col lg:flex-row justify-center items-center lg:items-start lg:mt-15 mt-10 lg:space-x-3">
-					<div className="bg-white w-11/12 flex lg:hidden justify-between items-center px-3 py-4 ease-in-out duration-300">
+					<div className="bg-white w-11/12 flex lg:hidden justify-between items-center px-8 py-4 ease-in-out duration-300">
 						<h3 className="font-bold text-xl ">Booking</h3>
 						{show === false ? (
 							<BsChevronDown
