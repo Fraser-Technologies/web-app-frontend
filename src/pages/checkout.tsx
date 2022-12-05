@@ -12,6 +12,7 @@ import Layout from "../components/layouts/SignInLayout";
 import { Modal, Box, Typography } from "@mui/material";
 import { ModalStyle } from "../constants/styling";
 import SeatReservation from "../components/SeatReservation";
+import { Button } from "../components/Button";
 
 
 const Checkout = () => {
@@ -200,12 +201,11 @@ const Checkout = () => {
 						</div>
 						{/* {payment button} */}
 						<div className="mt-4">
-							<button
+							<Button
+								title="Proceed to pay"
 								className="bg-primary-100 py-3 w-full text-black font-medium"
 								onClick={handleOpen}
-							>
-								Proceed to pay
-							</button>
+							/>
 						</div>
 						<Modal
 							open={open}

@@ -4,6 +4,7 @@ import Layout from "../components/layouts/SignInLayout";
 import { FaBus } from "react-icons/fa";
 import { BsCalendarDate, BsArrowRight } from "react-icons/bs";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { Button } from "../components/Button";
 
 const Bookings = () => {
 	const [isView, setIsView] = React.useState<boolean>(false);
@@ -57,27 +58,29 @@ const Bookings = () => {
 									When?
 								</h1>
 								<div className="flex justify-between mt-6">
-									<button className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
-										Today
-									</button>
-									<button className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
-										Tomorrow
-									</button>
+									<Button
+										title="Today"
+										className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
+									/>
+									<Button
+										title="Tomorrow"
+										className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
+									/>
 									<div className="relative">
-										<button className="pl-8 pr-2 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
-											Other
-										</button>
+										<Button
+											title="Other"
+											className="pl-8 pr-2 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
+										/>
 
 										<BsCalendarDate className="top-3 ml-1 left-2 absolute text-sm" />
 									</div>
 								</div>
 							</div>
-							<button
+							<Button
+								title="See available trips"
 								className="w-full h-[52px] bg-[#f4f4f4] mt-10 text-sm"
 								onClick={handleAvailableTrips}
-							>
-								See available trips
-							</button>
+							/>
 						</div>
 					</div>
 				</div>
@@ -100,8 +103,8 @@ const Bookings = () => {
 					</div>
 					{/* {where to} */}
 					<div
-							className={ `w-11/12 lg:w-[481px] ease-in-out duration-300 lg:block
-							${show === false ? 'hidden' : 'block'}
+						className={`w-11/12 lg:w-[481px] ease-in-out duration-300 lg:block
+							${show === false ? "hidden" : "block"}
 						`}
 					>
 						<div className="bg-white lg:mt-0 -mt-3 pt-2 lg:py-12 px-8 rounded-md w-full">
@@ -134,16 +137,19 @@ const Bookings = () => {
 									When?
 								</h1>
 								<div className="flex justify-between mt-6">
-									<button className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
-										Today
-									</button>
-									<button className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
-										Tomorrow
-									</button>
+									<Button
+										title="Today"
+										className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
+									/>
+									<Button
+										title="Tomorrow"
+										className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
+									/>
 									<div className="relative">
-										<button className="pl-8 pr-2 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
-											Other
-										</button>
+										<Button
+											title="Other"
+											className="pl-8 pr-2 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
+										/>
 
 										<BsCalendarDate className="top-3 ml-1 left-2 absolute text-sm" />
 									</div>
@@ -155,15 +161,18 @@ const Bookings = () => {
 					<div className="w-11/12 lg:w-[680px] my-5 lg:mt-0">
 						<div className="lg:bg-white lg:py-12 lg:px-8 px-0 rounded-md w-full">
 							<div className="flex justify-between lg:justify-start space-x-4 mb-8">
-								<button className="w-2/5 sm:w-1/6 py-2 md:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
-									Cheapest
-								</button>
-								<button className="w-2/5 sm:w-1/6 py-2 md:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
-									Fastest
-								</button>
-								<button className="w-2/5 sm:w-1/6 py-2 md:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100">
-									Earliest
-								</button>
+								<Button
+									title="Cheapest"
+									className="w-2/5 sm:w-1/6 py-2 md:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
+								/>
+								<Button
+									title="Fastest"
+									className="w-2/5 sm:w-1/6 py-2 md:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
+								/>
+								<Button
+									title="Earliest"
+									className="w-2/5 sm:w-1/6 py-2 md:text-sm text-xs border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
+								/>
 							</div>
 							<div className="bg-black flex lg:px-8 px-3 py-5 rounded-lg justify-between">
 								<div className="flex justify-between md:space-x-8 space-x-4 relative">
@@ -192,9 +201,10 @@ const Bookings = () => {
 									<p className="text-primary-100 md:text-lg text-sm font-semibold mb-2">
 										NGN 2,500
 									</p>
-									<button className="bg-primary-100 text-black text-sm md:py-2 py-1 md:px-5 px-2">
-										Continue
-									</button>
+									<Button
+										title="Continue"
+										className="bg-primary-100 text-black text-sm md:py-2 py-1 md:px-5 px-2"
+									/>
 								</div>
 							</div>
 						</div>

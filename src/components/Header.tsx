@@ -3,6 +3,7 @@ import { HiMenu } from "react-icons/hi";
 import { AiOutlineClose } from "react-icons/ai";
 import { Drawer } from "@mui/material";
 import { Link } from "react-router-dom";
+import { Button } from "./Button";
 
 interface Props {
 	user?: string;
@@ -29,9 +30,11 @@ export const Header = ({ user }: Props) => {
 				<Link to="/">
 					<h1 className="text-center text-xl font-bold">Amen</h1>
 				</Link>
-				<button className="bg-primary-100 px-3 py-2 rounded-md w-full text-lg font-bold text-black mt-8">
-					Book a ride
-				</button>
+				<Button
+					title="Book a ride"
+					type="submit"
+					className="bg-primary-100 px-3 py-2 rounded-md w-full text-lg font-bold text-black mt-8"
+				/>
 			</div>
 		</div>
 	);
@@ -61,9 +64,11 @@ export const Header = ({ user }: Props) => {
 			<div className="md:flex justify-between items-center space-x-12 hidden">
 				<div className="text-white ">Home</div>
 				{user && <div className="text-white ">{user}</div>}
-				<button className="bg-primary-100 px-3 py-2 rounded-md">
-					Book a ride
-				</button>
+				<Button
+					title="Book a ride"
+					type="submit"
+					className="bg-primary-100 px-3 py-2 rounded-md"
+				/>
 			</div>
 		</div>
 	);

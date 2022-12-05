@@ -3,7 +3,7 @@ import React from "react";
 interface Props {
 	onClick?: () => void;
 	className?: string;
-	type: "button" | "submit" | "reset";
+	type?: "button" | "submit" | "reset";
 	title: string;
 }
 
