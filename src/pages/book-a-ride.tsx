@@ -6,7 +6,7 @@ import { BsCalendarDate, BsArrowRight } from "react-icons/bs";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { Button } from "../components/Button";
 
-const Bookings = () => {
+const BookRide = () => {
 	const [isView, setIsView] = React.useState<boolean>(false);
 	const [show, setShow] = React.useState<boolean>(false);
 
@@ -22,7 +22,7 @@ const Bookings = () => {
 		<Layout user="Amen" childClass="">
 			<Helmet>
 				<meta charSet="utf-8" />
-				<title>Bookings - Fraser</title>
+				<title>BookRide - Fraser</title>
 			</Helmet>
 			{isView === false ? (
 				//first view
@@ -215,4 +215,4 @@ const Bookings = () => {
 	);
 };
 
-export default Bookings;
+export default BookRide;
