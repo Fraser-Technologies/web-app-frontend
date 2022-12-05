@@ -1,15 +1,55 @@
 import React from "react";
 import { HiMenu } from "react-icons/hi";
+import { AiOutlineClose } from "react-icons/ai";
+import { Drawer } from "@mui/material";
+import { Link } from "react-router-dom";
 
 interface Props {
 	user?: string;
 }
 
 export const Header = ({ user }: Props) => {
+	const [openNavBar, setOpenNavBar] = React.useState(false);
+
+	const getList = () => (
+		<div className="w-[320px] flex-col h-full items-center bg-black py-8 px-4">
+			<div className="flex justify-end">
+				<AiOutlineClose
+					className="text-white text-2xl"
+					onClick={() => setOpenNavBar(false)}
+				/>
+			</div>
+			<div
+				className="w-full flex-col items-center justify-center mt-24 text-white space-y-8"
+				onClick={() => setOpenNavBar(false)}
+			>
+				<Link to="/">
+					<h1 className="text-center text-xl font-bold mb-4">Home</h1>
+				</Link>
+				<Link to="/">
+					<h1 className="text-center text-xl font-bold">Amen</h1>
+				</Link>
+				<button className="bg-primary-100 px-3 py-2 rounded-md w-full text-lg font-bold text-black mt-8">
+					Book a ride
+				</button>
+			</div>
+		</div>
+	);
 	return (
 		<div className="bg-black py-6 px-4 md:px-16 flex justify-between items-center">
 			<div className="flex md:block space-x-2 md:space-x-0 items-center md:items-start">
-				<HiMenu className="text-white text-xl md:hidden block" />
+				<HiMenu
+					className="text-white text-xl md:hidden block"
+					onClick={() => setOpenNavBar(true)}
+				/>
+				<Drawer
+					open={openNavBar}
+					anchor={"left"}
+					className="w-full"
+					onClose={() => setOpenNavBar(false)}
+				>
+					{getList()}
+				</Drawer>
 				<div>
 					<img
 						src="/assets/images/fraser-white-logo.svg"
