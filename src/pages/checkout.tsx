@@ -40,7 +40,12 @@ const Checkout = () => {
 				{/* {where to} */}
 				<div className={`w-11/12 lg:w-[687px] ease-in-out duration-300`}>
 					<div className="bg-white mb-5 flex  justify-between items-center px-8 py-6 ease-in-out duration-300">
-						<h3 className="font-bold md:text-3xl text-2xl ">Checkout</h3>
+						<h3 className="font-bold md:text-3xl text-2xl hidden lg:block">
+							Checkout
+						</h3>
+						<h3 className="font-bold md:text-3xl text-2xl lg:hidden block">
+							Your Details
+						</h3>
 						<div className="lg:hidden block">
 							{show === false ? (
 								<BsChevronDown
@@ -55,7 +60,7 @@ const Checkout = () => {
 							)}
 						</div>
 					</div>
-					<div>
+					<div className={`${show === false ? "hidden" : "block"}`}>
 						{/* {passenger details} */}
 						<div className="bg-white lg:mt-0 -mt-3 lg:py-12 p-8 rounded-md w-full">
 							<div className="border-b border-[#EFF3EF] pb-5">
@@ -209,7 +214,7 @@ const Checkout = () => {
 							aria-describedby="modal-modal-description"
 						>
 							<Box sx={ModalStyle}>
-								<SeatReservation/>
+								<SeatReservation />
 							</Box>
 						</Modal>
 					</div>

@@ -57,14 +57,22 @@ const SeatReservation = () => {
 	};
 
 	return (
-		<div>
+		<div className="my-4">
 			<div>Select Preferred Seat</div>
 			<p>1 Passenger</p>
 			<div className="container">
 				{seat.map((seatName) =>
 					seatName === "A1" ? (
 						<div className="flex justify-center items-center w-full">
-							<div className="w-24 h-14 flex justify-center items-center border border-[#EFF3EF] rounded-md cursor-pointer mb-3 mt-8">
+							<div
+								key={seatName}
+								onClick={(e) => onSeatSelect(seatName)}
+								className={`w-24 h-14 flex justify-center items-center border border-black rounded-md cursor-pointer mb-3 mt-8 ${
+									seatAvailable?.indexOf(seatName) > -1
+										? "bg-white"
+										: "bg-primary-100"
+								}`}
+							>
 								{seatName}
 							</div>
 						</div>
@@ -74,7 +82,16 @@ const SeatReservation = () => {
 					{seat.map((seatName) =>
 						seatName === "A1" ? null : (
 							<div>
-								<div className="w-24 h-14 flex justify-center items-center border border-[#EFF3EF] rounded-md cursor-pointer">
+								<div
+									key={seatName}
+									onClick={(e) => onSeatSelect(seatName)}
+									className={`w-24 h-14 flex justify-center items-center border border-black rounded-md cursor-pointer ${
+										seatAvailable?.indexOf(seatName) > -1
+											? "bg-white"
+											: "bg-primary-100"
+									}`}
+									// className="w-24 h-14 flex justify-center items-center border border-black rounded-md cursor-pointer"
+								>
 									{seatName}
 								</div>
 							</div>
@@ -82,6 +99,57 @@ const SeatReservation = () => {
 					)}
 				</div>
 			</div>
+			{/* <div className="container">
+				{seat.map((seatName) =>
+					seatName === "A1" ? (
+						<div className="flex justify-center items-center">
+							<div className="w-10 h-10 flex justify-center items-center border border-[#EFF3EF] rounded-md cursor-pointer">
+								{seatName}
+							</div>
+						</div>
+					) : (
+						<div className="bg-gray-200 flex-1" style={{ display: "flex" }}>
+							<span className="bg-yellow-100">{seatName}</span>
+						</div>
+					)
+				)} */}
+			{/* <div className="grid grid-cols-3 gap-3 mt-8 items-center">
+					{seat?.map((row) =>
+						row === "A1" ? (
+							<div className="flex w-full">
+								<div
+									// className="col-span-3 border-b border-[#EFF3EF]"
+									key={row}
+									onClick={(e) => onSeatSelect(row)}
+									className={`col-start-2 col-span-3 text-center py-3 w-20 ${
+										seatAvailable?.indexOf(row) > -1
+											? "bg-white border"
+											: "bg-primary-100"
+									} cursor-pointer`}
+								>
+									{row}
+								</div>
+							</div>
+						) : (
+							<div
+								key={row}
+								onClick={(e) => onSeatSelect(row)}
+								className={`text-center py-3 w-20 ${
+									seatAvailable?.indexOf(row) > -1
+										? "bg-white border"
+										: "bg-primary-100"
+								} cursor-pointer`}
+							>
+								{row}
+							</div>
+						)
+					)} */}
+			{/* </div> */}
+			{/* <h3>Available seats</h3> */}
+			{/* <AvailableList /> */}
+			{/* <h3>Reserved Seats</h3> */}
+			{/* <ReservedList /> */}
+			{/* </div> */}
 		</div>
 	);
 };
