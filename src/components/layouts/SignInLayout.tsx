@@ -10,8 +10,8 @@ interface Props {
 
 const Layout = ({ children, user, bg, childClass }: Props) => {
 	return (
-		<div className="h-screen font-sans">
-			<div className={`h-screen ${bg}`}>
+		<div className="h-full font-sans">
+			<div className={`h-full ${bg}`}>
 				<Header user={user} />
 				<div className={`${childClass}`}>{children}</div>
 			</div>

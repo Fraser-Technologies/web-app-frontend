@@ -5,6 +5,7 @@ import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { Helmet } from "react-helmet";
 import OtpInput from "react18-input-otp";
+import { Link } from "react-router-dom";
 
 const SignIn = () => {
 	const [phone, setPhone] = React.useState<any>("");
@@ -47,7 +48,7 @@ const SignIn = () => {
 		<Layout
 			user={user}
 			bg={
-				"md:h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
+				"h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
 			}
 			childClass={"flex justify-center items-center w-full h-5/6 m-auto"}
 		>
@@ -86,6 +87,12 @@ const SignIn = () => {
 							onClick={handleSignIn}
 							className="bg-primary-100 px-3 py-2 rounded mt-8 w-full"
 						/>
+						<Link to={"/signup"}>
+							<p className="text-center mt-4 text-xs md:text-sm cursor-pointer">
+								Don't have an account?{" "}
+								<span className="text-primary-100">Sign up</span>
+							</p>
+						</Link>
 					</div>
 				</div>
 			) : (
