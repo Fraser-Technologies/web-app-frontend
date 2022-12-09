@@ -61,7 +61,7 @@ const Checkout = () => {
 							)}
 						</div>
 					</div>
-					<div className={`${show === false ? "hidden" : "block"}`}>
+					<div className={`${show === false ? "hidden" : "block"} md:block`}>
 						{/* {passenger details} */}
 						<div className="bg-white lg:mt-0 -mt-3 lg:py-12 p-8 rounded-md w-full">
 							<div className="border-b border-[#EFF3EF] pb-5">

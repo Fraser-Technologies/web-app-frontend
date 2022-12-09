@@ -1,16 +1,13 @@
 import React from "react";
-// import SignIn from "./pages/signin";
-// import Checkout from "./pages/checkout";
-// import Signup from "./pages/signup";
-// import BookRide from "./pages/book-a-ride";
+// import { persistStore } from "redux-persist";
+// import { PersistGate } from "redux-persist/integration/react";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 import { Provider } from "react-redux";
 import { AuthProvider } from "./providers/AuthContext";
 import { CircularProgress } from "@mui/material";
-import { persistStore } from "redux-persist";
-import { PersistGate } from "redux-persist/integration/react";
 import { store } from "./redux/store";
 import loadable from "@loadable/component";
+import { _paths_ } from "./utils/appHelpers";
 
 const SignIn = loadable(() => import("./pages/signin"), {
 	fallback: (
@@ -74,20 +71,20 @@ const Checkout = loadable(() => import("./pages/checkout"), {
 });
 
 const App = () => {
-	let persistor = persistStore(store);
+	// let persistor = persistStore(store);
 	return (
 		<Provider store={store}>
 			{/* <PersistGate loading={null} persistor={persistor}> */}
-				<BrowserRouter>
-					<AuthProvider>
-						<Routes>
-							<Route path="/" element={<SignIn />} />
-							<Route path="/signup" element={<SignUp />} />
-							<Route path="/book-a-ride" element={<BookRide />} />
-							<Route path="/checkout" element={<Checkout />} />
-						</Routes>
-					</AuthProvider>
-				</BrowserRouter>
+			<BrowserRouter>
+				<AuthProvider>
+					<Routes>
+						<Route path={_paths_.SIGNIN} element={<SignIn />} />
+						<Route path={_paths_.SIGNUP} element={<SignUp />} />
+						<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
+						<Route path={_paths_.CHECKOUT} element={<Checkout />} />
+					</Routes>
+				</AuthProvider>
+			</BrowserRouter>
 			{/* </PersistGate> */}
 		</Provider>
 	);

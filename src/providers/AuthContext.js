@@ -58,7 +58,66 @@ function AuthProvider(props) {
 	);
 }
 
+//adjust to suit your signup logic
 async function contextSignUp(
+	dispatch,
+	user,
+	setSubmitting,
+	navigate,
+	location
+) {
+	try {
+		setSubmitting(true);
+		dispatch({ status: "pending" });
+		const result = await instance.post(`/api/v1/user/signup`, user);
+		const status = result?.data?.status;
+		const message = result?.data?.message;
+		const response = result.data;
+		console.log("response", response);
+
+		if (status === 200) {
+			const token = response.data.auth;
+			const user = response.data;
+			delete user.auth;
+			const allAccesses = [];
+
+			storage.local.set(storageKey, {
+				status: "resolved",
+				user,
+				token,
+				error: null,
+			});
+
+			dispatch({
+				status: "resolved",
+				user,
+				token,
+				error: null,
+				allAccesses,
+			});
+
+			navigate(location);
+			window.location.reload();
+		}
+		// else {
+		// 	dispatch({ status: "rejected", error: message });
+		// }
+
+		setSubmitting(false);
+	} catch (error) {
+		setSubmitting(false);
+		dispatch({ status: "rejected", error: error.response.data.message });
+		storage.local.set(storageKey, {
+			status: "rejected",
+			user: null,
+			token: null,
+			error: error.response.data.message,
+		});
+	}
+}
+
+//adjust to suit your signin logic
+async function contextSignIn(
 	dispatch,
 	user,
 	setSubmitting,

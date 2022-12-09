@@ -1,3 +1,4 @@
+//if you'll like to store data in the local storage just call "storage" anywhere in the app
 export const storage = {
 	local: {
 		get: (key) => {
