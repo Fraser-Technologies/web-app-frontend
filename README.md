@@ -8,7 +8,6 @@
 ```
 - cd Frontend
 - npm i
-- npm test
 - npm run start
 ```
 
@@ -16,7 +15,7 @@ _or_
 
 ```
 - cd Frontend
-- npm i && npm test && npm run start
+- npm i && npm run start
 ```
 
 **Approved Packages**
