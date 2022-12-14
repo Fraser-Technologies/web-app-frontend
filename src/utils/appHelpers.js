@@ -29,7 +29,8 @@ export const storage = {
 };
 
 export const _paths_ = {
-	SIGNIN: "/",
+	LANDING_PAGE: "/",
+	SIGNIN: "signin",
 	SIGNUP: "/signup",
 	BOOKRIDE: "/book-a-ride",
 	CHECKOUT: "/checkout",

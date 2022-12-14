@@ -8,6 +8,7 @@ import { CircularProgress } from "@mui/material";
 import { store } from "./redux/store";
 import loadable from "@loadable/component";
 import { _paths_ } from "./utils/appHelpers";
+import LandingPage from "./pages/landingPage";
 
 const SignIn = loadable(() => import("./pages/signin"), {
 	fallback: (
@@ -18,8 +19,7 @@ const SignIn = loadable(() => import("./pages/signin"), {
 				alignItems: "center",
 				alignContent: "center",
 				height: "100%",
-			}}
-		>
+			}}>
 			<CircularProgress sx={{ m: "-40px auto 0" }} />
 		</div>
 	),
@@ -33,8 +33,7 @@ const SignUp = loadable(() => import("./pages/signup"), {
 				alignItems: "center",
 				alignContent: "center",
 				height: "100%",
-			}}
-		>
+			}}>
 			<CircularProgress sx={{ m: "-40px auto 0" }} />
 		</div>
 	),
@@ -48,8 +47,7 @@ const BookRide = loadable(() => import("./pages/book-a-ride"), {
 				alignItems: "center",
 				alignContent: "center",
 				height: "100%",
-			}}
-		>
+			}}>
 			<CircularProgress sx={{ m: "-40px auto 0" }} />
 		</div>
 	),
@@ -63,8 +61,7 @@ const Checkout = loadable(() => import("./pages/checkout"), {
 				alignItems: "center",
 				alignContent: "center",
 				height: "100%",
-			}}
-		>
+			}}>
 			<CircularProgress sx={{ m: "-40px auto 0" }} />
 		</div>
 	),
@@ -78,6 +75,7 @@ const App = () => {
 			<BrowserRouter>
 				<AuthProvider>
 					<Routes>
+						<Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
 						<Route path={_paths_.SIGNIN} element={<SignIn />} />
 						<Route path={_paths_.SIGNUP} element={<SignUp />} />
 						<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
