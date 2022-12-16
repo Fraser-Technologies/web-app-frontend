@@ -1,9 +1,16 @@
 import { verifyOtpReducer, getOtpReducer } from "./slices/otp.Slice";
 import { combineReducers } from "@reduxjs/toolkit";
-import { userLoginReducer, userRegisterReducer } from "./slices/user.slice";
-import { getAllBusStopReducer } from "./slices/bus.slice";
-import { getAvailableTripReducer } from "./slices/trip.slice";
-import { verifyPaymentReducer } from "./slices/booking.slice";
+import {
+	updateUserReducer,
+	userLoginReducer,
+	userRegisterReducer,
+} from "./slices/user.slice";
+import { getAllBusStopReducer } from "./slices/busstop.slice";
+import {
+	availableTripReducer,
+	getAllAvailableTripReducer,
+} from "./slices/trip.slice";
+import { bookingReducer, verifyPaymentReducer } from "./slices/booking.slice";
 
 const rootReducer = combineReducers({
 	getotp: getOtpReducer,
@@ -12,8 +19,13 @@ const rootReducer = combineReducers({
 
 	//user reducers
 	registerUser: userRegisterReducer,
-	loginUser: userLoginReducer,
-	availableTrip: getAvailableTripReducer,
+	userLogin: userLoginReducer,
+	updateUser: updateUserReducer,
+	availableTrip: availableTripReducer,
+	allAvailableTrip: getAllAvailableTripReducer,
+
+	// booking reducer
+	booking: bookingReducer,
 
 	// trip reducers
 	verifyPayment: verifyPaymentReducer,

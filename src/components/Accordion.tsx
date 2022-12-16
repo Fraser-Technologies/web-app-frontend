@@ -7,7 +7,7 @@ import Button from "./button";
 const Accordion = () => {
 	const [selected, setSelection] = useState(null);
 
-	const toggle = (i) => {
+	const toggle = (i: any) => {
 		if (selected === i) {
 			return setSelection(null);
 		}
@@ -18,7 +18,7 @@ const Accordion = () => {
 			<div className="w-full">
 				{accordiondata?.map((accordiondata, i) => (
 					<div className="item" onClick={() => toggle(i)}>
-						<div className="flex w-full justify-between items-center">
+						<div className="flex items-center justify-between w-full">
 							<h2 className="font-semibold lg:text-[25px] md:text-[16px] text-[12px] blackText">
 								{" "}
 								{accordiondata?.topline}{" "}

@@ -1,5 +1,5 @@
 export interface User_interface {
-	phone: string;
+	UserInfo: string;
 	password?: string;
 	error?: string | any;
 }

@@ -1,34 +1,37 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 const allTripState = {
 	trips: [],
 	loading: false,
 	error: "",
 };
-export const getTripSlice = createSlice({
+export const getAvailableTripSlice = createSlice({
 	name: "get all trips",
 	initialState: allTripState,
 	reducers: {
-		getAllTripRequest: (state) => {
+		getAvailableTripRequest: (state) => {
 			state.loading = true;
 		},
 
-		getAllTripSuccess: (state, { payload }: PayloadAction) => {
+		getAvailableTripSuccess: (state, { payload }) => {
 			state.trips = payload as unknown as any;
 			state.loading = false;
 		},
-		getAllTripFailed: (state, { payload }: PayloadAction) => {
+		getAvailableTripFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload as unknown as string;
 		},
 	},
 });
 
-export const { getAllTripRequest, getAllTripSuccess, getAllTripFailed } =
-	getTripSlice.actions;
-export const allTripReducer = getTripSlice.reducer;
+export const {
+	getAvailableTripRequest,
+	getAvailableTripSuccess,
+	getAvailableTripFailed,
+} = getAvailableTripSlice.actions;
+export const availableTripReducer = getAvailableTripSlice.reducer;
 
-export const availableTripSlice = createSlice({
+export const allAvailableTripSlice = createSlice({
 	name: "available trips",
 	initialState: allTripState,
 	reducers: {
@@ -36,7 +39,7 @@ export const availableTripSlice = createSlice({
 			state.loading = true;
 		},
 
-		getAllAvailableTripSuccess: (state, { payload }: PayloadAction) => {
+		getAllAvailableTripSuccess: (state, { payload }) => {
 			state.trips = payload as unknown as any;
 			state.loading = false;
 		},
@@ -51,5 +54,5 @@ export const {
 	getAllAvailableTripFailed,
 	getAllAvailableTripRequest,
 	getAllAvailableTripSuccess,
-} = availableTripSlice.actions;
-export const getAvailableTripReducer = availableTripSlice.reducer;
+} = allAvailableTripSlice.actions;
+export const getAllAvailableTripReducer = allAvailableTripSlice.reducer;

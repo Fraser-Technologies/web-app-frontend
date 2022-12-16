@@ -2,18 +2,32 @@ import { motion } from "framer-motion";
 import Offeringcard from "../components/offeringcard";
 import StepComp from "../components/StepComp";
 import Accordion from "../components/Accordion";
-import { SlideFromTopAnimation } from "../utils/animation";
 import Button from "../components/button";
+import { SlideFromTopAnimation } from "../utils/animation";
+import { useNavigate } from "react-router-dom";
+import { _paths_ } from "../utils/appHelpers";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { getAllBusStop } from "../state/action/bus.action";
+import { useEffect } from "react";
 
 const LandingPage = () => {
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+	const { busStops } = useAppSelector((state: any) => state.allBusStop);
+
+	useEffect(() => {
+		if (!busStops?.length) {
+			dispatch(getAllBusStop());
+		}
+	}, [busStops?.length, dispatch]);
 	return (
-		<div className="flex min-w-full flex-col">
+		<div className="flex flex-col min-w-full">
 			{/* The nav bar session */}
 			<motion.div
 				variants={SlideFromTopAnimation}
 				initial="initial"
 				animate="animate"
-				className="flex flex-row md:px-10 p-5 w-full justify-between items-center">
+				className="flex flex-row items-center justify-between w-full p-5 md:px-10">
 				<img
 					alt=""
 					src={"/assets/images/logo-no-icon.png"}
@@ -29,7 +43,10 @@ const LandingPage = () => {
 						<p className="nav-item">About</p>
 					</div>
 
-					<Button name="Book a Ride" />
+					<Button
+						name="Book a Ride"
+						onClick={() => navigate(_paths_.BOOKRIDE)}
+					/>
 				</div>
 			</motion.div>
 
@@ -44,13 +61,20 @@ const LandingPage = () => {
 					affordably, use Fraser.
 				</h3>
 
-				<div className="flex flex-row mt-10 md:w-auto w-full sm:justify-center justify-around items-center ">
-					<button className="button blackText md:px-5 md:py-3 px-3 py-2 rounded-full hover:text-white">
-						Book a ride
-					</button>
-					<button className="button md:px-5 md:py-3 px-3 py-2 rounded-full sm:ml-10 hover:text-white">
-						Partner with us
-					</button>
+				<div className="flex flex-row items-center justify-around w-full mt-10 md:w-auto sm:justify-center ">
+					<span>
+						<Button
+							name="Book a ride"
+							onClick={() => navigate(_paths_.BOOKRIDE)}
+						/>
+					</span>
+
+					<span className="sm:ml-10 ">
+						<Button
+							name="Partner with us"
+							onClick={() => navigate(_paths_.BOOKRIDE)}
+						/>
+					</span>
 				</div>
 			</div>
 
@@ -61,7 +85,7 @@ const LandingPage = () => {
 					trip that are
 				</h1>
 
-				<div className="mt-10 w-full flex flex-row md:flex-nowrap  flex-wrap">
+				<div className="flex flex-row flex-wrap w-full mt-10 md:flex-nowrap">
 					<Offeringcard
 						title="Safe"
 						subtitle="Lorem ipsum dolor sit amet consectetur. Erat egestas suspendisse
@@ -109,11 +133,10 @@ const LandingPage = () => {
 						stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
 					/>
 				</div>
-
-				<Button name="Get Started" />
+				<Button name="Get Started" onClick={() => navigate(_paths_.BOOKRIDE)} />
 			</div>
 
-			<div className="w-full flex justify-center bg-center items-center ">
+			<div className="flex items-center justify-center w-full bg-center ">
 				<img
 					alt=""
 					src={"/assets/images/withfriends.051522d885873700dacd.png"}
@@ -136,7 +159,7 @@ const LandingPage = () => {
 					All aboard
 				</h1>
 				<br />
-				<Button name={"Get Started"} />
+				<Button name="Get Started" onClick={() => navigate(_paths_.BOOKRIDE)} />
 			</div>
 		</div>
 	);

@@ -1,23 +1,23 @@
 //if you'll like to store data in the local storage just call "storage" anywhere in the app
 export const storage = {
 	local: {
-		get: (key) => {
+		get: (key: string) => {
 			if (localStorage) {
 				return localStorage.getItem(key)
-					? JSON.parse(localStorage.getItem(key))
+					? JSON.parse(localStorage.getItem(key) as any)
 					: null;
 			}
 
 			return false;
 		},
-		set: (key, data) => {
+		set: (key: string, data: any) => {
 			if (localStorage) {
 				return localStorage.setItem(key, JSON.stringify(data));
 			}
 
 			return false;
 		},
-		remove: (key) => {
+		remove: (key: any) => {
 			if (localStorage && localStorage.getItem(key)) {
 				localStorage.removeItem(key);
 				return true;
@@ -30,6 +30,7 @@ export const storage = {
 
 export const _paths_ = {
 	LANDING_PAGE: "/",
+	AVAILABLE_TRIP: "/bookings",
 	SIGNIN: "signin",
 	SIGNUP: "/signup",
 	BOOKRIDE: "/book-a-ride",

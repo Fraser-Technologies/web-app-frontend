@@ -13,6 +13,7 @@ type Inputs = {
 };
 
 const SignUp = () => {
+	const navigate = useNavigate();
 	const [user, setUser] = React.useState<any>("");
 	const {
 		register,
@@ -21,25 +22,8 @@ const SignUp = () => {
 		formState: { errors },
 	} = useForm<Inputs>();
 
-	const navigate = useNavigate();
-
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
 		console.log(data, "formdata");
-		// try {
-		// 	fetch("http://localhost:3000/api/login", {
-		// 		method: "POST",
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		body: JSON.stringify({ data }),
-		// 	}).then((res) => {
-		// 		if (res.status === 200) {
-		// 			navigate("/book-a-ride");
-		// 		}
-		// 	});
-		// } catch (error) {
-		// 	console.log(error);
-		// }
 	};
 
 	return (
@@ -48,8 +32,7 @@ const SignUp = () => {
 			bg={
 				"md:h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
 			}
-			childClass={"flex justify-center items-center w-full h-5/6 m-auto"}
-		>
+			childClass={"flex justify-center items-center w-full h-5/6 m-auto"}>
 			<Helmet>
 				<meta charSet="utf-8" />
 				<title>Sign In - Fraser</title>
@@ -61,14 +44,12 @@ const SignUp = () => {
 					</h1>
 					<form
 						onSubmit={handleSubmit(onSubmit)}
-						className="w-full mt-8 space-y-5"
-					>
+						className="w-full mt-8 space-y-5">
 						<div className="flex md:flex-row flex-col space-y-5 md:space-y-0 w-full">
 							<div className="flex flex-col md:mr-2">
 								<label
 									htmlFor="firstName"
-									className="text-[#949292] text-sm md:text-base font-normal"
-								>
+									className="text-[#949292] text-sm md:text-base font-normal">
 									First Name
 								</label>
 								<input
@@ -87,8 +68,7 @@ const SignUp = () => {
 							<div className="flex flex-col">
 								<label
 									htmlFor="lastName"
-									className="text-[#949292] text-sm md:text-base  font-normal"
-								>
+									className="text-[#949292] text-sm md:text-base  font-normal">
 									Last Name
 								</label>
 								<input
@@ -107,8 +87,7 @@ const SignUp = () => {
 						<div className="flex flex-col w-full">
 							<label
 								htmlFor="email"
-								className="text-[#949292] text-sm md:text-base font-normal"
-							>
+								className="text-[#949292] text-sm md:text-base font-normal">
 								Email Address
 							</label>
 							<input
@@ -124,8 +103,7 @@ const SignUp = () => {
 						<div className="flex flex-col w-full">
 							<label
 								htmlFor="phoneNumber"
-								className="text-[#949292] text-sm md:text-base font-normal"
-							>
+								className="text-[#949292] text-sm md:text-base font-normal">
 								Phone Number
 							</label>
 							<input

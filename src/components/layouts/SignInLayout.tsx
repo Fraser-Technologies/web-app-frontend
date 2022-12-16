@@ -13,6 +13,7 @@ const Layout = ({ children, user, bg, childClass }: Props) => {
 		<div className="h-full font-sans">
 			<div className={`h-full ${bg}`}>
 				<Header user={user} />
+				<div className="h-[70px]"></div>
 				<div className={`${childClass}`}>{children}</div>
 			</div>
 		</div>

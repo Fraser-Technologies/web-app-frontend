@@ -1,4 +1,4 @@
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 interface otp_interface {
 	otp: string | any;
@@ -18,11 +18,11 @@ export const getOtpSlice = createSlice({
 		getOtpRequest: (state) => {
 			state.loading = false;
 		},
-		getOtpSuccess: (state, { payload }: PayloadAction) => {
+		getOtpSuccess: (state, { payload }) => {
 			state.otp = payload as any;
 			state.loading = false;
 		},
-		getOtpFailed: (state, { payload }: PayloadAction) => {
+		getOtpFailed: (state, { payload }) => {
 			state.error = payload as unknown as string;
 			state.loading = false;
 		},
@@ -44,11 +44,11 @@ export const VerifyOtpSlice = createSlice({
 		verifyOtpRequest: (state) => {
 			state.loading = false;
 		},
-		verifyOtpSuccess: (state, { payload }: PayloadAction) => {
+		verifyOtpSuccess: (state, { payload }) => {
 			state.otp = payload as any;
 			state.loading = false;
 		},
-		verifyOtpFailed: (state, { payload }: PayloadAction) => {
+		verifyOtpFailed: (state, { payload }) => {
 			state.error = payload as unknown as string;
 			state.loading = false;
 		},

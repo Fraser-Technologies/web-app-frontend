@@ -1,6 +1,12 @@
 import React from "react";
 
-const Offeringcard = ({ title, subtitle }) => {
+const Offeringcard = ({
+	title,
+	subtitle,
+}: {
+	title: string;
+	subtitle: string;
+}) => {
 	return (
 		<>
 			<div className="p-[20px] bg-[#22b11e] rounded-[24px] min-w-[200px] m-3">
