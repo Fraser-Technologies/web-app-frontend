@@ -85,7 +85,6 @@ const Booking = loadable(() => import("./pages/bookings"), {
 });
 
 const App = () => {
-	// let persistor = persistStore(store);
 	const dispatch = useAppDispatch();
 	const { busStops } = useAppSelector((state: any) => state.allBusStop);
 

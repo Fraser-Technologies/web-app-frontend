@@ -22,7 +22,7 @@ const Bookings = () => {
 	const [show, setShow] = React.useState<boolean>(false);
 	const [from, setFrom] = useState<string>("");
 	const [to, setTo] = useState<string>("");
-	const [lag, setLag] = useState<boolean | string>(true);
+	const [lag, setLag] = useState<string>("lagos");
 
 	const { busStops } = useAppSelector((state: any) => state.allBusStop);
 
@@ -108,7 +108,7 @@ const Bookings = () => {
 										variants={justHoverAnimation}
 										initial="initial"
 										whileHover="hover"
-										value={true as any}
+										value={"lagos"}
 										className="py-3 h-8">
 										Lagos
 									</motion.option>
@@ -116,14 +116,14 @@ const Bookings = () => {
 										variants={justHoverAnimation}
 										initial="initial"
 										whileHover="hover"
-										value={false as any}>
+										value={"ibadan"}>
 										Ibadan
 									</motion.option>
 								</motion.select>
 							</div>
 
 							<div className="flex flex-col h-auto max-h-40">
-								{lag === "true" ? (
+								{lag === "lagos" ? (
 									<>
 										<label className="mt-5">Start bus stop</label>
 										<motion.select

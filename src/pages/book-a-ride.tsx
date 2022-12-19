@@ -28,7 +28,7 @@ const BookRide = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [from, setFrom] = useState<string>("");
 	const [to, setTo] = useState<string>("");
-	const [lag, setLag] = useState<boolean | any>(true);
+	const [lag, setLag] = useState<string>("lagos");
 	const [referred_by, setReferred_by] = useState<string>("");
 	const [messageApi, contextHolder] = message.useMessage();
 
@@ -111,21 +111,21 @@ const BookRide = () => {
 										variants={justHoverAnimation}
 										initial="initial"
 										whileHover="hover"
-										value={true as any}>
+										value={"lagos"}>
 										Lagos
 									</motion.option>
 									<motion.option
 										variants={justHoverAnimation}
 										initial="initial"
 										whileHover="hover"
-										value={false as any}>
+										value={"ibadan"}>
 										Ibadan
 									</motion.option>
 								</motion.select>
 							</div>
 
 							<div className="flex flex-col h-auto max-h-40">
-								{lag === "true" ? (
+								{lag === "lagos" ? (
 									<>
 										<label className="mt-5">Start bus stop</label>
 										<motion.select

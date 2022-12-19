@@ -3,7 +3,6 @@ import Offeringcard from "../components/offeringcard";
 import StepComp from "../components/StepComp";
 import Accordion from "../components/Accordion";
 import Button from "../components/button";
-import { SlideFromTopAnimation } from "../utils/animation";
 import { useNavigate } from "react-router-dom";
 import { _paths_ } from "../utils/appHelpers";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
@@ -23,11 +22,7 @@ const LandingPage = () => {
 	return (
 		<div className="flex flex-col min-w-full">
 			{/* The nav bar session */}
-			<motion.div
-				variants={SlideFromTopAnimation}
-				initial="initial"
-				animate="animate"
-				className="flex flex-row items-center justify-between w-full p-5 md:px-10">
+			<div className="flex flex-row items-center justify-between w-full p-5 md:px-10">
 				<img
 					alt=""
 					src={"/assets/images/logo-no-icon.png"}
@@ -48,7 +43,7 @@ const LandingPage = () => {
 						onClick={() => navigate(_paths_.BOOKRIDE)}
 					/>
 				</div>
-			</motion.div>
+			</div>
 
 			{/*  The Hero session*/}
 			<div className="w-full md:h-[500px] h-[400px] bg-heroImage object-cover flex flex-col back md:pl-[50px] px-10px justify-center md:items-start items-center">
