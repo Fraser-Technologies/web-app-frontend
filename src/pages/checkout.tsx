@@ -1,28 +1,35 @@
-import React from "react";
+import React, { useState } from "react";
 import { Helmet } from "react-helmet";
-import {
-	BsChevronDown,
-	BsChevronUp,
-	BsFillPersonFill,
-	BsArrowRight,
-} from "react-icons/bs";
+import { BsChevronDown, BsChevronUp, BsFillPersonFill } from "react-icons/bs";
 import { MdPhoneInTalk } from "react-icons/md";
-import { AiFillPlusCircle } from "react-icons/ai";
+import { usePaystackPayment } from "react-paystack";
 import Layout from "../components/layouts/SignInLayout";
-import { Modal, Box, Typography } from "@mui/material";
+import { Modal, Box } from "@mui/material";
 import { ModalStyle } from "../constants/styling";
 import SeatReservation from "../components/SeatReservation";
 import { Button } from "../components/Button";
-
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { Alert, message } from "antd";
+import {
+	emptyMyBooking,
+	verifyPaymentAction,
+} from "../state/action/booking.action";
+import { useNavigate } from "react-router-dom";
 
 const Checkout = () => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const [messageApi, contextHolder] = message.useMessage();
+	const [check, setCheck] = useState<boolean>(false);
+	const [showAlert, setShowAlert] = useState<boolean>(false);
 	const [isView, setIsView] = React.useState<boolean>(false);
 	const [show, setShow] = React.useState<boolean>(false);
-	const [ open, setOpen ] = React.useState( false );
+	const [open, setOpen] = React.useState(false);
+	const { userInfo } = useAppSelector((state: any) => state.userLogin);
+	const { myBooking } = useAppSelector((state: any) => state.booking);
 
-	const handleOpen = () => {
-		setOpen(true);
-	};
+	console.log("the trip details is ", myBooking);
+
 	const handleClose = () => {
 		setOpen(false);
 	};
@@ -31,23 +38,58 @@ const Checkout = () => {
 		setShow(!show);
 	};
 
+	const config = {
+		reference: new Date().getTime().toString(),
+		email: userInfo?.email || "contact@ridefrser.com",
+		amount: Number(myBooking?.price) * 100,
+		publicKey: process.env.REACT_APP_PAYSTACK_KEY,
+	};
+
+	const initializePayment = usePaystackPayment(config as any);
+
+	const onSuccess = () => {
+		dispatch(verifyPaymentAction(myBooking));
+		message.info("Your booking have been created successfully!");
+		navigate("/");
+		dispatch(emptyMyBooking());
+	};
+
+	const onClose = () => {
+		messageApi.open({
+			type: "error",
+			content: "An error occoured while trying to pay",
+		});
+	};
+
+	const payWithPaystack = () => {
+		if (!check) {
+			return setShowAlert(true);
+		}
+
+		initializePayment(onSuccess, onClose);
+	};
+
 	return (
-		<Layout user="Amen" childClass="">
+		<Layout
+			user={`${userInfo?.first_name} ${userInfo?.last_name}`}
+			childClass="">
+			{contextHolder}
+
 			<Helmet>
 				<meta charSet="utf-8" />
 				<title>Checkout - Fraser</title>
 			</Helmet>
-			<div className="flex flex-col lg:flex-row justify-center items-center lg:items-start lg:mt-15 mt-10 lg:space-x-3">
+			<div className="flex flex-col items-center justify-center mt-10 lg:flex-row lg:items-start lg:mt-15 lg:space-x-3">
 				{/* {where to} */}
 				<div className={`w-11/12 lg:w-[687px] ease-in-out duration-300`}>
-					<div className="bg-white mb-5 flex  justify-between items-center px-8 py-6 ease-in-out duration-300">
-						<h3 className="font-bold md:text-3xl text-2xl hidden lg:block">
+					<div className="flex items-center justify-between px-8 py-6 mb-5 duration-300 ease-in-out bg-white">
+						<h3 className="hidden text-2xl font-bold md:text-3xl lg:block">
 							Checkout
 						</h3>
-						<h3 className="font-bold md:text-3xl text-2xl lg:hidden block">
+						<h3 className="block text-2xl font-bold md:text-3xl lg:hidden">
 							Your Details
 						</h3>
-						<div className="lg:hidden block">
+						<div className="block lg:hidden">
 							{show === false ? (
 								<BsChevronDown
 									onClick={handleBookingToggle}
@@ -63,9 +105,9 @@ const Checkout = () => {
 					</div>
 					<div className={`${show === false ? "hidden" : "block"} md:block`}>
 						{/* {passenger details} */}
-						<div className="bg-white lg:mt-0 -mt-3 lg:py-12 p-8 rounded-md w-full">
+						<div className="w-full p-8 -mt-3 bg-white rounded-md lg:mt-0 lg:py-12">
 							<div className="border-b border-[#EFF3EF] pb-5">
-								<h2 className="font-medium md:text-base text-sm mb-3">
+								<h2 className="mb-3 text-sm font-medium md:text-base">
 									Passenger Details
 								</h2>
 								<p className="text-[#949292] font-normal leading-5 md:text-sm text-xs">
@@ -77,41 +119,43 @@ const Checkout = () => {
 							<div className="flex mt-8 space-x-3 border-b border-[#EFF3EF] pb-6">
 								<div className="flex items-center space-x-2 border border-[#E0E0E0] py-3 md:px-6 px-2 w-3/6">
 									<BsFillPersonFill />
-									<p className="text-xs md:text-base truncate">Olabode Amen</p>
+									<p className="text-xs truncate md:text-base">{`${userInfo?.first_name} ${userInfo?.last_name}`}</p>
 								</div>
 								<div className="flex items-center space-x-2 border border-[#E0E0E0] py-3 md:px-6 px-2 w-3/6">
 									<MdPhoneInTalk />
-									<p className="text-sm md:text-base truncate">09076736877</p>
+									<p className="text-sm truncate md:text-base">
+										{userInfo?.phone}
+									</p>
 								</div>
 							</div>
-							<div className="flex justify-center mt-5">
-								<div className="flex items-center text-primary-200 space-x-2">
+							{/* <div className="flex justify-center mt-5">
+								<div className="flex items-center space-x-2 text-primary-200">
 									<AiFillPlusCircle />
 									<p className="text-sm md:text-base">Add new passenger</p>
 								</div>
-							</div>
+							</div> */}
 						</div>
 						{/* {seat reservation} */}
-						<div className="bg-white mt-4 lg:py-12 p-8 rounded-md w-full">
+						{/* <div className="w-full p-8 mt-4 bg-white rounded-md lg:py-12">
 							<div className="border-b border-[#EFF3EF] pb-2">
-								<h2 className="font-medium md:text-base text-sm mb-3">
+								<h2 className="mb-3 text-sm font-medium md:text-base">
 									Seat Reservation
 								</h2>
 							</div>
 							<div className="flex items-center justify-between border border-[#E0E0E0] px-3 py-2">
 								<div className="flex items-center space-x-2">
 									<p className="text-sm md:text-base">Select preferred seat</p>
-									<span className="text-primary-200 bg-primary-50 p-2 rounded-md md:text-sm text-xs">
+									<span className="p-2 text-xs rounded-md text-primary-200 bg-primary-50 md:text-sm">
 										+NGN250
 									</span>
 								</div>
 								<BsArrowRight />
 							</div>
-						</div>
+						</div> */}
 						{/* {luggage weigh} */}
-						<div className="bg-white mt-4 lg:py-12 p-8 rounded-md w-full">
+						{/* <div className="w-full p-8 mt-4 bg-white rounded-md lg:py-12">
 							<div className="border-b border-[#EFF3EF] pb-4">
-								<h2 className="font-medium md:text-base text-sm mb-3">
+								<h2 className="mb-3 text-sm font-medium md:text-base">
 									Luggage weigh-in (Optional)
 								</h2>
 								<p className="text-[#949292] font-normal leading-5 md:text-sm text-xs">
@@ -125,10 +169,6 @@ const Checkout = () => {
 								<BsChevronDown />
 							</div>
 							<div className="flex mt-6 space-x-3">
-								{/* <div className="flex items-center space-x-2 border border-[#E0E0E0] py-2 px-6 w-3/6">
-									<BsFillPersonFill />
-									<p>Olabode Amen</p>
-								</div> */}
 								<input
 									className="border border-[#E0E0E0] py-3 md:px-6 px-3.5 w-3/6 md:text-sm text-xs"
 									placeholder="Estimated Height"
@@ -138,61 +178,77 @@ const Checkout = () => {
 									placeholder="Estimated Width"
 								/>
 							</div>
-						</div>
+						</div> */}
 					</div>
 				</div>
 				{/* {payment details} */}
 				<div className="w-11/12 lg:w-[481px] my-5 lg:mt-0">
-					<div className="bg-white lg:py-12 p-8 rounded-md w-full">
+					<div className="w-full p-8 bg-white rounded-md lg:py-12">
 						<div className="border-b border-[#EFF3EF] pb-2">
-							<h2 className="font-bold md:text-3xl text-2xl mb-3">
+							<h2 className="mb-3 text-2xl font-bold md:text-3xl">
 								Your booking
 							</h2>
 						</div>
 						<div className="border-b border-[#EFF3EF] pb-3 mt-4 flex space-x-5 font-bold text-sm md:text-base">
 							<p>1 Bus Ticket</p>
-							<p>Tue, 4th Sept.</p>
+							<p>{myBooking?.take_off_date}.</p>
 						</div>
 						{/* {location and time} */}
 						<div className="mt-3 relative border-b border-[#EFF3EF] pb-6">
 							<div className="text-[#949292] text-sm md:text-base flex space-x-8 items-center">
-								<p>5:00 AM</p>
-								<div className="h-2 w-2 rounded-full bg-primary-200"></div>
-								<p>Lagos Bus Station</p>
+								<p>{myBooking?.take_off_time}</p>
+								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
+								<p>{`${myBooking?.travel_destination?.from?.name}, ${myBooking?.travel_destination?.from?.state}`}</p>
 							</div>
 							<div className="h-4 border-l-[1.5px] border-primary-200 absolute left-[89.2px] md:left-24 top-5 md:top-6"></div>
 							<div className="text-[#949292] text-sm md:text-base flex space-x-8 items-center mt-4">
-								<p>7:00 AM</p>
-								<div className="h-2 w-2 rounded-full bg-primary-200"></div>
-								<p>Ibadan Bus Station</p>
+								<p>{myBooking?.arrival_time}</p>
+								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
+								<p>{`${myBooking?.travel_destination?.to?.name}, ${myBooking?.travel_destination?.to?.state}`}</p>
 							</div>
 						</div>
 						{/* {discount, subtotal and VAT} */}
 						<div className="border-b border-[#EFF3EF] pb-6">
-							<div className="flex justify-between mt-4 text-[#949292]">
+							{/* <div className="flex justify-between mt-4 text-[#949292]">
 								<p className="text-sm md:text-base ">Discount</p>
 								<p className="text-sm md:text-base">-NGN 500.00</p>
-							</div>
+							</div> */}
 							<div className="flex justify-between mt-4">
 								<p className="text-sm md:text-base ">Subtotal</p>
-								<p className="text-sm md:text-base">NGN 4,500.00</p>
+								<p className="text-sm md:text-base">NGN {myBooking?.price}</p>
 							</div>
-							<div className="flex justify-between mt-4 text-[#949292]">
+							{/* <div className="flex justify-between mt-4 text-[#949292]">
 								<p className="text-sm md:text-base ">VAT(7.5%)</p>
 								<p className="text-sm md:text-base">NGN 337.50</p>
-							</div>
+							</div> */}
 						</div>
 						{/* {total} */}
 						<div className="flex justify-between mt-4 border-b border-[#EFF3EF] pb-6">
-							<p className="text-sm md:text-base font-bold">Total</p>
-							<p className="text-sm md:text-base font-bold">NGN 4,737.50</p>
+							<p className="text-sm font-bold md:text-base">Total</p>
+							<p className="text-sm font-bold md:text-base">
+								NGN {myBooking?.price}
+							</p>
 						</div>
 					</div>
 					{/* {terms & conditions} */}
-					<div className="mt-4 md:-mt-2 md:px-8 px-4 bg-white py-4 rounded-md md:rounded-b-md">
+					<div className="px-4 py-4 mt-4 bg-white rounded-md md:-mt-2 md:px-8 md:rounded-b-md">
+						{showAlert && (
+							<Alert
+								message="Confirm out term and conditions"
+								type="error"
+								showIcon
+							/>
+						)}
 						<div className="flex items-start space-x-2">
 							<div>
-								<input type="checkbox" />
+								<input
+									type="checkbox"
+									checked={check}
+									onChange={() => {
+										setCheck(!check);
+										setShowAlert(false);
+									}}
+								/>
 							</div>
 							<p className="text-xs md:text-sm lg:text-base">
 								I declare to have read the Privacy Policy and I agree to the T&C
@@ -203,16 +259,15 @@ const Checkout = () => {
 						<div className="mt-4">
 							<Button
 								title="Proceed to pay"
-								className="bg-primary-100 py-3 w-full text-black font-medium"
-								onClick={handleOpen}
+								className="w-full py-3 font-medium text-black bg-primary-100"
+								onClick={payWithPaystack}
 							/>
 						</div>
 						<Modal
 							open={open}
 							onClose={handleClose}
 							aria-labelledby="modal-modal-title"
-							aria-describedby="modal-modal-description"
-						>
+							aria-describedby="modal-modal-description">
 							<Box sx={ModalStyle}>
 								<SeatReservation />
 							</Box>

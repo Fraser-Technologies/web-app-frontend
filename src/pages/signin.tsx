@@ -21,19 +21,6 @@ const SignIn = () => {
 		} else {
 			setPhoneError("Please enter your phone number");
 		}
-		// try {
-		// 	fetch("http://localhost:3000/api/login", {
-		// 		method: "POST",
-		// 		headers: {
-		// 			"Content-Type": "application/json",
-		// 		},
-		// 		body: JSON.stringify({ phone }),
-		// 	}).then((res) => {
-		// 		if (res.status === 200) {
-		// 			setIsView(true);
-		// 		}
-		// 	})
-		// } catch (error) {}
 	};
 
 	const handleChange = (enteredOtp: any) => {
@@ -50,16 +37,15 @@ const SignIn = () => {
 			bg={
 				"h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
 			}
-			childClass={"flex justify-center items-center w-full h-5/6 m-auto"}
-		>
+			childClass={"flex justify-center items-center w-full h-5/6 m-auto pt-50"}>
 			<Helmet>
 				<meta charSet="utf-8" />
 				<title>Sign In - Fraser</title>
 			</Helmet>
 			{isView === false ? (
 				<div className="w-11/12 sm:w-3/5 lg:w-2/5">
-					<div className="bg-white py-12 px-8 rounded-md w-full">
-						<div className="text-sm lg:text-base font-normal leading-6 tracking-tighter">
+					<div className="w-full px-8 py-12 bg-white rounded-md">
+						<div className="text-sm font-normal leading-6 tracking-tighter lg:text-base">
 							<h1>Enter your mobile number.</h1>
 							<h1>You'll get an OTP to confirm your number</h1>
 						</div>
@@ -69,7 +55,7 @@ const SignIn = () => {
 								placeholder="Enter phone number"
 								value={phone}
 								onChange={setPhone}
-								className="w-full py-3 px-4 mt-6 border border-gray-300 rounded-md"
+								className="w-full px-4 py-3 mt-6 border border-gray-300 rounded-md"
 								style={{ border: "1px solid #000" }}
 								defaultCountry="NG"
 								smartCaret={true}
@@ -78,17 +64,17 @@ const SignIn = () => {
 								required
 							/>
 							{phoneError && (
-								<div className="text-red-500 text-sm mt-2">{phoneError}</div>
+								<div className="mt-2 text-sm text-red-500">{phoneError}</div>
 							)}
 						</div>
 						<Button
 							title="Proceed"
 							type="submit"
 							onClick={handleSignIn}
-							className="bg-primary-100 px-3 py-2 rounded mt-8 w-full"
+							className="w-full px-3 py-2 mt-8 rounded bg-primary-100"
 						/>
 						<Link to={"/signup"}>
-							<p className="text-center mt-4 text-xs md:text-sm cursor-pointer">
+							<p className="mt-4 text-xs text-center cursor-pointer md:text-sm">
 								Don't have an account?{" "}
 								<span className="text-primary-100">Sign up</span>
 							</p>
@@ -97,18 +83,17 @@ const SignIn = () => {
 				</div>
 			) : (
 				<div className="w-11/12 sm:w-3/5 lg:w-2/5">
-					<div className="bg-white py-12 px-8 rounded-md w-full">
-						<div className="text-sm lg:text-base font-normal leading-6 tracking-tighter">
+					<div className="w-full px-8 py-12 bg-white rounded-md">
+						<div className="text-sm font-normal leading-6 tracking-tighter lg:text-base">
 							<h1>Enter the OTP sent to {phone}</h1>
 							<h1
-								className="text-primary-100 cursor-pointer"
-								onClick={() => setIsView(false)}
-							>
+								className="cursor-pointer text-primary-100"
+								onClick={() => setIsView(false)}>
 								Edit phone number
 							</h1>
 						</div>
 
-						<div className="w-full flex justify-center items-center mt-3">
+						<div className="flex items-center justify-center w-full mt-3">
 							<OtpInput
 								value={otp}
 								onChange={handleChange}
@@ -135,7 +120,7 @@ const SignIn = () => {
 							title="Proceed"
 							type="submit"
 							onClick={handleVerify}
-							className="bg-primary-100 px-3 py-2 rounded mt-8 w-full"
+							className="w-full px-3 py-2 mt-8 rounded bg-primary-100"
 						/>
 					</div>
 				</div>

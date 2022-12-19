@@ -1,0 +1,95 @@
+.BookingCardContainer {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 100%;
+  height: auto;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  background-color: black;
+  border-radius: 10px;
+  margin-bottom: 12px;
+  padding: 10px;
+}
+
+.BookingCardDetails {
+  display: flex;
+  justify-content: space-between;
+  flex-direction: row;
+  width: 80%;
+  margin-right: 5px;
+}
+
+.BookingCardButtonSession {
+  width: auto;
+  margin-left: 10px;
+}
+
+.BookingTripTitle {
+  color: rgb(14, 162, 19);
+  font-size: 16px;
+  font-weight: bold;
+}
+
+.BookingTripDetails {
+  color: white;
+  font-size: 12px;
+  font-weight: 250;
+}
+
+.BookingCardButtonSessionCurrency {
+  color: rgb(14, 162, 19);
+  font-weight: bold;
+  font-size: 13px;
+}
+
+.BookingCardButton {
+  background-color: rgb(14, 162, 19);
+  border-radius: 4px;
+  padding: 3px;
+  font-size: 15px;
+}
+
+.BookingCardButton:hover {
+  color: white;
+}
+
+@media screen and (max-width: 425px) {
+  .BookingTripTitle {
+    font-size: 10px;
+  }
+
+  .BookingCardButtonSessionCurrency {
+    font-size: 10px;
+  }
+
+  .BookingTripDetails {
+    font-size: 10px;
+  }
+
+  .BookingCardButton {
+    font-size: 11px;
+  }
+}
+
+@media screen and (max-width: 319px) {
+  .BookingCardContainer {
+    flex-direction: column;
+    width: 100%;
+  }
+
+  .BookingCardDetails {
+    width: 100%;
+  }
+
+  .BookingCardButtonSession {
+    margin-top: 10px;
+    width: 100%;
+    margin: 5px 0px 0px 0px;
+  }
+
+  .BookingCardButton {
+    width: 100%;
+    margin-top: 5px;
+  }
+}

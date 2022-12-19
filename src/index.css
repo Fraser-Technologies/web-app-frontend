@@ -25,3 +25,89 @@
 	height: 50px;
 	outline: none;
 }
+
+:root {
+	--primaryBlack: #000000;
+	--grey: #949292;
+	--primaryWhite: #ffffff;
+	--primaryGreen: #22b11e;
+	--secGreen: #00ff6a;
+	--bgBlack: #1b1b1d;
+}
+
+* {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+	font-family: "Poppins", "sans-serif";
+}
+
+body,
+html {
+	font-family: "Poppins", sans-serif;
+	max-width: 100vw;
+	height: 100vh;
+}
+
+.App {
+	font-family: "Poppins", sans-serif;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+	-webkit-appearance: none;
+}
+
+.scrollbar-hide::-webkit-scrollbar {
+	display: none;
+}
+
+/* For IE, Edge and Firefox */
+.scrollbar-hide {
+	-ms-overflow-style: none;
+	scrollbar-width: none;
+}
+
+.blackBG {
+	@apply bg-[#1B1B1D];
+}
+
+.blackText {
+	@apply text-[#000000];
+}
+
+.grayBG {
+	@apply bg-[#949292];
+}
+
+.whiteText {
+	@apply text-[#FFFFFF];
+}
+
+.whiteBG {
+	@apply bg-[#FFFFFF];
+}
+
+.greenText {
+	@apply text-[#22B11E];
+}
+
+.greenBG {
+	@apply bg-[#22B11E];
+}
+
+.secGreenBG {
+	@apply bg-[#00FF6a] hover:bg-[#22B11E];
+}
+
+.nav-item {
+	@apply text-[16px] blackText hover:text-[#949292] hover:cursor-pointer;
+}
+
+.button {
+	@apply bg-[#00ff6a] text-[#000000] hover:bg-[#22B11E];
+}
+
+.landingpageSessionPadding {
+	@apply lg:px-[150px] md:px-[80px] px-[20px];
+}

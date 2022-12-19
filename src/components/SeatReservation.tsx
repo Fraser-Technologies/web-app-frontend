@@ -38,8 +38,7 @@ const SeatReservation = () => {
 			<div
 				key={seat}
 				onClick={() => onSeatSelect(seat)}
-				className="w-10 h-10 flex justify-center items-center border border-[#EFF3EF] rounded-md cursor-pointer"
-			>
+				className="w-10 h-10 flex justify-center items-center border border-[#EFF3EF] rounded-md cursor-pointer">
 				{seat}
 			</div>
 		));
@@ -50,8 +49,7 @@ const SeatReservation = () => {
 			<div
 				key={seat}
 				onClick={() => onSeatSelect(seat)}
-				className="w-10 h-10 flex justify-center items-center border border-[#EFF3EF] rounded-md cursor-pointer"
-			>
+				className="w-10 h-10 flex justify-center items-center border border-[#EFF3EF] rounded-md cursor-pointer">
 				{seat}
 			</div>
 		));
@@ -64,7 +62,7 @@ const SeatReservation = () => {
 			<div className="container">
 				{seat.map((seatName) =>
 					seatName === "A1" ? (
-						<div className="flex justify-center items-center w-full">
+						<div className="flex items-center justify-center w-full">
 							<div
 								key={seatName}
 								onClick={(e) => onSeatSelect(seatName)}
@@ -72,8 +70,7 @@ const SeatReservation = () => {
 									seatAvailable?.indexOf(seatName) > -1
 										? "bg-white"
 										: "bg-primary-100"
-								}`}
-							>
+								}`}>
 								{seatName}
 							</div>
 						</div>
@@ -90,18 +87,17 @@ const SeatReservation = () => {
 										seatAvailable?.indexOf(seatName) > -1
 											? "bg-white"
 											: "bg-primary-100"
-									}`}
-								>
+									}`}>
 									{seatName}
 								</div>
 							</div>
 						)
 					)}
 				</div>
-					<Button
-						title="Confirm"
-						className="bg-primary-100 mt-10 py-3 w-full text-black font-medium"
-					/>
+				<Button
+					title="Confirm"
+					className="w-full py-3 mt-10 font-medium text-black bg-primary-100"
+				/>
 			</div>
 		</div>
 	);
