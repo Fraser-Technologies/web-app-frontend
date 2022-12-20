@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { FaChevronDown } from "react-icons/fa";
 import "../styles/Accordion.css";
 import { accordiondata } from "../utils/AccordionData";
-import Button from "./button";
+// import Button from "./button";
 
 const Accordion = () => {
 	const [selected, setSelection] = useState(null);
@@ -33,9 +33,9 @@ const Accordion = () => {
 						<div className={selected === i ? "show" : "content"}>
 							<p className="md:text-[15px] text-[12px]">{accordiondata.text}</p>
 
-							<div className="mt-5">
+							{/* <div className="mt-5">
 								<Button name={"Get Started"} />
-							</div>
+							</div> */}
 						</div>
 					</div>
 				))}

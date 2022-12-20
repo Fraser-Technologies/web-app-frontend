@@ -1,5 +1,6 @@
 /* eslint-disable array-callback-return */
 import React, { useState, useEffect } from "react";
+import { useRef } from "react";
 import { Helmet } from "react-helmet";
 import Layout from "../components/layouts/SignInLayout";
 import { Button } from "../components/Button";
@@ -9,218 +10,228 @@ import { Alert, Input, message, Modal, Spin } from "antd";
 import { motion } from "framer-motion";
 import { justHoverAnimation, zoomOutAnimation } from "../utils/animation";
 import {
-	registerUserAction,
-	userLoginAction,
+  registerUserAction,
+  userLoginAction,
 } from "../state/action/user.action";
 import {
-	getAllAvailableTripAction,
-	getAvailableTripAction,
+  getAllAvailableTripAction,
+  getAvailableTripAction,
 } from "../state/action/trip.action";
 
 const BookRide = () => {
-	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
-	const [firstName, setFirstName] = useState<string>("");
-	const [lastName, setLastName] = useState<string>("");
-	const [email, setEmail] = useState<string>("");
-	const [phone, setPhone] = useState<string>("");
-	const [flip, setFlip] = useState<boolean>(false);
-	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
-	const [from, setFrom] = useState<string>("");
-	const [to, setTo] = useState<string>("");
-	const [lag, setLag] = useState<string>("lagos");
-	const [referred_by, setReferred_by] = useState<string>("");
-	const [messageApi, contextHolder] = message.useMessage();
+  const dispatch = useAppDispatch();
+  const navigate = useNavigate();
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [flip, setFlip] = useState<boolean>(false);
+  
+  const overlayRef = useRef(null);
+  const modalRef = useRef(null);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [from, setFrom] = useState<string>("");
+  const [to, setTo] = useState<string>("");
+  const [lag, setLag] = useState<string>("lagos");
+  const [referred_by, setReferred_by] = useState<string>("");
+  const [messageApi, contextHolder] = message.useMessage();
 
-	const { userInfo, error: loginError } = useAppSelector(
-		(state: any) => state.userLogin
-	);
-	const { error: registerUserError, loading: registerUserLoading } =
-		useAppSelector((state: any) => state.registerUser);
-	const { busStops } = useAppSelector((state: any) => state.allBusStop);
+  const { userInfo, error: loginError } = useAppSelector(
+    (state: any) => state.userLogin
+  );
+  const { error: registerUserError, loading: registerUserLoading } =
+    useAppSelector((state: any) => state.registerUser);
+  const { busStops } = useAppSelector((state: any) => state.allBusStop);
 
-	const handleAvailableTrips = () => {
-		if (from && to) {
-			dispatch(getAvailableTripAction({ from: from, to: to }));
-		} else {
-			dispatch(getAllAvailableTripAction());
-		}
-		navigate("/bookings");
-	};
+  const handleAvailableTrips = () => {
+    if (from && to) {
+      dispatch(getAvailableTripAction({ from: from, to: to }));
+    } else {
+      dispatch(getAllAvailableTripAction());
+    }
+    navigate("/bookings");
+  };
 
-	const CreateUser = () => {
-		return dispatch(
-			registerUserAction({
-				first_name: firstName,
-				last_name: lastName,
-				email: email,
-				phone: "+234" + phone,
-				referred_by,
-			})
-		);
-	};
+  const CreateUser = () => {
+    return dispatch(
+      registerUserAction({
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: "+234" + phone,
+        referred_by,
+      })
+    );
+  };
 
-	const LoginUser = () => {
-		dispatch(userLoginAction("+234" + phone));
-	};
+  const LoginUser = () => {
+    dispatch(userLoginAction("+234" + phone));
+  };
 
-	useEffect(() => {
-		if (!userInfo?._id) {
-			setIsModalOpen(true);
-		} else {
-			setIsModalOpen(false);
-		}
-	}, [dispatch, userInfo]);
+  useEffect(() => {
+    if (!userInfo?._id) {
+      setIsModalOpen(true);
+    } else {
+      setIsModalOpen(false);
+    }
+  }, [dispatch, userInfo]);
 
-	useEffect(() => {
-		if (!userInfo && loginError) {
-			messageApi.open({
-				type: "error",
-				content: loginError,
-			});
-			setFlip(true);
-		}
-	}, [loginError, messageApi, userInfo]);
+  useEffect(() => {
+    if (!userInfo && loginError) {
+      messageApi.open({
+        type: "error",
+        content: loginError,
+      });
+      setFlip(true);
+    }
+  }, [loginError, messageApi, userInfo]);
 
-	return (
-		<Layout user="Amen" childClass="">
-			{contextHolder}
-			<Helmet>
-				<meta charSet="utf-8" />
-				<title>BookRide - Fraser</title>
-			</Helmet>
-			<div className="flex flex-col items-center justify-center w-full h-full">
-				<div className="w-11/12 mt-10 mb-10 sm:w-3/5 lg:w-2/5">
-					<div className="w-full px-8 py-12 bg-white rounded-md">
-						<div className="border-b border-[#EFF3EF] pb-10">
-							<h1 className="text-3xl font-semibold leading-[54px] tracking-[-5%]">
-								Where to?
-							</h1>
+  return (
+    <Layout user="Amen" childClass="">
+      {contextHolder}
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>BookRide - Fraser</title>
+      </Helmet>
+      <div className="flex flex-col items-center justify-center w-full h-full">
+        <div className="w-11/12 mt-10 mb-10 sm:w-3/5 lg:w-2/5">
+          <div className="w-full px-8 py-12 bg-white rounded-md">
+            <div className="border-b border-[#EFF3EF] pb-10">
+              <h1 className="text-3xl font-semibold leading-[54px] tracking-[-5%]">
+                Where to?
+              </h1>
 
-							<div className="flex flex-col w-full mt-2 mb-2">
-								<h3> Coming from </h3>
-								<motion.select
-									variants={zoomOutAnimation}
-									initial="initial"
-									whileHover="hover"
-									value={lag as any}
-									onChange={(e) => setLag(e.target.value)}
-									id="comingFrom"
-									className="w-full h-10 px-2 rounded-sm">
-									<motion.option
-										variants={justHoverAnimation}
-										initial="initial"
-										whileHover="hover"
-										value={"lagos"}>
-										Lagos
-									</motion.option>
-									<motion.option
-										variants={justHoverAnimation}
-										initial="initial"
-										whileHover="hover"
-										value={"ibadan"}>
-										Ibadan
-									</motion.option>
-								</motion.select>
-							</div>
+              <div className="flex flex-col w-full mt-2 mb-2">
+                <h3> Coming from </h3>
+                <motion.select
+                  // variants={zoomOutAnimation}
+                  initial="initial"
+                  whileHover="hover"
+                  value={lag as any}
+                  onChange={(e) => setLag(e.target.value)}
+                  id="comingFrom"
+                  className="w-full h-10 px-2 rounded-sm"
+                >
+                  <motion.option
+                    variants={justHoverAnimation}
+                    initial="initial"
+                    whileHover="hover"
+                    value={"lagos"}
+                  >
+                    Lagos
+                  </motion.option>
+                  <motion.option
+                    // variants={justHoverAnimation}
+                    initial="initial"
+                    whileHover="hover"
+                    value={"ibadan"}
+                  >
+                    Ibadan
+                  </motion.option>
+                </motion.select>
+              </div>
 
-							<div className="flex flex-col h-auto max-h-40">
-								{lag === "lagos" ? (
-									<>
-										<label className="mt-5">Start bus stop</label>
-										<motion.select
-											variants={zoomOutAnimation}
-											initial="initial"
-											whileHover="hover"
-											value={from}
-											onChange={(e) => setFrom(e.target.value)}
-											name="bus stop"
-											id="busStops"
-											className="w-full h-10 px-2 rounded-sm">
-											<option value={""}>From where</option>
+              <div className="flex flex-col h-auto max-h-40">
+                {lag === "lagos" ? (
+                  <>
+                    <label className="mt-5">Start bus stop</label>
+                    <motion.select
+                      // variants={zoomOutAnimation}
+                      initial="initial"
+                      whileHover="hover"
+                      value={from}
+                      onChange={(e) => setFrom(e.target.value)}
+                      name="bus stop"
+                      id="busStops"
+                      className="w-full h-10 px-2 rounded-sm"
+                    >
+                      <option value={""}>From where</option>
 
-											{busStops?.map((bs: any) => {
-												if (bs?.state !== "Ibadan") {
-													return (
-														<option value={bs?._id}>
-															{bs.name},{bs?.state}
-														</option>
-													);
-												}
-											})}
-										</motion.select>
-										<label className="mt-5">Destination bus stop</label>
-										<motion.select
-											variants={zoomOutAnimation}
-											initial="initial"
-											whileHover="hover"
-											name="bus stop"
-											id="busStops"
-											className="w-full h-10 px-2 rounded-sm"
-											value={to}
-											onChange={(e) => setTo(e.target.value)}>
-											<option value={""}>Choose your destination</option>
-											{busStops?.map((bs: any) => {
-												if (bs?.state === "Ibadan") {
-													return (
-														<option value={bs?._id}>
-															{bs.name},{bs?.state}
-														</option>
-													);
-												}
-											})}
-										</motion.select>
-									</>
-								) : (
-									<>
-										<label className="mt-5">Start bus stop</label>
-										<motion.select
-											variants={zoomOutAnimation}
-											initial="initial"
-											whileHover="hover"
-											name="bus stop"
-											id="busStops"
-											className="w-full h-10 px-2 rounded-sm"
-											value={from}
-											onChange={(e) => setFrom(e.target.value)}>
-											<option value={""}>From where </option>
-											{busStops?.map((bs: any) => {
-												if (bs?.state === "Ibadan") {
-													return (
-														<option value={bs._id}>
-															{bs.name},{bs?.state}
-														</option>
-													);
-												}
-											})}
-										</motion.select>
+                      {busStops?.map((bs: any) => {
+                        if (bs?.state !== "Ibadan") {
+                          return (
+                            <option value={bs?._id}>
+                              {bs.name},{bs?.state}
+                            </option>
+                          );
+                        }
+                      })}
+                    </motion.select>
+                    <label className="mt-5">Destination bus stop</label>
+                    <motion.select
+                      // variants={zoomOutAnimation}
+                      initial="initial"
+                      whileHover="hover"
+                      name="bus stop"
+                      id="busStops"
+                      className="w-full h-10 px-2 rounded-sm"
+                      value={to}
+                      onChange={(e) => setTo(e.target.value)}
+                    >
+                      <option value={""}>Choose your destination</option>
+                      {busStops?.map((bs: any) => {
+                        if (bs?.state === "Ibadan") {
+                          return (
+                            <option value={bs?._id}>
+                              {bs.name},{bs?.state}
+                            </option>
+                          );
+                        }
+                      })}
+                    </motion.select>
+                  </>
+                ) : (
+                  <>
+                    <label className="mt-5">Start bus stop</label>
+                    <motion.select
+                      // variants={zoomOutAnimation}
+                      initial="initial"
+                      whileHover="hover"
+                      name="bus stop"
+                      id="busStops"
+                      className="w-full h-10 px-2 rounded-sm"
+                      value={from}
+                      onChange={(e) => setFrom(e.target.value)}
+                    >
+                      <option value={""}>From where </option>
+                      {busStops?.map((bs: any) => {
+                        if (bs?.state === "Ibadan") {
+                          return (
+                            <option value={bs._id}>
+                              {bs.name},{bs?.state}
+                            </option>
+                          );
+                        }
+                      })}
+                    </motion.select>
 
-										<label className="mt-5">Destination bus stop</label>
-										<motion.select
-											variants={zoomOutAnimation}
-											initial="initial"
-											whileHover="hover"
-											value={to}
-											onChange={(e) => setTo(e.target.value)}
-											name="bus stop"
-											className="w-full h-10 px-2 rounded-sm ">
-											<option value={""}> Choose your destination</option>
+                    <label className="mt-5">Destination bus stop</label>
+                    <motion.select
+                      // variants={zoomOutAnimation}
+                      initial="initial"
+                      whileHover="hover"
+                      value={to}
+                      onChange={(e) => setTo(e.target.value)}
+                      name="bus stop"
+                      className="w-full h-10 px-2 rounded-sm "
+                    >
+                      <option value={""}> Choose your destination</option>
 
-											{busStops?.map((bs: any) => {
-												if (bs?.state !== "Ibadan") {
-													return (
-														<option value={bs?._id}>
-															{bs.name},{bs?.state}
-														</option>
-													);
-												}
-											})}
-										</motion.select>
-									</>
-								)}
-							</div>
+                      {busStops?.map((bs: any) => {
+                        if (bs?.state !== "Ibadan") {
+                          return (
+                            <option value={bs?._id}>
+                              {bs.name},{bs?.state}
+                            </option>
+                          );
+                        }
+                      })}
+                    </motion.select>
+                  </>
+                )}
+              </div>
 
-							{/* <div className="relative">
+              {/* <div className="relative">
 									<div className="relative mt-6">
 										<input
 											type="text"
@@ -239,8 +250,8 @@ const BookRide = () => {
 										<FaBus className="absolute top-4 left-3" />
 									</div>
 								</div> */}
-						</div>
-						{/* <div className="mt-8 border-b border-[#EFF3EF] pb-10">
+            </div>
+            {/* <div className="mt-8 border-b border-[#EFF3EF] pb-10">
 								<h1 className="text-3xl font-semibold leading-[54px] tracking-[-5%]">
 									When?
 								</h1>
@@ -263,173 +274,207 @@ const BookRide = () => {
 									</div>
 								</div>
 							</div> */}
-						<motion.div
-							variants={zoomOutAnimation}
-							initial="initial"
-							whileHover="hover">
-							<Button
-								title="See available trips"
-								className="w-full h-[52px] bg-[#f4f4f4] mt-10 text-sm hover:bg-[#00ff6a]"
-								onClick={handleAvailableTrips}
-							/>
-						</motion.div>
-					</div>
-				</div>
-				<Modal
-					title={flip ? "Create a profile" : "Login user"}
-					open={isModalOpen}
-					centered={true}
-					footer={false}>
-					{flip ? (
-						<div>
-							{registerUserError ? (
-								<Alert
-									message={registerUserError}
-									description={registerUserError}
-									type="warning"
-									showIcon
-									closable
-								/>
-							) : (
-								<></>
-							)}
-							<div className="mt-3 mb-3">
-								<label>First Name:</label>
-								<Input
-									className="w-full"
-									placeholder="First name"
-									value={firstName}
-									required={true}
-									onChange={(e) => setFirstName(e.target.value)}
-								/>
-							</div>
-							<div className="mb-3">
-								<label>Last Name:</label>
-								<Input
-									className="w-full"
-									placeholder="Last name"
-									value={lastName}
-									required={true}
-									onChange={(e) => setLastName(e.target.value)}
-								/>
-							</div>
-							<div className="mb-3">
-								<label>Email:</label>
-								<Input
-									className="w-full"
-									placeholder="Email"
-									value={email}
-									required={true}
-									onChange={(e) => setEmail(e.target.value)}
-								/>
-							</div>
-							<div className="mb-3">
-								<label>Phone:</label>
-								<Input
-									className="w-full"
-									placeholder="Phone"
-									type="number"
-									value={phone}
-									prefix={"+234"}
-									required={true}
-									onChange={(e) => {
-										setPhone(e.target.value);
-									}}
-								/>
-							</div>
+            <motion.div
+              // variants={zoomOutAnimation}
+              initial="initial"
+              whileHover="hover"
+            >
+              <Button
+                title="See available trips"
+                className="w-full h-[52px] bg-[#f4f4f4] mt-10 text-sm hover:bg-[#00ff6a]"
+                onClick={handleAvailableTrips}
+              />
+            </motion.div>
+          </div>
+        </div>
 
-							<div className="mb-3">
-								<label>Referral code(if any):</label>
-								<Input
-									className="w-full"
-									placeholder="Referral code"
-									type="text"
-									value={referred_by}
-									onChange={(e) => {
-										setReferred_by(e.target.value);
-									}}
-								/>
-							</div>
+        {/* MODAL BACKDROP */}
 
-							<div>
-								<motion.button
-									variants={zoomOutAnimation}
-									initial="initial"
-									whileTap="tap"
-									whileHover="hover"
-									className="w-full p-3 mt-3 font-extrabold text-green-900 bg-green-600 hover:text-white"
-									onClick={CreateUser}>
-									{registerUserLoading ? (
-										<Spin size="small" className="ml-1 text-white" />
-									) : (
-										<></>
-									)}
-									Let get Started
-								</motion.button>
+        <div>
+          <div
+            ref={overlayRef}
+            className={`fixed top-0 left-0 w-full h-full bg-black opacity-50 z-50 blur-md ${
+				isModalOpen ? "" : "hidden"
+			  }`}
+          ></div>
 
-								<motion.button
-									variants={zoomOutAnimation}
-									initial="initial"
-									whileTap="tap"
-									whileHover="hover"
-									className="flex items-center justify-center w-full py-2 mt-3 hover:bg-green-400"
-									onClick={() => setFlip(!flip)}>
-									Login
-								</motion.button>
-							</div>
-						</div>
-					) : (
-						<div>
-							{loginError ? (
-								<Alert
-									message={loginError}
-									description={loginError}
-									type="warning"
-									showIcon
-									closable
-								/>
-							) : (
-								<></>
-							)}
-							<div className="mt-3 mb-3">
-								<label>Phone:</label>
-								<Input
-									className="w-full"
-									placeholder="Phone"
-									value={phone}
-									prefix={"+234"}
-									type="number"
-									required={true}
-									onChange={(e) => setPhone(e.target.value)}
-								/>
-							</div>
-							<div>
-								<motion.button
-									variants={zoomOutAnimation}
-									initial="initial"
-									whileTap="tap"
-									whileHover="hover"
-									className="w-full p-3 mt-3 font-extrabold text-green-900 bg-green-600 hover:text-white"
-									onClick={LoginUser}>
-									Let get started
-								</motion.button>
+          {/* MODAL */}
+          <Modal
+            title={
+              <div>
+                <h1 className="text-xl pt-2">
+                  {flip ? "Create a profile" : "Welcome Back"}
+                </h1>
+                <p className="text-gray-500 text-sm font-light pt-1">
+                  Please enter your phone number to continue
+                </p>
+              </div>
+            }
+            open={isModalOpen}
+            centered={true}
+            footer={false}
+			
+          >
+            {flip ? (
+              <div>
+                {registerUserError ? (
+                  <Alert
+                    message={registerUserError}
+                    description={registerUserError}
+                    type="warning"
+                    showIcon
+                    closable
+                  />
+                ) : (
+                  <></>
+                )}
+                <div className="mt-3 mb-3">
+                  <label>First Name:</label>
+                  <Input
+                    className="w-full"
+                    placeholder="First name"
+                    value={firstName}
+                    required={true}
+                    onChange={(e) => setFirstName(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label>Last Name:</label>
+                  <Input
+                    className="w-full"
+                    placeholder="Last name"
+                    value={lastName}
+                    required={true}
+                    onChange={(e) => setLastName(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label>Email:</label>
+                  <Input
+                    className="w-full"
+                    placeholder="Email"
+                    value={email}
+                    required={true}
+                    onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="mb-3">
+                  <label>Phone:</label>
+                  <Input
+                    className="w-full"
+                    placeholder="Phone"
+                    type="number"
+                    value={phone}
+                    prefix={"+234"}
+                    required={true}
+                    onChange={(e) => {
+                      setPhone(e.target.value);
+                    }}
+                  />
+                </div>
 
-								<motion.button
-									variants={zoomOutAnimation}
-									initial="initial"
-									whileTap="tap"
-									whileHover="hover"
-									className="flex items-center justify-center w-full py-2 mt-3 hover:bg-green-400"
-									onClick={() => setFlip(!flip)}>
-									Create Account
-								</motion.button>
-							</div>
-						</div>
-					)}
-				</Modal>
-			</div>
-		</Layout>
-	);
+                <div className="mb-3">
+                  <label>Referral code(if any):</label>
+                  <Input
+                    className="w-full"
+                    placeholder="Referral code"
+                    type="text"
+                    value={referred_by}
+                    onChange={(e) => {
+                      setReferred_by(e.target.value);
+                    }}
+                  />
+                </div>
+
+                <div>
+                  <motion.button
+                    initial="initial"
+                    whileTap="tap"
+                    whileHover="hover"
+                    className="w-full p-3 mt-3 font-extrabold text-green-900 bg-green-600 hover:text-white"
+                    onClick={CreateUser}
+                  >
+                    {registerUserLoading ? (
+                      <Spin size="small" className="ml-1 text-white" />
+                    ) : (
+                      <></>
+                    )}
+                    Let get Started
+                  </motion.button>
+
+                  <motion.button
+                    initial="initial"
+                    whileTap="tap"
+                    whileHover="hover"
+                    className="flex items-center justify-center w-full py-2 mt-3 hover:bg-green-400"
+                    onClick={() => setFlip(!flip)}
+                  >
+                    Login
+                  </motion.button>
+                </div>
+              </div>
+            ) : (
+              <div>
+                {/* {loginError ? (
+		<Alert
+		  message={loginError}
+		  description={loginError}
+		  type="warning"
+		  showIcon
+		  closable
+		/>
+	  ) : (
+		<></>
+	  )} */}
+                <div className="mt-3 mb-3 pt-8">
+                  {/* <div className="mb-2">
+		  <label
+		  className="text-gray-500"
+		  >Phone Number</label>
+		</div> */}
+
+                  <Input
+                    className="hover:border-green-500 active:border-green-600 h-12 w-full"
+                    placeholder="0903 123 1234"
+                    value={phone}
+                    prefix={"+234"}
+                    type="number"
+                    required={true}
+                    onChange={(e) => setPhone(e.target.value)}
+                  />
+                </div>
+
+                {/* USER LOGIN */}
+                <div>
+                  <motion.button
+                    // variants={zoomOutAnimation}
+                    initial="initial"
+                    whileTap="tap"
+                    whileHover="hover"
+                    className="w-full p-3 mt-4 font-medium text-green bg-green-400 hover:bg-green-500 rounded-lg"
+                    onClick={LoginUser}
+                  >
+                    Continue
+                  </motion.button>
+
+                  <motion.button
+                    // variants={zoomOutAnimation}
+                    initial="initial"
+                    whileTap="tap"
+                    // whileHover="hover"
+                    className="flex items-center justify-center w-full py-2 mt-2 text-sm text-gray-600 font-normal hover:text-green-600 rounded-full"
+                    onClick={() => setFlip(!flip)}
+                  >
+                    I don't have an account
+                  </motion.button>
+                </div>
+              </div>
+            )}
+          </Modal>
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
 export default BookRide;

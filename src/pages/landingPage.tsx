@@ -2,7 +2,7 @@ import { motion } from "framer-motion";
 import Offeringcard from "../components/offeringcard";
 import StepComp from "../components/StepComp";
 import Accordion from "../components/Accordion";
-import Button from "../components/button";
+import { Button } from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import { _paths_ } from "../utils/appHelpers";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
@@ -39,7 +39,7 @@ const LandingPage = () => {
 					</div>
 
 					<Button
-						name="Book a Ride"
+						title="Book a Ride"
 						onClick={() => navigate(_paths_.BOOKRIDE)}
 					/>
 				</div>
@@ -59,14 +59,14 @@ const LandingPage = () => {
 				<div className="flex flex-row items-center justify-around w-full mt-10 md:w-auto sm:justify-center ">
 					<span>
 						<Button
-							name="Book a ride"
+							title="Book a ride"
 							onClick={() => navigate(_paths_.BOOKRIDE)}
 						/>
 					</span>
 
 					<span className="sm:ml-10 ">
 						<Button
-							name="Partner with us"
+							title="Partner with us"
 							onClick={() => navigate(_paths_.BOOKRIDE)}
 						/>
 					</span>
@@ -128,7 +128,7 @@ const LandingPage = () => {
 						stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
 					/>
 				</div>
-				<Button name="Get Started" onClick={() => navigate(_paths_.BOOKRIDE)} />
+				<Button title="Get Started" onClick={() => navigate(_paths_.BOOKRIDE)} />
 			</div>
 
 			<div className="flex items-center justify-center w-full bg-center ">
@@ -154,7 +154,7 @@ const LandingPage = () => {
 					All aboard
 				</h1>
 				<br />
-				<Button name="Get Started" onClick={() => navigate(_paths_.BOOKRIDE)} />
+				<Button title="Get Started" onClick={() => navigate(_paths_.BOOKRIDE)} />
 			</div>
 		</div>
 	);
