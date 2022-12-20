@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { Alert, Input, message, Modal, Spin } from "antd";
 import { motion } from "framer-motion";
-import { justHoverAnimation, zoomOutAnimation } from "../utils/animation";
+// import { justHoverAnimation, zoomOutAnimation } from "../utils/animation";
 import {
   registerUserAction,
   userLoginAction,
@@ -117,7 +117,7 @@ const BookRide = () => {
                   className="w-full h-10 px-2 rounded-sm"
                 >
                   <motion.option
-                    variants={justHoverAnimation}
+                    // variants={justHoverAnimation}
                     initial="initial"
                     whileHover="hover"
                     value={"lagos"}
@@ -444,6 +444,7 @@ const BookRide = () => {
                     onClick={CreateUser}
                   >
                     {registerUserLoading && (
+						// AMEN
                       <Spinner
                         animation="border"
                         className=" text-white"
@@ -505,6 +506,7 @@ const BookRide = () => {
                     Continue
                   </motion.button>
                   {loading && (
+					// AMEN
                     <Spinner
                       animation="border"
                       className="ml-3 text-green-600"
