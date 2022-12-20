@@ -357,7 +357,7 @@ const BookRide = () => {
                 ) : (
                   <></>
                 )}
-                <div className="mb-6 mt-12">
+                <div className="mb-6 mt-8">
                   <div className="mb-1">
                     <label className="text-gray-500">First Name</label>
                   </div>
