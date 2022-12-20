@@ -17,6 +17,7 @@ import {
   getAllAvailableTripAction,
   getAvailableTripAction,
 } from "../state/action/trip.action";
+import { Spinner } from "react-bootstrap";
 
 const BookRide = () => {
   const dispatch = useAppDispatch();
@@ -26,7 +27,6 @@ const BookRide = () => {
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
   const [flip, setFlip] = useState<boolean>(false);
-  
   const overlayRef = useRef(null);
   const modalRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -35,6 +35,7 @@ const BookRide = () => {
   const [lag, setLag] = useState<string>("lagos");
   const [referred_by, setReferred_by] = useState<string>("");
   const [messageApi, contextHolder] = message.useMessage();
+  const [loading, setLoading] = useState(false);
 
   const { userInfo, error: loginError } = useAppSelector(
     (state: any) => state.userLogin
@@ -65,7 +66,10 @@ const BookRide = () => {
   };
 
   const LoginUser = () => {
-    dispatch(userLoginAction("+234" + phone));
+    setLoading(true);
+    dispatch(userLoginAction("+234" + phone)).finally(() => {
+      setLoading(false);
+    });
   };
 
   useEffect(() => {
@@ -293,9 +297,9 @@ const BookRide = () => {
         <div>
           <div
             ref={overlayRef}
-            className={`fixed top-0 left-0 w-full h-full bg-black opacity-50 z-50 blur-md ${
-				isModalOpen ? "" : "hidden"
-			  }`}
+            className={`fixed top-0 left-0 w-full h-full bg-black opacity-80 z-50 ${
+              isModalOpen ? "" : "hidden"
+            }`}
           ></div>
 
           {/* MODAL */}
@@ -308,12 +312,25 @@ const BookRide = () => {
                 <p className="text-gray-500 text-sm font-light pt-1">
                   Please enter your phone number to continue
                 </p>
+				<div>
+				{loginError ? (
+                  <Alert
+                    message={loginError === "sorry an error occoured during login" ? "Please check the number provided" : "Sorry an error occured"}
+                    type="warning"
+                    showIcon
+                    // closable
+                    className="bg-blue-50 border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
+                    style={{ width: "100%", fontSize: '0.8rem', fontWeight: 'normal' }}
+                  />
+                ) : (
+                  <></>
+                )}
+				</div>
               </div>
             }
             open={isModalOpen}
             centered={true}
             footer={false}
-			
           >
             {flip ? (
               <div>
@@ -415,17 +432,7 @@ const BookRide = () => {
               </div>
             ) : (
               <div>
-                {/* {loginError ? (
-		<Alert
-		  message={loginError}
-		  description={loginError}
-		  type="warning"
-		  showIcon
-		  closable
-		/>
-	  ) : (
-		<></>
-	  )} */}
+                
                 <div className="mt-3 mb-3 pt-8">
                   {/* <div className="mb-2">
 		  <label
@@ -447,22 +454,28 @@ const BookRide = () => {
                 {/* USER LOGIN */}
                 <div>
                   <motion.button
-                    // variants={zoomOutAnimation}
                     initial="initial"
                     whileTap="tap"
                     whileHover="hover"
-                    className="w-full p-3 mt-4 font-medium text-green bg-green-400 hover:bg-green-500 rounded-lg"
+                    className="w-full p-3 mt-6 font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg"
                     onClick={LoginUser}
                   >
                     Continue
                   </motion.button>
+                  {loading && (
+                    <Spinner
+                      animation="border"
+                      className="ml-3 text-green-600"
+                      style={{ width: "1.5rem", height: "1.5rem" }}
+                    />
+                  )}
 
                   <motion.button
                     // variants={zoomOutAnimation}
                     initial="initial"
                     whileTap="tap"
                     // whileHover="hover"
-                    className="flex items-center justify-center w-full py-2 mt-2 text-sm text-gray-600 font-normal hover:text-green-600 rounded-full"
+                    className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-green-600 rounded-full"
                     onClick={() => setFlip(!flip)}
                   >
                     I don't have an account
