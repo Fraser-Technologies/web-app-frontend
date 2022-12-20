@@ -297,7 +297,7 @@ const BookRide = () => {
         <div>
           <div
             ref={overlayRef}
-            className={`fixed top-0 left-0 w-full h-full bg-black opacity-80 z-50 ${
+            className={`fixed top-0 left-0 w-full h-full bg-black opacity-90 z-50 ${
               isModalOpen ? "" : "hidden"
             }`}
           ></div>
@@ -307,30 +307,42 @@ const BookRide = () => {
             title={
               <div>
                 <h1 className="text-xl pt-2">
-                  {flip ? "Create a profile" : "Welcome Back"}
+                  {flip ? "Let's get you started" : "Welcome Back"}
                 </h1>
                 <p className="text-gray-500 text-sm font-light pt-1">
-                  Please enter your phone number to continue
+                  {flip
+                    ? "You're almost there, create an account in just one simple step. "
+                    : "Please enter your phone number to continue"}
                 </p>
-				<div>
-				{loginError ? (
-                  <Alert
-                    message={loginError === "sorry an error occoured during login" ? "Please check the number provided" : "Sorry an error occured"}
-                    type="warning"
-                    showIcon
-                    // closable
-                    className="bg-blue-50 border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
-                    style={{ width: "100%", fontSize: '0.8rem', fontWeight: 'normal' }}
-                  />
-                ) : (
-                  <></>
-                )}
-				</div>
+
+                <div>
+                  {loginError ? (
+                    <Alert
+                      message={
+                        loginError === "sorry an error occoured during login"
+                          ? "Please check the number provided"
+                          : "Sorry an error occured"
+                      }
+                      type="warning"
+                      showIcon
+                      // closable
+                      className="bg-blue-50 border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
+                      style={{
+                        width: "100%",
+                        fontSize: "0.8rem",
+                        fontWeight: "normal",
+                      }}
+                    />
+                  ) : (
+                    <></>
+                  )}
+                </div>
               </div>
             }
             open={isModalOpen}
             centered={true}
             footer={false}
+            closable={false}
           >
             {flip ? (
               <div>
@@ -340,60 +352,79 @@ const BookRide = () => {
                     description={registerUserError}
                     type="warning"
                     showIcon
-                    closable
+                    // closable
                   />
                 ) : (
                   <></>
                 )}
-                <div className="mt-3 mb-3">
-                  <label>First Name:</label>
+                <div className="mb-6 mt-12">
+                  <div className="mb-1">
+                    <label className="text-gray-500">First Name</label>
+                  </div>
                   <Input
-                    className="w-full"
-                    placeholder="First name"
+                    className="hover:border-green-500 active:border-green-600 h-12 w-full"
+                    placeholder="Please enter your first name"
                     value={firstName}
                     required={true}
                     onChange={(e) => setFirstName(e.target.value)}
                   />
                 </div>
-                <div className="mb-3">
-                  <label>Last Name:</label>
+
+                <div className="mb-6">
+                  <div className="mb-1">
+                    <label className="text-gray-500">Last Name</label>
+                  </div>
                   <Input
-                    className="w-full"
+                    className="hover:border-green-500 active:border-green-600 h-12 w-full"
                     placeholder="Last name"
                     value={lastName}
                     required={true}
                     onChange={(e) => setLastName(e.target.value)}
                   />
                 </div>
-                <div className="mb-3">
-                  <label>Email:</label>
+
+                <div className="mb-6">
+                  <div className="mb-1">
+                    <label className="text-gray-500">Email Address</label>
+                  </div>
                   <Input
-                    className="w-full"
+                    className="hover:border-green-500 active:border-green-600 h-12 w-full"
                     placeholder="Email"
                     value={email}
                     required={true}
                     onChange={(e) => setEmail(e.target.value)}
                   />
                 </div>
-                <div className="mb-3">
-                  <label>Phone:</label>
+
+                <div className="mb-6">
+                  <div className="mb-1">
+                    <label className="text-gray-500">Phone Number</label>
+                  </div>
                   <Input
-                    className="w-full"
+                    className="hover:border-green-500 active:border-green-600 h-12 w-full"
                     placeholder="Phone"
                     type="number"
                     value={phone}
                     prefix={"+234"}
                     required={true}
                     onChange={(e) => {
-                      setPhone(e.target.value);
+						setPhone(
+							e.target.value.startsWith("0")
+							  ? e.target.value
+							  : "0" + e.target.value
+						  );
                     }}
                   />
                 </div>
 
-                <div className="mb-3">
-                  <label>Referral code(if any):</label>
+                {/* <div className="mb-6">
+                  <div className="mb-1">
+				  <label
+				  className="text-gray-500"
+				  >Referral code(if any)</label>
+				  </div>
                   <Input
-                    className="w-full"
+                    className="hover:border-green-500 active:border-green-600 h-12 w-full"
                     placeholder="Referral code"
                     type="text"
                     value={referred_by}
@@ -402,37 +433,41 @@ const BookRide = () => {
                     }}
                   />
                 </div>
+				 */}
 
                 <div>
                   <motion.button
                     initial="initial"
                     whileTap="tap"
                     whileHover="hover"
-                    className="w-full p-3 mt-3 font-extrabold text-green-900 bg-green-600 hover:text-white"
+                    className="w-full p-3 mt-6 font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg"
                     onClick={CreateUser}
                   >
-                    {registerUserLoading ? (
-                      <Spin size="small" className="ml-1 text-white" />
-                    ) : (
-                      <></>
+                    {registerUserLoading && (
+                      <Spinner
+                        animation="border"
+                        className=" text-white"
+                        role="status"
+                        variant="light"
+                        //   style={{ width: "1.5rem", height: "1.5rem" }}
+                      />
                     )}
-                    Let get Started
+                    Continue
                   </motion.button>
 
                   <motion.button
                     initial="initial"
                     whileTap="tap"
                     whileHover="hover"
-                    className="flex items-center justify-center w-full py-2 mt-3 hover:bg-green-400"
+                    className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-green-600 rounded-full"
                     onClick={() => setFlip(!flip)}
                   >
-                    Login
+                    I have an account
                   </motion.button>
                 </div>
               </div>
             ) : (
               <div>
-                
                 <div className="mt-3 mb-3 pt-8">
                   {/* <div className="mb-2">
 		  <label
@@ -447,7 +482,14 @@ const BookRide = () => {
                     prefix={"+234"}
                     type="number"
                     required={true}
-                    onChange={(e) => setPhone(e.target.value)}
+                    onChange={(e) => {
+                      setPhone(
+                        e.target.value.startsWith("0")
+                          ? e.target.value
+                          : "0" + e.target.value
+                      );
+                      
+                    }}
                   />
                 </div>
 
