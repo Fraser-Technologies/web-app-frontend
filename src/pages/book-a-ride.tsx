@@ -8,7 +8,7 @@ import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { Alert, Input, message, Modal, Spin } from "antd";
 import { motion } from "framer-motion";
-// import { justHoverAnimation, zoomOutAnimation } from "../utils/animation";
+import { justHoverAnimation, zoomOutAnimation } from "../utils/animation";
 import {
   registerUserAction,
   userLoginAction,
@@ -36,6 +36,39 @@ const BookRide = () => {
   const [referred_by, setReferred_by] = useState<string>("");
   const [messageApi, contextHolder] = message.useMessage();
   const [loading, setLoading] = useState(false);
+  const [isOpen, setIsOpen] = useState(false);
+  const [startOpen, setStartBusStopIsOpen] = useState(false);
+  const [destinationOpen, setDestinationIsOpen] = useState(false);
+
+  const handleCityClick = () => {
+    setIsOpen(!isOpen);
+  };
+  const handleStartBusStopClick = () => {
+    setStartBusStopIsOpen(!startOpen);
+  };
+  const handleDestinationClick = () => {
+    setDestinationIsOpen(!destinationOpen);
+  };
+  const [selectedCity, setSelectedCity] = useState("Set your current city");
+  const handleOptionClick = (option: any) => {
+    setSelectedCity(option);
+    setLag(option);
+    setIsOpen(false);
+  };
+
+  const [startBusStop, setStartBusStop] = useState("Select pickup busstop");
+  const handleStartBusStop = (option: any) => {
+    setStartBusStop(option);
+    setStartBusStopIsOpen(false);
+  };
+
+  const [destinationBusStop, setDestinationBusStop] = useState(
+    "Select Destination busstop"
+  );
+  const handleDestinationBusStop = (option: any) => {
+    setDestinationBusStop(option);
+    setDestinationIsOpen(false);
+  };
 
   const { userInfo, error: loginError } = useAppSelector(
     (state: any) => state.userLogin
@@ -45,6 +78,10 @@ const BookRide = () => {
   const { busStops } = useAppSelector((state: any) => state.allBusStop);
 
   const handleAvailableTrips = () => {
+    // console.log(selectedCity, destinationBusStop, startBusStop);
+    // console.log(typeof from, from, typeof to, to);
+    
+    // AMEN - TYPE CONFLICT, NO IDEA WHY
     if (from && to) {
       dispatch(getAvailableTripAction({ from: from, to: to }));
     } else {
@@ -52,6 +89,11 @@ const BookRide = () => {
     }
     navigate("/bookings");
   };
+
+  const isValid =
+    selectedCity !== "Set your current city" &&
+    destinationBusStop !== "Select Destination busstop" &&
+    startBusStop !== "Select pickup busstop";
 
   const CreateUser = () => {
     return dispatch(
@@ -95,189 +137,239 @@ const BookRide = () => {
       {contextHolder}
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BookRide - Fraser</title>
+        <title>Book a Ride</title>
       </Helmet>
+
       <div className="flex flex-col items-center justify-center w-full h-full">
-        <div className="w-11/12 mt-10 mb-10 sm:w-3/5 lg:w-2/5">
+        <div className=" mt-10 mb-10 sm:w-3/5">
           <div className="w-full px-8 py-12 bg-white rounded-md">
             <div className="border-b border-[#EFF3EF] pb-10">
-              <h1 className="text-3xl font-semibold leading-[54px] tracking-[-5%]">
-                Where to?
+              <h1 className="text-xl font-semibold leading-64px tracking-tight">
+                Book a Ride
               </h1>
+              <p className="text-sm text-gray-600 pt-2 pb-8 w-3/4">
+                {" "}
+                Easily book a ride to your desired destination. Simply select
+                your city, enter your starting and ending locations and Voila!.{" "}
+              </p>
 
-              <div className="flex flex-col w-full mt-2 mb-2">
-                <h3> Coming from </h3>
-                <motion.select
-                  // variants={zoomOutAnimation}
-                  initial="initial"
-                  whileHover="hover"
-                  value={lag as any}
-                  onChange={(e) => setLag(e.target.value)}
-                  id="comingFrom"
-                  className="w-full h-10 px-2 rounded-sm"
-                >
-                  <motion.option
-                    // variants={justHoverAnimation}
-                    initial="initial"
-                    whileHover="hover"
-                    value={"lagos"}
-                  >
-                    Lagos
-                  </motion.option>
-                  <motion.option
-                    // variants={justHoverAnimation}
-                    initial="initial"
-                    whileHover="hover"
-                    value={"ibadan"}
-                  >
-                    Ibadan
-                  </motion.option>
-                </motion.select>
-              </div>
-
-              <div className="flex flex-col h-auto max-h-40">
-                {lag === "lagos" ? (
-                  <>
-                    <label className="mt-5">Start bus stop</label>
-                    <motion.select
-                      // variants={zoomOutAnimation}
-                      initial="initial"
-                      whileHover="hover"
-                      value={from}
-                      onChange={(e) => setFrom(e.target.value)}
-                      name="bus stop"
-                      id="busStops"
-                      className="w-full h-10 px-2 rounded-sm"
+              {/* <label className="ml-4 mt-8 mb-2 text-sm text-gray-600">Set Current City</label> */}
+              {/* CURRENT CITY */}
+              <div className="relative inline text-left z-40">
+                <div>
+                  <span className="rounded-md shadow-sm">
+                    <button
+                      type="button"
+                      className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                      onClick={handleCityClick}
+                      onChange={handleOptionClick}
                     >
-                      <option value={""}>From where</option>
-
-                      {busStops?.map((bs: any) => {
-                        if (bs?.state !== "Ibadan") {
-                          return (
-                            <option value={bs?._id}>
-                              {bs.name},{bs?.state}
-                            </option>
-                          );
-                        }
-                      })}
-                    </motion.select>
-                    <label className="mt-5">Destination bus stop</label>
-                    <motion.select
-                      // variants={zoomOutAnimation}
-                      initial="initial"
-                      whileHover="hover"
-                      name="bus stop"
-                      id="busStops"
-                      className="w-full h-10 px-2 rounded-sm"
-                      value={to}
-                      onChange={(e) => setTo(e.target.value)}
-                    >
-                      <option value={""}>Choose your destination</option>
-                      {busStops?.map((bs: any) => {
-                        if (bs?.state === "Ibadan") {
-                          return (
-                            <option value={bs?._id}>
-                              {bs.name},{bs?.state}
-                            </option>
-                          );
-                        }
-                      })}
-                    </motion.select>
-                  </>
-                ) : (
-                  <>
-                    <label className="mt-5">Start bus stop</label>
-                    <motion.select
-                      // variants={zoomOutAnimation}
-                      initial="initial"
-                      whileHover="hover"
-                      name="bus stop"
-                      id="busStops"
-                      className="w-full h-10 px-2 rounded-sm"
-                      value={from}
-                      onChange={(e) => setFrom(e.target.value)}
-                    >
-                      <option value={""}>From where </option>
-                      {busStops?.map((bs: any) => {
-                        if (bs?.state === "Ibadan") {
-                          return (
-                            <option value={bs._id}>
-                              {bs.name},{bs?.state}
-                            </option>
-                          );
-                        }
-                      })}
-                    </motion.select>
-
-                    <label className="mt-5">Destination bus stop</label>
-                    <motion.select
-                      // variants={zoomOutAnimation}
-                      initial="initial"
-                      whileHover="hover"
-                      value={to}
-                      onChange={(e) => setTo(e.target.value)}
-                      name="bus stop"
-                      className="w-full h-10 px-2 rounded-sm "
-                    >
-                      <option value={""}> Choose your destination</option>
-
-                      {busStops?.map((bs: any) => {
-                        if (bs?.state !== "Ibadan") {
-                          return (
-                            <option value={bs?._id}>
-                              {bs.name},{bs?.state}
-                            </option>
-                          );
-                        }
-                      })}
-                    </motion.select>
-                  </>
+                      {selectedCity}
+                      <svg
+                        className="-mr-1 ml-2 h-5 w-5 ml-auto text"
+                        viewBox="0 0 20 20"
+                        fill="currentColor"
+                      >
+                        <path
+                          fillRule="evenodd"
+                          d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                          clipRule="evenodd"
+                        />
+                      </svg>
+                    </button>
+                  </span>
+                </div>
+                {isOpen && (
+                  <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                    <div className="w-full rounded-md bg-white shadow-xs">
+                      <div className="w-full py-4">
+                        <a
+                          href="#"
+                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                          onClick={() => handleOptionClick("Lagos")}
+                        >
+                          Lagos
+                        </a>
+                        <a
+                          href="#"
+                          className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                          onClick={() => handleOptionClick("Ibadan")}
+                        >
+                          Ibadan
+                        </a>
+                      </div>
+                    </div>
+                  </div>
                 )}
               </div>
 
-              {/* <div className="relative">
-									<div className="relative mt-6">
-										<input
-											type="text"
-											placeholder="Where are you?"
-											className="w-full h-12 px-4 pl-12 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
-										/>
-										<FaBus className="absolute top-4 left-3" />
-									</div>
-									<div className="absolute z-50 h-10 border-l border-black top-9 left-5"></div>
-									<div className="relative mt-4">
-										<input
-											type="text"
-											placeholder="Where are you going to?"
-											className="w-full h-12 px-4 pl-12 border border-gray-300 rounded-md focus:outline-none focus:border-green-500"
-										/>
-										<FaBus className="absolute top-4 left-3" />
-									</div>
-								</div> */}
-            </div>
-            {/* <div className="mt-8 border-b border-[#EFF3EF] pb-10">
-								<h1 className="text-3xl font-semibold leading-[54px] tracking-[-5%]">
-									When?
-								</h1>
-								<div className="flex justify-between mt-6">
-									<Button
-										title="Today"
-										className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
-									/>
-									<Button
-										title="Tomorrow"
-										className="px-3 py-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
-									/>
-									<div className="relative">
-										<Button
-											title="Other"
-											className="py-2 pl-8 pr-2 text-sm border rounded-3xl hover:bg-primary-100 focus:outline-none focus:bg-primary-100"
-										/>
+              {/* AFTER SELECTION */}
+              <motion.div
+                // variants={zoomOutAnimation}
+                initial="initial"
+                className={`flex flex-col h-auto max-h-40 ${
+                  selectedCity === "Set your current city" ? "hidden " : ""
+                }`}
+              >
+                <>
+                  <label className="ml-4 mt-8 mb-2 text-sm text-gray-600">
+                    Pickup Station
+                  </label>
 
-										<BsCalendarDate className="absolute ml-1 text-sm top-3 left-2" />
-									</div>
-								</div>
-							</div> */}
+                  {/* START BUSSTOP */}
+                  <motion.div
+                    className="relative inline text-left z-30"
+                    // variants={zoomOutAnimation}
+                    initial="initial"
+                    whileHover="hover"
+                  >
+                    <div>
+                      <span className="rounded-md shadow-sm">
+                        <button
+                          type="button"
+                          className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                          onClick={handleStartBusStopClick}
+                          onChange={handleStartBusStop}
+                        >
+                          {startBusStop}
+                          <svg
+                            className="-mr-1 ml-2 h-5 w-5 ml-auto text"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </div>
+                    {startOpen && (
+                      <>
+                        <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                          <div className="w-full rounded-md bg-white shadow-xs">
+                            <div className="w-full py-4">
+                              {busStops?.map((option: any) => {
+                                if (selectedCity === "Lagos") {
+                                  if (option?.state !== "Ibadan") {
+                                    return (
+                                      <a
+                                        href="#"
+                                        className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                        onClick={() => {
+                                          handleStartBusStop(option.name);
+                                          setFrom(option.name);
+                                        }}
+                                      >
+                                        {option.name}
+                                      </a>
+                                    );
+                                  }
+                                } else if (selectedCity === "Ibadan") {
+                                  if (option?.state === "Ibadan") {
+                                    return (
+                                      <a
+                                        href="#"
+                                        className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                        onClick={() => {
+                                          handleStartBusStop(option.name);
+                                          setFrom(option.name);
+                                        }}
+                                      >
+                                        {option.name}
+                                      </a>
+                                    );
+                                  }
+                                }
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </motion.div>
+
+                  {/* DESTINATION BUSSTOP */}
+
+                  <label className="ml-4 mt-4 mb-2 text-sm text-gray-600">
+                    Destination
+                  </label>
+
+                  <div className="relative inline text-left z-20">
+                    <div>
+                      <span className="rounded-md shadow-sm">
+                        <button
+                          type="button"
+                          className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                          onClick={handleDestinationClick}
+                          onChange={handleDestinationBusStop}
+                        >
+                          {destinationBusStop}
+                          <svg
+                            className="-mr-1 ml-2 h-5 w-5 ml-auto text"
+                            viewBox="0 0 20 20"
+                            fill="currentColor"
+                          >
+                            <path
+                              fillRule="evenodd"
+                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                              clipRule="evenodd"
+                            />
+                          </svg>
+                        </button>
+                      </span>
+                    </div>
+                    {destinationOpen && (
+                      <>
+                        <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                          <div className="w-full rounded-md bg-white shadow-xs">
+                            <div className="w-full py-4">
+                              {busStops?.map((option: any) => {
+                                if (selectedCity === "Lagos") {
+                                  if (option?.state === "Ibadan") {
+                                    return (
+                                      <a
+                                        href="#"
+                                        className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                        onClick={() => {
+                                          handleDestinationBusStop(option.name);
+                                          setTo(option.name);
+                                        }}
+                                      >
+                                        {option.name}
+                                      </a>
+                                    );
+                                  }
+                                } else if (selectedCity === "Ibadan") {
+                                  if (option?.state !== "Ibadan") {
+                                    return (
+                                      <a
+                                        href="#"
+                                        className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                        onClick={() => {
+                                          handleDestinationBusStop(option.name);
+                                          setTo(option.name);
+                                        }}
+                                      >
+                                        {option.name}
+                                      </a>
+                                    );
+                                  }
+                                }
+                              })}
+                            </div>
+                          </div>
+                        </div>
+                      </>
+                    )}
+                  </div>
+                </>
+              </motion.div>
+            </div>
+
+            {/* BUTTON */}
             <motion.div
               // variants={zoomOutAnimation}
               initial="initial"
@@ -285,8 +377,16 @@ const BookRide = () => {
             >
               <Button
                 title="See available trips"
-                className="w-full h-[52px] bg-[#f4f4f4] mt-10 text-sm hover:bg-[#00ff6a]"
-                onClick={handleAvailableTrips}
+                className={
+                  isValid
+                    ? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm p-3 mt-6 font-medium rounded-lg"
+                    : "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm p-3 mt-2 font-medium rounded-lg"
+                }
+                onClick={() => {
+                  if (isValid) {
+                    handleAvailableTrips();
+                  }
+                }}
               />
             </motion.div>
           </div>
@@ -408,11 +508,11 @@ const BookRide = () => {
                     prefix={"+234"}
                     required={true}
                     onChange={(e) => {
-						setPhone(
-							e.target.value.startsWith("0")
-							  ? e.target.value
-							  : "0" + e.target.value
-						  );
+                      setPhone(
+                        e.target.value.startsWith("0")
+                          ? e.target.value
+                          : "0" + e.target.value
+                      );
                     }}
                   />
                 </div>
@@ -440,11 +540,11 @@ const BookRide = () => {
                     initial="initial"
                     whileTap="tap"
                     whileHover="hover"
-                    className="w-full p-3 mt-6 font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg"
+                    className="w-full p-3 mt-6 font-medium bg-[#00ff6a] hover:bg-[#58FF9E] rounded-lg"
                     onClick={CreateUser}
                   >
                     {registerUserLoading && (
-						// AMEN
+                      // AMEN
                       <Spinner
                         animation="border"
                         className=" text-white"
@@ -460,7 +560,7 @@ const BookRide = () => {
                     initial="initial"
                     whileTap="tap"
                     whileHover="hover"
-                    className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-green-600 rounded-full"
+                    className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
                     onClick={() => setFlip(!flip)}
                   >
                     I have an account
@@ -470,12 +570,6 @@ const BookRide = () => {
             ) : (
               <div>
                 <div className="mt-3 mb-3 pt-8">
-                  {/* <div className="mb-2">
-		  <label
-		  className="text-gray-500"
-		  >Phone Number</label>
-		</div> */}
-
                   <Input
                     className="hover:border-green-500 active:border-green-600 h-12 w-full"
                     placeholder="0903 123 1234"
@@ -489,7 +583,6 @@ const BookRide = () => {
                           ? e.target.value
                           : "0" + e.target.value
                       );
-                      
                     }}
                   />
                 </div>
@@ -500,13 +593,13 @@ const BookRide = () => {
                     initial="initial"
                     whileTap="tap"
                     whileHover="hover"
-                    className="w-full p-3 mt-6 font-medium text-white bg-green-600 hover:bg-green-700 rounded-lg"
+                    className="w-full p-3 mt-6 font-medium bg-[#00ff6a] hover:bg-[#58FF9E] rounded-lg"
                     onClick={LoginUser}
                   >
                     Continue
                   </motion.button>
                   {loading && (
-					// AMEN
+                    // AMEN
                     <Spinner
                       animation="border"
                       className="ml-3 text-green-600"
@@ -519,7 +612,7 @@ const BookRide = () => {
                     initial="initial"
                     whileTap="tap"
                     // whileHover="hover"
-                    className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-green-600 rounded-full"
+                    className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
                     onClick={() => setFlip(!flip)}
                   >
                     I don't have an account
