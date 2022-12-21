@@ -52,7 +52,7 @@ const BookRide = () => {
   const [selectedCity, setSelectedCity] = useState("Set your current city");
   const handleOptionClick = (option: any) => {
     setSelectedCity(option);
-    setLag(option);
+    // setLag(option);
     setIsOpen(false);
   };
 
@@ -260,7 +260,7 @@ const BookRide = () => {
                                         className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                         onClick={() => {
                                           handleStartBusStop(option.name);
-                                          setFrom(option.name);
+                                          setFrom(option.target.name);
                                         }}
                                       >
                                         {option.name}
@@ -275,7 +275,7 @@ const BookRide = () => {
                                         className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                         onClick={() => {
                                           handleStartBusStop(option.name);
-                                          setFrom(option.name);
+                                          setFrom(option.target.name);
                                         }}
                                       >
                                         {option.name}
@@ -335,7 +335,7 @@ const BookRide = () => {
                                         className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                         onClick={() => {
                                           handleDestinationBusStop(option.name);
-                                          setTo(option.name);
+                                          setTo(option.target.name);
                                         }}
                                       >
                                         {option.name}
@@ -350,7 +350,7 @@ const BookRide = () => {
                                         className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                         onClick={() => {
                                           handleDestinationBusStop(option.name);
-                                          setTo(option.name);
+                                          setTo(option.target.name);
                                         }}
                                       >
                                         {option.name}

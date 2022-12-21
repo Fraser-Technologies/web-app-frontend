@@ -17,6 +17,7 @@
     "bootstrap": "^5.2.3",
     "framer-motion": "^7.9.0",
     "js-cookie": "^3.0.1",
+    "mongoose": "^6.8.1",
     "react": "^18.2.0",
     "react-bootstrap": "^2.7.0",
     "react-calendar": "^4.0.0",
