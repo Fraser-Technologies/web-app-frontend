@@ -8,7 +8,6 @@ import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { Alert, Input, message, Modal, Spin } from "antd";
 import { motion } from "framer-motion";
-import { justHoverAnimation, zoomOutAnimation } from "../utils/animation";
 import {
   registerUserAction,
   userLoginAction,
@@ -379,8 +378,8 @@ const BookRide = () => {
                 title="See available trips"
                 className={
                   isValid
-                    ? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm p-3 mt-6 font-medium rounded-lg"
-                    : "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm p-3 mt-2 font-medium rounded-lg"
+                    ? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm p-3 font-medium rounded-lg"
+                    : "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm p-3 font-medium rounded-lg"
                 }
                 onClick={() => {
                   if (isValid) {

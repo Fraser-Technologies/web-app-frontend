@@ -4,6 +4,7 @@ import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../components/bookingCard";
 import Layout from "../components/layouts/SignInLayout";
 import { getAllBusStop } from "../state/action/bus.action";
+import { Button } from "../components/Button";
 import {
   getAllAvailableTripAction,
   getAvailableTripAction,
@@ -80,6 +81,11 @@ const Bookings = () => {
     }
   };
 
+  const isValid =
+    selectedCity !== "Set your current city" &&
+    destinationBusStop !== "Select Destination busstop" &&
+    startBusStop !== "Select pickup busstop";
+
   useEffect(() => {
     if (!availableTripData) {
       dispatch(getAllAvailableTripAction());
@@ -96,7 +102,7 @@ const Bookings = () => {
     <Layout user="Amen" childClass="">
       <Helmet>
         <meta charSet="utf-8" />
-        <title>BookRide - Fraser</title>
+        <title>Fraser - Book a ride</title>
       </Helmet>
 
       <div className="flex flex-col items-center justify-center mt-10 lg:flex-row lg:items-start lg:mt-15 lg:space-x-3 ">
@@ -445,16 +451,27 @@ const Bookings = () => {
                     </>
                   )}
 
-                  <motion.button
-                    initial={"initial"}
-                    whileHover={"hover"}
-                    whileTap={"tap"}
-                    onClick={FindAvailableTrip}
-                    className="w-full h-10 py-2 mt-10 text-white bg-green-500 hover:cursor-pointer hover:shadow-md"
-                  >
-                    See available trips
-                  </motion.button>
                 </div> */}
+
+              <motion.div
+                // variants={zoomOutAnimation}
+                initial="initial"
+                whileHover="hover"
+              >
+                <Button
+                  title="See available trips"
+                  className={
+                    isValid
+                      ? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm p-3 font-medium rounded-lg"
+                      : "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm p-3 font-medium rounded-lg"
+                  }
+                  onClick={() => {
+                    if (isValid) {
+                      FindAvailableTrip();
+                    }
+                  }}
+                />
+              </motion.div>
             </div>
           </div>
         </div>
@@ -464,30 +481,30 @@ const Bookings = () => {
         <div className="w-11/12 lg:w-[680px] my-5 lg:mt-0">
           <div className="w-full px-0 lg:bg-white lg:py-12 lg:px-8 h-full">
             <div className="flex flex-row w-full px-4 py-5 ">
-              <motion.h5
+              {/* <motion.h5
                 initial={"initial"}
                 className="flex justify-center w-full p-1 px-3 font-bold bg-green-500 aligns-center hover:cursor-pointer"
               >
                 Available Trips
-              </motion.h5>
+              </motion.h5> */}
 
-              <span className="ml-4">
+              {/* <span className="ml-4">
                 {availableTripLoading && (
                   <>
                     <Spin size="small" />
                   </>
                 )}
-              </span>
+              </span> */}
             </div>
             {availableTripData?.length === 0 && (
               <Alert
                 type="info"
-                message="Sorry there are no avialable trip going to this destination "
+                message="Sorry there are no avialable trip to the destination selected"
               />
             )}
             {availableTripError && (
               <Alert
-                message="An error occoured"
+                message="An error occured"
                 description={availableTripError}
                 type="error"
                 showIcon
