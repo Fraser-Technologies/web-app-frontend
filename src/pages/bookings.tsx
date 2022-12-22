@@ -16,21 +16,30 @@ import { Alert, Spin } from "antd";
 import { addToMyBookinAction } from "../state/action/booking.action";
 import { useNavigate } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
-import { useLocation } from 'react-router-dom';
+import { useLocation } from "react-router-dom";
 
 const Bookings = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [show, setShow] = React.useState<boolean>(false);
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("");
-  const [lag, setLag] = useState<string>("lagos");
   const { busStops } = useAppSelector((state: any) => state.allBusStop);
+
+  //PASSING DATA USING STATE
+  const location = useLocation();
+  const { selectedCity, destinationBusStop, startBusStop } =
+    location.state || {};
+  const [city, setcity] = useState(selectedCity || "Set your current city");
+  const [start, setstart] = useState(startBusStop || "Select start bus stop");
+  const [destination, setdestination] = useState(
+    destinationBusStop || "Select destination bus stop"
+  );
+
+  //FOR DROPDOWNS OPEN AND CLOSE
   const [isOpen, setIsOpen] = useState(false);
   const [startOpen, setstartIsOpen] = useState(false);
   const [destinationOpen, setDestinationIsOpen] = useState(false);
-  const location = useLocation();
-  
+
   const handleCityClick = () => {
     setIsOpen(!isOpen);
   };
@@ -41,27 +50,24 @@ const Bookings = () => {
     setDestinationIsOpen(!destinationOpen);
   };
 
-  const { selectedCity, destinationBusStop, startBusStop } = location.state || {};
-
-  const [city, setcity] = useState(selectedCity || "Set your current city");
+  //SET CITY, START AND DESTINATION VALUES
   const handleOptionClick = (option: any) => {
     setcity(option);
     // setLag(option);
     setIsOpen(false);
   };
-  const [start, setstart] = useState(startBusStop || "Select start bus stop");
+
   const handlestart = (option: any) => {
     setstart(option);
     setstartIsOpen(false);
   };
-
-  const [destination, setdestination] = useState(destinationBusStop || "Select destination bus stop");
 
   const handledestination = (option: any) => {
     setdestination(option);
     setDestinationIsOpen(false);
   };
 
+  //
   const {
     loading: availableTripLoading,
     error: availableTripError,
@@ -71,10 +77,6 @@ const Bookings = () => {
   // 	(state: any) => state.allAvailableTrip
   // );
 
-  const handleBookingToggle = () => {
-    setShow(!show);
-  };
-
   const FindAvailableTrip = () => {
     if (from && to) {
       dispatch(getAvailableTripAction({ from: from, to: to }));
@@ -83,11 +85,13 @@ const Bookings = () => {
     }
   };
 
+  //VALIDATE BUTTON BEFORE CLICK
   const isValid =
     city !== "Set your current city" &&
     destination !== "Select Destination busstop" &&
     start !== "Select pickup busstop";
 
+  //
   useEffect(() => {
     if (!availableTripData) {
       dispatch(getAllAvailableTripAction());
@@ -114,7 +118,8 @@ const Bookings = () => {
           className="w-4/12 mx-16 my-32 "
           style={{ position: "fixed", top: "0", left: "0" }}
         >
-          <div className="py-12 px-12 mr-12 bg-white rounded-md border-b border-[#EFF3EF]">
+          <div className="pb-12 px-12 mr-12 bg-white rounded-md border-b border-[#EFF3EF]">
+			<h3 className="pt-6 pb-8 text-lg font-semibold">Where to?</h3>
             <div className="relative inline text-left z-40">
               <div>
                 <span className="rounded-md shadow-sm">
@@ -349,7 +354,6 @@ const Bookings = () => {
         </div>
 
         {/* RIGHT COLUMN */}
-
         <div
           className="w-7/12 h-5/6 rounded-t-md mx-16 my-32 overflow-y-scroll scroll-behavior-smooth"
           style={{ position: "fixed", top: "0", right: "0" }}
@@ -358,7 +362,9 @@ const Bookings = () => {
             className="w-7/12 rounded-t-md mx-16 my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center"
             style={{ position: "fixed", top: "0", right: "0" }}
           >
-            <h1 className="text-lg ml-12 mt-4 font-semibold">Available Trips</h1>
+            <h1 className="text-lg ml-12 mt-4 font-semibold">
+              Available Trips
+            </h1>
           </div>
 
           <div className="mt-16 w-full px-12 py-6 bg-white h-max">

@@ -30,8 +30,10 @@ const BookingCard = ({
             {from}
           </h3>
           <div className="text-white md:text-sm text-xs">
-            <p>{takeOffTime}</p>
-            <p>{takeOffDate}</p>
+            <p className="text-gray-400">Take Off Time</p>
+            <p className="mt-1">{takeOffTime}</p>
+
+            {/* <p>{takeOffDate}</p> */}
           </div>
         </div>
 
@@ -41,8 +43,9 @@ const BookingCard = ({
             {to}
           </h3>
           <div className="text-white md:text-sm text-xs">
-            <p>{arrivalTime}</p>
-            <p>{arrivalDate}</p>
+            <p className="text-gray-400">Estimated Arrival Time</p>
+            <p className="mt-1">{arrivalTime}</p>
+            {/* <p>{arrivalDate}</p> */}
           </div>
         </div>
 
@@ -54,6 +57,7 @@ const BookingCard = ({
           <Button
             title="Continue"
             className="bg-primary-100 text-black text-sm md:py-2 py-1 md:px-5 px-2"
+			onClick={onClick}
           />
         </div>
       </div>
