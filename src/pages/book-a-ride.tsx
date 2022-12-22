@@ -79,14 +79,20 @@ const BookRide = () => {
   const handleAvailableTrips = () => {
     // console.log(selectedCity, destinationBusStop, startBusStop);
     // console.log(typeof from, from, typeof to, to);
-    
+
     // AMEN - TYPE CONFLICT, NO IDEA WHY
     if (from && to) {
       dispatch(getAvailableTripAction({ from: from, to: to }));
     } else {
       dispatch(getAllAvailableTripAction());
     }
-    navigate("/bookings");
+    navigate("/bookings", {
+      state: {
+        selectedCity,
+        destinationBusStop,
+        startBusStop,
+      },
+    });
   };
 
   const isValid =

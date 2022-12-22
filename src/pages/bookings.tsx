@@ -16,6 +16,7 @@ import { Alert, Spin } from "antd";
 import { addToMyBookinAction } from "../state/action/booking.action";
 import { useNavigate } from "react-router-dom";
 import { FaSpinner } from "react-icons/fa";
+import { useLocation } from 'react-router-dom';
 
 const Bookings = () => {
   const dispatch = useAppDispatch();
@@ -26,37 +27,38 @@ const Bookings = () => {
   const [lag, setLag] = useState<string>("lagos");
   const { busStops } = useAppSelector((state: any) => state.allBusStop);
   const [isOpen, setIsOpen] = useState(false);
-  const [startOpen, setStartBusStopIsOpen] = useState(false);
+  const [startOpen, setstartIsOpen] = useState(false);
   const [destinationOpen, setDestinationIsOpen] = useState(false);
-
+  const location = useLocation();
+  
   const handleCityClick = () => {
     setIsOpen(!isOpen);
   };
-  const handleStartBusStopClick = () => {
-    setStartBusStopIsOpen(!startOpen);
+  const handlestartClick = () => {
+    setstartIsOpen(!startOpen);
   };
   const handleDestinationClick = () => {
     setDestinationIsOpen(!destinationOpen);
   };
 
-  const [selectedCity, setSelectedCity] = useState("Set your current city");
+  const { selectedCity, destinationBusStop, startBusStop } = location.state || {};
+
+  const [city, setcity] = useState(selectedCity || "Set your current city");
   const handleOptionClick = (option: any) => {
-    setSelectedCity(option);
+    setcity(option);
     // setLag(option);
     setIsOpen(false);
   };
-  const [startBusStop, setStartBusStop] = useState("Select pickup busstop");
-  const handleStartBusStop = (option: any) => {
-    setStartBusStop(option);
-    setStartBusStopIsOpen(false);
+  const [start, setstart] = useState(startBusStop || "Select start bus stop");
+  const handlestart = (option: any) => {
+    setstart(option);
+    setstartIsOpen(false);
   };
 
-  const [destinationBusStop, setDestinationBusStop] = useState(
-    "Select Destination busstop"
-  );
+  const [destination, setdestination] = useState(destinationBusStop || "Select destination bus stop");
 
-  const handleDestinationBusStop = (option: any) => {
-    setDestinationBusStop(option);
+  const handledestination = (option: any) => {
+    setdestination(option);
     setDestinationIsOpen(false);
   };
 
@@ -82,9 +84,9 @@ const Bookings = () => {
   };
 
   const isValid =
-    selectedCity !== "Set your current city" &&
-    destinationBusStop !== "Select Destination busstop" &&
-    startBusStop !== "Select pickup busstop";
+    city !== "Set your current city" &&
+    destination !== "Select Destination busstop" &&
+    start !== "Select pickup busstop";
 
   useEffect(() => {
     if (!availableTripData) {
@@ -122,7 +124,7 @@ const Bookings = () => {
                     onClick={handleCityClick}
                     onChange={handleOptionClick}
                   >
-                    {selectedCity}
+                    {city}
                     <svg
                       className="-mr-1 ml-2 h-5 w-5 ml-auto text"
                       viewBox="0 0 20 20"
@@ -184,10 +186,10 @@ const Bookings = () => {
                       <button
                         type="button"
                         className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                        onClick={handleStartBusStopClick}
-                        onChange={handleStartBusStop}
+                        onClick={handlestartClick}
+                        onChange={handlestart}
                       >
-                        {startBusStop}
+                        {start}
                         <svg
                           className="-mr-1 ml-2 h-5 w-5 ml-auto text"
                           viewBox="0 0 20 20"
@@ -208,14 +210,14 @@ const Bookings = () => {
                         <div className="w-full rounded-md bg-white shadow-xs">
                           <div className="w-full py-4">
                             {busStops?.map((option: any) => {
-                              if (selectedCity === "Lagos") {
+                              if (city === "Lagos") {
                                 if (option?.state !== "Ibadan") {
                                   return (
                                     <a
                                       href="#"
                                       className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                       onClick={() => {
-                                        handleStartBusStop(option.name);
+                                        handlestart(option.name);
                                         setFrom(option.target.name);
                                       }}
                                     >
@@ -223,14 +225,14 @@ const Bookings = () => {
                                     </a>
                                   );
                                 }
-                              } else if (selectedCity === "Ibadan") {
+                              } else if (city === "Ibadan") {
                                 if (option?.state === "Ibadan") {
                                   return (
                                     <a
                                       href="#"
                                       className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                       onClick={() => {
-                                        handleStartBusStop(option.name);
+                                        handlestart(option.name);
                                         setFrom(option.target.name);
                                       }}
                                     >
@@ -260,9 +262,9 @@ const Bookings = () => {
                         type="button"
                         className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
                         onClick={handleDestinationClick}
-                        onChange={handleDestinationBusStop}
+                        onChange={handledestination}
                       >
-                        {destinationBusStop}
+                        {destination}
                         <svg
                           className="-mr-1 ml-2 h-5 w-5 ml-auto text"
                           viewBox="0 0 20 20"
@@ -283,14 +285,14 @@ const Bookings = () => {
                         <div className="w-full rounded-md bg-white shadow-xs">
                           <div className="w-full py-4">
                             {busStops?.map((option: any) => {
-                              if (selectedCity === "Lagos") {
+                              if (city === "Lagos") {
                                 if (option?.state === "Ibadan") {
                                   return (
                                     <a
                                       href="#"
                                       className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                       onClick={() => {
-                                        handleDestinationBusStop(option.name);
+                                        handledestination(option.name);
                                         setTo(option.target.name);
                                       }}
                                     >
@@ -298,14 +300,14 @@ const Bookings = () => {
                                     </a>
                                   );
                                 }
-                              } else if (selectedCity === "Ibadan") {
+                              } else if (city === "Ibadan") {
                                 if (option?.state !== "Ibadan") {
                                   return (
                                     <a
                                       href="#"
                                       className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                       onClick={() => {
-                                        handleDestinationBusStop(option.name);
+                                        handledestination(option.name);
                                         setTo(option.target.name);
                                       }}
                                     >
@@ -353,10 +355,10 @@ const Bookings = () => {
           style={{ position: "fixed", top: "0", right: "0" }}
         >
           <div
-            className="w-7/12 rounded-t-md mx-16 my-32 h-16 bg-[#00ff6a] z-10 justify-center items-center"
+            className="w-7/12 rounded-t-md mx-16 my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center"
             style={{ position: "fixed", top: "0", right: "0" }}
           >
-            <h1 className="">Available Trips</h1>
+            <h1 className="text-lg ml-12 mt-4 font-semibold">Available Trips</h1>
           </div>
 
           <div className="mt-16 w-full px-12 py-6 bg-white h-max">

@@ -25,29 +25,31 @@ const BookingCard = ({
   return (
     <>
       <div className="bg-black flex lg:px-8 px-3 py-5 mb-4 rounded-lg justify-between">
-        <div className="flex justify-between md:space-x-8 space-x-4 relative">
-          <div className="w-1/2 ">
-            <h3 className="md:text-base  mr-8 text-xs text-primary-100 mb-2">{from}</h3>
-            <div className="text-white md:text-sm text-xs">
-			<p>{takeOffTime}</p>
-              <p>{takeOffDate}</p>
-            </div>
-          </div>
-
-          <BsArrowRight className=" w-1/6 text-primary-100  md:top-2 top-0 left-10 md:left-10" />
-          <div className="w-1/2">
-            <h3 className="md:text-base text-base text-primary-100 mb-2">{to}</h3>
-            <div className="text-white md:text-sm text-xs">
-			<p>{arrivalTime}</p>
-              <p>{arrivalDate}</p>
-            </div>
+        <div className="w-1/3">
+          <h3 className="md:text-base h-14 mr-8 text-xs text-primary-100 mb-2">
+            {from}
+          </h3>
+          <div className="text-white md:text-sm text-xs">
+            <p>{takeOffTime}</p>
+            <p>{takeOffDate}</p>
           </div>
         </div>
 
-        <div className="w-1/6 border-r my-2 md:mr-0 mr-2"></div>
-        <div className="flex flex-col  mb-2">
+        <BsArrowRight className="w-4 mt-1 -ml-8 text-primary-100  md:top-2 top-0 left-10 md:left-10" />
+        <div className="w-1/3">
+          <h3 className="md:text-base h-14 text-base text-primary-100 mb-2">
+            {to}
+          </h3>
+          <div className="text-white md:text-sm text-xs">
+            <p>{arrivalTime}</p>
+            <p>{arrivalDate}</p>
+          </div>
+        </div>
+
+        <div className="w-1 border-r my-2 md:mr-0 mr-4"></div>
+        <div className="flex flex-col w-1/5 mb-2">
           <p className="text-primary-100 md:text-lg text-sm font-semibold mb-2">
-		  NGN {price}
+            NGN {price}
           </p>
           <Button
             title="Continue"
@@ -55,8 +57,6 @@ const BookingCard = ({
           />
         </div>
       </div>
-
-	  
     </>
   );
 };
