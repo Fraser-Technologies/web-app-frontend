@@ -104,8 +104,8 @@ const Bookings = () => {
 
   const [isView, setIsView] = React.useState<boolean>(false);
   const handleAvailableTrips = () => {
-	setIsView(true);
-};
+    setIsView(true);
+  };
 
   return (
     <Layout user="Amen" childClass="">
@@ -117,14 +117,14 @@ const Bookings = () => {
       <div className="flex fixed h-full w-full overflow-y-scroll scroll-behavior-smooth flex-col items-center justify-center">
         {/* LEFT COLUMN */}
 
-        is<div
+        <div
           className="lg:w-4/12 lg:mx-16 lg:my-32 sm:mx-0 sm:mx-16 sm:w-full "
           style={{ position: "fixed", top: "0", left: "0" }}
         >
           <div className="pb-12 px-12 mr-12 bg-white rounded-md border-b border-[#EFF3EF]">
-			<h3 className="pt-6 pb-8 text-lg font-semibold">Where to?</h3>
+            <h3 className="pt-6 pb-8 text-lg font-semibold">Where to?</h3>
 
-			{/* CITY SELECTION */}
+            {/* CITY SELECTION */}
             <div className="relative inline text-left z-40">
               <div>
                 <span className="rounded-md shadow-sm">
@@ -357,7 +357,6 @@ const Bookings = () => {
             </motion.div>
           </div>
         </div>
-
         {/* RIGHT COLUMN */}
         <div
           className="w-7/12 h-5/6 rounded-t-md mx-16 my-32 overflow-y-scroll scroll-behavior-smooth"
