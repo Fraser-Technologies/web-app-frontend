@@ -10,12 +10,8 @@ import {
   getAvailableTripAction,
 } from "../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { justHoverAnimation, zoomOutAnimation } from "../utils/animation";
 import { motion } from "framer-motion";
-import { Alert, Spin } from "antd";
-import { addToMyBookinAction } from "../state/action/booking.action";
 import { useNavigate } from "react-router-dom";
-import { FaSpinner } from "react-icons/fa";
 import { useLocation } from "react-router-dom";
 
 const Bookings = () => {
@@ -104,6 +100,11 @@ const Bookings = () => {
     }
   }, [busStops, dispatch]);
 
+  const [isView, setIsView] = React.useState<boolean>(false);
+  const handleAvailableTrips = () => {
+	setIsView(true);
+};
+
   return (
     <Layout user="Amen" childClass="">
       <Helmet>
@@ -115,11 +116,13 @@ const Bookings = () => {
         {/* LEFT COLUMN */}
 
         <div
-          className="w-4/12 mx-16 my-32 "
+          className="lg:w-4/12 lg:mx-16 lg:my-32 sm:mx-0 sm:mx-16 sm:w-full "
           style={{ position: "fixed", top: "0", left: "0" }}
         >
           <div className="pb-12 px-12 mr-12 bg-white rounded-md border-b border-[#EFF3EF]">
 			<h3 className="pt-6 pb-8 text-lg font-semibold">Where to?</h3>
+
+			{/* CITY SELECTION */}
             <div className="relative inline text-left z-40">
               <div>
                 <span className="rounded-md shadow-sm">
@@ -354,7 +357,7 @@ const Bookings = () => {
         </div>
 
         {/* RIGHT COLUMN */}
-        <div
+        {/* <div
           className="w-7/12 h-5/6 rounded-t-md mx-16 my-32 overflow-y-scroll scroll-behavior-smooth"
           style={{ position: "fixed", top: "0", right: "0" }}
         >
@@ -403,7 +406,7 @@ const Bookings = () => {
               );
             })}
           </div>
-        </div>
+        </div> */}
       </div>
     </Layout>
   );

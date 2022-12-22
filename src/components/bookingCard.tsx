@@ -24,7 +24,10 @@ const BookingCard = ({
 }: BookingCardInterface) => {
   return (
     <>
-      <div className="bg-black flex lg:px-8 px-3 py-5 mb-4 rounded-lg justify-between">
+      <div
+        onClick={onClick}
+        className="bg-black flex lg:px-8 px-3 py-5 mb-4 rounded-lg justify-between"
+      >
         <div className="w-1/3">
           <h3 className="md:text-base h-14 mr-8 text-xs text-primary-100 mb-2">
             {from}
@@ -57,7 +60,7 @@ const BookingCard = ({
           <Button
             title="Continue"
             className="bg-primary-100 text-black text-sm md:py-2 py-1 md:px-5 px-2"
-			onClick={onClick}
+            onClick={onClick}
           />
         </div>
       </div>
