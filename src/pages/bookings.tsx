@@ -105,44 +105,89 @@ const Bookings = () => {
         <title>Fraser - Book a ride</title>
       </Helmet>
 
-      <div className="flex flex-col items-center justify-center mt-10 lg:flex-row lg:items-start lg:mt-15 lg:space-x-3 ">
-        <div className="flex items-center justify-between w-11/12 px-8 py-4 duration-300 ease-in-out bg-white lg:hidden">
-          <h3 className="text-xl font-bold ">
-            Booking <span> {availableTripLoading && <FaSpinner />}</span>
-          </h3>
-          {show === false ? (
-            <BsChevronDown
-              onClick={handleBookingToggle}
-              className="cursor-pointer"
-            />
-          ) : (
-            <BsChevronUp
-              onClick={handleBookingToggle}
-              className="cursor-pointer"
-            />
-          )}
-        </div>
-        {/* {where to} */}
+      <div className="flex fixed h-full w-full overflow-y-scroll scroll-behavior-smooth flex-col items-center justify-center">
+        {/* LEFT COLUMN */}
 
-        {/* ACCORDION */}
         <div
-          className={`w-11/12 lg:w-[481px] ease-in-out duration-300 lg:block
-							${show === false ? "hidden" : "block"}
-						`}
+          className="w-4/12 mx-16 my-32 "
+          style={{ position: "fixed", top: "0", left: "0" }}
         >
-          <div className="w-full px-8 pt-2 -mt-3 bg-white rounded-md lg:mt-0 lg:py-12">
-            <div className="border-b border-[#EFF3EF] pb-10">
-              <div className="flex flex-col w-full mt-2 mb-2">
-                <div className="relative inline text-left z-40">
+          <div className="py-12 px-12 mr-12 bg-white rounded-md border-b border-[#EFF3EF]">
+            <div className="relative inline text-left z-40">
+              <div>
+                <span className="rounded-md shadow-sm">
+                  <button
+                    type="button"
+                    className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    onClick={handleCityClick}
+                    onChange={handleOptionClick}
+                  >
+                    {selectedCity}
+                    <svg
+                      className="-mr-1 ml-2 h-5 w-5 ml-auto text"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  </button>
+                </span>
+              </div>
+              {isOpen && (
+                <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                  <div className="w-full rounded-md bg-white shadow-xs">
+                    <div className="w-full py-4">
+                      <a
+                        href="#"
+                        className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                        onClick={() => handleOptionClick("Lagos")}
+                      >
+                        Lagos
+                      </a>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                        onClick={() => handleOptionClick("Ibadan")}
+                      >
+                        Ibadan
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              )}
+            </div>
+
+            {/* AFTER SELECTION */}
+            <motion.div
+              // variants={zoomOutAnimation}
+              initial="initial"
+              className={`flex flex-col h-auto max-h-40 `}
+            >
+              <>
+                <label className="ml-4 mt-8 mb-2 text-sm text-gray-600">
+                  Pickup Station
+                </label>
+
+                {/* START BUSSTOP */}
+                <motion.div
+                  className="relative inline text-left z-30"
+                  // variants={zoomOutAnimation}
+                  initial="initial"
+                  whileHover="hover"
+                >
                   <div>
                     <span className="rounded-md shadow-sm">
                       <button
                         type="button"
                         className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                        onClick={handleCityClick}
-                        onChange={handleOptionClick}
+                        onClick={handleStartBusStopClick}
+                        onChange={handleStartBusStop}
                       >
-                        {selectedCity}
+                        {startBusStop}
                         <svg
                           className="-mr-1 ml-2 h-5 w-5 ml-auto text"
                           viewBox="0 0 20 20"
@@ -157,349 +202,168 @@ const Bookings = () => {
                       </button>
                     </span>
                   </div>
-                  {isOpen && (
-                    <div className="w-full absolute mt-2 rounded-md shadow-lg">
-                      <div className="w-full rounded-md bg-white shadow-xs">
-                        <div className="w-full py-4">
-                          <a
-                            href="#"
-                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                            onClick={() => handleOptionClick("Lagos")}
-                          >
-                            Lagos
-                          </a>
-                          <a
-                            href="#"
-                            className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                            onClick={() => handleOptionClick("Ibadan")}
-                          >
-                            Ibadan
-                          </a>
+                  {startOpen && (
+                    <>
+                      <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                        <div className="w-full rounded-md bg-white shadow-xs">
+                          <div className="w-full py-4">
+                            {busStops?.map((option: any) => {
+                              if (selectedCity === "Lagos") {
+                                if (option?.state !== "Ibadan") {
+                                  return (
+                                    <a
+                                      href="#"
+                                      className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                      onClick={() => {
+                                        handleStartBusStop(option.name);
+                                        setFrom(option.target.name);
+                                      }}
+                                    >
+                                      {option.name}
+                                    </a>
+                                  );
+                                }
+                              } else if (selectedCity === "Ibadan") {
+                                if (option?.state === "Ibadan") {
+                                  return (
+                                    <a
+                                      href="#"
+                                      className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                      onClick={() => {
+                                        handleStartBusStop(option.name);
+                                        setFrom(option.target.name);
+                                      }}
+                                    >
+                                      {option.name}
+                                    </a>
+                                  );
+                                }
+                              }
+                            })}
+                          </div>
                         </div>
                       </div>
-                    </div>
+                    </>
+                  )}
+                </motion.div>
+
+                {/* DESTINATION BUSSTOP */}
+
+                <label className="ml-4 mt-4 mb-2 text-sm text-gray-600">
+                  Destination
+                </label>
+
+                <div className="relative inline text-left z-20">
+                  <div>
+                    <span className="rounded-md shadow-sm">
+                      <button
+                        type="button"
+                        className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                        onClick={handleDestinationClick}
+                        onChange={handleDestinationBusStop}
+                      >
+                        {destinationBusStop}
+                        <svg
+                          className="-mr-1 ml-2 h-5 w-5 ml-auto text"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </span>
+                  </div>
+                  {destinationOpen && (
+                    <>
+                      <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                        <div className="w-full rounded-md bg-white shadow-xs">
+                          <div className="w-full py-4">
+                            {busStops?.map((option: any) => {
+                              if (selectedCity === "Lagos") {
+                                if (option?.state === "Ibadan") {
+                                  return (
+                                    <a
+                                      href="#"
+                                      className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                      onClick={() => {
+                                        handleDestinationBusStop(option.name);
+                                        setTo(option.target.name);
+                                      }}
+                                    >
+                                      {option.name}
+                                    </a>
+                                  );
+                                }
+                              } else if (selectedCity === "Ibadan") {
+                                if (option?.state !== "Ibadan") {
+                                  return (
+                                    <a
+                                      href="#"
+                                      className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                      onClick={() => {
+                                        handleDestinationBusStop(option.name);
+                                        setTo(option.target.name);
+                                      }}
+                                    >
+                                      {option.name}
+                                    </a>
+                                  );
+                                }
+                              }
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </>
                   )}
                 </div>
+              </>
+            </motion.div>
 
-                {/* AFTER SELECTION */}
-                <motion.div
-                  // variants={zoomOutAnimation}
-                  initial="initial"
-                  className={`flex flex-col h-auto max-h-40 `}
-                >
-                  <>
-                    <label className="ml-4 mt-8 mb-2 text-sm text-gray-600">
-                      Pickup Station
-                    </label>
-
-                    {/* START BUSSTOP */}
-                    <motion.div
-                      className="relative inline text-left z-30"
-                      // variants={zoomOutAnimation}
-                      initial="initial"
-                      whileHover="hover"
-                    >
-                      <div>
-                        <span className="rounded-md shadow-sm">
-                          <button
-                            type="button"
-                            className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                            onClick={handleStartBusStopClick}
-                            onChange={handleStartBusStop}
-                          >
-                            {startBusStop}
-                            <svg
-                              className="-mr-1 ml-2 h-5 w-5 ml-auto text"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                        </span>
-                      </div>
-                      {startOpen && (
-                        <>
-                          <div className="w-full absolute mt-2 rounded-md shadow-lg">
-                            <div className="w-full rounded-md bg-white shadow-xs">
-                              <div className="w-full py-4">
-                                {busStops?.map((option: any) => {
-                                  if (selectedCity === "Lagos") {
-                                    if (option?.state !== "Ibadan") {
-                                      return (
-                                        <a
-                                          href="#"
-                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                          onClick={() => {
-                                            handleStartBusStop(option.name);
-                                            setFrom(option.target.name);
-                                          }}
-                                        >
-                                          {option.name}
-                                        </a>
-                                      );
-                                    }
-                                  } else if (selectedCity === "Ibadan") {
-                                    if (option?.state === "Ibadan") {
-                                      return (
-                                        <a
-                                          href="#"
-                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                          onClick={() => {
-                                            handleStartBusStop(option.name);
-                                            setFrom(option.target.name);
-                                          }}
-                                        >
-                                          {option.name}
-                                        </a>
-                                      );
-                                    }
-                                  }
-                                })}
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </motion.div>
-
-                    {/* DESTINATION BUSSTOP */}
-
-                    <label className="ml-4 mt-4 mb-2 text-sm text-gray-600">
-                      Destination
-                    </label>
-
-                    <div className="relative inline text-left z-20">
-                      <div>
-                        <span className="rounded-md shadow-sm">
-                          <button
-                            type="button"
-                            className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                            onClick={handleDestinationClick}
-                            onChange={handleDestinationBusStop}
-                          >
-                            {destinationBusStop}
-                            <svg
-                              className="-mr-1 ml-2 h-5 w-5 ml-auto text"
-                              viewBox="0 0 20 20"
-                              fill="currentColor"
-                            >
-                              <path
-                                fillRule="evenodd"
-                                d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                clipRule="evenodd"
-                              />
-                            </svg>
-                          </button>
-                        </span>
-                      </div>
-                      {destinationOpen && (
-                        <>
-                          <div className="w-full absolute mt-2 rounded-md shadow-lg">
-                            <div className="w-full rounded-md bg-white shadow-xs">
-                              <div className="w-full py-4">
-                                {busStops?.map((option: any) => {
-                                  if (selectedCity === "Lagos") {
-                                    if (option?.state === "Ibadan") {
-                                      return (
-                                        <a
-                                          href="#"
-                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                          onClick={() => {
-                                            handleDestinationBusStop(
-                                              option.name
-                                            );
-                                            setTo(option.target.name);
-                                          }}
-                                        >
-                                          {option.name}
-                                        </a>
-                                      );
-                                    }
-                                  } else if (selectedCity === "Ibadan") {
-                                    if (option?.state !== "Ibadan") {
-                                      return (
-                                        <a
-                                          href="#"
-                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                          onClick={() => {
-                                            handleDestinationBusStop(
-                                              option.name
-                                            );
-                                            setTo(option.target.name);
-                                          }}
-                                        >
-                                          {option.name}
-                                        </a>
-                                      );
-                                    }
-                                  }
-                                })}
-                              </div>
-                            </div>
-                          </div>
-                        </>
-                      )}
-                    </div>
-                  </>
-                </motion.div>
-              </div>
-
-              {/* <div className="flex flex-col h-auto max-h-40">
-                  {lag === "lagos" ? (
-                    <>
-                      <label className="mt-5">Start bus stop</label>
-                      <motion.select
-                        variants={zoomOutAnimation}
-                        initial="initial"
-                        whileHover="hover"
-                        value={from}
-                        onChange={(e) => setFrom(e.target.value)}
-                        name="bus stop"
-                        id="busStops"
-                        className="w-full py-3 px-2 rounded-sm"
-                      >
-                        <option value={""}>From where</option>
-
-                        {busStops?.map((bs: any) => {
-                          if (bs?.state !== "Ibadan") {
-                            return (
-                              <option
-                                value={bs?._id}
-                                className="w-full  px-2 rounded-sm"
-                              >
-                                {bs.name},{bs?.state}
-                              </option>
-                            );
-                          }
-                        })}
-                      </motion.select>
-                      <label className="mt-5">Destination bus stop</label>
-                      <motion.select
-                        variants={zoomOutAnimation}
-                        initial="initial"
-                        whileHover="hover"
-                        name="bus stop"
-                        id="busStops"
-                        className="w-full py-3 px-2 rounded-sm"
-                        value={to}
-                        onChange={(e) => setTo(e.target.value)}
-                      >
-                        <option value={""}>Choose your destination</option>
-                        {busStops?.map((bs: any) => {
-                          if (bs?.state === "Ibadan") {
-                            return (
-                              <option value={bs?._id} className="py-2">
-                                {bs.name},{bs?.state}
-                              </option>
-                            );
-                          }
-                        })}
-                      </motion.select>
-                    </>
-                  ) : (
-                    <>
-                      <label className="mt-5">Start bus stop</label>
-                      <motion.select
-                        variants={zoomOutAnimation}
-                        initial="initial"
-                        whileHover="hover"
-                        name="bus stop"
-                        id="busStops"
-                        className="w-full py-3 px-2 rounded-sm"
-                        value={from}
-                        onChange={(e) => setFrom(e.target.value)}
-                      >
-                        <option value={""}>From where </option>
-                        {busStops?.map((bs: any) => {
-                          if (bs?.state === "Ibadan") {
-                            return (
-                              <option value={bs._id} className="py-2">
-                                {bs.name},{bs?.state}
-                              </option>
-                            );
-                          }
-                        })}
-                      </motion.select>
-
-                      <label className="mt-5">Destination bus stop</label>
-                      <motion.select
-                        variants={zoomOutAnimation}
-                        initial="initial"
-                        whileHover="hover"
-                        value={to}
-                        onChange={(e) => setTo(e.target.value)}
-                        name="bus stop"
-                        className="w-full py-3 px-2 rounded-sm "
-                      >
-                        <option value={""}> Choose your destination</option>
-
-                        {busStops?.map((bs: any) => {
-                          if (bs?.state !== "Ibadan") {
-                            return (
-                              <option value={bs?._id} className="py-2">
-                                {bs.name},{bs?.state}
-                              </option>
-                            );
-                          }
-                        })}
-                      </motion.select>
-                    </>
-                  )}
-
-                </div> */}
-
-              <motion.div
-                // variants={zoomOutAnimation}
-                initial="initial"
-                whileHover="hover"
-              >
-                <Button
-                  title="See available trips"
-                  className={
-                    isValid
-                      ? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm p-3 font-medium rounded-lg"
-                      : "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm p-3 font-medium rounded-lg"
+            <motion.div
+              // variants={zoomOutAnimation}
+              initial="initial"
+              whileHover="hover"
+            >
+              <Button
+                title="Search Trips"
+                className={
+                  isValid
+                    ? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm font-medium rounded-lg"
+                    : "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm font-medium rounded-lg"
+                }
+                onClick={() => {
+                  if (isValid) {
+                    FindAvailableTrip();
                   }
-                  onClick={() => {
-                    if (isValid) {
-                      FindAvailableTrip();
-                    }
-                  }}
-                />
-              </motion.div>
-            </div>
+                }}
+              />
+            </motion.div>
           </div>
         </div>
 
-        {/* {trip details} */}
+        {/* RIGHT COLUMN */}
 
-        <div className="w-11/12 lg:w-[680px] my-5 lg:mt-0">
-          <div className="w-full px-0 lg:bg-white lg:py-12 lg:px-8 h-full">
-            <div className="flex flex-row w-full px-4 py-5 ">
-              {/* <motion.h5
-                initial={"initial"}
-                className="flex justify-center w-full p-1 px-3 font-bold bg-green-500 aligns-center hover:cursor-pointer"
-              >
-                Available Trips
-              </motion.h5> */}
+        <div
+          className="w-7/12 h-5/6 rounded-t-md mx-16 my-32 overflow-y-scroll scroll-behavior-smooth"
+          style={{ position: "fixed", top: "0", right: "0" }}
+        >
+          <div
+            className="w-7/12 rounded-t-md mx-16 my-32 h-16 bg-[#00ff6a] z-10 justify-center items-center"
+            style={{ position: "fixed", top: "0", right: "0" }}
+          >
+            <h1 className="">Available Trips</h1>
+          </div>
 
-              {/* <span className="ml-4">
-                {availableTripLoading && (
-                  <>
-                    <Spin size="small" />
-                  </>
-                )}
-              </span> */}
-            </div>
+          <div className="mt-16 w-full px-12 py-6 bg-white h-max">
             {availableTripData?.length === 0 && (
               <Alert
                 type="info"
-                message="Sorry there are no avialable trip to the destination selected"
+                message="Sorry there are no available trips to the destination selected"
               />
             )}
             {availableTripError && (
