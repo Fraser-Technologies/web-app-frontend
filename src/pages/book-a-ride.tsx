@@ -101,8 +101,8 @@ const BookRide = () => {
 
   const isValid =
     selectedCity !== "Set your current city" &&
-    destinationBusStop !== "Select Destination busstop" &&
-    startBusStop !== "Select pickup busstop";
+    destinationBusStop !== "Select Destination bus stop" &&
+    startBusStop !== "Select start bus stop";
 
   const CreateUser = () => {
     return dispatch(

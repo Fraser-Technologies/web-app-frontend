@@ -105,8 +105,8 @@ const Bookings = () => {
   //VALIDATE BUTTON BEFORE CLICK
   const isValid =
     city !== "Set your current city" &&
-    destination !== "Select Destination busstop" &&
-    start !== "Select pickup busstop";
+    destination !== "Select Destination bus stop" &&
+    start !== "Select start bus stop";
 
   //
   useEffect(() => {
@@ -469,7 +469,57 @@ const Bookings = () => {
               </div>
 
               <div className=" rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 w-full px-6 lg:px-12 py-6 lg:py-0 bg-white h-max overflow-y-scroll scroll-behavior-smooth">
-                {availableTripData?.length === 0 && (
+                {availableTripLoading ? (
+                  <div className="px-6 py-2 mb-8 animate-pulse flex space-x-4">
+                    <div className="flex-1 space-y-6 py-1">
+                      <div className="h-2 bg-slate-200 rounded"></div>
+                      <div className="space-y-3">
+                        <div className="grid grid-cols-3 gap-4">
+                          <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                          <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                        </div>
+                        <div className="h-2 bg-slate-200 rounded"></div>
+                      </div>
+                    </div>
+                  </div>
+                ) : availableTripError ? (
+                  <Alert
+                    message="An error occured"
+                    description={availableTripError}
+                    type="error"
+                    showIcon
+                  />
+                ) : availableTripData?.length === 0 ? (
+                  <Alert
+                    type="info"
+                    message="Sorry there are no available trips to the destination selected"
+                  />
+                ) : (
+                  availableTripData?.map((trip: any) => {
+                    if (trip?.travel_destination?.from?.name.includes(start)) {
+                      return (
+                        <BookingCard
+                          key={trip?._id}
+                          from={`${trip?.travel_destination?.from?.name}`}
+                          // ${trip?.travel_destination?.from?.state} - removed state from from
+                          to={`${trip?.travel_destination?.to?.name} `}
+                          // ${trip?.travel_destination?.to?.state} - removed state from to
+                          takeOffTime={trip?.take_off_time}
+                          takeOffDate={trip?.take_off_date}
+                          price={trip?.price}
+                          arrivalTime={trip?.arrival_time}
+                          arrivalDate={trip?.arrival_date}
+                          onClick={() => {
+                            dispatch(addToMyBookinAction(trip));
+                            navigate("/checkout");
+                          }}
+                        />
+                      );
+                    }
+                  })
+                )}
+
+                {/* {availableTripData?.length === 0 && (
                   <Alert
                     type="info"
                     message="Sorry there are no available trips to the destination selected"
@@ -482,30 +532,7 @@ const Bookings = () => {
                     type="error"
                     showIcon
                   />
-                )}
-
-                {availableTripData?.map((trip: any) => {
-                  if (trip?.travel_destination?.from?.name.includes(start)) {
-                    return (
-                      <BookingCard
-                        key={trip?._id}
-                        from={`${trip?.travel_destination?.from?.name}`}
-                        // ${trip?.travel_destination?.from?.state} - removed state from from
-                        to={`${trip?.travel_destination?.to?.name} `}
-                        // ${trip?.travel_destination?.to?.state} - removed state from to
-                        takeOffTime={trip?.take_off_time}
-                        takeOffDate={trip?.take_off_date}
-                        price={trip?.price}
-                        arrivalTime={trip?.arrival_time}
-                        arrivalDate={trip?.arrival_date}
-                        onClick={() => {
-                          dispatch(addToMyBookinAction(trip));
-                          navigate("/checkout");
-                        }}
-                      />
-                    );
-                  }
-                })}
+                )} */}
               </div>
             </div>
           </div>
