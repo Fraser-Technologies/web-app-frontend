@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useRef, useEffect, useState } from "react";
 import { Helmet } from "react-helmet";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../components/bookingCard";
@@ -99,8 +99,8 @@ const Bookings = () => {
     }
   };
 
-  console.log("the from part is ", from);
-  console.log(" the to part is ", to);
+  // console.log("the from part is ", from);
+  // console.log(" the to part is ", to);
 
   //VALIDATE BUTTON BEFORE CLICK
   const isValid =
@@ -120,6 +120,24 @@ const Bookings = () => {
       dispatch(getAllBusStop());
     }
   }, [busStops, dispatch]);
+
+  // CLOSE DROPDOWN ON CLICK OUTSIDE
+  // const dropdownRef = useRef(null);
+  // const dropdownRef: React.RefObject<HTMLDivElement> = useRef(null);
+
+  // useEffect(() => {
+  //   const handleClick = (event: any) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(event.target)) {
+  //       setstartIsOpen(false);
+  //     }
+  //   };
+
+  //   document.addEventListener("click", handleClick);
+
+  //   return () => {
+  //     document.removeEventListener("click", handleClick);
+  //   };
+  // }, [dropdownRef]);
 
   return (
     <Layout childClass="">
@@ -233,6 +251,7 @@ const Bookings = () => {
 
                     {/* START BUSSTOP */}
                     <motion.div
+                      // ref={dropdownRef}
                       className="relative inline text-left z-30"
                       // variants={zoomOutAnimation}
                       initial="initial"
@@ -266,9 +285,18 @@ const Bookings = () => {
                           <div className="w-full absolute mt-2 rounded-md shadow-lg">
                             <div className="w-full rounded-md bg-white shadow-xs">
                               <div className="w-full py-4">
-                                {busStops == null || undefined ? (
-                                  <div className="loading-animation">
-                                    <h3>Loading...</h3>
+                                {busStops == null ? (
+                                  <div className="px-6 py-2 animate-pulse flex space-x-4">
+                                    <div className="flex-1 space-y-6 py-1">
+                                      <div className="h-2 bg-slate-200 rounded"></div>
+                                      <div className="space-y-3">
+                                        <div className="grid grid-cols-3 gap-4">
+                                          <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                                          <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                                        </div>
+                                        <div className="h-2 bg-slate-200 rounded"></div>
+                                      </div>
+                                    </div>
                                   </div>
                                 ) : (
                                   busStops?.map((option: any) => {
@@ -319,7 +347,10 @@ const Bookings = () => {
                       Destination
                     </label>
 
-                    <div className="relative inline text-left z-20">
+                    <motion.div
+                      className="relative inline text-left z-20"
+                      // ref={dropdownRef}
+                    >
                       <div>
                         <span className="rounded-md shadow-sm">
                           <button
@@ -345,54 +376,68 @@ const Bookings = () => {
                       </div>
                       {destinationOpen && (
                         <>
-                          <div className="w-full absolute mt-2 rounded-md shadow-lg">
-                            <div className="w-full rounded-md bg-white shadow-xs">
+                          <div className=" w-full absolute mt-2 rounded-md shadow-lg">
+                            <div className=" w-full rounded-md bg-white shadow-xs">
                               <div className="w-full py-4">
-                                {busStops == null || undefined ? (
-                                  <div className="loading-animation">
-                                    <h3>Loading...</h3>
-                                  </div>
-                                ) : (
-                                  busStops?.map((option: any) => {
-                                    if (city === "Lagos") {
-                                      if (option?.state === "Ibadan") {
-                                        return (
-                                          <a
-                                            href="#"
-                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                            onClick={() => {
-                                              handledestination(option.name);
-                                              setTo(option?._id);
-                                            }}
-                                          >
-                                            {option.name}
-                                          </a>
-                                        );
+                                {
+                                  // busStops === null ||
+                                  // undefined ||
+                                  // busStops?.map.length === 0 ?
+                                  busStops == null ? (
+                                    <div className="px-6 py-2 animate-pulse flex space-x-4">
+                                      <div className="flex-1 space-y-6 py-1">
+                                        <div className="h-2 bg-slate-200 rounded"></div>
+                                        <div className="space-y-3">
+                                          <div className="grid grid-cols-3 gap-4">
+                                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
+                                          </div>
+                                          <div className="h-2 bg-slate-200 rounded"></div>
+                                        </div>
+                                      </div>
+                                    </div>
+                                  ) : (
+                                    busStops?.map((option: any) => {
+                                      if (city === "Lagos") {
+                                        if (option?.state === "Ibadan") {
+                                          return (
+                                            <a
+                                              href="#"
+                                              className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                              onClick={() => {
+                                                handledestination(option.name);
+                                                setTo(option?._id);
+                                              }}
+                                            >
+                                              {option.name}
+                                            </a>
+                                          );
+                                        }
+                                      } else if (city === "Ibadan") {
+                                        if (option?.state !== "Ibadan") {
+                                          return (
+                                            <a
+                                              href="#"
+                                              className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                              onClick={() => {
+                                                handledestination(option.name);
+                                                setTo(option?._id);
+                                              }}
+                                            >
+                                              {option.name}
+                                            </a>
+                                          );
+                                        }
                                       }
-                                    } else if (city === "Ibadan") {
-                                      if (option?.state !== "Ibadan") {
-                                        return (
-                                          <a
-                                            href="#"
-                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                            onClick={() => {
-                                              handledestination(option.name);
-                                              setTo(option?._id);
-                                            }}
-                                          >
-                                            {option.name}
-                                          </a>
-                                        );
-                                      }
-                                    }
-                                  })
-                                )}
+                                    })
+                                  )
+                                }
                               </div>
                             </div>
                           </div>
                         </>
                       )}
-                    </div>
+                    </motion.div>
                   </>
                 </motion.div>
 
