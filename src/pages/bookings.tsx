@@ -428,23 +428,26 @@ const Bookings = () => {
                 )}
 
                 {availableTripData?.map((trip: any) => {
-                  return (
-                    <BookingCard
-                      key={trip?._id}
-                      from={`${trip?.travel_destination?.from?.name} 
-										${trip?.travel_destination?.from?.state}`}
-                      to={`${trip?.travel_destination?.to?.name}, ${trip?.travel_destination?.to?.state}`}
-                      takeOffTime={trip?.take_off_time}
-                      takeOffDate={trip?.take_off_date}
-                      price={trip?.price}
-                      arrivalTime={trip?.arrival_time}
-                      arrivalDate={trip?.arrival_date}
-                      onClick={() => {
-                        dispatch(addToMyBookinAction(trip));
-                        navigate("/checkout");
-                      }}
-                    />
-                  );
+                  if (trip?.travel_destination?.from?.name.includes(start)) {
+                    return (
+                      <BookingCard
+                        key={trip?._id}
+                        from={`${trip?.travel_destination?.from?.name}`}
+                        // ${trip?.travel_destination?.from?.state} - removed state from from
+                        to={`${trip?.travel_destination?.to?.name} `}
+                        // ${trip?.travel_destination?.to?.state} - removed state from to
+                        takeOffTime={trip?.take_off_time}
+                        takeOffDate={trip?.take_off_date}
+                        price={trip?.price}
+                        arrivalTime={trip?.arrival_time}
+                        arrivalDate={trip?.arrival_date}
+                        onClick={() => {
+                          dispatch(addToMyBookinAction(trip));
+                          navigate("/checkout");
+                        }}
+                      />
+                    );
+                  }
                 })}
               </div>
             </div>
