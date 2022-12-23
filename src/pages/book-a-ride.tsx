@@ -142,7 +142,7 @@ const BookRide = () => {
 	}, [loginError, messageApi, userInfo]);
 
 	return (
-		<Layout user="Amen" childClass="">
+		<Layout childClass="">
 			{contextHolder}
 			<Helmet>
 				<meta charSet="utf-8" />
