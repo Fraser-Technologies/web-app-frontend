@@ -402,7 +402,7 @@ const Bookings = () => {
             {/* RIGHT COLUMN */}
             <div
               className={
-                "fixed w-full mt-4 h-5/6 lg:w-7/12 lg:mt-40 rounded-t-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0"
+                "fixed w-full mt-4 h-5/6 lg:w-7/12 lg:mt-40 rounded-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0"
               }
             >
               <div className="fixed -mt-1 w-full lg:w-7/12 rounded-t-md lg:mx-16 lg:my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center lg:fixed lg:top-0 lg:right-0">
@@ -411,7 +411,7 @@ const Bookings = () => {
                 </h1>
               </div>
 
-              <div className="mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 w-full px-6 lg:px-12 py-6 lg:py-0 bg-white h-max overflow-y-scroll scroll-behavior-smooth">
+              <div className=" rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 w-full px-6 lg:px-12 py-6 lg:py-0 bg-white h-max overflow-y-scroll scroll-behavior-smooth">
                 {availableTripData?.length === 0 && (
                   <Alert
                     type="info"
