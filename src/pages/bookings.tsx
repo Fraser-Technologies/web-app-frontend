@@ -266,40 +266,46 @@ const Bookings = () => {
                           <div className="w-full absolute mt-2 rounded-md shadow-lg">
                             <div className="w-full rounded-md bg-white shadow-xs">
                               <div className="w-full py-4">
-                                {busStops?.map((option: any) => {
-                                  // availableTripLoading ? {}
-                                  if (city === "Lagos") {
-                                    if (option?.state !== "Ibadan") {
-                                      return (
-                                        <a
-                                          href="#"
-                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                          onClick={() => {
-                                            handlestart(option.name);
-                                            setFrom(option?._id);
-                                          }}
-                                        >
-                                          {option.name}
-                                        </a>
-                                      );
+                                {busStops == null || undefined ? (
+                                  <div className="loading-animation">
+                                    <h3>Loading...</h3>
+                                  </div>
+                                ) : (
+                                  busStops?.map((option: any) => {
+                                    // availableTripLoading ? {}
+                                    if (city === "Lagos") {
+                                      if (option?.state !== "Ibadan") {
+                                        return (
+                                          <a
+                                            href="#"
+                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                            onClick={() => {
+                                              handlestart(option.name);
+                                              setFrom(option?._id);
+                                            }}
+                                          >
+                                            {option.name}
+                                          </a>
+                                        );
+                                      }
+                                    } else if (city === "Ibadan") {
+                                      if (option?.state === "Ibadan") {
+                                        return (
+                                          <a
+                                            href="#"
+                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                            onClick={() => {
+                                              handlestart(option.name);
+                                              setFrom(option?._id);
+                                            }}
+                                          >
+                                            {option.name}
+                                          </a>
+                                        );
+                                      }
                                     }
-                                  } else if (city === "Ibadan") {
-                                    if (option?.state === "Ibadan") {
-                                      return (
-                                        <a
-                                          href="#"
-                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                          onClick={() => {
-                                            handlestart(option.name);
-                                            setFrom(option?._id);
-                                          }}
-                                        >
-                                          {option.name}
-                                        </a>
-                                      );
-                                    }
-                                  }
-                                })}
+                                  })
+                                )}
                               </div>
                             </div>
                           </div>
@@ -342,39 +348,45 @@ const Bookings = () => {
                           <div className="w-full absolute mt-2 rounded-md shadow-lg">
                             <div className="w-full rounded-md bg-white shadow-xs">
                               <div className="w-full py-4">
-                                {busStops?.map((option: any) => {
-                                  if (city === "Lagos") {
-                                    if (option?.state === "Ibadan") {
-                                      return (
-                                        <a
-                                          href="#"
-                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                          onClick={() => {
-                                            handledestination(option.name);
-                                            setTo(option?._id);
-                                          }}
-                                        >
-                                          {option.name}
-                                        </a>
-                                      );
+                                {busStops == null || undefined ? (
+                                  <div className="loading-animation">
+                                    <h3>Loading...</h3>
+                                  </div>
+                                ) : (
+                                  busStops?.map((option: any) => {
+                                    if (city === "Lagos") {
+                                      if (option?.state === "Ibadan") {
+                                        return (
+                                          <a
+                                            href="#"
+                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                            onClick={() => {
+                                              handledestination(option.name);
+                                              setTo(option?._id);
+                                            }}
+                                          >
+                                            {option.name}
+                                          </a>
+                                        );
+                                      }
+                                    } else if (city === "Ibadan") {
+                                      if (option?.state !== "Ibadan") {
+                                        return (
+                                          <a
+                                            href="#"
+                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                            onClick={() => {
+                                              handledestination(option.name);
+                                              setTo(option?._id);
+                                            }}
+                                          >
+                                            {option.name}
+                                          </a>
+                                        );
+                                      }
                                     }
-                                  } else if (city === "Ibadan") {
-                                    if (option?.state !== "Ibadan") {
-                                      return (
-                                        <a
-                                          href="#"
-                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                          onClick={() => {
-                                            handledestination(option.name);
-                                            setTo(option?._id);
-                                          }}
-                                        >
-                                          {option.name}
-                                        </a>
-                                      );
-                                    }
-                                  }
-                                })}
+                                  })
+                                )}
                               </div>
                             </div>
                           </div>
