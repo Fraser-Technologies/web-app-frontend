@@ -77,6 +77,9 @@ const BookRide = () => {
 		useAppSelector((state: any) => state.registerUser);
 	const { busStops } = useAppSelector((state: any) => state.allBusStop);
 
+	console.log("the start is ", from);
+	console.log("the end is ", to);
+
 	const handleAvailableTrips = () => {
 		// console.log(selectedCity, destinationBusStop, startBusStop);
 		// console.log(typeof from, from, typeof to, to);
@@ -254,11 +257,12 @@ const BookRide = () => {
 																	if (option?.state !== "Ibadan") {
 																		return (
 																			<a
+																				key={option?.name}
 																				href="#"
 																				className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																				onClick={() => {
 																					handleStartBusStop(option.name);
-																					setFrom(option.target.name);
+																					setFrom(option?._id);
 																				}}>
 																				{option.name}
 																			</a>
@@ -268,11 +272,12 @@ const BookRide = () => {
 																	if (option?.state === "Ibadan") {
 																		return (
 																			<a
+																				key={option}
 																				href="#"
 																				className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																				onClick={() => {
 																					handleStartBusStop(option.name);
-																					setFrom(option.target.name);
+																					setFrom(option?._id);
 																				}}>
 																				{option.name}
 																			</a>
@@ -325,11 +330,12 @@ const BookRide = () => {
 																	if (option?.state === "Ibadan") {
 																		return (
 																			<a
+																				key={option?.state}
 																				href="#"
 																				className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																				onClick={() => {
 																					handleDestinationBusStop(option.name);
-																					setTo(option.target.name);
+																					setTo(option?._id);
 																				}}>
 																				{option.name}
 																			</a>
@@ -339,11 +345,12 @@ const BookRide = () => {
 																	if (option?.state !== "Ibadan") {
 																		return (
 																			<a
+																				key={option?._id}
 																				href="#"
 																				className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																				onClick={() => {
 																					handleDestinationBusStop(option.name);
-																					setTo(option.target.name);
+																					setTo(option?._id);
 																				}}>
 																				{option.name}
 																			</a>
@@ -412,11 +419,6 @@ const BookRide = () => {
 											type="warning"
 											showIcon
 											className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
-											// style={{
-											// 	width: "100%",
-											// 	fontSize: "0.8rem",
-											// 	fontWeight: "normal",
-											// }}
 										/>
 									) : (
 										<></>
@@ -533,7 +535,6 @@ const BookRide = () => {
 													className=" text-white"
 													role="status"
 													variant="light"
-													//   style={{ width: "1.5rem", height: "1.5rem" }}
 												/>
 											)}
 										</span>
@@ -571,10 +572,7 @@ const BookRide = () => {
 
 								{/* USER LOGIN */}
 								<div>
-									<motion.button
-										initial="initial"
-										whileTap="tap"
-										whileHover="hover"
+									<button
 										className="w-full p-3 mt-6 font-medium bg-[#00ff6a] hover:bg-[#58FF9E] rounded-lg"
 										onClick={LoginUser}>
 										Continue
@@ -587,17 +585,13 @@ const BookRide = () => {
 												/>
 											)}
 										</span>
-									</motion.button>
+									</button>
 
-									<motion.button
-										// variants={zoomOutAnimation}
-										initial="initial"
-										whileTap="tap"
-										// whileHover="hover"
+									<button
 										className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
 										onClick={() => setFlip(!flip)}>
 										I don't have an account
-									</motion.button>
+									</button>
 								</div>
 							</div>
 						)}
