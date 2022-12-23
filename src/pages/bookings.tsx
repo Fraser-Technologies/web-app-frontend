@@ -146,6 +146,35 @@ const Bookings = () => {
 							/>
 						)}
 					</div>
+      <div className="lg:flex w-full flex-col h-full">
+        {/* h-full w-full overflow-y-scroll scroll-behavior-smooth items-center justify-center */}
+        {/* LEFT COLUMN */}
+        <div
+          className="lg:w-4/12 lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0 "
+          //
+          // onClick={whereToToggleClick}
+        >
+          <div
+            className={
+              whereToToggle === true
+                ? "py-6 px-6 lg:px-12 lg:mr-12 bg-white rounded-t-md border-b border-[#EFF3EF] flex space-between items-center justify-between"
+                : "py-6 px-6 lg:px-12 lg:mr-12 bg-white rounded-md border-b border-[#EFF3EF] flex space-between items-center justify-between"
+            }
+          >
+            {" "}
+            <h3 className="text-lg font-semibold">Where to?</h3>{" "}
+            {whereToToggle === false ? (
+              <BsChevronDown
+                onClick={whereToToggleClick}
+                className="cursor-pointer stroke-2 lg:hidden"
+              />
+            ) : (
+              <BsChevronUp
+                onClick={whereToToggleClick}
+                className="cursor-pointer stroke-2 lg:hidden"
+              />
+            )}
+          </div>
 
 					<div
 						className={
@@ -278,6 +307,81 @@ const Bookings = () => {
 										</>
 									)}
 								</motion.div>
+                {/* START BUSSTOP */}
+                <motion.div
+                  className="relative inline text-left z-30"
+                  // variants={zoomOutAnimation}
+                  initial="initial"
+                  whileHover="hover"
+                >
+                  <div>
+                    <span className="rounded-md shadow-sm">
+                      <button
+                        type="button"
+                        className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                        onClick={handlestartClick}
+                        onChange={handlestart}
+                      >
+                        {start}
+                        <svg
+                          className="-mr-1 ml-2 h-5 w-5 ml-auto text"
+                          viewBox="0 0 20 20"
+                          fill="currentColor"
+                        >
+                          <path
+                            fillRule="evenodd"
+                            d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
+                            clipRule="evenodd"
+                          />
+                        </svg>
+                      </button>
+                    </span>
+                  </div>
+                  {startOpen && (
+                    <>
+                      <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                        <div className="w-full rounded-md bg-white shadow-xs">
+                          <div className="w-full py-4">
+                            {busStops?.map((option: any) => {
+                              // availableTripLoading ? {}
+                              if (city === "Lagos") {
+                                if (option?.state !== "Ibadan") {
+                                  return (
+                                    <a
+                                      href="#"
+                                      className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                      onClick={() => {
+                                        handlestart(option.name);
+                                        setFrom(option.target.name);
+                                      }}
+                                    >
+                                      {option.name}
+                                    </a>
+                                  );
+                                }
+                              } else if (city === "Ibadan") {
+                                if (option?.state === "Ibadan") {
+                                  return (
+                                    <a
+                                      href="#"
+                                      className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                      onClick={() => {
+                                        handlestart(option.name);
+                                        setFrom(option.target.name);
+                                      }}
+                                    >
+                                      {option.name}
+                                    </a>
+                                  );
+                                }
+                              }
+                            })}
+                          </div>
+                        </div>
+                      </div>
+                    </>
+                  )}
+                </motion.div>
 
 								{/* DESTINATION BUSSTOP */}
 
@@ -352,6 +456,7 @@ const Bookings = () => {
 							</>
 						</motion.div>
 
+<<<<<<< HEAD
 						<motion.div
 							// variants={zoomOutAnimation}
 							initial="initial"
@@ -411,6 +516,73 @@ const Bookings = () => {
 								showIcon
 							/>
 						)}
+=======
+            <motion.div
+              // variants={zoomOutAnimation}
+              initial="initial"
+              whileHover="hover"
+            >
+              <Button
+                title="Search Trips"
+                className={
+                  isValid
+                    ? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm font-medium rounded-lg"
+                    : "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm font-medium rounded-lg"
+                }
+                onClick={() => {
+                  if (isValid) {
+                    FindAvailableTrip();
+                    // if (availableTripLoading === true) {
+                    //   // return;
+                    //   setwhereToToggle(true);
+                    // } else if (availableTripError === true)
+                    // setwhereToToggle(true);
+                    //     // whereToToggleClick();
+                    //   // availableTripLoading,
+                    //   //   availableTripError,
+                    //   //   availableTripData,
+                    //     // setwhereToToggle(!whereToToggle);
+                    // }else {
+                    //   setwhereToToggle(false);
+                  }
+                }}
+              />
+            </motion.div>
+          </div>
+        </div>
+
+        {/* RIGHT COLUMN */}
+        <div
+          className={
+            "fixed w-full mt-4 h-5/6 lg:w-7/12 lg:mt-40 rounded-t-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0"
+          }
+          // style={{ position: "fixed", top: "0", right: "0" }}
+        >
+          <div
+            className="fixed -mt-1 w-full lg:w-7/12 rounded-t-md lg:mx-16 lg:my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center lg:fixed lg:top-0 lg:right-0"
+            // style={{ position: "fixed", top: "0", right: "0" }}
+          >
+            <h1 className="text-lg mx-6 lg:ml-12 pt-4 lg:mt-2 font-semibold">
+              Available Trips
+            </h1>
+          </div>
+
+          <div className="mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 w-full px-6 lg:px-12 py-6 lg:py-0 bg-white h-max overflow-y-scroll scroll-behavior-smooth">
+            {availableTripData?.length === 0 && (
+              <Alert
+                type="info"
+                message="Sorry there are no available trips to the destination selected"
+              />
+            )}
+            {availableTripError && (
+              <Alert
+                message="An error occured"
+                description={availableTripError}
+                type="error"
+                showIcon
+              />
+            )}
+>>>>>>> 5857fb78e33aa0b921691395c8c1a0e31df2e216
 
 						{availableTripData?.map((trip: any) => {
 							return (
