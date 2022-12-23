@@ -91,6 +91,9 @@ const Bookings = () => {
 		}
 	};
 
+	console.log("the from part is ", from);
+	console.log(" the to part is ", to);
+
 	//VALIDATE BUTTON BEFORE CLICK
 	const isValid =
 		city !== "Set your current city" &&
@@ -154,7 +157,7 @@ const Bookings = () => {
 							//
 							// onClick={whereToToggleClick}
 						>
-							<div
+							{/* <div
 								className={
 									whereToToggle === true
 										? "py-6 px-6 lg:px-12 lg:mr-12 bg-white rounded-t-md border-b border-[#EFF3EF] flex space-between items-center justify-between"
@@ -173,7 +176,7 @@ const Bookings = () => {
 										className="cursor-pointer stroke-2 lg:hidden"
 									/>
 								)}
-							</div>
+							</div> */}
 
 							<div
 								className={
@@ -278,7 +281,7 @@ const Bookings = () => {
 																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																					onClick={() => {
 																						handlestart(option.name);
-																						setFrom(option.target.name);
+																						setFrom(option?._id);
 																					}}>
 																					{option.name}
 																				</a>
@@ -292,77 +295,7 @@ const Bookings = () => {
 																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																					onClick={() => {
 																						handlestart(option.name);
-																						setFrom(option.target.name);
-																					}}>
-																					{option.name}
-																				</a>
-																			);
-																		}
-																	}
-																})}
-															</div>
-														</div>
-													</div>
-												</>
-											)}
-										</motion.div>
-										{/* START BUSSTOP */}
-										<motion.div
-											className="relative inline text-left z-30"
-											// variants={zoomOutAnimation}
-											initial="initial"
-											whileHover="hover">
-											<div>
-												<span className="rounded-md shadow-sm">
-													<button
-														type="button"
-														className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-														onClick={handlestartClick}
-														onChange={handlestart}>
-														{start}
-														<svg
-															className="-mr-1 ml-2 h-5 w-5 ml-auto text"
-															viewBox="0 0 20 20"
-															fill="currentColor">
-															<path
-																fillRule="evenodd"
-																d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-																clipRule="evenodd"
-															/>
-														</svg>
-													</button>
-												</span>
-											</div>
-											{startOpen && (
-												<>
-													<div className="w-full absolute mt-2 rounded-md shadow-lg">
-														<div className="w-full rounded-md bg-white shadow-xs">
-															<div className="w-full py-4">
-																{busStops?.map((option: any) => {
-																	// availableTripLoading ? {}
-																	if (city === "Lagos") {
-																		if (option?.state !== "Ibadan") {
-																			return (
-																				<a
-																					href="#"
-																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-																					onClick={() => {
-																						handlestart(option.name);
-																						setFrom(option.target.name);
-																					}}>
-																					{option.name}
-																				</a>
-																			);
-																		}
-																	} else if (city === "Ibadan") {
-																		if (option?.state === "Ibadan") {
-																			return (
-																				<a
-																					href="#"
-																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-																					onClick={() => {
-																						handlestart(option.name);
-																						setFrom(option.target.name);
+																						setFrom(option?._id);
 																					}}>
 																					{option.name}
 																				</a>
@@ -419,7 +352,7 @@ const Bookings = () => {
 																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																					onClick={() => {
 																						handledestination(option.name);
-																						setTo(option.target.name);
+																						setTo(option?._id);
 																					}}>
 																					{option.name}
 																				</a>
@@ -433,7 +366,7 @@ const Bookings = () => {
 																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																					onClick={() => {
 																						handledestination(option.name);
-																						setTo(option.target.name);
+																						setTo(option?._id);
 																					}}>
 																					{option.name}
 																				</a>
