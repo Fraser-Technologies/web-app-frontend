@@ -24,7 +24,7 @@ export const getAllBusStop = (): AppThunk => async (dispatch) => {
 	try {
 		dispatch(getAllBusStopRequest());
 		const { data } = await api.get("/busstop");
-		dispatch(getAllbusStopSuccess(data?.data));
+		dispatch(getAllbusStopSuccess(data));
 	} catch (error) {
 		dispatch(getAllBusStopFailed(RequestError(error)));
 	}

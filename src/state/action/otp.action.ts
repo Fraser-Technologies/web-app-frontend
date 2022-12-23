@@ -34,24 +34,12 @@ export const VerifyOtpAction =
 				otp: otp,
 			});
 
-			if (data?.data) {
+			if (data) {
 				dispatch(verifyOtpSuccess(data));
+				if (data?._id) {
+					dispatch(loginSuccess(data));
 
-				if (data?.data) {
-					dispatch(
-						loginSuccess({
-							...data?.data?._doc,
-							user_token: data?.data?.user_token,
-						})
-					);
-
-					Cookie.set(
-						"userInfo",
-						JSON.stringify({
-							user: data?.data?._doc,
-							user_token: data?.data?.user_tol,
-						})
-					);
+					Cookie.set("userInfo", JSON.stringify(data));
 				}
 			} else {
 				dispatch(verifyOtpSuccess(data));
