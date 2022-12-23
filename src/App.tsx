@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 // import { persistStore } from "redux-persist";
 // import { PersistGate } from "redux-persist/integration/react";
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
 import { Provider, useDispatch } from "react-redux";
 import { AuthProvider } from "./providers/AuthContext";
 import { CircularProgress } from "@mui/material";
@@ -86,7 +86,9 @@ const Booking = loadable(() => import("./pages/bookings"), {
 
 const App = () => {
 	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 	const { busStops } = useAppSelector((state: any) => state.allBusStop);
+	const { userInfo } = useAppSelector((state: any) => state.userLogin);
 
 	useEffect(() => {
 		if (!busStops?.length) {
@@ -94,8 +96,14 @@ const App = () => {
 		}
 	}, [busStops?.length, dispatch]);
 
+	useEffect(() => {
+		if (!userInfo?._id) {
+			navigate("/book-a-ride");
+		}
+	}, []);
+
 	return (
-		<BrowserRouter>
+		<>
 			<AuthProvider>
 				<Routes>
 					<Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
@@ -106,7 +114,7 @@ const App = () => {
 					<Route path={_paths_.CHECKOUT} element={<Checkout />} />
 				</Routes>
 			</AuthProvider>
-		</BrowserRouter>
+		</>
 	);
 };
 

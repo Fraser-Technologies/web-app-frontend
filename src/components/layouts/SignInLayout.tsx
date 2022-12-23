@@ -8,11 +8,11 @@ interface Props {
 	childClass?: string;
 }
 
-const Layout = ({ children, user, bg, childClass }: Props) => {
+const Layout = ({ children, bg, childClass }: Props) => {
 	return (
 		<div className="h-full font-sans">
 			<div className={`h-full ${bg}`}>
-				<Header user={user} />
+				<Header />
 				<div className="h-[70px]"></div>
 				<div className={`${childClass}`}>{children}</div>
 			</div>

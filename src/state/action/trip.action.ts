@@ -23,7 +23,7 @@ export const getAvailableTripAction =
 
 			console.log("the available trip data is ", data);
 
-			dispatch(getAvailableTripSuccess(data?.data));
+			dispatch(getAvailableTripSuccess(data));
 		} catch (error: any) {
 			dispatch(getAvailableTripFailed(RequestError(error)));
 		}
@@ -33,8 +33,8 @@ export const getAllAvailableTripAction = (): AppThunk => async (dispatch) => {
 	dispatch(getAllAvailableTripRequest());
 	try {
 		const { data } = await api.get("/trip/uncompleted");
-		dispatch(getAvailableTripSuccess(data?.data));
-		dispatch(getAllAvailableTripSuccess(data?.data));
+		dispatch(getAvailableTripSuccess(data));
+		dispatch(getAllAvailableTripSuccess(data));
 	} catch (error: any) {
 		dispatch(getAllAvailableTripFailed(RequestError(error)));
 	}

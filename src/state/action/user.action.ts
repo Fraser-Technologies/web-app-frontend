@@ -22,11 +22,11 @@ export const registerUserAction =
 		try {
 			dispatch(registerRequest());
 			const { data } = await api.post("/user/signup", { input });
-			Cookie.set("userInfo", JSON.stringify(data?.data));
+			Cookie.set("userInfo", JSON.stringify(data));
 			dispatch(loginSuccess(data));
 			dispatch(registerSuccess(data));
 		} catch (error: any) {
-			dispatch(loginFailed(requestHeader(error)));
+			dispatch(loginFailed(RequestError(error)));
 		}
 	};
 
@@ -36,14 +36,9 @@ export const userLoginAction =
 		try {
 			dispatch(loginRequest());
 			const { data } = await api.post("/user/login", { phone });
-			const userData = {
-				...data?.data?.user,
-				user_token: data?.data?.user_token,
-			};
-			const cook = Cookie.set("userInfo", JSON.stringify(userData));
-			localStorage.setItem("userInfo", JSON.stringify(userData));
-			console.log("suppose to save to cookie ", cook);
-			dispatch(loginSuccess(userData));
+
+			localStorage.setItem("userInfo", JSON.stringify(data));
+			dispatch(loginSuccess(data));
 		} catch (error: any) {
 			dispatch(loginFailed(RequestError(error)));
 		}

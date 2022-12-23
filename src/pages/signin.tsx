@@ -33,7 +33,6 @@ const SignIn = () => {
 
 	return (
 		<Layout
-			user={user}
 			bg={
 				"h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
 			}
