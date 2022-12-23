@@ -123,7 +123,7 @@ const Bookings = () => {
         <div
           className="lg:w-4/12 lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0 "
           //
-          onClick={whereToToggleClick}
+          // onClick={whereToToggleClick}
         >
           <div
             className={
@@ -382,11 +382,18 @@ const Bookings = () => {
                 onClick={() => {
                   if (isValid) {
                     FindAvailableTrip();
-                    if (availableTripData?.length !== 0) {
-                      whereToToggleClick();
-                    } else {
-                      return;
-                    }
+                    // if (availableTripLoading === true) {
+                    //   // return;
+                    //   setwhereToToggle(true);
+                    // } else if (availableTripError === true)
+                    // setwhereToToggle(true);
+                    //     // whereToToggleClick();
+                    //   // availableTripLoading,
+                    //   //   availableTripError,
+                    //   //   availableTripData,
+                    //     // setwhereToToggle(!whereToToggle);
+                    // }else {
+                    //   setwhereToToggle(false);
                   }
                 }}
               />
@@ -397,7 +404,7 @@ const Bookings = () => {
         {/* RIGHT COLUMN */}
         <div
           className={
-            "fixed mt-4 h-5/6 lg:w-7/12 lg:mt-40 rounded-t-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0"
+            "fixed w-full mt-4 h-5/6 lg:w-7/12 lg:mt-40 rounded-t-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0"
           }
           // style={{ position: "fixed", top: "0", right: "0" }}
         >
@@ -410,7 +417,7 @@ const Bookings = () => {
             </h1>
           </div>
 
-          <div className="mt-14 lg:mt-0 lg:mb-16 lg:pt-16 w-full px-6 lg:px-12 py-6 lg:py-0 bg-white h-max overflow-y-scroll scroll-behavior-smooth">
+          <div className="mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 w-full px-6 lg:px-12 py-6 lg:py-0 bg-white h-max overflow-y-scroll scroll-behavior-smooth">
             {availableTripData?.length === 0 && (
               <Alert
                 type="info"
