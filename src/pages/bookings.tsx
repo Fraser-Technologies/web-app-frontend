@@ -84,6 +84,14 @@ const Bookings = () => {
 	// );
 
 	const FindAvailableTrip = () => {
+		// if (isValid) {
+		// 	FindAvailableTrip();
+		// 	if (availableTripData?.length !== 0) {
+		// 		whereToToggleClick();
+		// 	} else {
+		// 		return;
+		// 	}
+		// }
 		if (from && to) {
 			dispatch(getAvailableTripAction({ from: from, to: to }));
 		} else {
@@ -126,7 +134,6 @@ const Bookings = () => {
 				<div
 					className="lg:w-4/12 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0"
 					//top-24 left-6
-					onClick={whereToToggleClick}
 					// style={{ position: "fixed", top: "0", left: "0" }}
 				>
 					<div
@@ -137,7 +144,7 @@ const Bookings = () => {
 						}>
 						{" "}
 						<h3 className="text-lg font-semibold">Where to?</h3>{" "}
-						{whereToToggle === false ? (
+						{!whereToToggle ? (
 							<BsChevronDown
 								onClick={whereToToggleClick}
 								className="cursor-pointer stroke-2 lg:hidden"
@@ -155,29 +162,7 @@ const Bookings = () => {
 						<div
 							className="lg:w-4/12 lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0 "
 							//
-							// onClick={whereToToggleClick}
 						>
-							{/* <div
-								className={
-									whereToToggle === true
-										? "py-6 px-6 lg:px-12 lg:mr-12 bg-white rounded-t-md border-b border-[#EFF3EF] flex space-between items-center justify-between"
-										: "py-6 px-6 lg:px-12 lg:mr-12 bg-white rounded-md border-b border-[#EFF3EF] flex space-between items-center justify-between"
-								}>
-								{" "}
-								<h3 className="text-lg font-semibold">Where to?</h3>{" "}
-								{whereToToggle === false ? (
-									<BsChevronDown
-										onClick={whereToToggleClick}
-										className="cursor-pointer stroke-2 lg:hidden"
-									/>
-								) : (
-									<BsChevronUp
-										onClick={whereToToggleClick}
-										className="cursor-pointer stroke-2 lg:hidden"
-									/>
-								)}
-							</div> */}
-
 							<div
 								className={
 									whereToToggle === true
@@ -383,29 +368,18 @@ const Bookings = () => {
 									</>
 								</motion.div>
 
-								<motion.div
-									// variants={zoomOutAnimation}
-									initial="initial"
-									whileHover="hover">
+								<div>
 									<Button
 										title="Search Trips"
+										loader={availableTripLoading}
 										className={
 											isValid
 												? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm font-medium rounded-lg"
 												: "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm font-medium rounded-lg"
 										}
-										onClick={() => {
-											if (isValid) {
-												FindAvailableTrip();
-												if (availableTripData?.length !== 0) {
-													whereToToggleClick();
-												} else {
-													return;
-												}
-											}
-										}}
+										onClick={FindAvailableTrip}
 									/>
-								</motion.div>
+								</div>
 							</div>
 						</div>
 
@@ -453,23 +427,7 @@ const Bookings = () => {
 												? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm font-medium rounded-lg"
 												: "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm font-medium rounded-lg"
 										}
-										onClick={() => {
-											if (isValid) {
-												FindAvailableTrip();
-												// if (availableTripLoading === true) {
-												//   // return;
-												//   setwhereToToggle(true);
-												// } else if (availableTripError === true)
-												// setwhereToToggle(true);
-												//     // whereToToggleClick();
-												//   // availableTripLoading,
-												//   //   availableTripError,
-												//   //   availableTripData,
-												//     // setwhereToToggle(!whereToToggle);
-												// }else {
-												//   setwhereToToggle(false);
-											}
-										}}
+										onClick={FindAvailableTrip}
 									/>
 								</motion.div>
 							</div>
