@@ -26,7 +26,7 @@ export const registerUserAction =
 			dispatch(loginSuccess(data));
 			dispatch(registerSuccess(data));
 		} catch (error: any) {
-			dispatch(loginFailed(requestHeader(error)));
+			dispatch(loginFailed(RequestError(error)));
 		}
 	};
 
@@ -40,8 +40,6 @@ export const userLoginAction =
 			localStorage.setItem("userInfo", JSON.stringify(data));
 			dispatch(loginSuccess(data));
 		} catch (error: any) {
-			console.log("the user login error is ", error);
-
 			dispatch(loginFailed(RequestError(error)));
 		}
 	};

@@ -127,9 +127,6 @@ const BookRide = () => {
 		}
 	}, [dispatch, userInfo]);
 
-	console.log("the phone is ", phone);
-	console.log("the final result will be ", "+234", phone);
-
 	useEffect(() => {
 		if (!userInfo && loginError) {
 			messageApi.open({
@@ -411,9 +408,10 @@ const BookRide = () => {
 									{loginError ? (
 										<Alert
 											message={
-												loginError === "sorry an error occoured during login"
-													? "Please check the number provided"
-													: "Sorry an error occured"
+												// loginError === "sorry an error occoured during login"
+												// 	? "Please check the number provided"
+												// 	: "Sorry an error occured"
+												loginError
 											}
 											type="warning"
 											showIcon
