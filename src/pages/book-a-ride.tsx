@@ -485,7 +485,7 @@ const BookRide = () => {
 									</div>
 									<Input
 										className="hover:border-green-500 active:border-green-600 h-12 w-full"
-										placeholder="Phone"
+										placeholder="901 1234 123"
 										type="number"
 										value={phone}
 										prefix={"+234"}
@@ -554,7 +554,7 @@ const BookRide = () => {
 								<div className="mt-3 mb-3 pt-8">
 									<Input
 										className="hover:border-green-500 active:border-green-600 h-12 w-full"
-										placeholder="0903 123 1234"
+										placeholder="903 123 1234"
 										value={phone}
 										prefix={"+234"}
 										type="number"

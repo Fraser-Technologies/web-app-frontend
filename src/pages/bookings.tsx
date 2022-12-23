@@ -117,14 +117,13 @@ const Bookings = () => {
         <title>Fraser - Book a ride</title>
       </Helmet>
 
-      <div className="lg:flex w-full flex-col h-full overflow-y-scroll scroll-behavior-smooth items-center justify-center">
+      <div className="lg:flex w-full flex-col h-full">
         {/* h-full w-full overflow-y-scroll scroll-behavior-smooth items-center justify-center */}
         {/* LEFT COLUMN */}
         <div
-          className="lg:w-4/12 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0"
-          //top-24 left-6
+          className="lg:w-4/12 lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0 "
+          //
           onClick={whereToToggleClick}
-          // style={{ position: "fixed", top: "0", left: "0" }}
         >
           <div
             className={
@@ -250,7 +249,6 @@ const Bookings = () => {
                       <div className="w-full absolute mt-2 rounded-md shadow-lg">
                         <div className="w-full rounded-md bg-white shadow-xs">
                           <div className="w-full py-4">
-                            
                             {busStops?.map((option: any) => {
                               // availableTripLoading ? {}
                               if (city === "Lagos") {
@@ -399,22 +397,20 @@ const Bookings = () => {
         {/* RIGHT COLUMN */}
         <div
           className={
-            whereToToggle === false
-              ? "fixed mt-24 lg:h-5/6 -z-10 lg:w-7/12 lg:mt-40 bg-red-900 rounded-t-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0"
-              : "fixed mt-96 lg:h-5/6 -z-10 lg:w-7/12 lg:mt-40 bg-red-900 rounded-t-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0"
+            "fixed mt-4 h-5/6 lg:w-7/12 lg:mt-40 rounded-t-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0"
           }
           // style={{ position: "fixed", top: "0", right: "0" }}
         >
           <div
-            className="lg:w-7/12 rounded-t-md lg:mx-16 lg:my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center lg:fixed lg:top-0 lg:right-0"
+            className="fixed -mt-1 w-full lg:w-7/12 rounded-t-md lg:mx-16 lg:my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center lg:fixed lg:top-0 lg:right-0"
             // style={{ position: "fixed", top: "0", right: "0" }}
           >
-            <h1 className="text-lg mx-6 lg:ml-12 pt-4 lg:mt-4 font-semibold">
+            <h1 className="text-lg mx-6 lg:ml-12 pt-4 lg:mt-2 font-semibold">
               Available Trips
             </h1>
           </div>
 
-          <div className="lg:mt-16 w-full px-6 lg:px-12 py-6 bg-white h-max">
+          <div className="mt-14 lg:mt-0 lg:mb-16 lg:pt-16 w-full px-6 lg:px-12 py-6 lg:py-0 bg-white h-max overflow-y-scroll scroll-behavior-smooth">
             {availableTripData?.length === 0 && (
               <Alert
                 type="info"
