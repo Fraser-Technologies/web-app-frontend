@@ -70,9 +70,7 @@ const Checkout = () => {
 	};
 
 	return (
-		<Layout
-			user={`${userInfo?.first_name} ${userInfo?.last_name}`}
-			childClass="">
+		<Layout childClass="">
 			{contextHolder}
 
 			<Helmet>

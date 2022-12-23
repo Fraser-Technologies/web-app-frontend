@@ -31,7 +31,7 @@ export const Header = ({ user }: Props) => {
 				</Link>
 				{/* <Link to=""> */}
 				<h1 className="text-xl font-bold text-center">
-					{userInfo?.first_name}
+					{`${userInfo?.first_name} ${userInfo?.last_name}`}
 				</h1>
 				{/* </Link> */}
 				{/* <Button

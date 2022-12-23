@@ -28,7 +28,6 @@ const SignUp = () => {
 
 	return (
 		<Layout
-			user={user}
 			bg={
 				"md:h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
 			}
