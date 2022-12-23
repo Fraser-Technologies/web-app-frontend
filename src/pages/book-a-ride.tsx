@@ -17,6 +17,7 @@ import {
 	getAvailableTripAction,
 } from "../state/action/trip.action";
 import { Spinner } from "react-bootstrap";
+import { CircularProgress } from "@mui/material";
 
 const BookRide = () => {
 	const dispatch = useAppDispatch();
@@ -407,15 +408,9 @@ const BookRide = () => {
 								<div>
 									{loginError ? (
 										<Alert
-											message={
-												// loginError === "sorry an error occoured during login"
-												// 	? "Please check the number provided"
-												// 	: "Sorry an error occured"
-												loginError
-											}
+											message={loginError}
 											type="warning"
 											showIcon
-											// closable
 											className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
 											// style={{
 											// 	width: "100%",
@@ -441,7 +436,6 @@ const BookRide = () => {
 										description={registerUserError}
 										type="warning"
 										showIcon
-										// closable
 									/>
 								) : (
 									<></>
@@ -531,17 +525,18 @@ const BookRide = () => {
 										whileHover="hover"
 										className="w-full p-3 mt-6 font-medium bg-[#00ff6a] hover:bg-[#58FF9E] rounded-lg"
 										onClick={CreateUser}>
-										{registerUserLoading && (
-											// AMEN
-											<Spinner
-												animation="border"
-												className=" text-white"
-												role="status"
-												variant="light"
-												//   style={{ width: "1.5rem", height: "1.5rem" }}
-											/>
-										)}
 										Continue
+										<span className="ml-[2px]">
+											{registerUserLoading && (
+												<Spinner
+													animation="border"
+													className=" text-white"
+													role="status"
+													variant="light"
+													//   style={{ width: "1.5rem", height: "1.5rem" }}
+												/>
+											)}
+										</span>
 									</motion.button>
 
 									<motion.button
@@ -583,15 +578,16 @@ const BookRide = () => {
 										className="w-full p-3 mt-6 font-medium bg-[#00ff6a] hover:bg-[#58FF9E] rounded-lg"
 										onClick={LoginUser}>
 										Continue
+										<span className="ml-[2px]">
+											{loading && (
+												<Spinner
+													animation="border"
+													className="ml-3 text-green-600"
+													style={{ width: "1.5rem", height: "1.5rem" }}
+												/>
+											)}
+										</span>
 									</motion.button>
-									{loading && (
-										// AMEN
-										<Spinner
-											animation="border"
-											className="ml-3 text-green-600"
-											style={{ width: "1.5rem", height: "1.5rem" }}
-										/>
-									)}
 
 									<motion.button
 										// variants={zoomOutAnimation}
