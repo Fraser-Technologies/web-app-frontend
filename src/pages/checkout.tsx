@@ -9,63 +9,63 @@ import { ModalStyle } from "../constants/styling";
 import SeatReservation from "../components/SeatReservation";
 import { Button } from "../components/Button";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { Alert, Input, message } from "antd";
+import { Alert, message } from "antd";
 import {
-  emptyMyBooking,
-  verifyPaymentAction,
+	emptyMyBooking,
+	verifyPaymentAction,
 } from "../state/action/booking.action";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Checkout = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const [messageApi, contextHolder] = message.useMessage();
-  const [check, setCheck] = useState<boolean>(false);
-  const [showAlert, setShowAlert] = useState<boolean>(false);
-  const [isView, setIsView] = React.useState<boolean>(false);
-  const [show, setShow] = React.useState<boolean>(false);
-  const [open, setOpen] = React.useState(false);
-  const { userInfo } = useAppSelector((state: any) => state.userLogin);
-  const { myBooking } = useAppSelector((state: any) => state.booking);
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const [messageApi, contextHolder] = message.useMessage();
+	const [check, setCheck] = useState<boolean>(false);
+	const [showAlert, setShowAlert] = useState<boolean>(false);
+	const [isView, setIsView] = React.useState<boolean>(false);
+	const [show, setShow] = React.useState<boolean>(false);
+	const [open, setOpen] = React.useState(false);
+	const { userInfo } = useAppSelector((state: any) => state.userLogin);
+	const { myBooking } = useAppSelector((state: any) => state.booking);
 
-  console.log("the trip details is ", myBooking);
+	console.log("the trip details is ", myBooking);
 
-  const handleClose = () => {
-    setOpen(false);
-  };
+	const handleClose = () => {
+		setOpen(false);
+	};
 
-  const handleBookingToggle = () => {
-    setShow(!show);
-  };
+	const handleBookingToggle = () => {
+		setShow(!show);
+	};
 
-  const config = {
-    reference: new Date().getTime().toString(),
-    email: userInfo?.email || "contact@ridefrser.com",
-    amount: Number(myBooking?.price) * 100,
-    publicKey: process.env.REACT_APP_PAYSTACK_KEY,
-  };
+	const config = {
+		reference: new Date().getTime().toString(),
+		email: userInfo?.email || "contact@ridefrser.com",
+		amount: Number(myBooking?.price) * 100,
+		publicKey: process.env.REACT_APP_PAYSTACK_KEY,
+	};
 
-  const initializePayment = usePaystackPayment(config as any);
+	const initializePayment = usePaystackPayment(config as any);
 
-  const onSuccess = () => {
-    dispatch(verifyPaymentAction(myBooking));
-    message.info("Your booking have been created successfully!");
-    navigate("/");
-    dispatch(emptyMyBooking());
-  };
+	const onSuccess = () => {
+		dispatch(verifyPaymentAction(myBooking));
+		message.info("Your booking have been created successfully!");
+		navigate("/");
+		dispatch(emptyMyBooking());
+	};
 
-  const onClose = () => {
-    messageApi.open({
-      type: "error",
-      content: "An error occoured while trying to pay",
-    });
-  };
+	const onClose = () => {
+		messageApi.open({
+			type: "error",
+			content: "An error occoured while trying to pay",
+		});
+	};
 
-  const payWithPaystack = () => {
-    if (!check) {
-      return setShowAlert(true);
-    }
+	const payWithPaystack = () => {
+		if (!check) {
+			return setShowAlert(true);
+		}
 
     initializePayment(onSuccess, onClose);
   };
@@ -135,9 +135,9 @@ const Checkout = () => {
 									<p className="text-sm md:text-base">Add new passenger</p>
 								</div>
 							</div> */}
-            </div>
-            {/* {seat reservation} */}
-            {/* <div className="w-full p-8 mt-4 bg-white rounded-md lg:py-12">
+						</div>
+						{/* {seat reservation} */}
+						{/* <div className="w-full p-8 mt-4 bg-white rounded-md lg:py-12">
 							<div className="border-b border-[#EFF3EF] pb-2">
 								<h2 className="mb-3 text-sm font-medium md:text-base">
 									Seat Reservation
@@ -153,8 +153,8 @@ const Checkout = () => {
 								<BsArrowRight />
 							</div>
 						</div> */}
-            {/* {luggage weigh} */}
-            {/* <div className="w-full p-8 mt-4 bg-white rounded-md lg:py-12">
+						{/* {luggage weigh} */}
+						{/* <div className="w-full p-8 mt-4 bg-white rounded-md lg:py-12">
 							<div className="border-b border-[#EFF3EF] pb-4">
 								<h2 className="mb-3 text-sm font-medium md:text-base">
 									Luggage weigh-in (Optional)
@@ -180,38 +180,37 @@ const Checkout = () => {
 								/>
 							</div>
 						</div> */}
-          </div>
-        </div>
-
-        {/* {payment details} */}
-        <div className="w-full lg:w-5/12 lg:mr-16 lg:mt-16">
-          <div className="w-full pt-6 pb-8 px-8 bg-white rounded-md">
-            <div className="border-b border-[#EFF3EF] pb-2">
-              <h2 className="mb-4 text-lg font-semibold md:text-lg lg:block">
-                Your booking
-              </h2>
-            </div>
-            <div className="border-b border-[#EFF3EF] pb-3 mt-4 flex space-x-5 font-semibold text-sm md:text-base">
-              <p>1 Bus Ticket</p>
-              <p>{myBooking?.take_off_date}.</p>
-            </div>
-            {/* {location and time} */}
-            <div className="mt-3 relative border-b border-[#EFF3EF] pb-6">
-              <div className="text-[#949292] text-sm flex space-x-8 items-center">
-                <p>{myBooking?.take_off_time}</p>
-                <div className="w-2 h-2 rounded-full bg-primary-200"></div>
-                <p>{`${myBooking?.travel_destination?.from?.name}, ${myBooking?.travel_destination?.from?.state}`}</p>
-              </div>
-              <div className="h-4 border-l-[1.5px] border-primary-200 absolute left-[64.2px] md:left-20 top-5 md:top-4"></div>
-              <div className="text-[#949292] text-sm flex space-x-8 items-center mt-4">
-                <p>{myBooking?.arrival_time}</p>
-                <div className="w-2 h-2 rounded-full bg-primary-200"></div>
-                <p>{`${myBooking?.travel_destination?.to?.name}, ${myBooking?.travel_destination?.to?.state}`}</p>
-              </div>
-            </div>
-            {/* {discount, subtotal and VAT} */}
-            <div className="border-b border-[#EFF3EF] pb-6">
-              {/* <div className="flex justify-between mt-4 text-[#949292]">
+					</div>
+				</div>
+				{/* {payment details} */}
+				<div className="w-11/12 lg:w-[481px] my-5 lg:mt-0">
+					<div className="w-full p-8 bg-white rounded-md lg:py-12">
+						<div className="border-b border-[#EFF3EF] pb-2">
+							<h2 className="mb-3 text-2xl font-bold md:text-3xl">
+								Your booking
+							</h2>
+						</div>
+						<div className="border-b border-[#EFF3EF] pb-3 mt-4 flex space-x-5 font-bold text-sm md:text-base">
+							<p>1 Bus Ticket</p>
+							<p>{myBooking?.take_off_date}.</p>
+						</div>
+						{/* {location and time} */}
+						<div className="mt-3 relative border-b border-[#EFF3EF] pb-6">
+							<div className="text-[#949292] text-sm md:text-base flex space-x-8 items-center">
+								<p>{myBooking?.take_off_time}</p>
+								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
+								<p>{`${myBooking?.travel_destination?.from?.name}, ${myBooking?.travel_destination?.from?.state}`}</p>
+							</div>
+							<div className="h-4 border-l-[1.5px] border-primary-200 absolute left-[89.2px] md:left-24 top-5 md:top-6"></div>
+							<div className="text-[#949292] text-sm md:text-base flex space-x-8 items-center mt-4">
+								<p>{myBooking?.arrival_time}</p>
+								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
+								<p>{`${myBooking?.travel_destination?.to?.name}, ${myBooking?.travel_destination?.to?.state}`}</p>
+							</div>
+						</div>
+						{/* {discount, subtotal and VAT} */}
+						<div className="border-b border-[#EFF3EF] pb-6">
+							{/* <div className="flex justify-between mt-4 text-[#949292]">
 								<p className="text-sm md:text-base ">Discount</p>
 								<p className="text-sm md:text-base">-NGN 500.00</p>
 							</div> */}
