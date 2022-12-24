@@ -147,13 +147,8 @@ const Bookings = () => {
       </Helmet>
 
       <div className="lg:flex w-full flex-col h-full overflow-y-scroll scroll-behavior-smooth items-center justify-center">
-        {/* h-full w-full overflow-y-scroll scroll-behavior-smooth items-center justify-center */}
         {/* LEFT COLUMN */}
-        <div
-          className="lg:w-4/12 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0"
-          //top-24 left-6
-          // style={{ position: "fixed", top: "0", left: "0" }}
-        >
+        <div className="lg:w-4/12 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0">
           <div
             className={
               whereToToggle === true
@@ -176,7 +171,6 @@ const Bookings = () => {
             )}
           </div>
           <div className="lg:flex w-full flex-col h-full">
-            {/* h-full w-full overflow-y-scroll scroll-behavior-smooth items-center justify-center */}
             {/* LEFT COLUMN */}
             <div
               className="lg:w-4/12 lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0 "
