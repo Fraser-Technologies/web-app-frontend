@@ -71,14 +71,14 @@ const Checkout = () => {
   };
 
   const vAT = myBooking?.price * 0.075;
-  const Total = myBooking?.price + vAT;
+  //   const Total = myBooking?.price + vAT;
+  const Total = myBooking?.price;
 
   //DATE FORMATTING
   const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
   const [, day, month, year] = myBooking?.take_off_date.match(dateRegex) || [];
 
   const newDay = day.toString();
-
   let ordinalDay;
   if (newDay.endsWith("1")) {
     ordinalDay = newDay + "st";
@@ -143,9 +143,9 @@ const Checkout = () => {
         <title>Checkout - Fraser</title>
       </Helmet>
 
-      <div className="flex w-full fixed flex-col lg:flex-row lg:mt-15">
-        <div className=" ml-16 mr-8 lg:w-7/12 ease-in-out duration-300 h-full">
-          <div className="flex py-4 px-8 mt-16 mb-5 rounded-md items-center justify-between duration-300 ease-in-out bg-white">
+      <div className="flex w-full pb-48 lg:pb-0 flex-col lg:flex-row lg:mt-15">
+        <div className="lg:ml-16 lg:mr-8 w-full lg:w-7/12 ease-in-out duration-300 h-full">
+          <div className="flex py-4 px-8 lg:mt-16 mb-5 rounded-md items-center justify-between duration-300 ease-in-out bg-white">
             <h3 className="text-lg font-semibold md:text-lg">Checkout</h3>
 
             <div className="block lg:hidden">
@@ -164,23 +164,23 @@ const Checkout = () => {
           </div>
           <div className={`${show === false ? "hidden" : "block"} md:block`}>
             {/* {passenger details} */}
-            <div className="w-full p-8 -mt-3 bg-white rounded-md lg:mt-0 lg:py-12">
+            <div className="w-full p-8 -mt-3 bg-white rounded-md lg:mt-0 mb-6 lg:pb-12 lg:pt-6">
               <div className="border-b border-[#EFF3EF]">
-                <h2 className="mb-4 text-base font-semibold md:text-base">
+                <h2 className="hidden md:block mb-4 text-base font-semibold md:text-base">
                   Your Details
                 </h2>
-                <p className="text-[#949292] w-5/6 font-normal md:leading-4 md:text-sm text-xs">
+                <p className="text-[#949292] w-11/12 lg:w-5/6 font-normal md:leading-4 md:text-sm text-sm lg:text-xs">
                   Ready to set off on your adventure? Confirm your details
                   below, proceed to finalize your reservation and start packing
                   your bags!
                 </p>
               </div>
-              <div className="flex mt-8 space-x-3 border-b border-[#EFF3EF] pb-6">
-                <div className="h-12 rounded-md flex items-center space-x-2 border py-3 md:px-6 w-3/6">
+              <div className="flex-col md:flex md:flex-row mt-6 lg:mt-8 lg:space-x-3 border-b border-[#EFF3EF] pb-6">
+                <div className="h-12 rounded-md flex items-center space-x-2 border py-3 px-4 lg:w-3/6">
                   <BsFillPersonFill />
                   <p className="text-sm truncate md:text-sm">{`${userInfo?.first_name} ${userInfo?.last_name}`}</p>
                 </div>
-                <div className="h-12 rounded-md flex items-center space-x-2 border py-3 md:px-6 w-3/6">
+                <div className="h-12 rounded-md mt-4 lg:mt-0 flex items-center space-x-2 border py-3 px-4 lg:w-3/6">
                   <MdPhoneInTalk />
                   <p className="text-sm truncate md:text-sm ">
                     {userInfo?.phone.replace(
@@ -248,11 +248,11 @@ const Checkout = () => {
         <div className="w-full lg:w-5/12 lg:mr-16 lg:mt-16">
           <div className="w-full pt-6 pb-8 px-8 bg-white rounded-md">
             <div className="border-b border-[#EFF3EF] pb-2">
-              <h2 className="mb-4 text-lg font-semibold md:text-lg lg:block">
+              <h2 className="mb-2 lg:mb-4 text-lg font-semibold md:text-lg lg:block">
                 Your booking
               </h2>
             </div>
-            <div className="border-b border-[#EFF3EF] pb-3 mt-4 flex space-x-5 font-semibold text-sm md:text-base">
+            <div className="border-b border-[#EFF3EF] pb-3 mt-4 flex space-x-5 font-semibold text-base md:text-base">
               <p>1 Bus Ticket</p>
               <p>{formattedDate}.</p>
             </div>
@@ -267,8 +267,8 @@ const Checkout = () => {
                 <div className="w-2 h-2 rounded-full bg-primary-200"></div>
                 <p>{`${myBooking?.travel_destination?.from?.name}, ${myBooking?.travel_destination?.from?.state}`}</p>
               </div>
-              <div className="h-4 border-l-[1.5px] border-primary-200 absolute left-[64.2px] md:left-20 top-5 md:top-4"></div>
-              <div className="text-[#949292] text-sm flex space-x-8 items-center mt-4">
+              <div className="h-4 border-l-[1.5px] ml-20 border-primary-200 mt-2 "></div>
+              <div className="text-[#949292] text-sm flex space-x-8 items-center mt-2">
                 <p>
                   {myBooking?.arrival_time
                     .replace(timeRegex, "$1:$2 $3")
@@ -285,33 +285,34 @@ const Checkout = () => {
 								<p className="text-sm md:text-base">-NGN 500.00</p>
 							</div> */}
               <div className="flex justify-between mt-4 mr-8">
-                <p className="text-sm md:text-base ">Subtotal</p>
-                <p className="text-sm md:text-base">
+                <p className="text-base ">Subtotal</p>
+                <p className="text-base">
                   NGN{" "}
                   {myBooking?.price
                     .toString()
-                    .replace(/(\d)(?=(\d{3})+$)/g, "$1,")}
+                    .replace(/(\d)(?=(\d{3})+$)/g, "$1,") + ".00"}
                 </p>
               </div>
-              <div className="flex justify-between mt-4 mr-8 text-[#949292]">
+              {/* <div className="flex justify-between mt-4 mr-8 text-[#949292]">
                 <p className="text-sm md:text-xs ">VAT(7.5%)</p>
                 <p className="text-sm md:text-xs">
                   NGN {vAT.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")}
                 </p>
-              </div>
+              </div> */}
             </div>
 
             {/* {total} */}
             <div className="flex justify-between mt-4 border-b border-[#EFF3EF] pb-8 mr-8">
-              <p className="text-sm font-bold md:text-lg">Total</p>
-              <p className="text-sm font-bold md:text-lg">
-                NGN {Total.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")}
+              <p className="text-lg font-bold md:text-lg">Total</p>
+              <p className="text-lg font-bold md:text-lg">
+                NGN{" "}
+                {Total.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,") + ".00"}
               </p>
             </div>
           </div>
 
           {/* {terms & conditions} */}
-          <div className="pl-8 pr-12 pt-4 pb-12 bg-white border-t border-[#EFF3EF] rounded-md md:-mt-12 md:rounded-b-md">
+          <div className="fixed bottom-0 lg:static pl-8 pr-12 pt-4 pb-12 bg-white border-t border-[#EFF3EF] rounded-md md:-mt-12 md:rounded-b-md">
             {showAlert && (
               <Alert
                 message="Kindly confirm the terms and conditions"
@@ -332,7 +333,7 @@ const Checkout = () => {
                   }}
                 />
               </div>
-              <p className="text-xs lg:text-sm w-11/12 pr-2 text-[#949292] md:leading-4">
+              <p className="text-sm lg:text-sm w-11/12 pr-2 text-[#949292] md:leading-4">
                 By checking this box, I confirm that I have read and understand
                 the Privacy Policy and the Terms and Conditions for Bookings and
                 Transit with Fraser
@@ -344,10 +345,10 @@ const Checkout = () => {
                 initial="initial"
                 whileTap="tap"
                 whileHover="hover"
-                className="w-full h-[48px] lg:h-[40px] p-3 mt-4 text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E] hover:bg-[#58FF9E] rounded-lg "
+                className="w-full h-[48px] lg:h-[48px] p-3 mt-4 text-xs lg:text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E] hover:bg-[#58FF9E] rounded-lg "
                 onClick={payWithPaystack}
               >
-                Proceed to pay
+                Proceed to Payments
               </motion.button>
 
               {/* <Button

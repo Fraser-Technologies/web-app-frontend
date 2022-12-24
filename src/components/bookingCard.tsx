@@ -24,6 +24,63 @@ const BookingCard = ({
   onClick,
 }: BookingCardInterface) => {
   const timeRegex = /^(\d{1,2}):(\d{2})(am|pm)$/;
+
+  const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+  const [, day, month, year] = takeOffDate.match(dateRegex) || [];
+
+  const newDay = day.toString();
+
+  let ordinalDay;
+  if (newDay.endsWith("1")) {
+    ordinalDay = newDay + "st";
+  } else if (newDay.endsWith("2")) {
+    ordinalDay = newDay + "nd";
+  } else if (newDay.endsWith("3")) {
+    ordinalDay = newDay + "rd";
+  } else {
+    ordinalDay = newDay + "th";
+  }
+
+  let monthName;
+  switch (month) {
+    case "01":
+      monthName = "Jan.";
+      break;
+    case "02":
+      monthName = "Feb.";
+      break;
+    case "03":
+      monthName = "Mar.";
+      break;
+    case "04":
+      monthName = "Apr.";
+      break;
+    case "05":
+      monthName = "May";
+      break;
+    case "06":
+      monthName = "June";
+      break;
+    case "07":
+      monthName = "July";
+      break;
+    case "08":
+      monthName = "Aug.";
+      break;
+    case "09":
+      monthName = "Sept.";
+      break;
+    case "10":
+      monthName = "Oct.";
+      break;
+    case "11":
+      monthName = "Nov.";
+      break;
+    case "12":
+      monthName = "Dec.";
+      break;
+  }
+  const formattedDate = `${ordinalDay} ${monthName}, ${year}`;
   // const formattedArrivalTime = arrivalTime.replace(timeRegex, '$1:$2 $3');
   return (
     <>
@@ -37,12 +94,16 @@ const BookingCard = ({
               {from}
             </h3>
             <div className="text-white ">
-              <p className="text-gray-400 md:text-sm text-sm">Take Off Time</p>
+              <p className="text-gray-400 md:text-sm text-sm">Departure Date</p>
+              <p className="mt-1 md:text-xs text-xs">
+              {formattedDate}
+              </p>
+              {/* <p className="text-gray-400 md:text-sm text-sm">Take Off Time</p>
               <p className="mt-1 md:text-xs text-xs">
                 {takeOffTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
-              </p>
+              </p> */}
 
-              {/* <p>{takeOffDate}</p> */}
+              
             </div>
           </div>
 
@@ -52,21 +113,25 @@ const BookingCard = ({
               {to}
             </h3>
             <div className="text-white ">
-              <p className="text-gray-400  md:text-sm text-sm">
+              <p className="text-gray-400  md:text-sm text-sm">Take Off Time</p>
+              <p className="mt-1 md:text-xs text-xs">
+                {takeOffTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
+              </p>
+              {/* <p className="text-gray-400  md:text-sm text-sm">
                 Estimated Arrival Time
               </p>
               <p className="mt-1 md:text-xs text-xs">
                 {arrivalTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
-              </p>
+              </p> */}
               {/* <p>{arrivalDate}</p> */}
             </div>
           </div>
         </div>
 
-        <div className="flex flex-col w-full lg:w-1/5 mb-2 mt-6 lg:mt-0">
+        <div className="flex flex-col w-full lg:w-1/4 mb-2 mt-6 lg:mt-0">
           <p className="text-gray-400 md:text-sm text-sm">Price</p>
           <p className="mt-1 text-primary-100 md:text-lg text-xl font-semibold mb-2 justify-between">
-            NGN {price.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")}
+            NGN {price.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,") + ".00"}
           </p>
           <div className="border-b border-gray-200 w-full lg:w-1/2 lg:border-r my-2 md:mr-0 mr-4 "></div>
           <Button

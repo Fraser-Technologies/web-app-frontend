@@ -73,6 +73,8 @@ const Bookings = () => {
     setwhereToToggle(!whereToToggle);
   };
 
+  
+
   //
   const {
     loading: availableTripLoading,
@@ -146,7 +148,7 @@ const Bookings = () => {
         <title>Fraser - Book a ride</title>
       </Helmet>
 
-      <div className="lg:flex w-full flex-col h-full overflow-y-scroll scroll-behavior-smooth items-center justify-center">
+      <div className="lg:flex w-full flex-col h-full overflow-y-scroll scroll-behavior-smooth ease-in-out duration-300 items-center justify-center">
         {/* LEFT COLUMN */}
         <div className="lg:w-4/12 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0">
           <div
@@ -179,8 +181,8 @@ const Bookings = () => {
               <div
                 className={
                   whereToToggle === true
-                    ? "pb-12 pt-8 px-6 lg:px-12 lg:mr-12 bg-white rounded-b-md border-b border-[#EFF3EF]"
-                    : "hidden lg:block   pb-12 pt-8 px-12 lg:mr-12 bg-white rounded-b-md border-b border-[#EFF3EF]"
+                    ? "pb-12 pt-8 px-6 lg:px-12 lg:mr-12 bg-white ease-in-out duration-300 rounded-b-md border-b border-[#EFF3EF]"
+                    : "hidden lg:block   pb-12 pt-8 px-12 lg:mr-12  ease-in-out duration-300 bg-white rounded-b-md border-b border-[#EFF3EF]"
                 }
               >
                 {/* CITY SELECTION */}
@@ -209,7 +211,7 @@ const Bookings = () => {
                     </span>
                   </div>
                   {isOpen && (
-                    <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                    <div className="w-full absolute mt-2 ease-in-out duration-300 rounded-md shadow-lg">
                       <div className="w-full rounded-md bg-white shadow-xs">
                         <div className="w-full py-4">
                           <a
@@ -276,7 +278,7 @@ const Bookings = () => {
                       </div>
 
                       {startOpen && (
-                        <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                        <div className="w-full absolute mt-2 ease-in-out duration-300 rounded-md shadow-lg">
                           <div className="w-full rounded-md bg-white shadow-xs">
                             <div className="w-full py-4">
                               {busStops.length == 0 ? (
@@ -369,7 +371,7 @@ const Bookings = () => {
                       </div>
                       {destinationOpen && (
                         <>
-                          <div className=" w-full absolute mt-2 rounded-md shadow-lg">
+                          <div className=" w-full absolute mt-2 ease-in-out duration-300 rounded-md shadow-lg">
                             <div className=" w-full rounded-md bg-white shadow-xs">
                               <div className="w-full py-4">
                                 {busStops.length == 0 ? (
