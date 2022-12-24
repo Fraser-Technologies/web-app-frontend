@@ -14,7 +14,7 @@ import {
   emptyMyBooking,
   verifyPaymentAction,
 } from "../state/action/booking.action";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Checkout = () => {
@@ -336,15 +336,15 @@ const Checkout = () => {
               <p className="text-sm lg:text-sm w-11/12 pr-2 text-[#949292] md:leading-4">
                 By checking this box, I confirm that I have read and understand
                 the{" "}
-                <a className="text-blue-500" href="#">
-                  Privacy Policy{" "}
-                </a>
-                and the{" "}
-                <a className="text-blue-500" href="#">
-                  Terms and Conditions
-                </a>{" "}
-                for Bookings and Transit with Fraser
+                <button className="text-blue-500" onClick={() => navigate("/termsofservice")}>
+                  Privacy Policy{" "} 
+                </button>
+                {" "} for Bookings and Transit with Fraser
               </p>
+
+              {/* <a className="text-blue-500" href="#">
+                  Privacy Policy{" "}
+                </a> */}
             </div>
             {/* {payment button} */}
             <div className="mt-4">

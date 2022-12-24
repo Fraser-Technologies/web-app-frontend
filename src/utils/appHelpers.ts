@@ -36,4 +36,5 @@ export const _paths_ = {
 	BOOKRIDE: "/book-a-ride",
 	CHECKOUT: "/checkout",
 	NOTFOUND: "*",
+	TERMS_OF_SERVICE: "/termsofservice"
 };
