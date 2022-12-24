@@ -55,12 +55,12 @@ const BookingCard = ({
 
         <div className="w-1 border-r my-2 md:mr-0 mr-4"></div>
         <div className="flex flex-col w-1/5 mb-2">
-          <p className="text-primary-100 md:text-lg text-sm font-semibold mb-2">
+          <p className="text-primary-100 md:text-lg text-sm font-semibold mb-2 justify-between">
             NGN {price}
           </p>
           <Button
             title="Continue"
-            className="bg-primary-100 text-black text-sm md:py-2 py-1 md:px-5 px-2"
+            className="bg-primary-100 text-black rounded-md text-sm md:py-2 py-1 md:px-5 px-2"
             onClick={onClick}
           />
         </div>

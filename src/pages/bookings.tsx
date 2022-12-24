@@ -105,7 +105,7 @@ const Bookings = () => {
   //VALIDATE BUTTON BEFORE CLICK
   const isValid =
     city !== "Set your current city" &&
-    destination !== "Select Destination bus stop" &&
+    destination !== "Select destination bus stop" &&
     start !== "Select start bus stop";
 
   //
@@ -147,13 +147,8 @@ const Bookings = () => {
       </Helmet>
 
       <div className="lg:flex w-full flex-col h-full overflow-y-scroll scroll-behavior-smooth items-center justify-center">
-        {/* h-full w-full overflow-y-scroll scroll-behavior-smooth items-center justify-center */}
         {/* LEFT COLUMN */}
-        <div
-          className="lg:w-4/12 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0"
-          //top-24 left-6
-          // style={{ position: "fixed", top: "0", left: "0" }}
-        >
+        <div className="lg:w-4/12 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0">
           <div
             className={
               whereToToggle === true
@@ -176,7 +171,6 @@ const Bookings = () => {
             )}
           </div>
           <div className="lg:flex w-full flex-col h-full">
-            {/* h-full w-full overflow-y-scroll scroll-behavior-smooth items-center justify-center */}
             {/* LEFT COLUMN */}
             <div
               className="lg:w-4/12 lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0 "
@@ -280,64 +274,63 @@ const Bookings = () => {
                           </button>
                         </span>
                       </div>
+
                       {startOpen && (
-                        <>
-                          <div className="w-full absolute mt-2 rounded-md shadow-lg">
-                            <div className="w-full rounded-md bg-white shadow-xs">
-                              <div className="w-full py-4">
-                                {busStops == null ? (
-                                  <div className="px-6 py-2 animate-pulse flex space-x-4">
-                                    <div className="flex-1 space-y-6 py-1">
-                                      <div className="h-2 bg-slate-200 rounded"></div>
-                                      <div className="space-y-3">
-                                        <div className="grid grid-cols-3 gap-4">
-                                          <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                                          <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                                        </div>
-                                        <div className="h-2 bg-slate-200 rounded"></div>
+                        <div className="w-full absolute mt-2 rounded-md shadow-lg">
+                          <div className="w-full rounded-md bg-white shadow-xs">
+                            <div className="w-full py-4">
+                              {busStops.length == 0 ? (
+                                <div className="px-6 py-2 animate-pulse flex space-x-4">
+                                  <div className="flex-1 space-y-6 py-1">
+                                    <div className="h-2 bg-slate-200 rounded"></div>
+                                    <div className="space-y-3">
+                                      <div className="grid grid-cols-3 gap-4">
+                                        <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                                        <div className="h-2 bg-slate-200 rounded col-span-1"></div>
                                       </div>
+                                      <div className="h-2 bg-slate-200 rounded"></div>
                                     </div>
                                   </div>
-                                ) : (
-                                  busStops?.map((option: any) => {
-                                    // availableTripLoading ? {}
-                                    if (city === "Lagos") {
-                                      if (option?.state !== "Ibadan") {
-                                        return (
-                                          <a
-                                            href="#"
-                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                            onClick={() => {
-                                              handlestart(option.name);
-                                              setFrom(option?._id);
-                                            }}
-                                          >
-                                            {option.name}
-                                          </a>
-                                        );
-                                      }
-                                    } else if (city === "Ibadan") {
-                                      if (option?.state === "Ibadan") {
-                                        return (
-                                          <a
-                                            href="#"
-                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                            onClick={() => {
-                                              handlestart(option.name);
-                                              setFrom(option?._id);
-                                            }}
-                                          >
-                                            {option.name}
-                                          </a>
-                                        );
-                                      }
+                                </div>
+                              ) : (
+                                busStops?.map((option: any) => {
+                                  // availableTripLoading ? {}
+                                  if (city === "Lagos") {
+                                    if (option?.state !== "Ibadan") {
+                                      return (
+                                        <a
+                                          href="#"
+                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                          onClick={() => {
+                                            handlestart(option.name);
+                                            setFrom(option?._id);
+                                          }}
+                                        >
+                                          {option.name}
+                                        </a>
+                                      );
                                     }
-                                  })
-                                )}
-                              </div>
+                                  } else if (city === "Ibadan") {
+                                    if (option?.state === "Ibadan") {
+                                      return (
+                                        <a
+                                          href="#"
+                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                          onClick={() => {
+                                            handlestart(option.name);
+                                            setFrom(option?._id);
+                                          }}
+                                        >
+                                          {option.name}
+                                        </a>
+                                      );
+                                    }
+                                  }
+                                })
+                              )}
                             </div>
                           </div>
-                        </>
+                        </div>
                       )}
                     </motion.div>
 

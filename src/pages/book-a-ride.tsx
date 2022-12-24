@@ -56,14 +56,14 @@ const BookRide = () => {
     setIsOpen(false);
   };
 
-  const [startBusStop, setStartBusStop] = useState("Select pickup busstop");
+  const [startBusStop, setStartBusStop] = useState("Select start bus stop");
   const handleStartBusStop = (option: any) => {
     setStartBusStop(option);
     setStartBusStopIsOpen(false);
   };
 
   const [destinationBusStop, setDestinationBusStop] = useState(
-    "Select Destination busstop"
+    "Select destination bus stop"
   );
   const handleDestinationBusStop = (option: any) => {
     setDestinationBusStop(option);
@@ -101,7 +101,7 @@ const BookRide = () => {
 
   const isValid =
     selectedCity !== "Set your current city" &&
-    destinationBusStop !== "Select Destination bus stop" &&
+    destinationBusStop !== "Select destination bus stop" &&
     startBusStop !== "Select start bus stop";
 
   const CreateUser = () => {
