@@ -335,8 +335,15 @@ const Checkout = () => {
               </div>
               <p className="text-sm lg:text-sm w-11/12 pr-2 text-[#949292] md:leading-4">
                 By checking this box, I confirm that I have read and understand
-                the Privacy Policy and the Terms and Conditions for Bookings and
-                Transit with Fraser
+                the{" "}
+                <a className="text-blue-500" href="#">
+                  Privacy Policy{" "}
+                </a>
+                and the{" "}
+                <a className="text-blue-500" href="#">
+                  Terms and Conditions
+                </a>{" "}
+                for Bookings and Transit with Fraser
               </p>
             </div>
             {/* {payment button} */}
