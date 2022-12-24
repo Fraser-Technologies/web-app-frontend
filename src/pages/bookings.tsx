@@ -179,7 +179,7 @@ const Bookings = () => {
               <div
                 className={
                   whereToToggle === true
-                    ? "pb-12 pt-8 px-12    lg:mr-12 bg-white rounded-b-md border-b border-[#EFF3EF]"
+                    ? "pb-12 pt-8 px-6 lg:px-12 lg:mr-12 bg-white rounded-b-md border-b border-[#EFF3EF]"
                     : "hidden lg:block   pb-12 pt-8 px-12 lg:mr-12 bg-white rounded-b-md border-b border-[#EFF3EF]"
                 }
               >
@@ -300,7 +300,7 @@ const Bookings = () => {
                                       return (
                                         <a
                                           href="#"
-                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                          className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                                           onClick={() => {
                                             handlestart(option.name);
                                             setFrom(option?._id);
@@ -372,59 +372,54 @@ const Bookings = () => {
                           <div className=" w-full absolute mt-2 rounded-md shadow-lg">
                             <div className=" w-full rounded-md bg-white shadow-xs">
                               <div className="w-full py-4">
-                                {
-                                  // busStops === null ||
-                                  // undefined ||
-                                  // busStops?.map.length === 0 ?
-                                  busStops == null ? (
-                                    <div className="px-6 py-2 animate-pulse flex space-x-4">
-                                      <div className="flex-1 space-y-6 py-1">
-                                        <div className="h-2 bg-slate-200 rounded"></div>
-                                        <div className="space-y-3">
-                                          <div className="grid grid-cols-3 gap-4">
-                                            <div className="h-2 bg-slate-200 rounded col-span-2"></div>
-                                            <div className="h-2 bg-slate-200 rounded col-span-1"></div>
-                                          </div>
-                                          <div className="h-2 bg-slate-200 rounded"></div>
+                                {busStops.length == 0 ? (
+                                  <div className="px-6 py-2 animate-pulse flex space-x-4">
+                                    <div className="flex-1 space-y-6 py-1">
+                                      <div className="h-2 bg-slate-200 rounded"></div>
+                                      <div className="space-y-3">
+                                        <div className="grid grid-cols-3 gap-4">
+                                          <div className="h-2 bg-slate-200 rounded col-span-2"></div>
+                                          <div className="h-2 bg-slate-200 rounded col-span-1"></div>
                                         </div>
+                                        <div className="h-2 bg-slate-200 rounded"></div>
                                       </div>
                                     </div>
-                                  ) : (
-                                    busStops?.map((option: any) => {
-                                      if (city === "Lagos") {
-                                        if (option?.state === "Ibadan") {
-                                          return (
-                                            <a
-                                              href="#"
-                                              className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                              onClick={() => {
-                                                handledestination(option.name);
-                                                setTo(option?._id);
-                                              }}
-                                            >
-                                              {option.name}
-                                            </a>
-                                          );
-                                        }
-                                      } else if (city === "Ibadan") {
-                                        if (option?.state !== "Ibadan") {
-                                          return (
-                                            <a
-                                              href="#"
-                                              className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                              onClick={() => {
-                                                handledestination(option.name);
-                                                setTo(option?._id);
-                                              }}
-                                            >
-                                              {option.name}
-                                            </a>
-                                          );
-                                        }
+                                  </div>
+                                ) : (
+                                  busStops?.map((option: any) => {
+                                    if (city === "Lagos") {
+                                      if (option?.state === "Ibadan") {
+                                        return (
+                                          <a
+                                            href="#"
+                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                            onClick={() => {
+                                              handledestination(option.name);
+                                              setTo(option?._id);
+                                            }}
+                                          >
+                                            {option.name}
+                                          </a>
+                                        );
                                       }
-                                    })
-                                  )
-                                }
+                                    } else if (city === "Ibadan") {
+                                      if (option?.state !== "Ibadan") {
+                                        return (
+                                          <a
+                                            href="#"
+                                            className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                            onClick={() => {
+                                              handledestination(option.name);
+                                              setTo(option?._id);
+                                            }}
+                                          >
+                                            {option.name}
+                                          </a>
+                                        );
+                                      }
+                                    }
+                                  })
+                                )}
                               </div>
                             </div>
                           </div>
@@ -440,7 +435,7 @@ const Bookings = () => {
                     loader={availableTripLoading}
                     className={
                       isValid
-                        ? "w-full h-[52px] bg-[#00ff6a] mt-10 text-sm font-medium rounded-lg"
+                        ? "w-full h-[52px] bg-[#00ff6a] hover:bg-[#58FF9E] mt-10 text-sm font-medium rounded-lg"
                         : "w-full h-[52px] bg-[#f5f5f5] text-gray-500 mt-10 text-sm font-medium rounded-lg"
                     }
                     onClick={FindAvailableTrip}

@@ -70,6 +70,9 @@ const Checkout = () => {
     initializePayment(onSuccess, onClose);
   };
 
+  const vAT = myBooking?.price * 0.075;
+  const Total = myBooking?.price + vAT;
+
   return (
     <Layout childClass="">
       {contextHolder}
@@ -105,7 +108,7 @@ const Checkout = () => {
                 <h2 className="mb-4 text-base font-semibold md:text-base">
                   Your Details
                 </h2>
-                <p className="text-[#949292] w-5/6 font-normal md:leading-5 md:text-sm text-xs">
+                <p className="text-[#949292] w-5/6 font-normal md:leading-4 md:text-sm text-xs">
                   Ready to set off on your adventure? Confirm your details
                   below, proceed to finalize your reservation and start packing
                   your bags!
@@ -221,35 +224,38 @@ const Checkout = () => {
                     .replace(/(\d)(?=(\d{3})+$)/g, "$1,")}
                 </p>
               </div>
-              {/* <div className="flex justify-between mt-4 text-[#949292]">
-								<p className="text-sm md:text-base ">VAT(7.5%)</p>
-								<p className="text-sm md:text-base">NGN 337.50</p>
-							</div> */}
+              <div className="flex justify-between mt-4 mr-8 text-[#949292]">
+                <p className="text-sm md:text-xs ">VAT(7.5%)</p>
+                <p className="text-sm md:text-xs">
+                  NGN {vAT.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")}
+                </p>
+              </div>
             </div>
+
             {/* {total} */}
-            <div className="flex justify-between mt-4 border-b border-[#EFF3EF] pb-6 mr-8">
-              <p className="text-sm font-bold md:text-base">Total</p>
-              <p className="text-sm font-bold md:text-base">
-                NGN{" "}
-                {myBooking?.price
-                  .toString()
-                  .replace(/(\d)(?=(\d{3})+$)/g, "$1,")}
+            <div className="flex justify-between mt-4 border-b border-[#EFF3EF] pb-8 mr-8">
+              <p className="text-sm font-bold md:text-lg">Total</p>
+              <p className="text-sm font-bold md:text-lg">
+                NGN {Total.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")}
               </p>
             </div>
           </div>
+
           {/* {terms & conditions} */}
-          <div className="px-6 py-6 bg-white rounded-md md:-mt-12 md:rounded-b-md">
+          <div className="pl-8 pr-12 pt-4 pb-12 bg-white border-t border-[#EFF3EF] rounded-md md:-mt-12 md:rounded-b-md">
             {showAlert && (
               <Alert
-                message="Confirm out term and conditions"
+                message="Kindly confirm the terms and conditions"
                 type="error"
                 showIcon
+                className="bg-blue-50 w-full text-[0.8rem] mb-4 -ml-1 font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
               />
             )}
-            <div className="flex items-start space-x-2">
-              <div>
+            <div className="flex items-start space-x-3">
+              <div className="pt-1">
                 <input
                   type="checkbox"
+                  style={{ height: "18px", width: "18px" }}
                   checked={check}
                   onChange={() => {
                     setCheck(!check);
@@ -257,9 +263,10 @@ const Checkout = () => {
                   }}
                 />
               </div>
-              <p className="text-xs lg:text-sm w-3/4 text-[#949292]">
-                I declare to have read the Privacy Policy and I agree to the T&C
-                of Booking and T&C of Carriage
+              <p className="text-xs lg:text-sm w-11/12 pr-2 text-[#949292] md:leading-4">
+                By checking this box, I confirm that I have read and understand
+                the Privacy Policy and the Terms and Conditions for Bookings and
+                Transit with Fraser
               </p>
             </div>
             {/* {payment button} */}
@@ -268,7 +275,7 @@ const Checkout = () => {
                 initial="initial"
                 whileTap="tap"
                 whileHover="hover"
-                className="w-full p-3 mt-6 font-medium bg-[#00ff6a] hover:bg-[#58FF9E] rounded-lg"
+                className="w-full h-[48px] lg:h-[40px] p-3 mt-4 text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E] hover:bg-[#58FF9E] rounded-lg "
                 onClick={payWithPaystack}
               >
                 Proceed to pay

@@ -77,8 +77,8 @@ const BookRide = () => {
     useAppSelector((state: any) => state.registerUser);
   const { busStops } = useAppSelector((state: any) => state.allBusStop);
 
-  console.log("the start is ", from);
-  console.log("the end is ", to);
+  // console.log("the start is ", from);
+  // console.log("the end is ", to);
 
   const handleAvailableTrips = () => {
     // console.log(selectedCity, destinationBusStop, startBusStop);
