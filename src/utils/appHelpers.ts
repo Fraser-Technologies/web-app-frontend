@@ -35,4 +35,5 @@ export const _paths_ = {
 	SIGNUP: "/signup",
 	BOOKRIDE: "/book-a-ride",
 	CHECKOUT: "/checkout",
+	NOTFOUND: "*",
 };

@@ -84,11 +84,28 @@ const Booking = loadable(() => import("./pages/bookings"), {
 	),
 });
 
+const NotFound = loadable(() => import("./pages/404"), {
+	fallback: (
+		<div
+			style={{
+				display: "flex",
+				minWidth: 0,
+				alignItems: "center",
+				alignContent: "center",
+				height: "100%",
+			}}>
+			<CircularProgress sx={{ m: "-40px auto 0" }} />
+		</div>
+	),
+});
+
 const App = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { busStops } = useAppSelector((state: any) => state.allBusStop);
-	const { userInfo } = useAppSelector((state: any) => state.userLogin);
+	const {
+		userInfo: { _id },
+	} = useAppSelector((state: any) => state.userLogin);
 
 	useEffect(() => {
 		if (!busStops?.length) {
@@ -97,10 +114,10 @@ const App = () => {
 	}, [busStops?.length, dispatch]);
 
 	useEffect(() => {
-		if (!userInfo?._id) {
+		if (!_id) {
 			navigate("/book-a-ride");
 		}
-	}, []);
+	}, [_id, navigate]);
 
 	return (
 		<>
@@ -112,6 +129,7 @@ const App = () => {
 					<Route path={_paths_.SIGNUP} element={<SignUp />} />
 					<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
 					<Route path={_paths_.CHECKOUT} element={<Checkout />} />
+					<Route path={_paths_.NOTFOUND} element={<NotFound />} />
 				</Routes>
 			</AuthProvider>
 		</>
