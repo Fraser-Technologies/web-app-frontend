@@ -73,6 +73,67 @@ const Checkout = () => {
   const vAT = myBooking?.price * 0.075;
   const Total = myBooking?.price + vAT;
 
+  //DATE FORMATTING
+  const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+  const [, day, month, year] = myBooking?.take_off_date.match(dateRegex) || [];
+
+  const newDay = day.toString();
+
+  let ordinalDay;
+  if (newDay.endsWith("1")) {
+    ordinalDay = newDay + "st";
+  } else if (newDay.endsWith("2")) {
+    ordinalDay = newDay + "nd";
+  } else if (newDay.endsWith("3")) {
+    ordinalDay = newDay + "rd";
+  } else {
+    ordinalDay = newDay + "th";
+  }
+
+  let monthName;
+  switch (month) {
+    case "01":
+      monthName = "Jan.";
+      break;
+    case "02":
+      monthName = "Feb.";
+      break;
+    case "03":
+      monthName = "Mar.";
+      break;
+    case "04":
+      monthName = "Apr.";
+      break;
+    case "05":
+      monthName = "May";
+      break;
+    case "06":
+      monthName = "June";
+      break;
+    case "07":
+      monthName = "July";
+      break;
+    case "08":
+      monthName = "Aug.";
+      break;
+    case "09":
+      monthName = "Sept.";
+      break;
+    case "10":
+      monthName = "Oct.";
+      break;
+    case "11":
+      monthName = "Nov.";
+      break;
+    case "12":
+      monthName = "Dec.";
+      break;
+  }
+  const formattedDate = `${ordinalDay} ${monthName}, ${year}`;
+
+  //TIME FORMATTING
+  const timeRegex = /^(\d{1,2}):(\d{2})(am|pm)$/;
+
   return (
     <Layout childClass="">
       {contextHolder}
@@ -193,18 +254,26 @@ const Checkout = () => {
             </div>
             <div className="border-b border-[#EFF3EF] pb-3 mt-4 flex space-x-5 font-semibold text-sm md:text-base">
               <p>1 Bus Ticket</p>
-              <p>{myBooking?.take_off_date}.</p>
+              <p>{formattedDate}.</p>
             </div>
             {/* {location and time} */}
             <div className="mt-3 relative border-b border-[#EFF3EF] pb-6">
               <div className="text-[#949292] text-sm flex space-x-8 items-center">
-                <p>{myBooking?.take_off_time}</p>
+                <p>
+                  {myBooking?.take_off_time
+                    .replace(timeRegex, "$1:$2 $3")
+                    .toUpperCase()}
+                </p>
                 <div className="w-2 h-2 rounded-full bg-primary-200"></div>
                 <p>{`${myBooking?.travel_destination?.from?.name}, ${myBooking?.travel_destination?.from?.state}`}</p>
               </div>
               <div className="h-4 border-l-[1.5px] border-primary-200 absolute left-[64.2px] md:left-20 top-5 md:top-4"></div>
               <div className="text-[#949292] text-sm flex space-x-8 items-center mt-4">
-                <p>{myBooking?.arrival_time}</p>
+                <p>
+                  {myBooking?.arrival_time
+                    .replace(timeRegex, "$1:$2 $3")
+                    .toUpperCase()}
+                </p>
                 <div className="w-2 h-2 rounded-full bg-primary-200"></div>
                 <p>{`${myBooking?.travel_destination?.to?.name}, ${myBooking?.travel_destination?.to?.state}`}</p>
               </div>
