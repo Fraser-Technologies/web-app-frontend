@@ -2,16 +2,11 @@ export const termsofservicedata = [
   {
     key: "termsOfUse",
     topline: "Welcome to Fraser",
-    text: "By using our site, you confirm that you accept these terms of use and that you agree to comply with them. Who we are and how to contact us Fraser is a site operated by Deevo Technologies Limited ('Deevo'). Deevo is registered in the Federal Republic of Nigeria with RC number 1990830. To contact us, please email contact@ridefraser.com",
-  },
-  {
-    key: "additionalTerms",
-    topline: "Other terms that apply to you",
-    text: "In addition to these terms of use, there are other terms that apply to your use of our site: Our Privacy Policy sets out how we will use your personal information. Our Cookie Policy explains how we use cookies on our site.",
+    text: "Welcome to Fraser, a site operated by Deevo Technologies Limited. Deevo is a company registered in the Federal Republic of Nigeria with a registration number of 1990830. \n By accessing and using our site, you confirm that you have read, understood, and agree to comply with these terms of use. These terms of use outline the legally binding terms and conditions that govern your use of our site. It is important that you read and understand these terms before using our site. If you do not agree to be bound by these terms, you may not use our site. If you have any questions or concerns regarding these terms of use or our site, please do not hesitate to contact us at contact@ridefraser.com. We will do our best to address your concerns and assist you in any way we can. Thank you for choosing to use Fraser.\n  In addition to these terms of use, there are other terms that apply to your use of our site:Our Privacy Policy sets out how we will use your personal information. Our Cookie Policy explains how we use cookies on our site. These terms and conditions, along with Deevo's other policies and procedures, govern the use of Deevo's services by passengers.\n Deevo reserves the right to modify these terms and conditions at any time and without notice. It is the responsibility of the passenger to review these terms and conditions regularly and to be aware of any changes.\n The continued use of Deevo's services by the passenger shall be deemed acceptance of the modified terms and conditions. If the passenger does not agree to the modified terms and conditions, the passenger shall cease using Deevo's services.\n These terms and conditions shall be governed by and construed in accordance with the laws of the country in which Deevo operates. Any disputes arising out of or in connection with these terms and conditions shall be resolved through negotiation or, if necessary, through arbitration or litigation.\n Thank you for visiting our site. If you have any questions or comments about these terms of use, please contact us at contact@ridefraser.com.",
   },
   {
     key: "changes",
-    topline: "Changes to these terms and our site",
+    topline: "Term and site changes",
     text: "We may update and change our site and these terms from time to time to reflect changes to our product/service offerings, user needs, and business priorities. Every time you wish to use our site, please check these terms to ensure you understand the terms that apply at that time. We do not guarantee that our site, or any content on it, will always be available or be uninterrupted. We may suspend or withdraw or restrict the availability of all or any part of our site for business and operational reasons. We will try to give you reasonable notice of any suspension or withdrawal.",
   },
   {
@@ -32,7 +27,7 @@ export const termsofservicedata = [
   },
   {
     key: "trips",
-    topline: "Trips",
+    topline: "Trips and Scedules",
     text: "Passengers should arrive at the departure point 15 minutes before the scheduled departure time. If passengers are not present at the scheduled departure time and place, they may lose their claim to carriage and the booked journey. If passengers are notified of a delay in their journey through SMS, email, or other written format, their claim to carriage will not expire until the revised departure time specified in the notification. Passengers must present their booking confirmation and a valid government-issued photo ID (such as an identity card or passport) to the driver or service staff upon request. Scanners may be used to verify tickets.",
   },
   {
@@ -56,11 +51,6 @@ export const termsofservicedata = [
     text: "Deevo collects and processes personal data of its passengers for the purpose of providing its services, managing its business, and complying with legal and regulatory requirements. Deevo may share the personal data of its passengers with third parties, such as its partners, service providers, and law enforcement agencies, if necessary. Deevo takes reasonable measures to protect the personal data of its passengers and to prevent unauthorized access, use, or disclosure of such data. Passengers have the right to access, rectify, erase, restrict, or object to the processing of their personal data, and to withdraw their consent or exercise their right to data portability. Passengers also have the right to file a complaint with a supervisory authority if they believe their rights have been violated. Deevo's data protection policy, which is available on its website, provides more information on how Deevo collects, uses, and protects the personal data of its passengers.",
   },
   {
-    key: "terms and conditions",
-    topline: "Terms and Conditions",
-    text: "These terms and conditions, along with Deevo's other policies and procedures, govern the use of Deevo's services by passengers. Deevo reserves the right to modify these terms and conditions at any time and without notice. It is the responsibility of the passenger to review these terms and conditions regularly and to be aware of any changes. The continued use of Deevo's services by the passenger shall be deemed acceptance of the modified terms and conditions. If the passenger does not agree to the modified terms and conditions, the passenger shall cease using Deevo's services. These terms and conditions shall be governed by and construed in accordance with the laws of the country in which Deevo operates. Any disputes arising out of or in connection with these terms and conditions shall be resolved through negotiation or, if necessary, through arbitration or litigation.",
-  },
-  {
     key: "linking",
     topline: "Linking to our site",
     text: "You may link to our site, provided you do so in a way that is fair and legal and does not damage our reputation or take advantage of it. You must not establish a link in such a way as to suggest any form of association, approval, or endorsement on our part where none exists.",
@@ -69,10 +59,5 @@ export const termsofservicedata = [
     key: "law",
     topline: "Governing law and jurisdiction",
     text: "If you are a consumer, these terms of use, their subject matter, and their formation are governed by Nigerian law. You and we both agree that the courts of Nigeria will have non-exclusive jurisdiction. If you are a business, these terms of use, their subject matter, and their formation (and any non-contractual disputes or claims) are governed by Nigerian law. We both agree to the exclusive jurisdiction of the courts of Nigeria.",
-  },
-  {
-    key: "thankyou",
-    topline: "Thank you for visiting our site",
-    text: "Thank you for visiting our site. If you have any questions or comments about these terms of use, please contact us at contact@ridefraser.com.",
   },
 ];

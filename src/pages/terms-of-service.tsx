@@ -4,7 +4,7 @@ import { Helmet } from "react-helmet";
 import { termsofservicedata } from "../utils/TermsofServiceData";
 
 const TermsOfService = () => {
-  const [selectedContent, setSelectedContent] = useState("welcome");
+  const [selectedContent, setSelectedContent] = useState("termsOfUse");
 
   const handleLinkClick = (content: any) => {
     setSelectedContent(content);
@@ -17,7 +17,7 @@ const TermsOfService = () => {
         <title>Terms of Service</title>
       </Helmet>
 
-      <div className="fixed w-full content-center margin-auto justify-left grid px-[120px] py-[120px]">
+      <div className="fixed w-full content-center margin-auto justify-left grid mx-[120px] my-[120px]">
         <div className="flex w-3/4 h-11/12">
           <div className="grid divide-gray-200 w-2/5 h-2/3 overflow-auto bg-white rounded-md">
             <div className="w-full">
@@ -38,18 +38,29 @@ const TermsOfService = () => {
 
           {/* CONTENT */}
 
-          <div className="w-4/5 h-full flex h-2/3 ml-6 overflow-auto">
-            {/* {renderContent()} */}
-            {termsofservicedata?.map((tosData) =>
-              selectedContent === tosData.key ? (
-                <div>
-                  <p className="text-xl font-bold">{tosData.topline}</p>
-                  <p className="text-base">{tosData.text}</p>
-                </div>
-              ) : (
-                ""
-              )
-            )}
+          <div className="w-3/4 flex h-5/6 overflow-y-scroll scroll-behavior-smooth ease-in-out duration-300 ml-6 bg-white rounded-md ">
+            <div className="h-full">
+              {termsofservicedata?.map((tosData) =>
+                selectedContent === tosData.key ? (
+                  <div className="w-full">
+                    <div className="w-2/3 overflow-hidden mx-8 mt-8">
+                      <p className="text-xl font-semibold">{tosData.topline}</p>
+                    </div>
+
+                    <div className="px-8 mt-8">
+                      <hr className="border-t-2 mr-12 border-gray-100 " />
+                      <p className="text-sm leading-5 mt-8 mr-12 text-[#000000]">
+                        {tosData.text.split("\n").map((text) => (
+                          <p>{text}</p>
+                        ))}
+                      </p>
+                    </div>
+                  </div>
+                ) : (
+                  ""
+                )
+              )}
+            </div>
           </div>
         </div>
       </div>
