@@ -16,6 +16,7 @@ import {
 	getAvailableTripAction,
 } from "../state/action/trip.action";
 import { Spinner } from "react-bootstrap";
+import React from "react";
 
 const BookRide = () => {
 	const dispatch = useAppDispatch();

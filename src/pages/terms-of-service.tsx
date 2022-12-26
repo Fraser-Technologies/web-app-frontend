@@ -28,8 +28,8 @@ const TermsOfService = () => {
     <Layout title="Terms of Service">
       <div className="bg-black">
         <div className="h-40">
-          <div className="absolute w-full z-50 py-16 font-semibold w-full text-white grid place-items-center text-2xl">
-            Terms of Service
+          <div className="absolute w-full z-50 py-16 font-semibold w-full text-white grid place-items-center text-xl">
+            Fraser Terms of Service
           </div>
           <div>{GeometricPatterns()}</div>
           {/* <div className="bg-black -z-10 h-48"></div> */}
