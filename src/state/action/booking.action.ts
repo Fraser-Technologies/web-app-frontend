@@ -14,7 +14,6 @@ import { AppThunk } from "../redux-store";
 export const addToMyBookinAction =
 	(trip: any): AppThunk =>
 	(dispatch) => {
-		console.log("the trip details here is ", trip);
 		dispatch(addToBooking(trip));
 	};
 

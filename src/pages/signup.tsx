@@ -19,7 +19,7 @@ const SignUp = () => {
 	} = useForm<Inputs>();
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		console.log(data, "formdata");
+		// console.log(data, "formdata");
 	};
 
 	return (

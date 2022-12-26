@@ -1,8 +1,5 @@
 import React, { useEffect } from "react";
-// import { persistStore } from "redux-persist";
-// import { PersistGate } from "redux-persist/integration/react";
 import { Routes, Route, useNavigate } from "react-router-dom";
-import { AuthProvider } from "./providers/AuthContext";
 import { CircularProgress } from "@mui/material";
 import loadable from "@loadable/component";
 import { _paths_ } from "./utils/appHelpers";
@@ -135,18 +132,16 @@ const App = () => {
 
 	return (
 		<>
-			<AuthProvider>
-				<Routes>
-					<Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
-					<Route path={_paths_.AVAILABLE_TRIP} element={<Booking />} />
-					<Route path={_paths_.TERMS_OF_SERVICE} element={<TermsOfService />} />
-					<Route path={_paths_.SIGNIN} element={<SignIn />} />
-					<Route path={_paths_.SIGNUP} element={<SignUp />} />
-					<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
-					<Route path={_paths_.CHECKOUT} element={<Checkout />} />
-					<Route path={_paths_.NOTFOUND} element={<NotFound />} />
-				</Routes>
-			</AuthProvider>
+			<Routes>
+				<Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
+				<Route path={_paths_.AVAILABLE_TRIP} element={<Booking />} />
+				<Route path={_paths_.TERMS_OF_SERVICE} element={<TermsOfService />} />
+				<Route path={_paths_.SIGNIN} element={<SignIn />} />
+				<Route path={_paths_.SIGNUP} element={<SignUp />} />
+				<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
+				<Route path={_paths_.CHECKOUT} element={<Checkout />} />
+				<Route path={_paths_.NOTFOUND} element={<NotFound />} />
+			</Routes>
 		</>
 	);
 };

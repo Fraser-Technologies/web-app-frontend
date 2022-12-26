@@ -11,7 +11,6 @@ const SignIn = () => {
 	const [phone, setPhone] = React.useState<any>("");
 	const [isView, setIsView] = React.useState<boolean>(false);
 	const [otp, setOtp] = React.useState<any>("");
-	const [user, setUser] = React.useState<any>("");
 	const [phoneError, setPhoneError] = React.useState<any>("");
 
 	const handleSignIn = () => {

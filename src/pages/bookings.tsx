@@ -99,9 +99,6 @@ const Bookings = () => {
 		}
 	};
 
-	// console.log("the from part is ", from);
-	// console.log(" the to part is ", to);
-
 	//VALIDATE BUTTON BEFORE CLICK
 	const isValid =
 		city !== "Set your current city" &&

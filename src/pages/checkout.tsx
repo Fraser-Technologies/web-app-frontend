@@ -26,8 +26,6 @@ const Checkout = () => {
 	const { userInfo } = useAppSelector((state: any) => state.userLogin);
 	const { myBooking } = useAppSelector((state: any) => state.booking);
 
-	console.log("the trip details is ", myBooking);
-
 	const handleClose = () => {
 		setOpen(false);
 	};
