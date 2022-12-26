@@ -1,5 +1,4 @@
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
 import { BsChevronDown, BsChevronUp, BsFillPersonFill } from "react-icons/bs";
 import { MdPhoneInTalk } from "react-icons/md";
 import { usePaystackPayment } from "react-paystack";
@@ -7,14 +6,13 @@ import Layout from "../components/layouts/SignInLayout";
 import { Modal, Box } from "@mui/material";
 import { ModalStyle } from "../constants/styling";
 import SeatReservation from "../components/SeatReservation";
-import { Button } from "../components/Button";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { Alert, Input, message } from "antd";
+import { Alert, message } from "antd";
 import {
 	emptyMyBooking,
 	verifyPaymentAction,
 } from "../state/action/booking.action";
-import { useNavigate, Link } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 
 const Checkout = () => {
@@ -23,7 +21,6 @@ const Checkout = () => {
 	const [messageApi, contextHolder] = message.useMessage();
 	const [check, setCheck] = useState<boolean>(false);
 	const [showAlert, setShowAlert] = useState<boolean>(false);
-	const [isView, setIsView] = React.useState<boolean>(false);
 	const [show, setShow] = React.useState<boolean>(false);
 	const [open, setOpen] = React.useState(false);
 	const { userInfo } = useAppSelector((state: any) => state.userLogin);
@@ -70,8 +67,6 @@ const Checkout = () => {
 		initializePayment(onSuccess, onClose);
 	};
 
-	const vAT = myBooking?.price * 0.075;
-	//   const Total = myBooking?.price + vAT;
 	const Total = myBooking?.price;
 
 	//DATE FORMATTING
@@ -140,11 +135,11 @@ const Checkout = () => {
 
 			<div className="flex w-full pb-48 lg:pb-0 flex-col lg:flex-row lg:mt-15">
 				<div className="lg:ml-16 lg:mr-8 w-full lg:w-7/12 ease-in-out duration-300 h-full">
-					<div className="flex py-4 px-8 lg:mt-16 mb-5 rounded-md items-center justify-between duration-300 ease-in-out bg-white">
+					<div className="flex py-4 px-8 lg:mt-20 mb-5 rounded-md items-center justify-between duration-300 ease-in-out bg-white">
 						<h3 className="text-lg font-semibold md:text-lg">Checkout</h3>
 
 						<div className="block lg:hidden">
-							{show === false ? (
+							{!show ? (
 								<BsChevronDown
 									onClick={handleBookingToggle}
 									className="cursor-pointer"
@@ -170,7 +165,7 @@ const Checkout = () => {
 									your bags!
 								</p>
 							</div>
-							<div className="flex-col md:flex md:flex-row mt-6 lg:mt-8 lg:space-x-3 border-b border-[#EFF3EF] pb-6">
+							<div className="flex-col lg:flex lg:flex-row mt-6 lg:mt-8 lg:space-x-3 border-b border-[#EFF3EF] pb-6">
 								<div className="h-12 rounded-md flex items-center space-x-2 border py-3 px-4 lg:w-3/6">
 									<BsFillPersonFill />
 									<p className="text-sm truncate md:text-sm">{`${userInfo?.first_name} ${userInfo?.last_name}`}</p>
@@ -338,10 +333,6 @@ const Checkout = () => {
 								</button>{" "}
 								for Bookings and Transit with Fraser
 							</p>
-
-							{/* <a className="text-blue-500" href="#">
-                  Privacy Policy{" "}
-                </a> */}
 						</div>
 						{/* {payment button} */}
 						<div className="mt-4">
@@ -353,12 +344,6 @@ const Checkout = () => {
 								onClick={payWithPaystack}>
 								Proceed to Payments
 							</motion.button>
-
-							{/* <Button
-                title="Proceed to pay"
-                className="w-full py-3 font-medium text-black bg-primary-100"
-                onClick={payWithPaystack}
-              /> */}
 						</div>
 						<Modal
 							open={open}
