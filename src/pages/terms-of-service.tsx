@@ -18,8 +18,10 @@ const TermsOfService = () => {
       </Helmet>
 
       <div>
-        <div className="bg-white"><div className="text-lg font-semibold"> Terms of Service </div></div>
-        <div className="fixed w-full content-center margin-auto justify-left grid mx-[120px] my-[120px]">
+        <div className="bg-black text-white h-40">
+          <div className="text-lg font-semibold"> Terms of Service </div>
+        </div>
+        <div className="fixed w-full content-center margin-auto justify-left grid mx-[120px] mt-8">
           <div className="flex w-3/4 h-11/12">
             <div className="grid divide-gray-200 w-2/5 h-2/3 overflow-auto bg-white rounded-md">
               <div className="w-full">
