@@ -142,7 +142,7 @@ const Bookings = () => {
 	return (
 		<Layout title="Fraser - Book a ride">
 			<div className="lg:flex w-full flex-col h-full overflow-y-scroll scroll-behavior-smooth ease-in-out duration-300 items-center justify-center">
-				{/* LEFT COLUMN */}
+				{/* COLUMN */}
 				<div className="lg:w-4/12 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0">
 					<div
 						className={
