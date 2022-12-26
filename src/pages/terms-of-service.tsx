@@ -1,6 +1,5 @@
 import React, { useState } from "react";
-import { Helmet } from "react-helmet";
-import { Header } from "../components/Header";
+
 import Layout from "../components/layouts/SignInLayout";
 import { termsofservicedata } from "../utils/TermsofServiceData";
 
