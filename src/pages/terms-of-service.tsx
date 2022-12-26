@@ -11,7 +11,7 @@ const TermsOfService = () => {
     setSelectedContent(content);
   };
 
-  const [tosToggle, setTosToggle] = React.useState<boolean>(true);
+  const [tosToggle, setTosToggle] = React.useState<boolean>(false);
   const tosToggleClick = () => {
     setTosToggle(!tosToggle);
   };
