@@ -28,14 +28,11 @@ const SignUp = () => {
 
 	return (
 		<Layout
+			title="Sign In - Fraser"
 			bg={
 				"md:h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
 			}
 			childClass={"flex justify-center items-center w-full h-5/6 m-auto"}>
-			<Helmet>
-				<meta charSet="utf-8" />
-				<title>Sign In - Fraser</title>
-			</Helmet>
 			<div className="w-11/12 sm:w-3/5 lg:w-2/5 mt-4 md:mt-8">
 				<div className="bg-white py-12 px-8 rounded-md w-full">
 					<h1 className="text-2xl lg:text-3xl font-semibold leading-6 tracking-tighter">
