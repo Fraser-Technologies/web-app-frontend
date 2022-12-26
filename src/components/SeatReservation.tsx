@@ -30,8 +30,8 @@ const SeatReservation = () => {
 			setSeatAvailable(seatAvailable?.concat(seat));
 		}
 	};
-	// console.log(seatAvailable, "availableSeats");
-	// console.log(seatReserved, "seatReserved");
+	console.log(seatAvailable, "availableSeats");
+	console.log(seatReserved, "seatReserved");
 
 	const AvailableList: any = () => {
 		return seatAvailable?.map((seat) => (

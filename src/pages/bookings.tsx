@@ -1,5 +1,6 @@
-import React, { useRef, useEffect, useState } from "react";
-import { Helmet } from "react-helmet";
+/* eslint-disable array-callback-return */
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import React, { useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../components/bookingCard";
 import Layout from "../components/layouts/SignInLayout";
@@ -10,7 +11,6 @@ import {
 	getAvailableTripAction,
 } from "../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { motion } from "framer-motion";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Alert } from "antd";
@@ -98,9 +98,6 @@ const Bookings = () => {
 			dispatch(getAllAvailableTripAction());
 		}
 	};
-
-	// console.log("the from part is ", from);
-	// console.log(" the to part is ", to);
 
 	//VALIDATE BUTTON BEFORE CLICK
 	const isValid =
@@ -222,22 +219,16 @@ const Bookings = () => {
 								</div>
 
 								{/* AFTER SELECTION */}
-								<motion.div
-									// variants={zoomOutAnimation}
-									initial="initial"
-									className={`flex flex-col h-auto max-h-40 `}>
+								<div className={`flex flex-col h-auto max-h-40 `}>
 									<>
 										<label className="ml-4 mt-8 mb-2 text-sm text-gray-600">
 											Pickup Station
 										</label>
 
 										{/* START BUSSTOP */}
-										<motion.div
+										<div
 											// ref={dropdownRef}
-											className="relative inline text-left z-30"
-											// variants={zoomOutAnimation}
-											initial="initial"
-											whileHover="hover">
+											className="relative inline text-left z-30">
 											<div>
 												<span className="rounded-md shadow-sm">
 													<button
@@ -264,7 +255,7 @@ const Bookings = () => {
 												<div className="w-full absolute mt-2 ease-in-out duration-300 rounded-md shadow-lg">
 													<div className="w-full rounded-md bg-white shadow-xs">
 														<div className="w-full py-4">
-															{busStops.length == 0 ? (
+															{!busStops.length ? (
 																<div className="px-6 py-2 animate-pulse flex space-x-4">
 																	<div className="flex-1 space-y-6 py-1">
 																		<div className="h-2 bg-slate-200 rounded"></div>
@@ -279,7 +270,6 @@ const Bookings = () => {
 																</div>
 															) : (
 																busStops?.map((option: any) => {
-																	// availableTripLoading ? {}
 																	if (city === "Lagos") {
 																		if (option?.state !== "Ibadan") {
 																			return (
@@ -315,7 +305,7 @@ const Bookings = () => {
 													</div>
 												</div>
 											)}
-										</motion.div>
+										</div>
 
 										{/* DESTINATION BUSSTOP */}
 
@@ -323,10 +313,7 @@ const Bookings = () => {
 											Destination
 										</label>
 
-										<motion.div
-											className="relative inline text-left z-20"
-											// ref={dropdownRef}
-										>
+										<div className="relative inline text-left z-20">
 											<div>
 												<span className="rounded-md shadow-sm">
 													<button
@@ -353,7 +340,7 @@ const Bookings = () => {
 													<div className=" w-full absolute mt-2 ease-in-out duration-300 rounded-md shadow-lg">
 														<div className=" w-full rounded-md bg-white shadow-xs">
 															<div className="w-full py-4">
-																{busStops.length == 0 ? (
+																{!busStops?.length ? (
 																	<div className="px-6 py-2 animate-pulse flex space-x-4">
 																		<div className="flex-1 space-y-6 py-1">
 																			<div className="h-2 bg-slate-200 rounded"></div>
@@ -404,9 +391,9 @@ const Bookings = () => {
 													</div>
 												</>
 											)}
-										</motion.div>
+										</div>
 									</>
-								</motion.div>
+								</div>
 
 								<div>
 									<Button

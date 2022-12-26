@@ -29,16 +29,9 @@ export const Header = ({ user }: Props) => {
 				<Link to="/">
 					<h1 className="mb-4 text-xl font-bold text-center">Home</h1>
 				</Link>
-				{/* <Link to=""> */}
 				<h1 className="text-xl font-bold text-center">
 					{`${userInfo?.first_name} ${userInfo?.last_name}`}
 				</h1>
-				{/* </Link> */}
-				{/* <Button
-					title="Book a ride"
-					type="submit"
-					className="w-full px-3 py-2 mt-8 text-lg font-bold text-black rounded-md bg-primary-100"
-				/> */}
 			</div>
 		</div>
 	);
@@ -69,18 +62,12 @@ export const Header = ({ user }: Props) => {
 				<Link to="/" className="text-white ">
 					Home
 				</Link>
-				{userInfo && (
-					// <Link to="#" className="text-white ">
-					<div className="text-white">{userInfo?.first_name}</div>
-
-					// </Link>
-				)}
+				{userInfo && <div className="text-white">{userInfo?.first_name}</div>}
 				<Button
 					title="Book a ride"
 					type="submit"
 					className="px-3 py-2 rounded-md bg-primary-100"
 					onClick={() => {
-						console.log("Book a ride");
 						navigate("/book-a-ride");
 					}}
 				/>

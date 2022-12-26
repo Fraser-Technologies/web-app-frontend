@@ -1,8 +1,7 @@
 import React from "react";
 import { Button } from "../components/Button";
 import Layout from "../components/layouts/SignInLayout";
-import { Helmet } from "react-helmet";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -13,17 +12,14 @@ type Inputs = {
 };
 
 const SignUp = () => {
-	const navigate = useNavigate();
-	const [user, setUser] = React.useState<any>("");
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
 	} = useForm<Inputs>();
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		console.log(data, "formdata");
+		// console.log(data, "formdata");
 	};
 
 	return (

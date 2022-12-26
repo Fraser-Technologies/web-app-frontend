@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+
 import Layout from "../components/layouts/SignInLayout";
 import { termsofservicedata } from "../utils/TermsofServiceData";
 

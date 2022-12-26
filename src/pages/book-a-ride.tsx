@@ -1,13 +1,12 @@
 /* eslint-disable array-callback-return */
-import React, { useState, useEffect } from "react";
+/* eslint-disable jsx-a11y/anchor-is-valid */
+import { useState, useEffect } from "react";
 import { useRef } from "react";
-import { Helmet } from "react-helmet";
 import Layout from "../components/layouts/SignInLayout";
 import { Button } from "../components/Button";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { Alert, Input, message, Modal } from "antd";
-import { motion } from "framer-motion";
 import {
 	registerUserAction,
 	userLoginAction,
@@ -27,11 +26,9 @@ const BookRide = () => {
 	const [phone, setPhone] = useState<string>("");
 	const [flip, setFlip] = useState<boolean>(false);
 	const overlayRef = useRef(null);
-	const modalRef = useRef(null);
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [from, setFrom] = useState<string>("");
 	const [to, setTo] = useState<string>("");
-	const [lag, setLag] = useState<string>("lagos");
 	const [referred_by, setReferred_by] = useState<string>("");
 	const [messageApi, contextHolder] = message.useMessage();
 	const [loading, setLoading] = useState(false);
@@ -76,14 +73,7 @@ const BookRide = () => {
 		useAppSelector((state: any) => state.registerUser);
 	const { busStops } = useAppSelector((state: any) => state.allBusStop);
 
-	// console.log("the start is ", from);
-	// console.log("the end is ", to);
-
 	const handleAvailableTrips = () => {
-		// console.log(selectedCity, destinationBusStop, startBusStop);
-		// console.log(typeof from, from, typeof to, to);
-
-		// AMEN - TYPE CONFLICT, NO IDEA WHY
 		if (from && to) {
 			dispatch(getAvailableTripAction({ from: from, to: to }));
 		} else {
@@ -203,9 +193,7 @@ const BookRide = () => {
 							</div>
 
 							{/* AFTER SELECTION */}
-							<motion.div
-								// variants={zoomOutAnimation}
-								initial="initial"
+							<div
 								className={`flex flex-col h-auto max-h-40 ${
 									selectedCity === "Set your current city" ? "hidden " : ""
 								}`}>
@@ -215,11 +203,7 @@ const BookRide = () => {
 									</label>
 
 									{/* START BUSSTOP */}
-									<motion.div
-										className="relative inline text-left z-30"
-										// variants={zoomOutAnimation}
-										initial="initial"
-										whileHover="hover">
+									<div className="relative inline text-left z-30">
 										<div>
 											<span className="rounded-md shadow-sm">
 												<button
@@ -299,7 +283,7 @@ const BookRide = () => {
 												</div>
 											</>
 										)}
-									</motion.div>
+									</div>
 
 									{/* DESTINATION BUSSTOP */}
 
@@ -393,14 +377,11 @@ const BookRide = () => {
 										)}
 									</div>
 								</>
-							</motion.div>
+							</div>
 						</div>
 
 						{/* BUTTON */}
-						<motion.div
-							// variants={zoomOutAnimation}
-							initial="initial"
-							whileHover="hover">
+						<div>
 							<Button
 								title="See available trips"
 								className={
@@ -414,7 +395,7 @@ const BookRide = () => {
 									}
 								}}
 							/>
-						</motion.div>
+						</div>
 					</div>
 				</div>
 
@@ -530,29 +511,22 @@ const BookRide = () => {
 									/>
 								</div>
 
-								{/* <div className="mb-6">
-                  <div className="mb-1">
-				  <label
-				  className="text-gray-500"
-				  >Referral code(if any)</label>
-				  </div>
-                  <Input
-                    className="hover:border-green-500 active:border-green-600 h-12 w-full"
-                    placeholder="Referral code"
-                    type="text"
-                    value={referred_by}
-                    onChange={(e) => {
-                      setReferred_by(e.target.value);
-                    }}
-                  />
-                </div>
-				 */}
+								<div className="mb-6">
+									<div className="mb-1">
+										<label className="text-gray-500">
+											Referred by(Optional)
+										</label>
+									</div>
+									<Input
+										className="hover:border-green-500 active:border-green-600 h-12 w-full"
+										placeholder="Email"
+										value={referred_by}
+										onChange={(e) => setReferred_by(e.target.value)}
+									/>
+								</div>
 
 								<div>
-									<motion.button
-										initial="initial"
-										whileTap="tap"
-										whileHover="hover"
+									<button
 										className="w-full p-3 mt-6 font-medium bg-[#00ff6a] hover:bg-[#58FF9E] rounded-lg"
 										onClick={CreateUser}>
 										Continue
@@ -566,16 +540,13 @@ const BookRide = () => {
 												/>
 											)}
 										</span>
-									</motion.button>
+									</button>
 
-									<motion.button
-										initial="initial"
-										whileTap="tap"
-										whileHover="hover"
+									<button
 										className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
 										onClick={() => setFlip(!flip)}>
 										I have an account
-									</motion.button>
+									</button>
 								</div>
 							</div>
 						) : (
