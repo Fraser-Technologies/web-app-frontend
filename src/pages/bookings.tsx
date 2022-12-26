@@ -415,6 +415,8 @@ const Bookings = () => {
 							className={
 								"fixed w-full mt-4 h-5/6 lg:w-7/12 lg:mt-40 rounded-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0"
 							}>
+
+                {/* HEADER */}
 							<div className="fixed -mt-1 w-full lg:w-7/12 rounded-t-md lg:mx-16 lg:my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center lg:fixed lg:top-0 lg:right-0">
 								<h1 className="text-lg mx-6 lg:ml-12 pt-4 lg:mt-2 font-semibold">
 									Available Trips
