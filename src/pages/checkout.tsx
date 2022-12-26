@@ -135,7 +135,7 @@ const Checkout = () => {
 
 			<div className="flex w-full pb-48 lg:pb-0 flex-col lg:flex-row lg:mt-15">
 				<div className="lg:ml-16 lg:mr-8 w-full lg:w-7/12 ease-in-out duration-300 h-full">
-					<div className="flex py-4 px-8 lg:mt-20 mb-5 rounded-md items-center justify-between duration-300 ease-in-out bg-white">
+					<div className="flex py-4 px-8 md:mt-[30px] lg:mt-16 mb-5 rounded-md items-center justify-between duration-300 ease-in-out bg-white">
 						<h3 className="text-lg font-semibold md:text-lg">Checkout</h3>
 
 						<div className="block lg:hidden">
@@ -152,7 +152,7 @@ const Checkout = () => {
 							)}
 						</div>
 					</div>
-					<div className={`${show === false ? "hidden" : "block"} md:block`}>
+					<div className={`${!show ? "hidden" : "block"} lg:block`}>
 						{/* {passenger details} */}
 						<div className="w-full p-8 -mt-3 bg-white rounded-md lg:mt-0 mb-6 lg:pb-12 lg:pt-6">
 							<div className="border-b border-[#EFF3EF]">
@@ -180,12 +180,6 @@ const Checkout = () => {
 									</p>
 								</div>
 							</div>
-							{/* <div className="flex justify-center mt-5">
-								<div className="flex items-center space-x-2 text-primary-200">
-									<AiFillPlusCircle />
-									<p className="text-sm md:text-base">Add new passenger</p>
-								</div>
-							</div> */}
 						</div>
 						{/* {seat reservation} */}
 						{/* <div className="w-full p-8 mt-4 bg-white rounded-md lg:py-12">
@@ -302,7 +296,7 @@ const Checkout = () => {
 					</div>
 
 					{/* {terms & conditions} */}
-					<div className="fixed bottom-0 lg:static pl-8 pr-12 pt-4 pb-12 bg-white border-t border-[#EFF3EF] rounded-md md:-mt-12 md:rounded-b-md">
+					<div className="fixed bottom-0 w-full lg:static pl-8 pr-12 pt-4 pb-12 bg-white border-t border-[#EFF3EF] rounded-md md:-mt-12 md:rounded-b-md">
 						{showAlert && (
 							<Alert
 								message="Kindly confirm the terms and conditions"
@@ -340,7 +334,7 @@ const Checkout = () => {
 								initial="initial"
 								whileTap="tap"
 								whileHover="hover"
-								className="w-full h-[48px] lg:h-[48px] p-3 mt-4 text-xs lg:text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E] hover:bg-[#58FF9E] rounded-lg "
+								className="w-full h-[48px] lg:h-[48px] p-3 mt-4 text-xs lg:text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E]  rounded-lg "
 								onClick={payWithPaystack}>
 								Proceed to Payments
 							</motion.button>
