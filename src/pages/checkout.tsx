@@ -45,15 +45,15 @@ const Checkout = () => {
 
 	const onSuccess = () => {
 		dispatch(verifyPaymentAction(myBooking));
-		message.info("Your booking have been created successfully!");
-		navigate("/");
+		message.info("Your ride has been successfully booked!");
+		navigate("/book-a-ride");
 		dispatch(emptyMyBooking());
 	};
 
 	const onClose = () => {
 		messageApi.open({
 			type: "error",
-			content: "An error occoured while trying to pay",
+			content: "An error occured while trying to pay",
 		});
 	};
 
