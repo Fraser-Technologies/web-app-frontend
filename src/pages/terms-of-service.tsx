@@ -47,11 +47,11 @@ const TermsOfService = () => {
                       <p className="text-xl font-semibold">{tosData.topline}</p>
                     </div>
 
-                    <div className="px-8 mt-8">
+                    <div className="px-8 mt-8  pb-16">
                       <hr className="border-t-2 mr-12 border-gray-100 " />
                       <p className="text-sm leading-5 mt-8 mr-12 text-[#000000]">
                         {tosData.text.split("\n").map((text) => (
-                          <p>{text}</p>
+                          <p className="mt-4">{text}</p>
                         ))}
                       </p>
                     </div>
