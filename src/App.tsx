@@ -1,9 +1,5 @@
 import React, { useEffect } from "react";
-// import { persistStore } from "redux-persist";
-// import { PersistGate } from "redux-persist/integration/react";
-import { BrowserRouter, Routes, Route, useNavigate } from "react-router-dom";
-import { Provider, useDispatch } from "react-redux";
-import { AuthProvider } from "./providers/AuthContext";
+import { Routes, Route, useNavigate } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import loadable from "@loadable/component";
 import { _paths_ } from "./utils/appHelpers";
@@ -84,11 +80,43 @@ const Booking = loadable(() => import("./pages/bookings"), {
 	),
 });
 
+const TermsOfService = loadable(() => import("./pages/terms-of-service"), {
+	fallback: (
+		<div
+			style={{
+				display: "flex",
+				minWidth: 0,
+				alignItems: "center",
+				alignContent: "center",
+				height: "100%",
+			}}>
+			<CircularProgress sx={{ m: "-40px auto 0" }} />
+		</div>
+	),
+});
+
+const NotFound = loadable(() => import("./pages/404"), {
+	fallback: (
+		<div
+			style={{
+				display: "flex",
+				minWidth: 0,
+				alignItems: "center",
+				alignContent: "center",
+				height: "100%",
+			}}>
+			<CircularProgress sx={{ m: "-40px auto 0" }} />
+		</div>
+	),
+});
+
 const App = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const { busStops } = useAppSelector((state: any) => state.allBusStop);
-	const { userInfo } = useAppSelector((state: any) => state.userLogin);
+	const {
+		userInfo: { _id },
+	} = useAppSelector((state: any) => state.userLogin);
 
 	useEffect(() => {
 		if (!busStops?.length) {
@@ -97,23 +125,23 @@ const App = () => {
 	}, [busStops?.length, dispatch]);
 
 	useEffect(() => {
-		if (!userInfo?._id) {
+		if (!_id) {
 			navigate("/book-a-ride");
 		}
-	}, []);
+	}, [_id, navigate]);
 
 	return (
 		<>
-			<AuthProvider>
-				<Routes>
-					<Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
-					<Route path={_paths_.AVAILABLE_TRIP} element={<Booking />} />
-					<Route path={_paths_.SIGNIN} element={<SignIn />} />
-					<Route path={_paths_.SIGNUP} element={<SignUp />} />
-					<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
-					<Route path={_paths_.CHECKOUT} element={<Checkout />} />
-				</Routes>
-			</AuthProvider>
+			<Routes>
+				<Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
+				<Route path={_paths_.AVAILABLE_TRIP} element={<Booking />} />
+				<Route path={_paths_.TERMS_OF_SERVICE} element={<TermsOfService />} />
+				<Route path={_paths_.SIGNIN} element={<SignIn />} />
+				<Route path={_paths_.SIGNUP} element={<SignUp />} />
+				<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
+				<Route path={_paths_.CHECKOUT} element={<Checkout />} />
+				<Route path={_paths_.NOTFOUND} element={<NotFound />} />
+			</Routes>
 		</>
 	);
 };

@@ -1,8 +1,7 @@
 import React from "react";
 import { Button } from "../components/Button";
 import Layout from "../components/layouts/SignInLayout";
-import { Helmet } from "react-helmet";
-import { Link, useNavigate } from "react-router-dom";
+import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 
 type Inputs = {
@@ -13,29 +12,23 @@ type Inputs = {
 };
 
 const SignUp = () => {
-	const navigate = useNavigate();
-	const [user, setUser] = React.useState<any>("");
 	const {
 		register,
 		handleSubmit,
-		watch,
 		formState: { errors },
 	} = useForm<Inputs>();
 
 	const onSubmit: SubmitHandler<Inputs> = (data) => {
-		console.log(data, "formdata");
+		// console.log(data, "formdata");
 	};
 
 	return (
 		<Layout
+			title="Sign In - Fraser"
 			bg={
 				"md:h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
 			}
 			childClass={"flex justify-center items-center w-full h-5/6 m-auto"}>
-			<Helmet>
-				<meta charSet="utf-8" />
-				<title>Sign In - Fraser</title>
-			</Helmet>
 			<div className="w-11/12 sm:w-3/5 lg:w-2/5 mt-4 md:mt-8">
 				<div className="bg-white py-12 px-8 rounded-md w-full">
 					<h1 className="text-2xl lg:text-3xl font-semibold leading-6 tracking-tighter">

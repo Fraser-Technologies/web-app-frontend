@@ -21,8 +21,6 @@ export const getAvailableTripAction =
 				to,
 			});
 
-			console.log("the available trip data is ", data);
-
 			dispatch(getAvailableTripSuccess(data));
 		} catch (error: any) {
 			dispatch(getAvailableTripFailed(RequestError(error)));
