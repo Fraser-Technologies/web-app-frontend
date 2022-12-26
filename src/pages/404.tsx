@@ -1,12 +1,12 @@
 import { useNavigate } from "react-router-dom";
 import { Header } from "../components/Header";
+import Layout from "../components/layouts/SignInLayout";
 
 const NotFound = () => {
 	const navigate = useNavigate();
 
 	return (
-		<>
-			<Header />
+		<Layout title="Not found">
 			<div className="flex flex-col items-center justify-center w-full h-full">
 				<img
 					src={"/120611-404-not-found.gif"}
@@ -21,7 +21,7 @@ const NotFound = () => {
 					Go Back
 				</button>
 			</div>
-		</>
+		</Layout>
 	);
 };
 
