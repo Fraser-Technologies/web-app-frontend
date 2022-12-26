@@ -11,7 +11,7 @@ const TermsOfService = () => {
     setSelectedContent(content);
   };
 
-  const [tosToggle, setTosToggle] = React.useState<boolean>(true);
+  const [tosToggle, setTosToggle] = React.useState<boolean>(false);
   const tosToggleClick = () => {
     setTosToggle(!tosToggle);
   };
@@ -66,7 +66,7 @@ const TermsOfService = () => {
                         handleLinkClick(tosData.key);
                         tosToggleClick();
                       }}
-                      className={`px-6 py-4 z-50 ease-in-out duration-300 active:bg-[#00ff6a] hover:text-gray-900 active:text-green-500 ${
+                      className={`px-6 cursor-pointer py-4 z-50 ease-in-out duration-300 active:bg-[#00ff6a] hover:text-gray-900 active:text-green-500 ${
                         selectedContent === tosData.key
                           ? "bg-[#00ff6a] text-black font-semibold pl-8 text-base"
                           : "text-gray-500 text-sm"
@@ -98,7 +98,7 @@ const TermsOfService = () => {
                         handleLinkClick(tosData.key);
                         tosToggleClick();
                       }}
-                      className={`px-6 py-4 z-50 ease-in-out duration-300 active:bg-[#00ff6a] hover:text-gray-900 active:text-green-500 ${
+                      className={`px-6 cursor-pointer py-4 z-50 ease-in-out duration-300 active:bg-[#00ff6a] hover:text-gray-900 active:text-green-500 ${
                         selectedContent === tosData.key
                           ? "bg-[#00ff6a] text-black font-semibold pl-8 text-base"
                           : "text-gray-500 text-sm"
