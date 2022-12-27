@@ -27,7 +27,7 @@ export const Header = ({ user }: Props) => {
         className="flex-col items-center justify-center w-full mt-24 space-y-8 text-white"
         onClick={() => setOpenNavBar(false)}
       >
-        <Link to="/book-a-ride">
+        <Link to="/">
           <h1 className="mb-4 text-xl font-bold text-center">Home</h1>
         </Link>
         <h1 className="text-xl font-bold text-center">
@@ -53,7 +53,7 @@ export const Header = ({ user }: Props) => {
           {getList()}
         </Drawer>
         <div>
-          <Link to="/book-a-ride">
+          <Link to="/">
             <img
               src="/assets/images/fraser-white-logo.svg"
               alt="Fraser Logo"
@@ -63,7 +63,7 @@ export const Header = ({ user }: Props) => {
         </div>
       </div>
       <div className="items-center justify-between hidden space-x-12 md:flex">
-        <Link to="/book-a-ride" className="text-white ">
+        <Link to="/" className="text-white ">
           Home
         </Link>
         {userInfo && <div className="text-white">{userInfo?.first_name}</div>}

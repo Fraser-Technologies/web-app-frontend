@@ -47,7 +47,7 @@ const Checkout = () => {
   const onSuccess = () => {
     dispatch(verifyPaymentAction(myBooking));
     message.info("Your ride has been successfully booked!");
-    navigate("/book-a-ride");
+    navigate("/");
     dispatch(emptyMyBooking());
   };
 
@@ -131,25 +131,24 @@ const Checkout = () => {
   return (
     <Layout title="Checkout - Fraser">
       {contextHolder}
-
+      <div className="relative bg-black h-24 -z-10 lg:h-40">
+        <GeometricPatterns />
+      </div>
       <div className="flex z-10 w-full pb-48 lg:pb-0 flex-col lg:flex-row lg:mt-15">
-        <div className="relative bg-black h-24 -z-10 lg:h-40">
-          <GeometricPatterns />
-        </div>
-        <div className="lg:ml-16 lg:mr-8 lg:w-7/12 ease-in-out duration-300 h-full">
-          <div className="flex py-4 px-8 md:mt-[30px] lg:mt-16 mb-5 rounded-md items-center justify-between duration-300 ease-in-out bg-white">
+        <div className="lg:ml-16 -mt-16 lg:-mt-32 mx-4 lg:mr-8 lg:w-7/12 ease-in-out duration-300 h-full">
+          <div className="flex py-6 px-8 md:mt-[30px] lg:mt-16 mb-5 rounded-md items-center justify-between duration-300 ease-in-out bg-white">
             <h3 className="text-lg font-semibold md:text-lg">Checkout</h3>
 
             <div className="block lg:hidden">
               {!show ? (
                 <BsChevronDown
                   onClick={handleBookingToggle}
-                  className="cursor-pointer"
+                  className="cursor-pointer stroke-2 lg:hidden"
                 />
               ) : (
                 <BsChevronUp
                   onClick={handleBookingToggle}
-                  className="cursor-pointer"
+                  className="cursor-pointer stroke-2 lg:hidden"
                 />
               )}
             </div>
@@ -232,7 +231,7 @@ const Checkout = () => {
 
         {/* {payment details} */}
         <div className="w-full lg:w-5/12 lg:mr-16 lg:mt-16">
-          <div className="w-full pt-6 pb-8 px-8 bg-white rounded-md">
+          <div className="mx-4 lg:mx-0 lg:w-full lg:-mt-32 pt-6 pb-8 px-8 bg-white rounded-md">
             <div className="border-b border-[#EFF3EF] pb-2">
               <h2 className="mb-2 lg:mb-4 text-lg font-semibold md:text-lg lg:block">
                 Your booking
