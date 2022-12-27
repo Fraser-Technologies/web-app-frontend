@@ -16,7 +16,7 @@ export const Header = ({ user }: Props) => {
   const navigate = useNavigate();
 
   const getList = () => (
-    <div className="w-[320px] flex-col h-full items-center bg-black py-8 px-4 ">
+    <div className="w-full fixed flex-col h-full items-center bg-black py-8 px-4 ">
       <div className="flex justify-end">
         <AiOutlineClose
           className="text-2xl text-white"
@@ -27,7 +27,7 @@ export const Header = ({ user }: Props) => {
         className="flex-col items-center justify-center w-full mt-24 space-y-8 text-white"
         onClick={() => setOpenNavBar(false)}
       >
-        <Link to="/">
+        <Link to="/book-a-ride">
           <h1 className="mb-4 text-xl font-bold text-center">Home</h1>
         </Link>
         <h1 className="text-xl font-bold text-center">
