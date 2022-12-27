@@ -105,7 +105,7 @@ const BookRide = () => {
     email !== "" &&
     phone !== "" &&
     phone.length === 10 &&
-  email.match(emailRegex);
+    email.match(emailRegex);
 
   const CreateUser = () => {
     setLoading(true);
@@ -122,10 +122,17 @@ const BookRide = () => {
     });
   };
 
+  //AMEN
+  // const loginFailed = () => {
+  //   if (loginError === "user doesn't exist please sign in") {
+  //     setFlip(!flip);
+  //   }
+  // };
   const LoginUser = () => {
     setLoading(true);
     dispatch(userLoginAction("+234" + phone)).finally(() => {
       setLoading(false);
+      // loginFailed()
     });
   };
 
@@ -458,7 +465,11 @@ const BookRide = () => {
                 <div>
                   {loginError ? (
                     <Alert
-                      message={loginError}
+                      message={
+                        loginError === "user doesn't exist please sign in"
+                          ? "Can't find the account, maybe sign up?"
+                          : loginError
+                      }
                       type="warning"
                       showIcon
                       className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
@@ -570,7 +581,9 @@ const BookRide = () => {
                         ? "bg-[#00ff6a] hover:bg-[#58FF9E]"
                         : "bg-[#f5f5f5]"
                     } `}
-                    onClick={() => (signUpValid ? CreateUser() : console.log(signUpValid))}
+                    onClick={() =>
+                      signUpValid ? CreateUser() : console.log(signUpValid)
+                    }
                   >
                     <svg
                       className={`${
