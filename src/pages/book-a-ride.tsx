@@ -90,6 +90,16 @@ const BookRide = () => {
     });
   };
 
+  useEffect(() => {
+    if (destinationBusStop !== 'Select destination bus stop') {
+      setDestinationBusStop('Select destination bus stop');
+    }
+    if (startBusStop !== 'Select start bus stop') {
+      setStartBusStop('Select start bus stop');
+    }
+  }, [selectedCity]);
+  
+
   const TripValid =
     selectedCity !== "Set your current city" &&
     destinationBusStop !== "Select destination bus stop" &&
@@ -167,7 +177,7 @@ const BookRide = () => {
               <h1 className="text-xl font-semibold leading-64px tracking-tight">
                 Book a Ride
               </h1>
-              <p className="text-sm text-gray-600 pt-2 pb-8 w-3/4">
+              <p className="text-sm text-gray-600 pt-2 pb-8 w-11/12">
                 {" "}
                 Easily book a ride to your desired destination. Simply select
                 your city, enter your starting and ending locations and Voila!.{" "}

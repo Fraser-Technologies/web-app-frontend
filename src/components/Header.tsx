@@ -16,7 +16,7 @@ export const Header = ({ user }: Props) => {
   const navigate = useNavigate();
 
   const getList = () => (
-    <div className="w-full fixed flex-col h-full items-center bg-black py-8 px-4 ">
+    <div className="w-3/4 fixed flex-col h-full items-center bg-black py-8 px-4 ">
       <div className="flex justify-end">
         <AiOutlineClose
           className="text-2xl text-white"

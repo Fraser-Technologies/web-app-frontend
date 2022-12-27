@@ -112,6 +112,15 @@ const Bookings = () => {
     }
   }, [busStops, dispatch]);
 
+  useEffect(() => {
+    if (destinationBusStop !== 'Select destination bus stop') {
+      setdestination('Select destination bus stop');
+    }
+    if (startBusStop !== 'Select start bus stop') {
+      setstart('Select start bus stop');
+    }
+  }, [city]);
+
   return (
     <Layout title="Fraser - Book a ride">
       <div className="relative bg-black h-24 -z-10 lg:h-32">
@@ -120,8 +129,8 @@ const Bookings = () => {
       <div className="lg:flex flex-col overflow-y-scroll scroll-behavior-smooth ease-in-out duration-300 items-center justify-center">
         {/* COLUMN */}
 
-        <div className="lg:w-4/12 -mt-16 rounded-md lg:mt-0 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0">
-          <div className="mx-4 lg:mx-0">
+        <div className=" lg:w-4/12 -mt-16 rounded-md lg:mt-0 fixed lg:mx-16 lg:my-32 w-full lg:fixed lg:top-0 lg:left-0">
+          <div className="mx-4 mb-2 lg:mb-0 lg:mx-0">
             <div
               className={
                 whereToToggle === true
@@ -410,7 +419,7 @@ const Bookings = () => {
             </div>
 
             {/* RIGHT COLUMN */}
-            <div className="fixed w-full lg:w-7/12 mt-4 h-5/6  lg:mt-40 rounded-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0">
+            <div className="fixed w-full lg:w-7/12 mt-4 h-5/6 lg:mt-40 rounded-md lg:mx-16 lg:my-32 overflow-y-scroll scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0">
               <div className="fixed w-full ">
                 <div className="mx-4 -mt-1 lg:w-7/12 rounded-t-md lg:mx-16 lg:my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center lg:fixed lg:top-0 lg:right-0">
                   <h1 className="text-lg mx-6 lg:ml-12 pt-4 lg:mt-2 font-semibold">
