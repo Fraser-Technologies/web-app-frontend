@@ -112,15 +112,6 @@ const Bookings = () => {
     }
   }, [busStops, dispatch]);
 
-  useEffect(() => {
-    if (destinationBusStop !== 'Select destination bus stop') {
-      setdestination('Select destination bus stop');
-    }
-    if (startBusStop !== 'Select start bus stop') {
-      setstart('Select start bus stop');
-    }
-  }, [city]);
-
   return (
     <Layout title="Fraser - Book a ride">
       <div className="relative bg-black h-24 -z-10 lg:h-32">
@@ -163,8 +154,8 @@ const Bookings = () => {
                 <div
                   className={
                     whereToToggle === true
-                      ? "pb-12 pt-8 px-6 lg:px-12 lg:mr-12 bg-white ease-in-out lg:pt-8 duration-300 rounded-b-md lg:rounded-md border-b border-[#EFF3EF]"
-                      : "hidden lg:block pb-12 pt-8 px-12 lg:mr-12  ease-in-out lg:pt-8 duration-300 bg-white lg:rounded-md rounded-b-md border-b border-[#EFF3EF]"
+                      ? "pb-12 pt-8 px-6 lg:px-12 lg:mr-12 bg-white ease-in-out lg:pt-16 duration-300 rounded-b-md lg:rounded-md border-b border-[#EFF3EF]"
+                      : "hidden lg:block pb-12 pt-8 px-12 lg:mr-12  ease-in-out lg:pt-16 duration-300 bg-white lg:rounded-md rounded-b-md border-b border-[#EFF3EF]"
                   }
                 >
                   {/* CITY SELECTION */}
@@ -430,7 +421,7 @@ const Bookings = () => {
               <div className="mx-4 lg:mx-0 ">
                 {/* HEADER */}
 
-                <div className=" rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 w-full px-6 lg:px-12 py-4 lg:py-0 bg-white h-max overflow-y-scroll scroll-behavior-smooth">
+                <div className=" rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 w-full px-8 lg:px-12 py-4 lg:py-0 bg-white h-max overflow-y-scroll scroll-behavior-smooth">
                   {availableTripLoading ? (
                     <div className="px-6 py-2 mb-8 animate-pulse flex space-x-4">
                       <div className="flex-1 space-y-6 py-1">
