@@ -101,7 +101,7 @@ export const Header = ({ user }: Props) => {
         <Button
           title="Book a ride"
           type="submit"
-          className="px-3 py-2 rounded-md bg-primary-100"
+          className="px-4 py-2 text-xs rounded-md bg-primary-100"
           onClick={() => {
             navigate(_paths_.AVAILABLE_TRIP);
           }}
