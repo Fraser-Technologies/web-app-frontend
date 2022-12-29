@@ -12,7 +12,7 @@ interface Props {
 
 const Layout = ({ children, bg, childClass, title }: Props) => {
 	return (
-		<div className="h-full font-sans">
+		<div className="overflow-hidden h-full font-sans">
 			<Helmet>
 				<meta charSet="utf-8" />
 				<title>{title || "Fraser"}</title>

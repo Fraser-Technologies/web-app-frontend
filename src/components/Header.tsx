@@ -14,13 +14,13 @@ interface Props {
 }
 
 export const Header = ({ user }: Props) => {
-	const [openNavBar, setOpenNavBar] = React.useState(false);
 	const { userInfo } = useAppSelector((state: any) => state.userLogin);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
+	const [openNavBar, setOpenNavBar] = React.useState(false);
 
 	const getList = () => (
-		<div className="w-[320px] flex-col h-full items-center bg-black py-8 px-4 ">
+		<div className="w-3/4 fixed flex-col h-full items-center bg-black py-8 px-4 ">
 			<div className="flex justify-end">
 				<AiOutlineClose
 					className="text-2xl text-white"
@@ -34,7 +34,7 @@ export const Header = ({ user }: Props) => {
 					<h1 className="mb-4 text-xl font-bold text-center">Home</h1>
 				</Link>
 				<h1 className="text-xl font-bold text-center">
-					{`${userInfo?.first_name} ${userInfo?.last_name}`}
+					{`${userInfo?.first_name}`}
 				</h1>
 			</div>
 		</div>
@@ -86,6 +86,46 @@ export const Header = ({ user }: Props) => {
 						navigate("/book-a-ride");
 					}}
 				/>
+			</div>
+		</div>
+	);
+	return (
+		<div className="fixed top-0 z-10 flex items-center justify-between w-full px-4 py-6 bg-black md:px-16">
+			<div className="flex items-center space-x-2 md:block md:space-x-0 md:items-start">
+				<HiMenu
+					className="block text-xl text-white md:hidden"
+					onClick={() => setOpenNavBar(true)}
+				/>
+				<Drawer
+					open={openNavBar}
+					anchor={"left"}
+					className="w-full"
+					onClose={() => setOpenNavBar(false)}>
+					{getList()}
+				</Drawer>
+				<div>
+					<Link to="/">
+						<img
+							src="/assets/images/fraser-white-logo.svg"
+							alt="Fraser Logo"
+							className="w-14 lg:w-20"
+						/>
+					</Link>
+				</div>
+			</div>
+			<div className="items-center justify-between hidden space-x-12 md:flex">
+				<Link to="/" className="text-white ">
+					Home
+				</Link>
+				{userInfo && <div className="text-white">{userInfo?.first_name}</div>}
+				{/* <Button
+          title="Book a ride"
+          type="submit"
+          className="px-3 py-2 rounded-md bg-primary-100"
+          onClick={() => {
+            navigate("/book-a-ride");
+          }}
+        /> */}
 			</div>
 		</div>
 	);

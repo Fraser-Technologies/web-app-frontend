@@ -24,7 +24,7 @@ export const registerUserAction =
 			const { data } = await api.post("/user/signup", { input });
 			Cookie.set("userInfo", JSON.stringify(data));
 			dispatch(loginSuccess(data));
-			dispatch(registerSuccess(data));
+			// dispatch(registerSuccess(data));
 		} catch (error: any) {
 			dispatch(loginFailed(RequestError(error)));
 		}
