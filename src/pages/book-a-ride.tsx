@@ -48,7 +48,6 @@ const BookRide = () => {
 	const [selectedCity, setSelectedCity] = useState("Set your current city");
 	const handleOptionClick = (option: any) => {
 		setSelectedCity(option);
-		// setLag(option);
 		setIsOpen(false);
 	};
 

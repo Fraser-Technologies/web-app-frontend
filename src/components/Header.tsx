@@ -4,7 +4,10 @@ import { AiOutlineClose } from "react-icons/ai";
 import { Drawer } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
-import { useAppSelector } from "../state/hooks";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { Dropdown } from "antd";
+import type { MenuProps } from "antd";
+import { logOut } from "../state/slices/user.slice";
 
 interface Props {
 	user?: string;
@@ -14,6 +17,7 @@ export const Header = ({ user }: Props) => {
 	const [openNavBar, setOpenNavBar] = React.useState(false);
 	const { userInfo } = useAppSelector((state: any) => state.userLogin);
 	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
 
 	const getList = () => (
 		<div className="w-[320px] flex-col h-full items-center bg-black py-8 px-4 ">
@@ -35,6 +39,13 @@ export const Header = ({ user }: Props) => {
 			</div>
 		</div>
 	);
+
+	const items: MenuProps["items"] = [
+		{
+			key: "logout",
+			label: <span onClick={() => dispatch(logOut())}>Logout</span>,
+		},
+	];
 
 	return (
 		<div className="fixed top-0 z-10 flex items-center justify-between w-full px-4 py-6 bg-black md:px-16">
@@ -62,7 +73,11 @@ export const Header = ({ user }: Props) => {
 				<Link to="/" className="text-white ">
 					Home
 				</Link>
-				{userInfo && <div className="text-white">{userInfo?.first_name}</div>}
+				{userInfo && (
+					<Dropdown menu={{ items }} trigger={["hover"]}>
+						<div className="text-white">{userInfo?.first_name}</div>
+					</Dropdown>
+				)}
 				<Button
 					title="Book a ride"
 					type="submit"
