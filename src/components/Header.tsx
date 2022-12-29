@@ -89,7 +89,7 @@ export const Header = ({ user }: Props) => {
 					Home
 				</Link>
 				{userInfo && (
-					<Dropdown menu={{ items }} trigger={["hover"]}>
+					<Dropdown menu={{ items }} trigger={["click"]}>
 						<div className="text-white">{userInfo?.first_name}</div>
 					</Dropdown>
 				)}

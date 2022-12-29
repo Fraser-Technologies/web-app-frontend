@@ -94,7 +94,7 @@ const BookRide = () => {
 		if (startBusStop !== "Select start bus stop") {
 			setStartBusStop("Select start bus stop");
 		}
-	}, [destinationBusStop, selectedCity, startBusStop]);
+	}, [selectedCity]);
 
 	const TripValid =
 		selectedCity !== "Set your current city" &&
