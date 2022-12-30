@@ -9,6 +9,7 @@ import { Dropdown } from "antd";
 import type { MenuProps } from "antd";
 import { logOut } from "../state/slices/user.slice";
 import { _paths_ } from "../utils/appHelpers";
+import Cookie from "js-cookie";
 
 interface Props {
   user?: string;
@@ -22,6 +23,8 @@ export const Header = ({ user }: Props) => {
 
   const logOutUser = () => {
     dispatch(logOut());
+    localStorage.removeItem("userInfo");
+    Cookie.remove("userInfo");
     setOpenNavBar(false);
     return;
   };
@@ -101,7 +104,7 @@ export const Header = ({ user }: Props) => {
         <Button
           title="Book a ride"
           type="submit"
-          className="px-3 py-2 rounded-md bg-primary-100"
+          className="px-4 py-2 text-xs rounded-md bg-primary-100"
           onClick={() => {
             navigate(_paths_.AVAILABLE_TRIP);
           }}
