@@ -38,22 +38,40 @@ const TripsOverview = () => {
       setMenuToggle(value);
     }
   };
-  const [flip, setFlip] = useState<boolean>(false);
-
+  const [flip, setFlip] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const handleOpenModal = (data: any) => {
+  const handleOpenInfoModal = (data: any) => {
+    setFlip("info");
     setModalVisible(true);
     setModalData(data);
   };
+
+  const [deleteVisible, setDeleteModalVisible] = useState<boolean>(false);
+  const handleOpenDeleteModal = (data: any) => {
+    setFlip("delete");
+    setDeleteModalVisible(true);
+    setModalData(data);
+  };
+
+ 
 
   const handleOk = () => {
     setModalVisible(false);
   };
 
   const handleCancel = () => {
-    setFlip(false);
-    if (!flip) {
+    // setFlip("info");
+    if (flip === "info") {
       setModalVisible(false);
+      setFlip("");
+    }
+    if (flip === "delete") {
+      setModalVisible(false);
+      setFlip("info");
+    }
+    if (flip === "create") {
+      setModalVisible(false);
+      setFlip("");
     }
   };
 
@@ -66,12 +84,12 @@ const TripsOverview = () => {
     return (
       <tr className="bg-white border-b border-slate-100 hover:bg-gray-50 cursor-pointer">
         <td scope="row" className="font-normal text-xs text-gray-700">
-          <div className="py-4 px-4" onClick={() => handleOpenModal(item)}>
+          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
             {item.start}
           </div>
         </td>
         <td scope="row" className=" font-normal text-xs text-gray-700 ">
-          <div className="py-4 px-4" onClick={() => handleOpenModal(item)}>
+          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
             {item.destination}
           </div>
         </td>
@@ -79,7 +97,7 @@ const TripsOverview = () => {
           scope="row"
           className="font-normal text-xs text-gray-700 text-center"
         >
-          <div className="py-4 px-4" onClick={() => handleOpenModal(item)}>
+          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
             {item.date}
           </div>
         </td>
@@ -87,7 +105,7 @@ const TripsOverview = () => {
           scope="row"
           className="font-normal text-xs text-gray-700 text-center"
         >
-          <div className="py-4 px-4" onClick={() => handleOpenModal(item)}>
+          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
             {item.time}
           </div>
         </td>
@@ -95,7 +113,7 @@ const TripsOverview = () => {
           scope="row"
           className="font-normal text-xs text-gray-700 text-center"
         >
-          <div className="py-4 px-4" onClick={() => handleOpenModal(item)}>
+          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
             {item.driver}
           </div>
         </td>
@@ -103,7 +121,7 @@ const TripsOverview = () => {
           scope="row"
           className="font-normal text-xs text-gray-700 text-center"
         >
-          <div className="py-4 px-4" onClick={() => handleOpenModal(item)}>
+          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
             {item.vehicle}
           </div>
         </td>
@@ -119,7 +137,7 @@ const TripsOverview = () => {
               ? menuVisible && (
                   <ul className="bg-white border rounded-md shadow-md absolute z-10 mt-2 py-2">
                     <li
-                      onClick={() => handleOpenModal(item)}
+                      onClick={() => handleOpenInfoModal(item)}
                       className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
                     >
                       View
@@ -132,8 +150,8 @@ const TripsOverview = () => {
                     </li>
                     <li
                       onClick={() => {
-                        setFlip(true);
-                        handleOpenModal(item);
+                        setFlip("delete");
+                        handleOpenDeleteModal(item);
                       }}
                       className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
                     >
@@ -151,7 +169,6 @@ const TripsOverview = () => {
   return (
     <>
       {/* TRIPS OVERVIEW VIEW*/}
-
       {/* PAGINATION */}
       <div className="mb-4 bg-gray-200 rounded-md px-6">
         <ReactPaginate
@@ -206,7 +223,10 @@ const TripsOverview = () => {
             {items.map((item, index) => rowRenderer({ index }))}
           </tbody>
         </table>
-        {!flip
+
+        {/* MODALS --> VIEW AND DELETE */}
+
+        {flip === "info"
           ? modalVisible && (
               <Modal
                 title={
@@ -272,17 +292,18 @@ const TripsOverview = () => {
                   type="submit"
                   className="w-full mt-4 mb-6 px-4 py-3 text-xs rounded-md border text-red-600 border-red-500"
                   onClick={() => {
-                    setFlip(!flip);
-                    // ShowConfirmDelete(modalData);
+                    setFlip("delete");
+                    setDeleteModalVisible(true);
                   }}
                 />
               </Modal>
             )
-          : modalVisible && (
+          : flip === "delete"
+          ? deleteVisible && (
               <Modal
                 onOk={handleOk}
                 onCancel={handleCancel}
-                open={modalVisible}
+                open={deleteVisible}
                 centered={true}
                 footer={false}
                 closable={true}
@@ -307,7 +328,8 @@ const TripsOverview = () => {
                     if (index > -1) {
                       data.splice(index, 1);
                       console.log(data);
-                      setModalVisible(false)
+                      setModalVisible(false);
+                      setDeleteModalVisible(false);
                     }
                   }}
                 />
@@ -316,11 +338,12 @@ const TripsOverview = () => {
                   type="submit"
                   className="w-full py-2 mt-4 mb-4 text-xs rounded-md border text-gray-600 border-gray-500"
                   onClick={() => {
-                    setFlip(!flip);
+                    setFlip("info");
                   }}
                 />
               </Modal>
-            )}
+            )
+          : null}
       </div>
     </>
   );

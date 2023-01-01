@@ -7,6 +7,7 @@ import { data } from "./adminData/dash-test-data";
 import { useNavigate } from "react-router-dom";
 import TripsOverview from "./Trip-Views/trips-overiew";
 import BusStopManagement from "./Trip-Views/bus-stop-mgt";
+import { Modal } from "antd";
 
 const MiddleSection = () => {
   // PAGINATION
@@ -15,6 +16,25 @@ const MiddleSection = () => {
     setIsActive(value);
   };
   const navigate = useNavigate();
+
+  const [flip, setFlip] = useState("");
+  const [createVisible, setCreateModalVisible] = useState<boolean>(false);
+  const handleOpenCreateModal = () => {
+    setFlip("create");
+    setCreateModalVisible(true);
+    // setModalData(data);
+  };
+
+  const handleOk = () => {
+    setCreateModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    if (flip === "create") {
+      setCreateModalVisible(false);
+      setFlip("");
+    }
+  };
 
   return (
     <div className="bg-white h-full col-start-2 col-end-6 ">
@@ -58,7 +78,7 @@ const MiddleSection = () => {
                 type="submit"
                 className="px-4 py-2 text-xs rounded-md bg-primary-100"
                 onClick={() => {
-                  navigate("");
+                  handleOpenCreateModal();
                 }}
               />
             ) : (
@@ -66,6 +86,25 @@ const MiddleSection = () => {
             )}
           </div>
         </div>
+        {flip === "create"
+          ? createVisible && (
+              <Modal
+                title={
+                  <div className="boder-b text-lg font-medium">
+                    Create a trip
+                  </div>
+                }
+                onOk={handleOk}
+                onCancel={handleCancel}
+                open={createVisible}
+                centered={true}
+                footer={false}
+                closable={true}
+              >
+                {/* Modal content */}
+              </Modal>
+            )
+          : null}
 
         {active == "overview" ? <TripsOverview /> : <BusStopManagement />}
       </div>
