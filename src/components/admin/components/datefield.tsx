@@ -1,14 +1,18 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import DropDown from "./drop-down";
 
-const DateField = ({ className }: { className: any }) => {
+const DateField = (props: any) => {
+  const { onSendData } = props;
+  const className = props;
+  // PASS DATA TO PARENT
+  const handleSendData = () => {
+    onSendData(year, month, day);
+  };
+
   const [year, setYear] = useState("");
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
-  //   const [year, setYear] = useState<number>(0);
-  //   const [month, setMonth] = useState<string | null>(null);
-  //   const [day, setDay] = useState<number | null>(null);
 
   // Array of years to display in the dropdown menu
   const years = [2023, 2024, 2025];
@@ -32,16 +36,9 @@ const DateField = ({ className }: { className: any }) => {
   // Array of days to display in the dropdown menu (assuming 31 days in every month)
   const days = Array.from({ length: 31 }, (_, i) => i + 1);
 
-  //DROPDOWN
-  const [open, setIsOpen] = useState(false);
-  const [displayText, setDisplayText] = useState("Year");
-  const onChange = (option: any) => {
-    setDisplayText(option);
-    setIsOpen(!open);
-  };
-  const click = () => {
-    setIsOpen(!open);
-  };
+  useEffect(() => {
+    handleSendData();
+  }, [year, month, day]);
 
   return (
     <div className={`w-full flex  ${className}`}>
@@ -53,7 +50,9 @@ const DateField = ({ className }: { className: any }) => {
         <select
           className="w-full mr-2 bg-[#EFF3EF] px-2 rounded-md"
           value={year}
-          onChange={(e) => setYear(e.target.value)}
+          onChange={(a) => {
+            setYear(a.target.value);
+          }}
         >
           {years.map((y) => (
             <option key={y} value={y}>
@@ -67,7 +66,9 @@ const DateField = ({ className }: { className: any }) => {
         <select
           className="w-full mx-2 bg-[#EFF3EF] px-2 rounded-md"
           value={month}
-          onChange={(e) => setMonth(e.target.value)}
+          onChange={(b) => {
+            setMonth(b.target.value);
+          }}
         >
           {months.map((m) => (
             <option key={m} value={m}>
@@ -80,7 +81,9 @@ const DateField = ({ className }: { className: any }) => {
         <select
           className="w-full ml-2 bg-[#EFF3EF] px-2 rounded-md"
           value={day}
-          onChange={(e) => setDay(e.target.value)}
+          onChange={(e) => {
+            setDay(e.target.value);
+          }}
         >
           {days.map((d) => (
             <option key={d} value={d}>

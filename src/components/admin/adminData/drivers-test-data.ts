@@ -1,82 +1,82 @@
 export const drivers = [
   {
-    name: "Chukwuemeka",
+    driver: "Chukwuemeka",
     lastName: "Okonkwo"
   },
   {
-    name: "Ngozi",
+    driver: "Ngozi",
     lastName: "Eze"
   },
   {
-    name: "Oluwadamilola",
+    driver: "Oluwadamilola",
     lastName: "Adebayo"
   },
   {
-    name: "Olumide",
+    driver: "Olumide",
     lastName: "Oluwaseun"
   },
   {
-    name: "Adaobi",
+    driver: "Adaobi",
     lastName: "Nwajei"
   },
   {
-    name: "Temitope",
+    driver: "Temitope",
     lastName: "Oluwaseun"
   },
   {
-    name: "Olajumoke",
+    driver: "Olajumoke",
     lastName: "Adeniji"
   },
   {
-    name: "Abiodun",
+    driver: "Abiodun",
     lastName: "Oluwaseun"
   },
   {
-    name: "Toluwanimi",
+    driver: "Toluwanimi",
     lastName: "Adeniran"
   },
   {
-    name: "Oluwafemi",
+    driver: "Oluwafemi",
     lastName: "Lawal"
   },
   {
-    name: "Folake",
+    driver: "Folake",
     lastName: "Oyekanmi"
   },
   {
-    name: "Ademola",
+    driver: "Ademola",
     lastName: "Oluwaseun"
   },
   {
-    name: "Oluwaseun",
+    driver: "Oluwaseun",
     lastName: "Oyewole"
   },
   {
-    name: "Babatunde",
+    driver: "Babatunde",
     lastName: "Adeyemi"
   },
   {
-    name: "Oluwatosin",
+    driver: "Oluwatosin",
     lastName: "Lawal"
   },
   {
-    name: "Chidinma",
+    driver: "Chidinma",
     lastName: "Eze"
   },
   {
-    name: "Temidayo",
+    driver: "Temidayo",
     lastName: "Adeyemi"
   },
   {
-    name: "Oluwaseyi",
+    driver: "Oluwaseyi",
     lastName: "Oyekanmi"
   },
   {
-    name: "Kafayat",
+    driver: "Kafayat",
     lastName: "Oyewole"
   },
   {
-    name: "Oluwademilade",
+    driver: "Oluwademilade",
     lastName: "Lawal"
   }
 ];

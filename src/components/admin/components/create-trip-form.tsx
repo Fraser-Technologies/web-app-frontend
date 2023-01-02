@@ -1,11 +1,28 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { cities } from "../adminData/busstops-test-data";
 import { drivers } from "../adminData/drivers-test-data";
 import { data } from "../adminData/trips-test-data";
+import { vehicles } from "../adminData/vehicles-test-data";
 import DateField from "./datefield";
 import DropdownComponent from "./full-dropdown";
 
-const CreateTripFormComponent = () => {
+const CreateTripFormComponent = (props: any) => {
+  const { onSendData } = props;
+  // PASS DATA TO PARENT
+  const handleSendData = () => {
+    onSendData(
+      startCityDisplayText,
+      startBusStopDisplayText,
+      destinationCityDisplayText,
+      destinationBuStopDisplayText,
+      driverDisplayText,
+      vehicleDisplayText,
+      year,
+      month,
+      day
+    );
+  };
+
   const citiesArray = Object.entries(cities);
 
   //   START CITY CONTROLLERS
@@ -59,7 +76,7 @@ const CreateTripFormComponent = () => {
 
   //   VEHICLE CONTROLLERS
   const [vehicleOpen, setVehicleIsOpen] = useState(false);
-  const [VehicleDisplayText, setVehicleDisplayText] =
+  const [vehicleDisplayText, setVehicleDisplayText] =
     useState("Select Vehicle");
   const handleVehicleChange = (option: any) => {
     setVehicleDisplayText(option);
@@ -79,6 +96,30 @@ const CreateTripFormComponent = () => {
   const handleDriverDropClick = () => {
     setDriverIsOpen(!driverOpen);
   };
+
+  // SET YEAR, MONTH AND DAY FROM CHILD COMPONENT (DATEFIELD)
+  const [year, setYear] = useState("");
+  const [month, setMonth] = useState("");
+  const [day, setDay] = useState("");
+
+  const handleDataFromChild = (year: any, month: any, day: any) => {
+    setYear(year);
+    setMonth(month);
+    setDay(day);
+  };
+
+  useEffect(() => {
+    handleSendData();
+  }, [
+    startCityDisplayText,
+    startBusStopDisplayText,
+    destinationCityDisplayText,
+    destinationBuStopDisplayText,
+    vehicleDisplayText,
+    driverDisplayText,
+    year, month, day
+  ]);
+
   return (
     <div className="">
       <DropdownComponent
@@ -199,7 +240,7 @@ const CreateTripFormComponent = () => {
       />
 
       <div className="w-full mb-2 text-gray-500 mt-8">Date and time</div>
-      <DateField className="mt-2" />
+      <DateField onSendData={handleDataFromChild} className="mt-2" />
       {/* DESTINATION */}
       <DropdownComponent
         topLabel="Vehicle and Driver"
@@ -208,17 +249,17 @@ const CreateTripFormComponent = () => {
         dropControllerBool={driverOpen}
         displayText={driverDisplayText}
         dataSetName={drivers}
-        dataSetMapFunction={drivers.map((option: any) => {
+        dataSetMapFunction={drivers.map((driver: any) => {
           return (
             <a
-              key={option}
+              key={driver}
               href="#"
               className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
               onClick={() => {
-                handleDriverChange(option.name + option.lastName);
+                handleDriverChange(driver.driver + " " + driver.lastName);
               }}
             >
-              {option.name + " " +option.lastName}
+              {driver.driver + " " + driver.lastName}
             </a>
           );
         })}
@@ -233,19 +274,21 @@ const CreateTripFormComponent = () => {
         onChangeFunction={handleVehicleChange}
         onClickFunction={handleVehicleDropClick}
         dropControllerBool={vehicleOpen}
-        displayText={VehicleDisplayText}
-        dataSetName={data}
-        dataSetMapFunction={data.map((option: any) => {
+        displayText={vehicleDisplayText}
+        dataSetName={vehicles}
+        dataSetMapFunction={vehicles.map((option: any) => {
           return (
             <a
               key={option}
               href="#"
               className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
               onClick={() => {
-                handleVehicleChange(option.vehicle);
+                handleVehicleChange(
+                  option.model + " " + option.registrationNumber
+                );
               }}
             >
-              {option.vehicle}
+              {option.model + " " + option.registrationNumber}
             </a>
           );
         })}
@@ -254,8 +297,6 @@ const CreateTripFormComponent = () => {
         dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-40"
         addNewOnClickFunction={() => {}}
       />
-
-      
     </div>
   );
 };

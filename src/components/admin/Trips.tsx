@@ -30,6 +30,41 @@ const MiddleSection: React.FC = () => {
       setFlip("");
     }
   };
+  // startCityDisplayText,
+  // startBusStopDisplayText,
+  // destinationCityDisplayText,
+  // destinationBuStopDisplayText,
+  // driverDisplayText,
+  // year,
+  // month,
+  // day
+  const [startCity, setStartCity] = useState("");
+  const [startBusStop, setStartBusStop] = useState("");
+  const [destinationCity, setDestinationCity] = useState("");
+  const [destinationBusStop, setDestinationBusStop] = useState("");
+  const [driver, setDriver] = useState("");
+  const [vehicle, setVehicle] = useState("");
+  const [date, setDate] = useState("");
+
+  const handleDataFromChild = (
+    startCityDisplayText: any,
+    startBusStopDisplayText: any,
+    destinationCityDisplayText: any,
+    destinationBuStopDisplayText: any,
+    driverDisplayText: any,
+    VehicleDisplayText: any,
+    year: any,
+    month: any,
+    day: any
+  ) => {
+    setStartCity(startCityDisplayText);
+    setStartBusStop(startBusStopDisplayText);
+    setDestinationCity(destinationCityDisplayText);
+    setDestinationBusStop(destinationBuStopDisplayText);
+    setDriver(driverDisplayText);
+    setVehicle(VehicleDisplayText);
+    setDate(year + "/" + month + "/" + day);
+  };
 
   return (
     <div className="bg-white h-full col-start-2 col-end-6 ">
@@ -98,12 +133,22 @@ const MiddleSection: React.FC = () => {
                 footer={false}
                 closable={true}
               >
-                <CreateTripFormComponent />
+                <CreateTripFormComponent onSendData={handleDataFromChild} />
                 <button
                   className={`w-full p-3 mt-8 mb-8 font-medium rounded-lg ${
                     true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
                   } `}
-                  onClick={() => {}}
+                  onClick={() => {
+                    console.log(
+                      startCity,
+                      startBusStop,
+                      destinationCity,
+                      destinationBusStop,
+                      driver,
+                      vehicle,
+                      date
+                    );
+                  }}
                 >
                   <svg
                     className={`${
@@ -126,7 +171,7 @@ const MiddleSection: React.FC = () => {
                       stroke-width="5"
                     />
                   </svg>
-                  Continue
+                  Create Trip
                 </button>
               </Modal>
             )
