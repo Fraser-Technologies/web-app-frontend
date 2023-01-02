@@ -6,7 +6,7 @@ import { useNavigate } from "react-router-dom";
 import { Button } from "../../Button";
 import { data } from "../adminData/trips-test-data";
 
-const TripsOverview = () => {
+const TripsOverview: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0); // current page
   const itemsPerPage = 10; // number of items per page
   const pageRangeDisplayed = 5; // number of pages to display
@@ -52,8 +52,6 @@ const TripsOverview = () => {
     setModalData(data);
   };
 
- 
-
   const handleOk = () => {
     setModalVisible(false);
   };
@@ -82,85 +80,80 @@ const TripsOverview = () => {
 
     return (
       <tr className="bg-white border-b border-slate-100 hover:bg-gray-50 cursor-pointer">
-        <td scope="row" className="font-normal text-xs text-gray-700">
-          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
-            {item.start}
-          </div>
+        <td
+          scope="row"
+          onClick={() => handleOpenInfoModal(item)}
+          className="font-normal text-xs text-gray-700 py-4 px-4"
+        >
+          {item.start}
         </td>
         <td scope="row" className=" font-normal text-xs text-gray-700 ">
-          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
-            {item.destination}
-          </div>
+          {item.destination}
         </td>
         <td
           scope="row"
-          className="font-normal text-xs text-gray-700 text-center"
+          onClick={() => handleOpenInfoModal(item)}
+          className="font-normal text-xs text-gray-700 py-4 px-4"
         >
-          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
-            {item.date}
-          </div>
+          {item.date}
         </td>
         <td
           scope="row"
-          className="font-normal text-xs text-gray-700 text-center"
+          onClick={() => handleOpenInfoModal(item)}
+          className="font-normal text-xs text-gray-700 py-4 px-4"
         >
-          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
-            {item.time}
-          </div>
+          {item.time}
         </td>
         <td
           scope="row"
-          className="font-normal text-xs text-gray-700 text-center"
+          onClick={() => handleOpenInfoModal(item)}
+          className="font-normal text-xs text-gray-700 py-4 px-4"
         >
-          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
-            {item.driver}
-          </div>
+          {item.driver}
         </td>
         <td
           scope="row"
-          className="font-normal text-xs text-gray-700 text-center"
+          onClick={() => handleOpenInfoModal(item)}
+          className="font-normal text-xs text-gray-700 py-4 px-4"
         >
-          <div className="py-4 px-4" onClick={() => handleOpenInfoModal(item)}>
-            {item.vehicle}
-          </div>
+          {item.vehicle}
         </td>
-        <div
+        <td
+          scope="row"
           className="py-6 px-4 font-normal text-xs text-gray-700"
           onClick={() => handleSetMenuToggle(index.toString())}
         >
-          <td scope="row">
-            <div>
-              <FaEllipsisV />
-            </div>
-            {menuToggle === index.toString()
-              ? menuVisible && (
-                  <ul className="bg-white border rounded-md shadow-md absolute z-10 mt-2 py-2">
-                    <li
-                      onClick={() => handleOpenInfoModal(item)}
-                      className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      View
-                    </li>
-                    <li
-                      onClick={() => {}}
-                      className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Edit
-                    </li>
-                    <li
-                      onClick={() => {
-                        setFlip("delete");
-                        handleOpenDeleteModal(item);
-                      }}
-                      className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
-                    >
-                      Delete
-                    </li>
-                  </ul>
-                )
-              : ""}
-          </td>
-        </div>
+          <div>
+            <FaEllipsisV />
+          </div>
+          {menuToggle === index.toString()
+            ? menuVisible && (
+                <ul className="bg-white border rounded-md shadow-md absolute z-10 mt-2 py-2">
+                  <li
+                    onClick={() => handleOpenInfoModal(item)}
+                    className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    View
+                  </li>
+                  <li
+                    onClick={() => {}}
+                    className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Edit
+                  </li>
+                  <li
+                    onClick={() => {
+                      setFlip("delete");
+                      handleOpenDeleteModal(item);
+                    }}
+                    className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
+                  >
+                    Delete
+                  </li>
+                </ul>
+              )
+            : ""}
+        </td>
       </tr>
     );
   };
@@ -189,161 +182,154 @@ const TripsOverview = () => {
       </div>
 
       {/* BUSSTOPS LIST - TABLE */}
-      <div className="">
-        <table className="table-auto w-full text-base font-normal text-left text-white">
-          <thead className="uppercase bg-black">
-            <tr>
-              <th scope="col" className="py-4 px-4 rounded-l-md font-normal">
-                Start
-              </th>
-              <th scope="col" className="py-4 px-2 font-normal ">
-                Destination
-              </th>
-              <th scope="col" className="py-4 px-2 font-normal text-center">
-                Date
-              </th>
-              <th scope="col" className="py-4 px-2 font-normal text-center">
-                Departure
-              </th>
-              <th scope="col" className="py-4 px-2 font-normal text-center">
-                Driver
-              </th>
-              <th scope="col" className="py-4 px-2 font-normal text-center">
-                Vehicle
-              </th>
-              <th
-                scope="col"
-                className="py-4 px-2 rounded-r-md font-normal"
-              ></th>
-            </tr>
-          </thead>
+      <table className="table-auto w-full text-base font-normal text-left text-white">
+        <thead className="uppercase bg-black">
+          <tr>
+            <th scope="col" className="py-4 px-4 rounded-l-md font-normal">
+              Start
+            </th>
+            <th scope="col" className="py-4 px-2 font-normal ">
+              Destination
+            </th>
+            <th scope="col" className="py-4 px-2 font-normal text-center">
+              Date
+            </th>
+            <th scope="col" className="py-4 px-2 font-normal text-center">
+              Departure
+            </th>
+            <th scope="col" className="py-4 px-2 font-normal text-center">
+              Driver
+            </th>
+            <th scope="col" className="py-4 px-2 font-normal text-center">
+              Vehicle
+            </th>
+            <th scope="col" className="py-4 px-2 rounded-r-md font-normal"></th>
+          </tr>
+        </thead>
 
-          <tbody className="">
-            {items.map((item, index) => rowRenderer({ index }))}
-          </tbody>
-        </table>
+        <tbody className="">
+          {items.map((item, index) => rowRenderer({ index }))}
+        </tbody>
+      </table>
 
-        {/* MODALS --> VIEW AND DELETE */}
+      {/* MODALS --> VIEW AND DELETE */}
 
-        {flip === "info"
-          ? modalVisible && (
-              <Modal
-                title={
-                  <div className="boder-b text-lg font-medium">
-                    Trip Details
+      {flip === "info"
+        ? modalVisible && (
+            <Modal
+              title={
+                <div className="boder-b text-lg font-medium">Trip Details</div>
+              }
+              onOk={handleOk}
+              onCancel={handleCancel}
+              open={modalVisible}
+              centered={true}
+              footer={false}
+              closable={true}
+            >
+              <div className="w-full grid grid-cols-2 gap-8 mt-12 pb-12">
+                <div>
+                  <div className="text-sm text-gray-400 font-normal mb-1">
+                    Start
                   </div>
-                }
-                onOk={handleOk}
-                onCancel={handleCancel}
-                open={modalVisible}
-                centered={true}
-                footer={false}
-                closable={true}
-              >
-                <div className="w-full grid grid-cols-2 gap-8 mt-12 pb-12">
-                  <div>
-                    <div className="text-sm text-gray-400 font-normal mb-1">
-                      Start
-                    </div>
-                    <div className="text-lg">{modalData.start}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-400 font-normal mb-1">
-                      Destination
-                    </div>
-                    <div className="text-lg">{modalData.destination}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-400 font-normal mb-1">
-                      Departure Time
-                    </div>
-                    <div className="text-lg">{modalData.time}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-400 font-normal mb-1">
-                      Date
-                    </div>
-                    <div className="text-lg">{modalData.date}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-400 font-normal mb-1">
-                      Driver
-                    </div>
-                    <div className="text-lg">{modalData.driver}</div>
-                  </div>
-                  <div>
-                    <div className="text-sm text-gray-400 font-normal mb-1">
-                      Vehicle
-                    </div>
-                    <div className="text-lg">{modalData.vehicle}</div>
-                  </div>
+                  <div className="text-lg">{modalData.start}</div>
                 </div>
-                <Button
-                  title="Edit"
-                  type="submit"
-                  className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
-                  onClick={() => {
-                    navigate("");
-                  }}
-                />
-                <Button
-                  title="Delete"
-                  type="submit"
-                  className="w-full mt-4 mb-6 px-4 py-3 text-xs rounded-md border text-red-600 border-red-500"
-                  onClick={() => {
-                    setFlip("delete");
-                    setDeleteModalVisible(true);
-                  }}
-                />
-              </Modal>
-            )
-          : flip === "delete"
-          ? deleteVisible && (
-              <Modal
-                onOk={handleOk}
-                onCancel={handleCancel}
-                open={deleteVisible}
-                centered={true}
-                footer={false}
-                closable={true}
-                width={240}
-              >
-                <div className="w-full place-items-center text-center">
-                  <FaExclamationCircle
-                    size={32}
-                    className="text-[#E71D36] w-full mt-8"
-                  />
-                  <div className="boder-b mt-4 text-lg font-medium">
-                    Delete {modalData.start} to {modalData.destination} trip?
+                <div>
+                  <div className="text-sm text-gray-400 font-normal mb-1">
+                    Destination
                   </div>
+                  <div className="text-lg">{modalData.destination}</div>
                 </div>
+                <div>
+                  <div className="text-sm text-gray-400 font-normal mb-1">
+                    Departure Time
+                  </div>
+                  <div className="text-lg">{modalData.time}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-400 font-normal mb-1">
+                    Date
+                  </div>
+                  <div className="text-lg">{modalData.date}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-400 font-normal mb-1">
+                    Driver
+                  </div>
+                  <div className="text-lg">{modalData.driver}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-400 font-normal mb-1">
+                    Vehicle
+                  </div>
+                  <div className="text-lg">{modalData.vehicle}</div>
+                </div>
+              </div>
+              <Button
+                title="Edit"
+                type="submit"
+                className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
+                onClick={() => {
+                  navigate("");
+                }}
+              />
+              <Button
+                title="Delete"
+                type="submit"
+                className="w-full mt-4 mb-6 px-4 py-3 text-xs rounded-md border text-red-600 border-red-500"
+                onClick={() => {
+                  setFlip("delete");
+                  setDeleteModalVisible(true);
+                }}
+              />
+            </Modal>
+          )
+        : flip === "delete"
+        ? deleteVisible && (
+            <Modal
+              onOk={handleOk}
+              onCancel={handleCancel}
+              open={deleteVisible}
+              centered={true}
+              footer={false}
+              closable={true}
+              width={240}
+            >
+              <div className="w-full place-items-center text-center">
+                <FaExclamationCircle
+                  size={32}
+                  className="text-[#E71D36] w-full mt-8"
+                />
+                <div className="boder-b mt-4 text-base font-medium">
+                  Delete {modalData.start} to {modalData.destination} trip?
+                </div>
+              </div>
 
-                <Button
-                  title="Delete"
-                  type="submit"
-                  className="w-full py-2 mt-8 text-xs rounded-md bg-[#E71D36] text-white"
-                  onClick={() => {
-                    const index = data.indexOf(modalData);
-                    if (index > -1) {
-                      data.splice(index, 1);
-                      console.log(data);
-                      setModalVisible(false);
-                      setDeleteModalVisible(false);
-                    }
-                  }}
-                />
-                <Button
-                  title="Cancel"
-                  type="submit"
-                  className="w-full py-2 mt-4 mb-4 text-xs rounded-md border text-gray-600 border-gray-500"
-                  onClick={() => {
-                    setFlip("info");
-                  }}
-                />
-              </Modal>
-            )
-          : null}
-      </div>
+              <Button
+                title="Delete"
+                type="submit"
+                className="w-full py-2 mt-8 text-xs rounded-md bg-[#E71D36] text-white"
+                onClick={() => {
+                  const index = data.indexOf(modalData);
+                  if (index > -1) {
+                    data.splice(index, 1);
+                    console.log(data);
+                    setModalVisible(false);
+                    setDeleteModalVisible(false);
+                  }
+                }}
+              />
+              <Button
+                title="Cancel"
+                type="submit"
+                className="w-full py-2 mt-4 mb-4 text-xs rounded-md border text-gray-600 border-gray-500"
+                onClick={() => {
+                  setFlip("info");
+                }}
+              />
+            </Modal>
+          )
+        : null}
     </>
   );
 };
