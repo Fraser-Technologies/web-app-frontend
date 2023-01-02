@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ExclamationCircleFilled } from "@ant-design/icons";
 import { Modal, Space } from "antd";
 import { Button } from "../../Button";
-import { data } from "../adminData/dash-test-data";
+import { data } from "../adminData/trips-test-data";
 import { useNavigate } from "react-router-dom";
 
 const { confirm } = Modal;

@@ -1,13 +1,11 @@
 import React, { useState } from "react";
-import { FaEllipsisV } from "react-icons/fa";
 import { Button } from "../Button";
 import { _paths_ } from "../../utils/appHelpers";
-import ReactPaginate from "react-paginate";
-import { data } from "./adminData/dash-test-data";
-import { useNavigate } from "react-router-dom";
 import TripsOverview from "./Trip-Views/trips-overiew";
 import BusStopManagement from "./Trip-Views/bus-stop-mgt";
 import { Modal } from "antd";
+import DropdownComponent from "./components/dropdown";
+import { cities } from "./adminData/busstops-test-data";
 
 const MiddleSection = () => {
   // PAGINATION
@@ -15,7 +13,6 @@ const MiddleSection = () => {
   const handleClick = (value: string) => {
     setIsActive(value);
   };
-  const navigate = useNavigate();
 
   const [flip, setFlip] = useState("");
   const [createVisible, setCreateModalVisible] = useState<boolean>(false);
@@ -24,7 +21,6 @@ const MiddleSection = () => {
     setCreateModalVisible(true);
     // setModalData(data);
   };
-
   const handleOk = () => {
     setCreateModalVisible(false);
   };
@@ -35,6 +31,33 @@ const MiddleSection = () => {
       setFlip("");
     }
   };
+
+  //   START CITY CONTROLLERS
+  const [startCityOpen, setStartCityIsOpen] = useState(false);
+  const [startCityDisplayText, setStartCityDisplayText] =
+    useState("Select Start City");
+  const handleStartCityChange = (option: any) => {
+    setStartCityDisplayText(option);
+    setStartCityIsOpen(!startCityOpen);
+  };
+  const handleStartCityDropClick = () => {
+    setStartCityIsOpen(!startCityOpen);
+  };
+
+  //   START BUSSTOP CONTROLLERS
+  const [startBusStopOpen, setStartBusStopIsOpen] = useState(false);
+  const [startBusStopDisplayText, setStartBusStopDisplayText] = useState(
+    "Select Start Bus Stop"
+  );
+  const handleStartBusStopChange = (option: any) => {
+    setStartBusStopDisplayText(option);
+    setStartBusStopIsOpen(!startBusStopOpen);
+  };
+  const handleStartBusStopDropClick = () => {
+    setStartBusStopIsOpen(!startBusStopOpen);
+  };
+
+  const citiesArray = Object.entries(cities);
 
   return (
     <div className="bg-white h-full col-start-2 col-end-6 ">
@@ -86,12 +109,14 @@ const MiddleSection = () => {
             )}
           </div>
         </div>
+
+        {/* CREATE TRIP MODAL */}
         {flip === "create"
           ? createVisible && (
               <Modal
                 title={
                   <div className="boder-b text-lg font-medium">
-                    Create a trip
+                    Create a new trip
                   </div>
                 }
                 onOk={handleOk}
@@ -101,12 +126,130 @@ const MiddleSection = () => {
                 footer={false}
                 closable={true}
               >
-                {/* Modal content */}
+
+                {/* START SELECTION */}
+                <DropdownComponent
+                  topLabel="Start"
+                  onChangeFunction={handleStartCityChange}
+                  onClickFunction={handleStartCityDropClick}
+                  dropControllerBool={startCityOpen}
+                  displayText={startCityDisplayText}
+                  dataSetName={cities}
+                  dataSetMapFunction={citiesArray.map(([city]) => {
+                    return (
+                      <a
+                        key={city}
+                        href="#"
+                        className="w-full inline-block px-4 py-2 text-base text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                        onClick={() => {
+                          handleStartCityChange(city);
+                        }}
+                      >
+                        {city}
+                      </a>
+                    );
+                  })}
+                  fullBodyClassName="mt-6 z-50"
+                  dropdownLabel="City"
+                  dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-50"
+                  addNewOnClickFunction={undefined}
+                />
+
+                <DropdownComponent
+                  topLabel=""
+                  onChangeFunction={handleStartBusStopChange}
+                  onClickFunction={handleStartBusStopDropClick}
+                  dropControllerBool={startBusStopOpen}
+                  displayText={startBusStopDisplayText}
+                  dataSetName={cities}
+                  dataSetMapFunction={citiesArray.map(([city, busstop]) => {
+                    if (city === startCityDisplayText) {
+                      return busstop.map((busstop) => {
+                        return (
+                          <a
+                            key={busstop.busstop}
+                            href="#"
+                            className={`w-full inline-block px-4 py-2 text-base text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900`}
+                            onClick={() => {
+                              handleStartBusStopChange(busstop.busstop);
+                            }}
+                          >
+                            {busstop.busstop}
+                          </a>
+                        );
+                      });
+                    }
+                  })}
+                  fullBodyClassName="mt-4"
+                  dropdownLabel="Bus Stop"
+                  dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-40"
+                  addNewOnClickFunction={undefined}
+                />
+
+
+                {/* DESTINATION */}
+                <DropdownComponent
+                  topLabel="Desintation"
+                  onChangeFunction={handleStartCityChange}
+                  onClickFunction={handleStartCityDropClick}
+                  dropControllerBool={startCityOpen}
+                  displayText={startCityDisplayText}
+                  dataSetName={cities}
+                  dataSetMapFunction={citiesArray.map(([city]) => {
+                    return (
+                      <a
+                        key={city}
+                        href="#"
+                        className="w-full inline-block px-4 py-2 text-base text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                        onClick={() => {
+                          handleStartCityChange(city);
+                        }}
+                      >
+                        {city}
+                      </a>
+                    );
+                  })}
+                  fullBodyClassName="mt-6 z-50"
+                  dropdownLabel="City"
+                  dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-50"
+                  addNewOnClickFunction={undefined}
+                />
+
+                <DropdownComponent
+                  topLabel=""
+                  onChangeFunction={handleStartBusStopChange}
+                  onClickFunction={handleStartBusStopDropClick}
+                  dropControllerBool={startBusStopOpen}
+                  displayText={startBusStopDisplayText}
+                  dataSetName={cities}
+                  dataSetMapFunction={citiesArray.map(([city, busstop]) => {
+                    if (city === startCityDisplayText) {
+                      return busstop.map((busstop) => {
+                        return (
+                          <a
+                            key={busstop.busstop}
+                            href="#"
+                            className="w-full inline-block px-4 py-2 text-base text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            onClick={() => {
+                              handleStartBusStopChange(busstop.busstop);
+                            }}
+                          >
+                            {busstop.busstop}
+                          </a>
+                        );
+                      });
+                    }
+                  })}
+                  fullBodyClassName="mt-4"
+                  dropdownLabel="Bus Stop"
+                  dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-40"
+                  addNewOnClickFunction={undefined}
+                />
               </Modal>
             )
           : null}
 
-        {active == "overview" ? <TripsOverview /> : <BusStopManagement />}
+        {active === "overview" ? <TripsOverview /> : <BusStopManagement />}
       </div>
     </div>
   );

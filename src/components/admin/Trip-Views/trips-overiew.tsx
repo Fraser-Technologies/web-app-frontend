@@ -4,8 +4,7 @@ import { FaEllipsisV, FaExclamationCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../Button";
-import { data } from "../adminData/dash-test-data";
-import ShowConfirmDelete from "../popups/confirm-delete";
+import { data } from "../adminData/trips-test-data";
 
 const TripsOverview = () => {
   const [currentPage, setCurrentPage] = useState(0); // current page

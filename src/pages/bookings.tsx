@@ -16,6 +16,7 @@ import { useLocation } from "react-router-dom";
 import { Alert } from "antd";
 import { addToMyBookinAction } from "../state/action/booking.action";
 import GeometricPatterns from "../components/GeometricPatterns";
+import { FaCaretDown } from "react-icons/fa";
 
 const Bookings = () => {
   const dispatch = useAppDispatch();
@@ -169,17 +170,7 @@ const Bookings = () => {
                           onChange={handleOptionClick}
                         >
                           {city}
-                          <svg
-                            className="-mr-1 ml-2 h-5 w-5 ml-auto text"
-                            viewBox="0 0 20 20"
-                            fill="currentColor"
-                          >
-                            <path
-                              fillRule="evenodd"
-                              d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                              clipRule="evenodd"
-                            />
-                          </svg>
+                          <FaCaretDown className="ml-auto" />
                         </button>
                       </span>
                     </div>
@@ -228,17 +219,7 @@ const Bookings = () => {
                               onChange={handlestart}
                             >
                               {start}
-                              <svg
-                                className="-mr-1 ml-2 h-5 w-5 ml-auto text"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
+                              <FaCaretDown className="ml-auto"/>
                             </button>
                           </span>
                         </div>
@@ -317,17 +298,7 @@ const Bookings = () => {
                               onChange={handledestination}
                             >
                               {destination}
-                              <svg
-                                className="-mr-1 ml-2 h-5 w-5 ml-auto text"
-                                viewBox="0 0 20 20"
-                                fill="currentColor"
-                              >
-                                <path
-                                  fillRule="evenodd"
-                                  d="M5.293 7.293a1 1 0 011.414 0L10 10.586l3.293-3.293a1 1 0 111.414 1.414l-4 4a1 1 0 01-1.414 0l-4-4a1 1 0 010-1.414z"
-                                  clipRule="evenodd"
-                                />
-                              </svg>
+                              <FaCaretDown className="ml-auto"/>
                             </button>
                           </span>
                         </div>
