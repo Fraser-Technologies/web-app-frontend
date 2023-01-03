@@ -10,15 +10,16 @@ const DateField = (props: any) => {
     onSendData(year, month, day);
   };
 
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
+  const [year, setYear] = useState("Year");
+  const [month, setMonth] = useState("Month");
+  const [day, setDay] = useState("Day");
 
   // Array of years to display in the dropdown menu
-  const years = [2023, 2024, 2025];
+  const years = ["Select", 2023, 2024, 2025];
 
   // Array of months to display in the dropdown menu
   const months = [
+    "Select",
     "January",
     "February",
     "March",

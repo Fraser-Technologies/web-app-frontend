@@ -52,8 +52,9 @@ const CreateTripFormComponent = (props: any) => {
 
   //   DESITNATION CITY CONTROLLERS
   const [destinationCityOpen, setDestinationCityIsOpen] = useState(false);
-  const [destinationCityDisplayText, setDestinationCityDisplayText] =
-    useState("Select Start City");
+  const [destinationCityDisplayText, setDestinationCityDisplayText] = useState(
+    "Select Destination City"
+  );
   const handleDestinationCityChange = (option: any) => {
     setDestinationCityDisplayText(option);
     setDestinationCityIsOpen(!destinationCityOpen);
@@ -65,7 +66,7 @@ const CreateTripFormComponent = (props: any) => {
   //   DESITNATION BUSSTOP CONTROLLERS
   const [destinationBusStopOpen, setDestinationBusStopIsOpen] = useState(false);
   const [destinationBuStopDisplayText, setDestinationBusStopDisplayText] =
-    useState("Select Start Bus Stop");
+    useState("Select Destination Bus Stop");
   const handleDestinationBusStopChange = (option: any) => {
     setDestinationBusStopDisplayText(option);
     setDestinationBusStopIsOpen(!destinationBusStopOpen);
@@ -110,6 +111,17 @@ const CreateTripFormComponent = (props: any) => {
 
   useEffect(() => {
     handleSendData();
+    // console.log(
+    //   startCityDisplayText,
+    //   startBusStopDisplayText,
+    //   destinationCityDisplayText,
+    //   destinationBuStopDisplayText,
+    //   vehicleDisplayText,
+    //   driverDisplayText,
+    //   year,
+    //   month,
+    //   day
+    // );
   }, [
     startCityDisplayText,
     startBusStopDisplayText,
@@ -117,7 +129,9 @@ const CreateTripFormComponent = (props: any) => {
     destinationBuStopDisplayText,
     vehicleDisplayText,
     driverDisplayText,
-    year, month, day
+    year,
+    month,
+    day,
   ]);
 
   return (
@@ -146,7 +160,7 @@ const CreateTripFormComponent = (props: any) => {
         fullBodyClassName="mt-6 z-50"
         dropdownLabel="City"
         dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-50"
-        addNewOnClickFunction={undefined}
+        addNewOnClickFunction={() => {}}
       />
 
       <DropdownComponent
@@ -177,7 +191,7 @@ const CreateTripFormComponent = (props: any) => {
         fullBodyClassName="mt-4"
         dropdownLabel="Bus Stop"
         dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-40"
-        addNewOnClickFunction={undefined}
+        addNewOnClickFunction={() => {}}
       />
 
       {/* DESTINATION */}

@@ -8,8 +8,8 @@ import CreateTripFormComponent from "./components/create-trip-form";
 
 const MiddleSection: React.FC = () => {
   // PAGINATION
-  const [active, setIsActive] = useState("overview");
-  const handleClick = (value: string) => {
+  const [activeTripsView, setIsActive] = useState("overview");
+  const handleTripViewToggle = (value: string) => {
     setIsActive(value);
   };
 
@@ -30,14 +30,8 @@ const MiddleSection: React.FC = () => {
       setFlip("");
     }
   };
-  // startCityDisplayText,
-  // startBusStopDisplayText,
-  // destinationCityDisplayText,
-  // destinationBuStopDisplayText,
-  // driverDisplayText,
-  // year,
-  // month,
-  // day
+
+  //ALL COLLECTED DATA FROM FORM FIELDS
   const [startCity, setStartCity] = useState("");
   const [startBusStop, setStartBusStop] = useState("");
   const [destinationCity, setDestinationCity] = useState("");
@@ -63,8 +57,18 @@ const MiddleSection: React.FC = () => {
     setDestinationBusStop(destinationBuStopDisplayText);
     setDriver(driverDisplayText);
     setVehicle(VehicleDisplayText);
-    setDate(year + "/" + month + "/" + day);
+    setDate(year + "-" + month + "-" + day);
   };
+
+  const validation =
+    startBusStop !== "Select Start Bus Stop" &&
+    startCity !== "Select Start City" &&
+    destinationBusStop !== "Select Destination Bus Stop" &&
+    destinationCity !== "Select Destination City" &&
+    driver !== "Select Driver" &&
+    date !== "--" &&
+    vehicle !== "Select Vehicle" &&
+    startCity !== destinationCity;
 
   return (
     <div className="bg-white h-full col-start-2 col-end-6 ">
@@ -73,10 +77,10 @@ const MiddleSection: React.FC = () => {
         <div className="border-b w-full mt-8 py-4 mb-2">
           <div className="inline-flex rounded-md" role="group">
             <button
-              onClick={() => handleClick("overview")}
+              onClick={() => handleTripViewToggle("overview")}
               type="button"
               className={`inline-flex items-center py-2 px-6 text-base font-medium  ${
-                active === "overview"
+                activeTripsView === "overview"
                   ? "bg-primary-100 font-semibold text-black"
                   : "text-gray-400 font-normal bg-gray-50"
               }`}
@@ -85,10 +89,10 @@ const MiddleSection: React.FC = () => {
             </button>
 
             <button
-              onClick={() => handleClick("management")}
+              onClick={() => handleTripViewToggle("management")}
               type="button"
               className={`inline-flex items-center py-2 px-8 text-base font-medium  ${
-                active === "management"
+                activeTripsView === "management"
                   ? "bg-primary-100 font-semibold text-black"
                   : "text-gray-400 font-normal bg-gray-50"
               }`}
@@ -102,7 +106,7 @@ const MiddleSection: React.FC = () => {
         <div className="border-b h-14 w-full my-2">
           <div className="flex justify-between">
             <h2 className="text-lg mt-2 font-medium">Busstops</h2>
-            {active === "overview" ? (
+            {activeTripsView === "overview" ? (
               <Button
                 title="+ Create new trip"
                 type="submit"
@@ -136,23 +140,19 @@ const MiddleSection: React.FC = () => {
                 <CreateTripFormComponent onSendData={handleDataFromChild} />
                 <button
                   className={`w-full p-3 mt-8 mb-8 font-medium rounded-lg ${
-                    true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+                    validation
+                      ? "bg-[#00ff6a] hover:bg-[#58FF9E]"
+                      : "bg-[#f5f5f5]"
                   } `}
                   onClick={() => {
-                    console.log(
-                      startCity,
-                      startBusStop,
-                      destinationCity,
-                      destinationBusStop,
-                      driver,
-                      vehicle,
-                      date
-                    );
+                    if (validation) {
+                      setFlip("review");
+                    }
                   }}
                 >
                   <svg
                     className={`${
-                      true === true ? "animate-spin" : "hidden"
+                      validation === true ? "animate-spin" : "hidden"
                     } inline -ml-8 mr-4 w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
                     viewBox="0 0 100 101"
                     fill="none"
@@ -175,9 +175,85 @@ const MiddleSection: React.FC = () => {
                 </button>
               </Modal>
             )
+          : flip === "review"
+          ? createVisible && (
+              <Modal
+                title={
+                  <div className="boder-b text-lg font-medium">
+                    Trip Details
+                  </div>
+                }
+                onOk={handleOk}
+                onCancel={handleCancel}
+                open={createVisible}
+                centered={true}
+                footer={false}
+                closable={true}
+              >
+                <div className="w-full grid grid-cols-2 gap-8 mt-12 pb-12">
+                  <div>
+                    <div className="text-sm text-gray-400 font-normal mb-1">
+                      Start
+                    </div>
+                    <div className="text-lg">{startBusStop}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-400 font-normal mb-1">
+                      Destination
+                    </div>
+                    <div className="text-lg">{destinationBusStop}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-400 font-normal mb-1">
+                      Departure Time
+                    </div>
+                    <div className="text-lg">time</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-400 font-normal mb-1">
+                      Date
+                    </div>
+                    <div className="text-lg">{date}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-400 font-normal mb-1">
+                      Driver
+                    </div>
+                    <div className="text-lg">{driver}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-400 font-normal mb-1">
+                      Vehicle
+                    </div>
+                    <div className="text-lg">{vehicle}</div>
+                  </div>
+                </div>
+                <Button
+                  title="Edit"
+                  type="submit"
+                  className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
+                  onClick={() => {
+                    // navigate("");
+                  }}
+                />
+                <Button
+                  title="Delete"
+                  type="submit"
+                  className="w-full mt-4 mb-6 px-4 py-3 text-xs rounded-md border text-red-600 border-red-500"
+                  onClick={() => {
+                    // setFlip("delete");
+                    // setDeleteModalVisible(true);
+                  }}
+                />
+              </Modal>
+            )
           : null}
 
-        {active === "overview" ? <TripsOverview /> : <BusStopManagement />}
+        {activeTripsView === "overview" ? (
+          <TripsOverview />
+        ) : activeTripsView === "management" ? (
+          <BusStopManagement />
+        ) : null}
       </div>
     </div>
   );
