@@ -5,6 +5,7 @@ import TripsOverview from "./Trip-Views/trips-overiew";
 import BusStopManagement from "./Trip-Views/bus-stop-mgt";
 import { Modal } from "antd";
 import CreateTripFormComponent from "./components/create-trip-form";
+import Cookies from "js-cookie";
 
 const MiddleSection: React.FC = () => {
   // PAGINATION
@@ -22,6 +23,16 @@ const MiddleSection: React.FC = () => {
   };
   const handleOk = () => {
     setCreateModalVisible(false);
+    Cookies.remove("startCity");
+    Cookies.remove("startBusStop");
+    Cookies.remove("destinationBusStop");
+    Cookies.remove("destinationCity");
+    Cookies.remove("vehicle");
+    Cookies.remove("driver");
+    Cookies.remove("time");
+    Cookies.remove("month");
+    Cookies.remove("year");
+    Cookies.remove("day");
   };
 
   const handleCancel = () => {
@@ -29,6 +40,16 @@ const MiddleSection: React.FC = () => {
       setCreateModalVisible(false);
       setFlip("");
     }
+    Cookies.remove("startCity");
+    Cookies.remove("startBusStop");
+    Cookies.remove("destinationBusStop");
+    Cookies.remove("destinationCity");
+    Cookies.remove("vehicle");
+    Cookies.remove("driver");
+    Cookies.remove("time");
+    Cookies.remove("month");
+    Cookies.remove("year");
+    Cookies.remove("day");
   };
 
   //ALL COLLECTED DATA FROM FORM FIELDS
@@ -71,7 +92,7 @@ const MiddleSection: React.FC = () => {
     driver !== "Select Driver" &&
     date !== "--" &&
     vehicle !== "Select Vehicle" &&
-    startCity !== destinationCity && time !== "";
+    startCity !== destinationCity;
 
   return (
     <div className="bg-white h-full col-start-2 col-end-6 ">
@@ -236,7 +257,7 @@ const MiddleSection: React.FC = () => {
                   type="submit"
                   className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
                   onClick={() => {
-                    setFlip("create")
+                    setFlip("create");
                   }}
                 />
                 <Button
