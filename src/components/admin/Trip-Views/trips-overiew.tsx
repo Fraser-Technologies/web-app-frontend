@@ -1,7 +1,11 @@
 import { Input, Modal } from "antd";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
-import { FaEllipsisV, FaExclamationCircle } from "react-icons/fa";
+import {
+  FaCheckCircle,
+  FaEllipsisV,
+  FaExclamationCircle,
+} from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../Button";
@@ -56,23 +60,15 @@ const TripsOverview: React.FC = () => {
     Cookies.set("time", data.time, { expires: 1 });
     Cookies.set("driver", data.driver, { expires: 1 });
     Cookies.set("vehicle", data.vehicle, { expires: 1 });
+    console.log(tripID + startCityData);
   };
 
-  const tripID = Cookies.get("tripID");
-  const startCity = Cookies.get("startCity");
-  const startBusStop = Cookies.get("startBusStop");
-  const destinationCity = Cookies.get("destinationCity");
-  const destinationBusStop = Cookies.get("destinationBusStop");
-  const date = Cookies.get("date");
-  const time = Cookies.get("time");
-  const driver = Cookies.get("driver");
-  const vehicle = Cookies.get("vehicle");
   // React.useEffect(() => {}, []);
 
-  const [deleteVisible, setDeleteModalVisible] = useState<boolean>(false);
+  const [visible, setStateModalVisible] = useState<boolean>(false);
   const handleOpenDeleteModal = (data: any) => {
     setFlip("delete");
-    setDeleteModalVisible(true);
+    setStateModalVisible(true);
     setModalData(data);
   };
 
@@ -94,7 +90,28 @@ const TripsOverview: React.FC = () => {
       setModalVisible(false);
       setFlip("");
     }
+    Cookies.remove("tripID");
+    Cookies.remove("startCity");
+    Cookies.remove("startBusStop");
+    Cookies.remove("destinationCity");
+    Cookies.remove("destinationBusStop");
+    Cookies.remove("date");
+    Cookies.remove("time");
+    Cookies.remove("driver");
+    Cookies.remove("vehicle");
   };
+
+  // React.useEffect(() => {
+  //   Cookies.remove("tripID");
+  //   Cookies.remove("startCity");
+  //   Cookies.remove("startBusStop");
+  //   Cookies.remove("destinationCity");
+  //   Cookies.remove("destinationBusStop");
+  //   Cookies.remove("date");
+  //   Cookies.remove("time");
+  //   Cookies.remove("driver");
+  //   Cookies.remove("vehicle");
+  // }, []);
   //TABLE ROW UI
   const rowRenderer = ({ index }: { index: number }) => {
     const item = data[index];
@@ -179,10 +196,52 @@ const TripsOverview: React.FC = () => {
     );
   };
 
+  //ALL COLLECTED DATA FROM FORM FIELDS
+  const [startCityData, setStartCity] = useState("");
+  const [startBusStopData, setStartBusStop] = useState("");
+  const [destinationCityData, setDestinationCity] = useState("");
+  const [destinationBusStopData, setDestinationBusStop] = useState("");
+  const [driverData, setDriver] = useState("");
+  const [vehicleData, setVehicle] = useState("");
+  const [dateData, setDate] = useState("");
+  const [timeData, setTime] = useState("");
+
+  const tripID = Cookies.get("tripID");
+  React.useEffect(() => {
+    setStartCity(Cookies.get("startCity") || "");
+    setStartBusStop(Cookies.get("startBusStop") || "");
+    setDestinationCity(Cookies.get("destinationCity") || "");
+    setDestinationBusStop(Cookies.get("destinationBusStop") || "");
+    setDriver(Cookies.get("driver") || "");
+    setVehicle(Cookies.get("vehicle") || "");
+    setDate(Cookies.get("date") || "");
+    setTime(Cookies.get("time") || "");
+  });
+
+  const handleDataFromChild = (
+    startCityDisplayText: any,
+    startBusStopDisplayText: any,
+    destinationCityDisplayText: any,
+    destinationBuStopDisplayText: any,
+    driverDisplayText: any,
+    VehicleDisplayText: any,
+    year: any,
+    month: any,
+    day: any,
+    time: any
+  ) => {
+    setStartCity(startCityDisplayText);
+    setStartBusStop(startBusStopDisplayText);
+    setDestinationCity(destinationCityDisplayText);
+    setDestinationBusStop(destinationBuStopDisplayText);
+    setDriver(driverDisplayText);
+    setVehicle(VehicleDisplayText);
+    setDate(year + "-" + month + "-" + day);
+    setTime(time);
+  };
+
   // const [createVisible, setCreateModalVisible] = useState<boolean>(false);
   // const true = modalData.start !== "Select Start Bus Stop";
-
-  // const handleDataFromChild = () => {};
 
   return (
     <>
@@ -258,49 +317,49 @@ const TripsOverview: React.FC = () => {
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Start
                   </div>
-                  <div className="text-lg">{startCity}</div>
+                  <div className="text-lg">{startCityData}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Destination
                   </div>
-                  <div className="text-lg">{destinationCity}</div>
+                  <div className="text-lg">{destinationCityData}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Start
                   </div>
-                  <div className="text-lg">{startBusStop}</div>
+                  <div className="text-lg">{startBusStopData}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Destination
                   </div>
-                  <div className="text-lg">{destinationBusStop}</div>
+                  <div className="text-lg">{destinationBusStopData}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Departure Time
                   </div>
-                  <div className="text-lg">{time}</div>
+                  <div className="text-lg">{timeData}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Date
                   </div>
-                  <div className="text-lg">{date}</div>
+                  <div className="text-lg">{dateData}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Driver
                   </div>
-                  <div className="text-lg">{driver}</div>
+                  <div className="text-lg">{driverData}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Vehicle
                   </div>
-                  <div className="text-lg">{vehicle}</div>
+                  <div className="text-lg">{vehicleData}</div>
                 </div>
               </div>
               <Button
@@ -317,7 +376,7 @@ const TripsOverview: React.FC = () => {
                 className="w-full mt-4 mb-6 px-4 py-3 text-xs rounded-md border text-red-600 border-red-500"
                 onClick={() => {
                   setFlip("delete");
-                  setDeleteModalVisible(true);
+                  setStateModalVisible(true);
                 }}
               />
             </Modal>
@@ -335,20 +394,25 @@ const TripsOverview: React.FC = () => {
               footer={false}
               closable={true}
             >
-              {/* <EditTripFormComponent onSendData={handleDataFromChild} /> */}
+              <EditTripFormComponent onSendData={handleDataFromChild} />
               <button
                 className={`w-full p-3 mt-8 mb-8 font-medium rounded-lg ${
                   true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
                 } `}
                 onClick={() => {
-                  if (false) {
-                    setFlip("review");
+                  //API CALL HERE
+
+                  if (true) {
+                    setFlip("success");
+                    setStateModalVisible(true);
+                    // Flip to success modal
                   }
                 }}
               >
                 <svg
                   className={`${
-                    true === true ? "animate-spin" : "hidden"
+                    //API Call Loading?
+                    true ? "animate-spin" : "hidden"
                   } inline -ml-8 mr-4 w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
                   viewBox="0 0 100 101"
                   fill="none"
@@ -367,16 +431,16 @@ const TripsOverview: React.FC = () => {
                     stroke-width="5"
                   />
                 </svg>
-                Create Trip
+                Update Trip
               </button>
             </Modal>
           )
         : flip === "delete"
-        ? deleteVisible && (
+        ? visible && (
             <Modal
               onOk={handleOk}
               onCancel={handleCancel}
-              open={deleteVisible}
+              open={visible}
               centered={true}
               footer={false}
               closable={true}
@@ -388,7 +452,7 @@ const TripsOverview: React.FC = () => {
                   className="text-[#E71D36] w-full mt-8"
                 />
                 <div className="boder-b mt-4 text-base font-medium">
-                  Delete {startCity} to {destinationCity} trip?
+                  Delete {startCityData} to {destinationCityData} trip?
                 </div>
               </div>
 
@@ -397,14 +461,13 @@ const TripsOverview: React.FC = () => {
                 type="submit"
                 className="w-full py-2 mt-8 text-xs rounded-md bg-[#E71D36] text-white"
                 onClick={() => {
-
                   //NOT SURE THIS IS USEFUL DURING API CALLS
                   const index = data.indexOf(modalData);
                   if (index > -1) {
                     data.splice(index, 1);
                     console.log(data);
                     setModalVisible(false);
-                    setDeleteModalVisible(false);
+                    setStateModalVisible(false);
                   }
                 }}
               />
@@ -414,6 +477,47 @@ const TripsOverview: React.FC = () => {
                 className="w-full py-2 mt-4 mb-4 text-xs rounded-md border text-gray-600 border-gray-500"
                 onClick={() => {
                   setFlip("info");
+                }}
+              />
+            </Modal>
+          )
+        : flip === "success"
+        ? visible && (
+            <Modal
+              onOk={handleOk}
+              onCancel={handleCancel}
+              open={visible}
+              centered={true}
+              footer={false}
+              closable={true}
+              width={240}
+            >
+              <div className="w-full place-items-center text-center">
+                <FaCheckCircle
+                  size={32}
+                  className="text-[#00FF6A] w-full mt-8"
+                />
+                <div className="boder-b mt-4 text-base font-medium">
+                  Trip updated succesfully
+                </div>
+              </div>
+
+              <Button
+                title="View"
+                type="submit"
+                className="w-full py-2 mt-8 text-xs rounded-md bg-[#00FF6A] text-black"
+                onClick={() => {
+                  //NOT SURE THIS IS USEFUL DURING API CALLS
+                  setFlip("info");
+                }}
+              />
+              <Button
+                title="Close"
+                type="submit"
+                className="w-full py-2 mt-4 mb-4 text-xs rounded-md border text-gray-600 border-gray-500"
+                onClick={() => {
+                  setModalVisible(false);
+                  setStateModalVisible(false);
                 }}
               />
             </Modal>

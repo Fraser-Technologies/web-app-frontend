@@ -18,7 +18,7 @@ const MiddleSection: React.FC = () => {
 	const { trips, loading, error } = useAppSelector(
 		(state: any) => state.allTrip
 	);
-	console.log("the trips are ", trips);
+
 	const [activeTripsView, setIsActive] = useState("overview");
 	const handleTripViewToggle = (value: string) => {
 		setIsActive(value);

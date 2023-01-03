@@ -132,18 +132,6 @@ const EditTripFormComponent = (props: any) => {
     Cookies.set("destinationBusStop", startBusStopDisplayText, { expires: 1 });
     Cookies.set("vehicle", vehicleDisplayText, { expires: 1 });
     Cookies.set("driver", driverDisplayText, { expires: 1 });
-    // console.log(
-    //   startCityDisplayText,
-    //   startBusStopDisplayText,
-    //   destinationCityDisplayText,
-    //   destinationBuStopDisplayText,
-    //   vehicleDisplayText,
-    //   driverDisplayText,
-    //   year,
-    //   month,
-    //   day,
-    //   time
-    // );
   }, [
     startCityDisplayText,
     startBusStopDisplayText,
