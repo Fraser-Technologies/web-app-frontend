@@ -1,10 +1,13 @@
 import { Input, Modal } from "antd";
+import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { FaEllipsisV, FaExclamationCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { Button } from "../../Button";
 import { data } from "../adminData/trips-test-data";
+import CreateTripFormComponent from "../components/create-trip-form";
+import EditTripFormComponent from "../components/edit-trip-form";
 
 const TripsOverview: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0); // current page
@@ -25,7 +28,6 @@ const TripsOverview: React.FC = () => {
   const endIndex = startIndex + itemsPerPage;
   const items = data.slice(startIndex, endIndex); // items to display on the current page
 
-  const navigate = useNavigate();
   const [menuVisible, setMenuVisible] = useState(false);
 
   //TOGGLE
@@ -43,6 +45,16 @@ const TripsOverview: React.FC = () => {
     setFlip("info");
     setModalVisible(true);
     setModalData(data);
+
+    Cookies.set("tripID", data.tripID, { expires: 1 });
+    Cookies.set("startCity", data.startCity, { expires: 1 });
+    Cookies.set("startBusStop", data.startBusStop, { expires: 1 });
+    Cookies.set("destinationCity", data.destinationCity, { expires: 1 });
+    Cookies.set("destinationBusStop", data.destinationBusStop, { expires: 1 });
+    Cookies.set("date", data.date, { expires: 1 });
+    Cookies.set("time", data.time, { expires: 1 });
+    Cookies.set("driver", data.driver, { expires: 1 });
+    Cookies.set("vehicle", data.vehicle, { expires: 1 });
   };
 
   const [deleteVisible, setDeleteModalVisible] = useState<boolean>(false);
@@ -85,10 +97,10 @@ const TripsOverview: React.FC = () => {
           onClick={() => handleOpenInfoModal(item)}
           className="font-normal text-xs text-gray-700 py-4 px-4"
         >
-          {item.start}
+          {item.startCity}
         </td>
         <td scope="row" className=" font-normal text-xs text-gray-700 ">
-          {item.destination}
+          {item.destinationCity}
         </td>
         <td
           scope="row"
@@ -157,6 +169,11 @@ const TripsOverview: React.FC = () => {
       </tr>
     );
   };
+
+  // const [createVisible, setCreateModalVisible] = useState<boolean>(false);
+  // const validation = modalData.start !== "Select Start Bus Stop";
+
+  // const handleDataFromChild = () => {};
 
   return (
     <>
@@ -270,7 +287,7 @@ const TripsOverview: React.FC = () => {
                 type="submit"
                 className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
                 onClick={() => {
-                  navigate("");
+                  setFlip("create");
                 }}
               />
               <Button
@@ -284,7 +301,60 @@ const TripsOverview: React.FC = () => {
               />
             </Modal>
           )
-        : flip === "delete"
+        : // : flip === "create"
+        // ? createVisible && (
+        //     <Modal
+        //       title={
+        //         <div className="boder-b text-lg font-medium">
+        //           Create a new trip
+        //         </div>
+        //       }
+        //       onOk={handleOk}
+        //       onCancel={handleCancel}
+        //       open={createVisible}
+        //       centered={true}
+        //       footer={false}
+        //       closable={true}
+        //     >
+        //       <EditTripFormComponent onSendData={handleDataFromChild} />
+        //       <button
+        //         className={`w-full p-3 mt-8 mb-8 font-medium rounded-lg ${
+        //           validation
+        //             ? "bg-[#00ff6a] hover:bg-[#58FF9E]"
+        //             : "bg-[#f5f5f5]"
+        //         } `}
+        //         onClick={() => {
+        //           if (validation) {
+        //             setFlip("review");
+        //           }
+        //         }}
+        //       >
+        //         <svg
+        //           className={`${
+        //             validation === true ? "animate-spin" : "hidden"
+        //           } inline -ml-8 mr-4 w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
+        //           viewBox="0 0 100 101"
+        //           fill="none"
+        //           xmlns="http://www.w3.org/2000/svg"
+        //         >
+        //           <path
+        //             d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+        //             fill="white"
+        //             stroke="white"
+        //             stroke-width="5"
+        //           />
+        //           <path
+        //             d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+        //             fill="green"
+        //             stroke="green"
+        //             stroke-width="5"
+        //           />
+        //         </svg>
+        //         Create Trip
+        //       </button>
+        //     </Modal>
+        //   )
+        flip === "delete"
         ? deleteVisible && (
             <Modal
               onOk={handleOk}

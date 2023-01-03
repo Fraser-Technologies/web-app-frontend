@@ -219,11 +219,24 @@ const MiddleSection: React.FC = () => {
                     <div className="text-sm text-gray-400 font-normal mb-1">
                       Start
                     </div>
+                    <div className="text-lg">{startCity}</div>
+                  </div>
+                  
+                  <div>
+                    <div className="text-sm text-gray-400 font-normal mb-1">
+                      Destination
+                    </div>
+                    <div className="text-lg">{destinationCity}</div>
+                  </div>
+                  <div>
+                    <div className="text-sm text-gray-400 font-normal mb-1">
+                      Start Bus Stop
+                    </div>
                     <div className="text-lg">{startBusStop}</div>
                   </div>
                   <div>
                     <div className="text-sm text-gray-400 font-normal mb-1">
-                      Destination
+                      Destination Bus Stop
                     </div>
                     <div className="text-lg">{destinationBusStop}</div>
                   </div>
