@@ -39,6 +39,7 @@ const MiddleSection: React.FC = () => {
   const [driver, setDriver] = useState("");
   const [vehicle, setVehicle] = useState("");
   const [date, setDate] = useState("");
+  const [time, setTime] = useState("");
 
   const handleDataFromChild = (
     startCityDisplayText: any,
@@ -49,7 +50,8 @@ const MiddleSection: React.FC = () => {
     VehicleDisplayText: any,
     year: any,
     month: any,
-    day: any
+    day: any,
+    time: any
   ) => {
     setStartCity(startCityDisplayText);
     setStartBusStop(startBusStopDisplayText);
@@ -58,6 +60,7 @@ const MiddleSection: React.FC = () => {
     setDriver(driverDisplayText);
     setVehicle(VehicleDisplayText);
     setDate(year + "-" + month + "-" + day);
+    setTime(time);
   };
 
   const validation =
@@ -68,7 +71,7 @@ const MiddleSection: React.FC = () => {
     driver !== "Select Driver" &&
     date !== "--" &&
     vehicle !== "Select Vehicle" &&
-    startCity !== destinationCity;
+    startCity !== destinationCity && time !== "";
 
   return (
     <div className="bg-white h-full col-start-2 col-end-6 ">
@@ -207,7 +210,7 @@ const MiddleSection: React.FC = () => {
                     <div className="text-sm text-gray-400 font-normal mb-1">
                       Departure Time
                     </div>
-                    <div className="text-lg">time</div>
+                    <div className="text-lg">{time}</div>
                   </div>
                   <div>
                     <div className="text-sm text-gray-400 font-normal mb-1">

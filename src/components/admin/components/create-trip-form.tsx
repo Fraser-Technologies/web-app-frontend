@@ -5,6 +5,7 @@ import { data } from "../adminData/trips-test-data";
 import { vehicles } from "../adminData/vehicles-test-data";
 import DateField from "./datefield";
 import DropdownComponent from "./full-dropdown";
+import TimePicker from "./time-picker";
 
 const CreateTripFormComponent = (props: any) => {
   const { onSendData } = props;
@@ -19,7 +20,8 @@ const CreateTripFormComponent = (props: any) => {
       vehicleDisplayText,
       year,
       month,
-      day
+      day,
+      time
     );
   };
 
@@ -103,25 +105,32 @@ const CreateTripFormComponent = (props: any) => {
   const [month, setMonth] = useState("");
   const [day, setDay] = useState("");
 
-  const handleDataFromChild = (year: any, month: any, day: any) => {
+  const handleDateFromChild = (year: any, month: any, day: any) => {
     setYear(year);
     setMonth(month);
     setDay(day);
   };
 
+  //SET TIME FROM CHILD COMPONENT
+  const [time, setTime] = useState("");
+  const handleTimeFromChild = (time: any) => {
+    setTime(time);
+  };
+
   useEffect(() => {
     handleSendData();
-    // console.log(
-    //   startCityDisplayText,
-    //   startBusStopDisplayText,
-    //   destinationCityDisplayText,
-    //   destinationBuStopDisplayText,
-    //   vehicleDisplayText,
-    //   driverDisplayText,
-    //   year,
-    //   month,
-    //   day
-    // );
+    console.log(
+      startCityDisplayText,
+      startBusStopDisplayText,
+      destinationCityDisplayText,
+      destinationBuStopDisplayText,
+      vehicleDisplayText,
+      driverDisplayText,
+      year,
+      month,
+      day,
+      time
+    );
   }, [
     startCityDisplayText,
     startBusStopDisplayText,
@@ -132,6 +141,7 @@ const CreateTripFormComponent = (props: any) => {
     year,
     month,
     day,
+    time,
   ]);
 
   return (
@@ -254,7 +264,9 @@ const CreateTripFormComponent = (props: any) => {
       />
 
       <div className="w-full mb-2 text-gray-500 mt-8">Date and time</div>
-      <DateField onSendData={handleDataFromChild} className="mt-2" />
+      <DateField onSendData={handleDateFromChild} className="mt-2" />
+
+      <TimePicker onTimeChange={handleTimeFromChild} />
       {/* DESTINATION */}
       <DropdownComponent
         topLabel="Vehicle and Driver"
