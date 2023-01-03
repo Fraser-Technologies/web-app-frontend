@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Button } from "../Button";
-import { _paths_ } from "../../utils/appHelpers";
 import TripsOverview from "./Trip-Views/trips-overiew";
 import BusStopManagement from "./Trip-Views/bus-stop-mgt";
 import { Modal } from "antd";
@@ -13,7 +12,7 @@ import {
 import { Spinner } from "react-bootstrap";
 // import {useAppSelector} from '../../../'
 
-const Trips: React.FC = () => {
+const MiddleSection: React.FC = () => {
 	// PAGINATION
 	const dispatch = useAppDispatch();
 	const { trips, loading, error } = useAppSelector(
@@ -122,7 +121,7 @@ const Trips: React.FC = () => {
 				{/* BUSSTOPS HEADER */}
 				<div className="border-b h-14 w-full my-2">
 					<div className="flex justify-between">
-						<h2 className="text-lg mt-2 font-medium">Busstops</h2>
+						<h2 className="text-lg mt-2 font-medium">Busstops</h2>{" "}
 						{loading && <Spinner />}
 						{activeTripsView === "overview" ? (
 							<Button
@@ -273,4 +272,4 @@ const Trips: React.FC = () => {
 	);
 };
 
-export default Trips;
+export default MiddleSection;

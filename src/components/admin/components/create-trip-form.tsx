@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { cities } from "../adminData/busstops-test-data";
 import { drivers } from "../adminData/drivers-test-data";
@@ -29,8 +30,9 @@ const CreateTripFormComponent = (props: any) => {
 
   //   START CITY CONTROLLERS
   const [startCityOpen, setStartCityIsOpen] = useState(false);
-  const [startCityDisplayText, setStartCityDisplayText] =
-    useState("Select Start City");
+  const [startCityDisplayText, setStartCityDisplayText] = useState(
+    Cookies.get("startCity") || "Select Start City"
+  );
   const handleStartCityChange = (option: any) => {
     setStartCityDisplayText(option);
     setStartCityIsOpen(!startCityOpen);
@@ -42,7 +44,7 @@ const CreateTripFormComponent = (props: any) => {
   //   START BUSSTOP CONTROLLERS
   const [startBusStopOpen, setStartBusStopIsOpen] = useState(false);
   const [startBusStopDisplayText, setStartBusStopDisplayText] = useState(
-    "Select Start Bus Stop"
+    Cookies.get("startBusStop") || "Select Start Bus Stop"
   );
   const handleStartBusStopChange = (option: any) => {
     setStartBusStopDisplayText(option);
@@ -55,7 +57,7 @@ const CreateTripFormComponent = (props: any) => {
   //   DESITNATION CITY CONTROLLERS
   const [destinationCityOpen, setDestinationCityIsOpen] = useState(false);
   const [destinationCityDisplayText, setDestinationCityDisplayText] = useState(
-    "Select Destination City"
+    Cookies.get("destinationCity") || "Select Destination City"
   );
   const handleDestinationCityChange = (option: any) => {
     setDestinationCityDisplayText(option);
@@ -68,7 +70,9 @@ const CreateTripFormComponent = (props: any) => {
   //   DESITNATION BUSSTOP CONTROLLERS
   const [destinationBusStopOpen, setDestinationBusStopIsOpen] = useState(false);
   const [destinationBuStopDisplayText, setDestinationBusStopDisplayText] =
-    useState("Select Destination Bus Stop");
+    useState(
+      Cookies.get("destinationBusStop") || "Select Destination Bus Stop"
+    );
   const handleDestinationBusStopChange = (option: any) => {
     setDestinationBusStopDisplayText(option);
     setDestinationBusStopIsOpen(!destinationBusStopOpen);
@@ -79,8 +83,9 @@ const CreateTripFormComponent = (props: any) => {
 
   //   VEHICLE CONTROLLERS
   const [vehicleOpen, setVehicleIsOpen] = useState(false);
-  const [vehicleDisplayText, setVehicleDisplayText] =
-    useState("Select Vehicle");
+  const [vehicleDisplayText, setVehicleDisplayText] = useState(
+    Cookies.get("vehicle") || "Select Vehicle"
+  );
   const handleVehicleChange = (option: any) => {
     setVehicleDisplayText(option);
     setVehicleIsOpen(!vehicleOpen);
@@ -91,7 +96,9 @@ const CreateTripFormComponent = (props: any) => {
 
   //   DRIVER  CONTROLLERS
   const [driverOpen, setDriverIsOpen] = useState(false);
-  const [driverDisplayText, setDriverDisplayText] = useState("Select Driver");
+  const [driverDisplayText, setDriverDisplayText] = useState(
+    Cookies.get("driver") || "Select Driver"
+  );
   const handleDriverChange = (option: any) => {
     setDriverDisplayText(option);
     setDriverIsOpen(!driverOpen);
@@ -101,9 +108,9 @@ const CreateTripFormComponent = (props: any) => {
   };
 
   // SET YEAR, MONTH AND DAY FROM CHILD COMPONENT (DATEFIELD)
-  const [year, setYear] = useState("");
-  const [month, setMonth] = useState("");
-  const [day, setDay] = useState("");
+  const [year, setYear] = useState(Cookies.get("year"));
+  const [month, setMonth] = useState(Cookies.get("month"));
+  const [day, setDay] = useState(Cookies.get("day"));
 
   const handleDateFromChild = (year: any, month: any, day: any) => {
     setYear(year);
@@ -119,18 +126,24 @@ const CreateTripFormComponent = (props: any) => {
 
   useEffect(() => {
     handleSendData();
-    console.log(
-      startCityDisplayText,
-      startBusStopDisplayText,
-      destinationCityDisplayText,
-      destinationBuStopDisplayText,
-      vehicleDisplayText,
-      driverDisplayText,
-      year,
-      month,
-      day,
-      time
-    );
+    Cookies.set("startCity", startCityDisplayText, { expires: 1 });
+    Cookies.set("startBusStop", startBusStopDisplayText, { expires: 1 });
+    Cookies.set("destinationCity", destinationCityDisplayText, { expires: 1 });
+    Cookies.set("destinationBusStop", startBusStopDisplayText, { expires: 1 });
+    Cookies.set("vehicle", vehicleDisplayText, { expires: 1 });
+    Cookies.set("driver", driverDisplayText, { expires: 1 });
+    // console.log(
+    //   startCityDisplayText,
+    //   startBusStopDisplayText,
+    //   destinationCityDisplayText,
+    //   destinationBuStopDisplayText,
+    //   vehicleDisplayText,
+    //   driverDisplayText,
+    //   year,
+    //   month,
+    //   day,
+    //   time
+    // );
   }, [
     startCityDisplayText,
     startBusStopDisplayText,
