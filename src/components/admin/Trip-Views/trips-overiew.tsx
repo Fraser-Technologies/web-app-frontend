@@ -40,12 +40,13 @@ const TripsOverview: React.FC = () => {
     }
   };
   const [flip, setFlip] = useState("");
+
+  const [modalData, setModalData] = useState<any>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const handleOpenInfoModal = (data: any) => {
     setFlip("info");
     setModalVisible(true);
     setModalData(data);
-
     Cookies.set("tripID", data.tripID, { expires: 1 });
     Cookies.set("startCity", data.startCity, { expires: 1 });
     Cookies.set("startBusStop", data.startBusStop, { expires: 1 });
@@ -56,6 +57,17 @@ const TripsOverview: React.FC = () => {
     Cookies.set("driver", data.driver, { expires: 1 });
     Cookies.set("vehicle", data.vehicle, { expires: 1 });
   };
+
+  const tripID = Cookies.get("tripID");
+  const startCity = Cookies.get("startCity");
+  const startBusStop = Cookies.get("startBusStop");
+  const destinationCity = Cookies.get("destinationCity");
+  const destinationBusStop = Cookies.get("destinationBusStop");
+  const date = Cookies.get("date");
+  const time = Cookies.get("time");
+  const driver = Cookies.get("driver");
+  const vehicle = Cookies.get("vehicle");
+  // React.useEffect(() => {}, []);
 
   const [deleteVisible, setDeleteModalVisible] = useState<boolean>(false);
   const handleOpenDeleteModal = (data: any) => {
@@ -83,9 +95,6 @@ const TripsOverview: React.FC = () => {
       setFlip("");
     }
   };
-
-  const [modalData, setModalData] = useState<any>(null);
-
   //TABLE ROW UI
   const rowRenderer = ({ index }: { index: number }) => {
     const item = data[index];
@@ -171,7 +180,7 @@ const TripsOverview: React.FC = () => {
   };
 
   // const [createVisible, setCreateModalVisible] = useState<boolean>(false);
-  // const validation = modalData.start !== "Select Start Bus Stop";
+  // const true = modalData.start !== "Select Start Bus Stop";
 
   // const handleDataFromChild = () => {};
 
@@ -249,37 +258,49 @@ const TripsOverview: React.FC = () => {
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Start
                   </div>
-                  <div className="text-lg">{modalData.start}</div>
+                  <div className="text-lg">{startCity}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Destination
                   </div>
-                  <div className="text-lg">{modalData.destination}</div>
+                  <div className="text-lg">{destinationCity}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-400 font-normal mb-1">
+                    Start
+                  </div>
+                  <div className="text-lg">{startBusStop}</div>
+                </div>
+                <div>
+                  <div className="text-sm text-gray-400 font-normal mb-1">
+                    Destination
+                  </div>
+                  <div className="text-lg">{destinationBusStop}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Departure Time
                   </div>
-                  <div className="text-lg">{modalData.time}</div>
+                  <div className="text-lg">{time}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Date
                   </div>
-                  <div className="text-lg">{modalData.date}</div>
+                  <div className="text-lg">{date}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Driver
                   </div>
-                  <div className="text-lg">{modalData.driver}</div>
+                  <div className="text-lg">{driver}</div>
                 </div>
                 <div>
                   <div className="text-sm text-gray-400 font-normal mb-1">
                     Vehicle
                   </div>
-                  <div className="text-lg">{modalData.vehicle}</div>
+                  <div className="text-lg">{vehicle}</div>
                 </div>
               </div>
               <Button
@@ -287,7 +308,7 @@ const TripsOverview: React.FC = () => {
                 type="submit"
                 className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
                 onClick={() => {
-                  setFlip("create");
+                  setFlip("edit");
                 }}
               />
               <Button
@@ -301,60 +322,56 @@ const TripsOverview: React.FC = () => {
               />
             </Modal>
           )
-        : // : flip === "create"
-        // ? createVisible && (
-        //     <Modal
-        //       title={
-        //         <div className="boder-b text-lg font-medium">
-        //           Create a new trip
-        //         </div>
-        //       }
-        //       onOk={handleOk}
-        //       onCancel={handleCancel}
-        //       open={createVisible}
-        //       centered={true}
-        //       footer={false}
-        //       closable={true}
-        //     >
-        //       <EditTripFormComponent onSendData={handleDataFromChild} />
-        //       <button
-        //         className={`w-full p-3 mt-8 mb-8 font-medium rounded-lg ${
-        //           validation
-        //             ? "bg-[#00ff6a] hover:bg-[#58FF9E]"
-        //             : "bg-[#f5f5f5]"
-        //         } `}
-        //         onClick={() => {
-        //           if (validation) {
-        //             setFlip("review");
-        //           }
-        //         }}
-        //       >
-        //         <svg
-        //           className={`${
-        //             validation === true ? "animate-spin" : "hidden"
-        //           } inline -ml-8 mr-4 w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
-        //           viewBox="0 0 100 101"
-        //           fill="none"
-        //           xmlns="http://www.w3.org/2000/svg"
-        //         >
-        //           <path
-        //             d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
-        //             fill="white"
-        //             stroke="white"
-        //             stroke-width="5"
-        //           />
-        //           <path
-        //             d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
-        //             fill="green"
-        //             stroke="green"
-        //             stroke-width="5"
-        //           />
-        //         </svg>
-        //         Create Trip
-        //       </button>
-        //     </Modal>
-        //   )
-        flip === "delete"
+        : flip === "edit"
+        ? true && (
+            <Modal
+              title={
+                <div className="boder-b text-lg font-medium">Edit Trip</div>
+              }
+              onOk={handleOk}
+              onCancel={handleCancel}
+              open={true}
+              centered={true}
+              footer={false}
+              closable={true}
+            >
+              {/* <EditTripFormComponent onSendData={handleDataFromChild} /> */}
+              <button
+                className={`w-full p-3 mt-8 mb-8 font-medium rounded-lg ${
+                  true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+                } `}
+                onClick={() => {
+                  if (false) {
+                    setFlip("review");
+                  }
+                }}
+              >
+                <svg
+                  className={`${
+                    true === true ? "animate-spin" : "hidden"
+                  } inline -ml-8 mr-4 w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="white"
+                    stroke="white"
+                    stroke-width="5"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="green"
+                    stroke="green"
+                    stroke-width="5"
+                  />
+                </svg>
+                Create Trip
+              </button>
+            </Modal>
+          )
+        : flip === "delete"
         ? deleteVisible && (
             <Modal
               onOk={handleOk}
@@ -371,7 +388,7 @@ const TripsOverview: React.FC = () => {
                   className="text-[#E71D36] w-full mt-8"
                 />
                 <div className="boder-b mt-4 text-base font-medium">
-                  Delete {modalData.start} to {modalData.destination} trip?
+                  Delete {startCity} to {destinationCity} trip?
                 </div>
               </div>
 
@@ -380,6 +397,8 @@ const TripsOverview: React.FC = () => {
                 type="submit"
                 className="w-full py-2 mt-8 text-xs rounded-md bg-[#E71D36] text-white"
                 onClick={() => {
+
+                  //NOT SURE THIS IS USEFUL DURING API CALLS
                   const index = data.indexOf(modalData);
                   if (index > -1) {
                     data.splice(index, 1);
