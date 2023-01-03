@@ -64,6 +64,17 @@ const TripsOverview: React.FC = () => {
   };
 
   // React.useEffect(() => {}, []);
+  const CookieRemoval = () => {
+    Cookies.remove("tripID");
+    Cookies.remove("startCity");
+    Cookies.remove("startBusStop");
+    Cookies.remove("destinationCity");
+    Cookies.remove("destinationBusStop");
+    Cookies.remove("date");
+    Cookies.remove("time");
+    Cookies.remove("driver");
+    Cookies.remove("vehicle");
+  }
 
   const [visible, setStateModalVisible] = useState<boolean>(false);
   const handleOpenDeleteModal = (data: any) => {
@@ -74,6 +85,7 @@ const TripsOverview: React.FC = () => {
 
   const handleOk = () => {
     setModalVisible(false);
+    CookieRemoval()
   };
 
   const handleCancel = () => {
@@ -90,15 +102,7 @@ const TripsOverview: React.FC = () => {
       setModalVisible(false);
       setFlip("");
     }
-    Cookies.remove("tripID");
-    Cookies.remove("startCity");
-    Cookies.remove("startBusStop");
-    Cookies.remove("destinationCity");
-    Cookies.remove("destinationBusStop");
-    Cookies.remove("date");
-    Cookies.remove("time");
-    Cookies.remove("driver");
-    Cookies.remove("vehicle");
+    CookieRemoval()
   };
 
   // React.useEffect(() => {

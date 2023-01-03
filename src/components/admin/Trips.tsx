@@ -11,6 +11,7 @@ import {
 } from "../../state/action/trip.action";
 import { Spinner } from "react-bootstrap";
 import { FaCheckCircle } from "react-icons/fa";
+import Cookies from "js-cookie";
 // import {useAppSelector} from '../../../'
 
 const MiddleSection: React.FC = () => {
@@ -27,13 +28,28 @@ const MiddleSection: React.FC = () => {
 
   const [flip, setFlip] = useState("");
   const [createVisible, setCreateModalVisible] = useState<boolean>(false);
+
+  const CookieRemoval = () => {
+    Cookies.remove("tripID");
+    Cookies.remove("startCity");
+    Cookies.remove("startBusStop");
+    Cookies.remove("destinationCity");
+    Cookies.remove("destinationBusStop");
+    Cookies.remove("date");
+    Cookies.remove("time");
+    Cookies.remove("driver");
+    Cookies.remove("vehicle");
+  };
+
   const handleOpenCreateModal = () => {
     setFlip("create");
     setCreateModalVisible(true);
+    CookieRemoval();
     // setModalData(data);
   };
   const handleOk = () => {
     setCreateModalVisible(false);
+    CookieRemoval();
   };
 
   const handleCancel = () => {
