@@ -1,9 +1,7 @@
-import React from 'react'
+import React from "react";
 
 const BusStopManagement = () => {
-  return (
-    <div>BusStopManagement</div>
-  )
-}
+	return <div>BusStopManagement</div>;
+};
 
-export default BusStopManagement
+export default BusStopManagement;
