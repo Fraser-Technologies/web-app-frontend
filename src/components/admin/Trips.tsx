@@ -236,7 +236,7 @@ const MiddleSection: React.FC = () => {
                   type="submit"
                   className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
                   onClick={() => {
-                    // navigate("");
+                    setFlip("create")
                   }}
                 />
                 <Button

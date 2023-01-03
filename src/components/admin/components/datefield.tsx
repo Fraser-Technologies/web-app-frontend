@@ -1,3 +1,4 @@
+import Cookies from "js-cookie";
 import React, { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import DropDown from "./drop-down";
@@ -10,9 +11,13 @@ const DateField = (props: any) => {
     onSendData(year, month, day);
   };
 
-  const [year, setYear] = useState("Year");
-  const [month, setMonth] = useState("Month");
-  const [day, setDay] = useState("Day");
+  const savedYear = Cookies.get("year");
+  const savedMonth = Cookies.get("month");
+  const savedDay = Cookies.get("day");
+
+  const [year, setYear] = useState(Cookies.get("year") || "Year");
+  const [month, setMonth] = useState(Cookies.get("month") || "Month");
+  const [day, setDay] = useState(Cookies.get("day") || "Day");
 
   // Array of years to display in the dropdown menu
   const years = ["Select", 2023, 2024, 2025];
@@ -39,6 +44,9 @@ const DateField = (props: any) => {
 
   useEffect(() => {
     handleSendData();
+    Cookies.set("year", year, { expires: 1 });
+    Cookies.set("month", month, { expires: 1 });
+    Cookies.set("day", day, { expires: 1 });
   }, [year, month, day]);
 
   return (
