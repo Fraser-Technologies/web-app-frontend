@@ -57,6 +57,10 @@ const MiddleSection: React.FC = () => {
       setCreateModalVisible(false);
       setFlip("");
     }
+    if (flip === "success") {
+      setCreateModalVisible(false);
+      setFlip("");
+    }
   };
 
   //ALL COLLECTED DATA FROM FORM FIELDS

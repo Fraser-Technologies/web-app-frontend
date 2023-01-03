@@ -47,8 +47,8 @@ const TripsOverview: React.FC = () => {
 
   const [modalData, setModalData] = useState<any>(null);
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const handleOpenInfoModal = (data: any) => {
-    setFlip("info");
+  const handleOpenInfoModal = (data: any, flipValue: any) => {
+    setFlip(flipValue);
     setModalVisible(true);
     setModalData(data);
     Cookies.set("tripID", data.tripID, { expires: 1 });
@@ -74,7 +74,7 @@ const TripsOverview: React.FC = () => {
     Cookies.remove("time");
     Cookies.remove("driver");
     Cookies.remove("vehicle");
-  }
+  };
 
   const [visible, setStateModalVisible] = useState<boolean>(false);
   const handleOpenDeleteModal = (data: any) => {
@@ -85,12 +85,16 @@ const TripsOverview: React.FC = () => {
 
   const handleOk = () => {
     setModalVisible(false);
-    CookieRemoval()
+    CookieRemoval();
   };
 
   const handleCancel = () => {
     // setFlip("info");
     if (flip === "info") {
+      setModalVisible(false);
+      setFlip("");
+    }
+    if (flip === "edit") {
       setModalVisible(false);
       setFlip("");
     }
@@ -102,20 +106,9 @@ const TripsOverview: React.FC = () => {
       setModalVisible(false);
       setFlip("");
     }
-    CookieRemoval()
+    CookieRemoval();
   };
 
-  // React.useEffect(() => {
-  //   Cookies.remove("tripID");
-  //   Cookies.remove("startCity");
-  //   Cookies.remove("startBusStop");
-  //   Cookies.remove("destinationCity");
-  //   Cookies.remove("destinationBusStop");
-  //   Cookies.remove("date");
-  //   Cookies.remove("time");
-  //   Cookies.remove("driver");
-  //   Cookies.remove("vehicle");
-  // }, []);
   //TABLE ROW UI
   const rowRenderer = ({ index }: { index: number }) => {
     const item = data[index];
@@ -124,7 +117,7 @@ const TripsOverview: React.FC = () => {
       <tr className="bg-white border-b border-slate-100 hover:bg-gray-50 cursor-pointer">
         <td
           scope="row"
-          onClick={() => handleOpenInfoModal(item)}
+          onClick={() => handleOpenInfoModal(item, "info")}
           className="font-normal text-xs text-gray-700 py-4 px-4"
         >
           {item.startCity}
@@ -134,28 +127,28 @@ const TripsOverview: React.FC = () => {
         </td>
         <td
           scope="row"
-          onClick={() => handleOpenInfoModal(item)}
+          onClick={() => handleOpenInfoModal(item, "info")}
           className="font-normal text-xs text-gray-700 py-4 px-4"
         >
           {item.date}
         </td>
         <td
           scope="row"
-          onClick={() => handleOpenInfoModal(item)}
+          onClick={() => handleOpenInfoModal(item, "info")}
           className="font-normal text-xs text-gray-700 py-4 px-4"
         >
           {item.time}
         </td>
         <td
           scope="row"
-          onClick={() => handleOpenInfoModal(item)}
+          onClick={() => handleOpenInfoModal(item, "info")}
           className="font-normal text-xs text-gray-700 py-4 px-4"
         >
           {item.driver}
         </td>
         <td
           scope="row"
-          onClick={() => handleOpenInfoModal(item)}
+          onClick={() => handleOpenInfoModal(item, "info")}
           className="font-normal text-xs text-gray-700 py-4 px-4"
         >
           {item.vehicle}
@@ -172,13 +165,13 @@ const TripsOverview: React.FC = () => {
             ? menuVisible && (
                 <ul className="bg-white border rounded-md shadow-md absolute z-10 mt-2 py-2">
                   <li
-                    onClick={() => handleOpenInfoModal(item)}
+                    onClick={() => handleOpenInfoModal(item, "info")}
                     className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
                   >
                     View
                   </li>
                   <li
-                    onClick={() => {}}
+                    onClick={() => handleOpenInfoModal(item, "edit")}
                     className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
                   >
                     Edit
@@ -243,9 +236,6 @@ const TripsOverview: React.FC = () => {
     setDate(year + "-" + month + "-" + day);
     setTime(time);
   };
-
-  // const [createVisible, setCreateModalVisible] = useState<boolean>(false);
-  // const true = modalData.start !== "Select Start Bus Stop";
 
   return (
     <>
@@ -386,7 +376,7 @@ const TripsOverview: React.FC = () => {
             </Modal>
           )
         : flip === "edit"
-        ? true && (
+        ? modalVisible && (
             <Modal
               title={
                 <div className="boder-b text-lg font-medium">Edit Trip</div>
