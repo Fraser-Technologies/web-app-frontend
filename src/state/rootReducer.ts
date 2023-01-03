@@ -1,3 +1,4 @@
+import { adminPageReducer } from "./slices/adminPageSlice";
 import { verifyOtpReducer, getOtpReducer } from "./slices/otp.Slice";
 import { combineReducers } from "@reduxjs/toolkit";
 import {
@@ -7,6 +8,7 @@ import {
 } from "./slices/user.slice";
 import { getAllBusStopReducer } from "./slices/busstop.slice";
 import {
+	allTripReducer,
 	availableTripReducer,
 	getAllAvailableTripReducer,
 } from "./slices/trip.slice";
@@ -26,6 +28,10 @@ const rootReducer = combineReducers({
 
 	// booking reducer
 	booking: bookingReducer,
+
+	adminPage: adminPageReducer,
+
+	allTrip: allTripReducer,
 
 	// trip reducers
 	verifyPayment: verifyPaymentReducer,

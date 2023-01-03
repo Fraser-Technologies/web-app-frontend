@@ -56,3 +56,26 @@ export const {
 	getAllAvailableTripSuccess,
 } = allAvailableTripSlice.actions;
 export const getAllAvailableTripReducer = allAvailableTripSlice.reducer;
+
+const getAllTripSlice = createSlice({
+	name: "all trip",
+	initialState: allTripState,
+	reducers: {
+		getAllTripsRequest: (state) => {
+			state.loading = true;
+		},
+		getAllTripsSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trips = payload;
+		},
+
+		getAllTripsFailed: (state, { payload }) => {
+			state.error = payload as unknown as string;
+			state.loading = false;
+		},
+	},
+});
+
+export const { getAllTripsFailed, getAllTripsRequest, getAllTripsSuccess } =
+	getAllTripSlice.actions;
+export const allTripReducer = getAllTripSlice.reducer;

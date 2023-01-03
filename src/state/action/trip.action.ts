@@ -6,6 +6,9 @@ import {
 	getAllAvailableTripFailed,
 	getAllAvailableTripRequest,
 	getAllAvailableTripSuccess,
+	getAllTripsFailed,
+	getAllTripsRequest,
+	getAllTripsSuccess,
 	getAvailableTripFailed,
 	getAvailableTripRequest,
 	getAvailableTripSuccess,
@@ -35,5 +38,15 @@ export const getAllAvailableTripAction = (): AppThunk => async (dispatch) => {
 		dispatch(getAllAvailableTripSuccess(data));
 	} catch (error: any) {
 		dispatch(getAllAvailableTripFailed(RequestError(error)));
+	}
+};
+
+export const getAllTripAction = (): AppThunk => async (dispatch) => {
+	dispatch(getAllTripsRequest());
+	try {
+		const { data } = await api.get("/trip");
+		dispatch(getAllTripsSuccess(data));
+	} catch (error: any) {
+		dispatch(getAllTripsFailed(RequestError(error)));
 	}
 };
