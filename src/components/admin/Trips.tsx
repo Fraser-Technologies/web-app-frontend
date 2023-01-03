@@ -253,20 +253,21 @@ const MiddleSection: React.FC = () => {
                   </div>
                 </div>
                 <Button
-                  title="Edit"
+                  title="Continue"
                   type="submit"
                   className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
                   onClick={() => {
-                    setFlip("create");
+                    handleOk()
+                    //aAPI CALL HERE FOR CREATING A TRIP
+                   
                   }}
                 />
                 <Button
-                  title="Delete"
+                  title="Edit"
                   type="submit"
-                  className="w-full mt-4 mb-6 px-4 py-3 text-xs rounded-md border text-red-600 border-red-500"
+                  className="w-full mt-4 mb-6 px-4 py-3 text-xs rounded-md border text-gray-500 border-gray-500"
                   onClick={() => {
-                    // setFlip("delete");
-                    // setDeleteModalVisible(true);
+                    setFlip("create");
                   }}
                 />
               </Modal>
