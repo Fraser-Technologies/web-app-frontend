@@ -1,22 +1,18 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Button } from "../Button";
+import { _paths_ } from "../../utils/appHelpers";
 import TripsOverview from "./Trip-Views/trips-overiew";
 import BusStopManagement from "./Trip-Views/bus-stop-mgt";
 import { Modal } from "antd";
 import CreateTripFormComponent from "./components/create-trip-form";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import { getAllTripAction } from "../../state/action/trip.action";
-import { Spinner } from "react-bootstrap";
-import { getAllCityAction } from "../../state/action/city.action";
+import { useAppSelector } from "../../state/hooks";
 // import {useAppSelector} from '../../../'
 
-const Trips: React.FC = () => {
+const MiddleSection: React.FC = () => {
 	// PAGINATION
-	const dispatch = useAppDispatch();
 	const { trips, loading, error } = useAppSelector(
-		(state: any) => state.allTrip
+		(state: any) => state.allAvailableTrip
 	);
-	console.log("the trips are ", trips);
 	const [activeTripsView, setIsActive] = useState("overview");
 	const handleTripViewToggle = (value: string) => {
 		setIsActive(value);
@@ -83,11 +79,6 @@ const Trips: React.FC = () => {
 		startCity !== destinationCity &&
 		time !== "";
 
-	useEffect(() => {
-		dispatch(getAllTripAction());
-		dispatch(getAllCityAction());
-	}, [dispatch]);
-
 	return (
 		<div className="bg-white h-full col-start-2 col-end-6 ">
 			<div className="bg-white h-full px-6">
@@ -121,8 +112,7 @@ const Trips: React.FC = () => {
 				{/* BUSSTOPS HEADER */}
 				<div className="border-b h-14 w-full my-2">
 					<div className="flex justify-between">
-						<h2 className="text-lg mt-2 font-medium">Busstops</h2>{" "}
-						{loading && <Spinner />}
+						<h2 className="text-lg mt-2 font-medium">Busstops</h2>
 						{activeTripsView === "overview" ? (
 							<Button
 								title="+ Create new trip"
@@ -272,4 +262,4 @@ const Trips: React.FC = () => {
 	);
 };
 
-export default Trips;
+export default MiddleSection;

@@ -1,12 +1,19 @@
 import { Input, Modal } from "antd";
+import Cookies from "js-cookie";
 import React, { useState } from "react";
-import { FaEllipsisV, FaExclamationCircle } from "react-icons/fa";
+import {
+	FaCheckCircle,
+	FaEllipsisV,
+	FaExclamationCircle,
+} from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { useNavigate } from "react-router-dom";
 import { Trip_interface } from "../../../interfaces/trip_interface";
 import { useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 import { data } from "../adminData/trips-test-data";
+import CreateTripFormComponent from "../components/create-trip-form";
+import EditTripFormComponent from "../components/edit-trip-form";
 
 const TripsOverview = () => {
 	const { trips, loading, error } = useAppSelector(
