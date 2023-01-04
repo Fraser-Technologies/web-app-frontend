@@ -3,7 +3,6 @@ import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { Spinner } from "react-bootstrap";
 import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
-import ReactPaginate from "react-paginate";
 import { useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 import { data } from "../adminData/trips-test-data";
