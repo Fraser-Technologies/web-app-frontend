@@ -5,14 +5,12 @@ import BusStopManagement from "./Trip-Views/bus-stop-mgt";
 import { Modal } from "antd";
 import CreateTripFormComponent from "./components/create-trip-form";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import {
-	getAllAvailableTripAction,
-	getAllTripAction,
-} from "../../state/action/trip.action";
+import { getAllTripAction } from "../../state/action/trip.action";
 import { Spinner } from "react-bootstrap";
+import { getAllCityAction } from "../../state/action/city.action";
 // import {useAppSelector} from '../../../'
 
-const MiddleSection: React.FC = () => {
+const Trips: React.FC = () => {
 	// PAGINATION
 	const dispatch = useAppDispatch();
 	const { trips, loading, error } = useAppSelector(
@@ -87,7 +85,9 @@ const MiddleSection: React.FC = () => {
 
 	useEffect(() => {
 		dispatch(getAllTripAction());
+		dispatch(getAllCityAction());
 	}, [dispatch]);
+
 	return (
 		<div className="bg-white h-full col-start-2 col-end-6 ">
 			<div className="bg-white h-full px-6">
@@ -272,4 +272,4 @@ const MiddleSection: React.FC = () => {
 	);
 };
 
-export default MiddleSection;
+export default Trips;
