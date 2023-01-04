@@ -1,28 +1,18 @@
 import React, { useEffect, useState } from "react";
-import { Button } from "../Button";
-import TripsOverview from "./Trip-Views/trips-overiew";
-import BusStopManagement from "./Trip-Views/bus-stop-mgt";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
-import {
-  getAllAvailableTripAction,
-  getAllTripAction,
-} from "../../state/action/trip.action";
-import { Modal } from "antd";
-import CreateTripFormComponent from "./components/create-trip-form";
-// import {useAppSelector} from '../../../'
+import TripsOverview from "./trips-overiew";
+import BusStopManagement from "./bus-stop-mgt";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { getAllTripAction } from "../../../state/action/trip.action";
 
 const MiddleSection: React.FC = () => {
   // PAGINATION
   const dispatch = useAppDispatch();
-  
+
   const [activeTripsView, setIsActive] = useState("overview");
   const handleTripViewToggle = (value: string) => {
     setIsActive(value);
   };
-	// PAGINATION
-	const { trips, loading, error } = useAppSelector(
-		(state: any) => state.allAvailableTrip
-	);
+  // PAGINATION
 
   useEffect(() => {
     dispatch(getAllTripAction());
@@ -58,7 +48,6 @@ const MiddleSection: React.FC = () => {
             </button>
           </div>
         </div>
-
 
         {activeTripsView === "overview" ? (
           <TripsOverview />
