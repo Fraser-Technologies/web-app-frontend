@@ -9,6 +9,8 @@ import {
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { useAppSelector } from "../../../state/hooks";
+import { useNavigate } from "react-router-dom";
+import { Trip_interface } from "../../../interfaces/trip_interface";
 import { Button } from "../../Button";
 import { data } from "../adminData/trips-test-data";
 import CreateTripFormComponent from "../components/create-trip-form";

@@ -1,3 +1,9 @@
+import {
+	createCityReducer,
+	deleteCityReducer,
+	getAllCityReducer,
+	updateCityReducer,
+} from "./slices/city.slice";
 import { adminPageReducer } from "./slices/adminPageSlice";
 import { verifyOtpReducer, getOtpReducer } from "./slices/otp.Slice";
 import { combineReducers } from "@reduxjs/toolkit";
@@ -35,6 +41,12 @@ const rootReducer = combineReducers({
 
 	// trip reducers
 	verifyPayment: verifyPaymentReducer,
+
+	// city
+	createCity: createCityReducer,
+	allCity: getAllCityReducer,
+	deleteCity: deleteCityReducer,
+	updateCity: updateCityReducer,
 });
 
 export default rootReducer;

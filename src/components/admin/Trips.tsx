@@ -7,6 +7,9 @@ import {
   getAllAvailableTripAction,
   getAllTripAction,
 } from "../../state/action/trip.action";
+import { Modal } from "antd";
+import CreateTripFormComponent from "./components/create-trip-form";
+// import {useAppSelector} from '../../../'
 
 const MiddleSection: React.FC = () => {
   // PAGINATION
@@ -16,6 +19,11 @@ const MiddleSection: React.FC = () => {
   const handleTripViewToggle = (value: string) => {
     setIsActive(value);
   };
+	// PAGINATION
+	const { trips, loading, error } = useAppSelector(
+		(state: any) => state.allAvailableTrip
+	);
+
 
   useEffect(() => {
     dispatch(getAllTripAction());
