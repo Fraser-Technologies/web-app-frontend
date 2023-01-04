@@ -24,7 +24,6 @@ const MiddleSection: React.FC = () => {
 		(state: any) => state.allAvailableTrip
 	);
 
-
   useEffect(() => {
     dispatch(getAllTripAction());
   }, [dispatch]);

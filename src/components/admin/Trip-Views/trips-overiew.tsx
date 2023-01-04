@@ -1,20 +1,15 @@
-import { Input, Modal } from "antd";
+import { Modal } from "antd";
 import Cookies from "js-cookie";
 import React, { useState } from "react";
 import { Spinner } from "react-bootstrap";
-import {
-  FaCheckCircle,
-  FaEllipsisV,
-  FaExclamationCircle,
-} from "react-icons/fa";
+import { FaCheckCircle, FaExclamationCircle } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { useAppSelector } from "../../../state/hooks";
-import { useNavigate } from "react-router-dom";
-import { Trip_interface } from "../../../interfaces/trip_interface";
 import { Button } from "../../Button";
 import { data } from "../adminData/trips-test-data";
 import CreateTripFormComponent from "../components/create-trip-form";
 import EditTripFormComponent from "../components/edit-trip-form";
+import rowRenderer from "../components/table-rows";
 
 const TripsOverview: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0); // current page
@@ -34,6 +29,7 @@ const TripsOverview: React.FC = () => {
   const endIndex = startIndex + itemsPerPage;
   const items = data.slice(startIndex, endIndex); // items to display on the current page
 
+  // ROW ACTION MENU
   const [menuVisible, setMenuVisible] = useState(false);
 
   //TOGGLE
@@ -53,6 +49,8 @@ const TripsOverview: React.FC = () => {
     setFlip(flipValue);
     setModalVisible(true);
     setModalData(data);
+
+    //SETS ALL COOKIES WHEN USER CLICKS A TABLE ROW
     Cookies.set("tripID", data.tripID, { expires: 1 });
     Cookies.set("startCity", data.startCity, { expires: 1 });
     Cookies.set("startBusStop", data.startBusStop, { expires: 1 });
@@ -64,13 +62,13 @@ const TripsOverview: React.FC = () => {
     Cookies.set("vehicle", data.vehicle, { expires: 1 });
   };
 
+  //CREATE CONTROLLERS
   const [createVisible, setCreateModalVisible] = useState<boolean>(false);
   const handleOpenCreateModal = (flipValue: any) => {
     setFlip(flipValue);
     setCreateModalVisible(true);
   };
 
-  // React.useEffect(() => {}, []);
   const CookieRemoval = () => {
     Cookies.remove("tripID");
     Cookies.remove("startCity");
@@ -96,7 +94,6 @@ const TripsOverview: React.FC = () => {
   };
 
   const handleCancel = () => {
-    // setFlip("info");
     if (flip === "info") {
       setModalVisible(false);
       setFlip("");
@@ -120,90 +117,6 @@ const TripsOverview: React.FC = () => {
     CookieRemoval();
   };
 
-  //TABLE ROW UI
-  const rowRenderer = ({ index }: { index: number }) => {
-    const item = data[index];
-
-    return (
-      <tr className="bg-white border-b border-slate-100 hover:bg-gray-50 cursor-pointer">
-        <td
-          scope="row"
-          onClick={() => handleOpenModal(item, "info")}
-          className="font-normal text-xs text-gray-700 py-4 px-4"
-        >
-          {item.startCity}
-        </td>
-        <td scope="row" className=" font-normal text-xs text-gray-700 ">
-          {item.destinationCity}
-        </td>
-        <td
-          scope="row"
-          onClick={() => handleOpenModal(item, "info")}
-          className="font-normal text-xs text-gray-700 py-4 px-4"
-        >
-          {item.date}
-        </td>
-        <td
-          scope="row"
-          onClick={() => handleOpenModal(item, "info")}
-          className="font-normal text-xs text-gray-700 py-4 px-4"
-        >
-          {item.time}
-        </td>
-        <td
-          scope="row"
-          onClick={() => handleOpenModal(item, "info")}
-          className="font-normal text-xs text-gray-700 py-4 px-4"
-        >
-          {item.driver}
-        </td>
-        <td
-          scope="row"
-          onClick={() => handleOpenModal(item, "info")}
-          className="font-normal text-xs text-gray-700 py-4 px-4"
-        >
-          {item.vehicle}
-        </td>
-        <td
-          scope="row"
-          className="py-6 px-4 font-normal text-xs text-gray-700"
-          onClick={() => handleSetMenuToggle(index.toString())}
-        >
-          <div>
-            <FaEllipsisV />
-          </div>
-          {menuToggle === index.toString()
-            ? menuVisible && (
-                <ul className="bg-white border rounded-md shadow-md absolute z-10 mt-2 py-2">
-                  <li
-                    onClick={() => handleOpenModal(item, "info")}
-                    className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    View
-                  </li>
-                  <li
-                    onClick={() => handleOpenModal(item, "edit")}
-                    className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Edit
-                  </li>
-                  <li
-                    onClick={() => {
-                      setFlip("delete");
-                      handleOpenDeleteModal(item);
-                    }}
-                    className="py-2 px-4 border-b font-medium text-sm text-gray-700 hover:bg-gray-100"
-                  >
-                    Delete
-                  </li>
-                </ul>
-              )
-            : ""}
-        </td>
-      </tr>
-    );
-  };
-
   //ALL COLLECTED DATA FROM FORM FIELDS
   const [startCityData, setStartCity] = useState("");
   const [startBusStopData, setStartBusStop] = useState("");
@@ -214,7 +127,6 @@ const TripsOverview: React.FC = () => {
   const [dateData, setDate] = useState("");
   const [timeData, setTime] = useState("");
 
-  const tripID = Cookies.get("tripID");
   React.useEffect(() => {
     setStartCity(Cookies.get("startCity") || "");
     setStartBusStop(Cookies.get("startBusStop") || "");
@@ -259,9 +171,7 @@ const TripsOverview: React.FC = () => {
     startCityData !== destinationCityData &&
     timeData !== "";
 
-  const { trips, loading, error } = useAppSelector(
-    (state: any) => state.allTrip
-  );
+  const { loading } = useAppSelector((state: any) => state.allTrip);
 
   return (
     <>
@@ -328,13 +238,27 @@ const TripsOverview: React.FC = () => {
           </tr>
         </thead>
 
+        {/* //TABLE ROWS */}
         <tbody className="">
-          {items.map((item, index) => rowRenderer({ index }))}
+          {items.map((item, index) => {
+            //ROWRENDERER IS A SEPARATE COMPNENT BEING CALLED HERE
+            return rowRenderer({
+              data: items,
+              index,
+              handleOpenModal,
+              handleSetMenuToggle,
+              menuToggle,
+              menuVisible,
+              handleOpenDeleteModal,
+              setFlip,
+            });
+          })}
         </tbody>
       </table>
 
       {/* MODALS */}
 
+      {/* CREATE MODAL SHOWS ON CLICK OF CREATE NEW TRIP */}
       {flip === "create"
         ? createVisible && (
             <Modal
@@ -388,7 +312,8 @@ const TripsOverview: React.FC = () => {
               </button>
             </Modal>
           )
-        : flip === "review"
+        : //  REVIEW MODAL SHOWS AFTER CREATING TRIP
+        flip === "review"
         ? modalVisible && (
             <Modal
               title={
@@ -472,7 +397,8 @@ const TripsOverview: React.FC = () => {
               />
             </Modal>
           )
-        : flip === "success"
+        : //  SUCESS MODAL SHOWS AFTER API RETURNS SUCCESS
+        flip === "success"
         ? modalVisible && (
             <Modal
               onOk={handleOk}
@@ -503,7 +429,8 @@ const TripsOverview: React.FC = () => {
               />
             </Modal>
           )
-        : flip === "info"
+        : //  INFO MODAL SHOWS ON CLICK OF TABLE ROWS
+        flip === "info"
         ? modalVisible && (
             <Modal
               title={
@@ -585,7 +512,8 @@ const TripsOverview: React.FC = () => {
               />
             </Modal>
           )
-        : flip === "edit"
+        : //  EDIT MODAL SHOWS ON CLICK OF EDIT IN INFO MODAL OR EDIT AT THE ACTION BUTTON ON THE TABLE ROW RENDERER
+        flip === "edit"
         ? modalVisible && (
             <Modal
               title={
@@ -640,7 +568,8 @@ const TripsOverview: React.FC = () => {
               </button>
             </Modal>
           )
-        : flip === "delete"
+        : //  DELETE MODAL SHOWS IF DELETE IS CLICKED
+        flip === "delete"
         ? visible && (
             <Modal
               onOk={handleOk}
@@ -686,7 +615,8 @@ const TripsOverview: React.FC = () => {
               />
             </Modal>
           )
-        : flip === "success"
+        : //  SUCESS MODAL SHOWS AFTER API RETURNS SUCCESS FOR TRIP UPDATES
+        flip === "success"
         ? visible && (
             <Modal
               onOk={handleOk}
