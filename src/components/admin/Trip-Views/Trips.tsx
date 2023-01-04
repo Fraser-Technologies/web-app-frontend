@@ -1,18 +1,16 @@
 import React, { useEffect, useState } from "react";
 import TripsOverview from "./trips-overiew";
 import BusStopManagement from "./bus-stop-mgt";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { useAppDispatch } from "../../../state/hooks";
 import { getAllTripAction } from "../../../state/action/trip.action";
 
 const MiddleSection: React.FC = () => {
-  // PAGINATION
   const dispatch = useAppDispatch();
 
   const [activeTripsView, setIsActive] = useState("overview");
   const handleTripViewToggle = (value: string) => {
     setIsActive(value);
   };
-  // PAGINATION
 
   useEffect(() => {
     dispatch(getAllTripAction());

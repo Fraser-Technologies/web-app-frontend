@@ -7,15 +7,15 @@ import ReactPaginate from "react-paginate";
 import { useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 import { data } from "../adminData/trips-test-data";
+import TripCookieRemoval from "../components/cookie-removal";
 import CreateTripFormComponent from "../components/create-trip-form";
 import EditTripFormComponent from "../components/edit-trip-form";
+import Pagination from "../components/pagination";
 import rowRenderer from "../components/table-rows";
 
 const TripsOverview: React.FC = () => {
   const [currentPage, setCurrentPage] = useState(0); // current page
   const itemsPerPage = 10; // number of items per page
-  const pageRangeDisplayed = 5; // number of pages to display
-  const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
   const totalItems = data.length; // total number of items
   const pageCount = Math.ceil(totalItems / itemsPerPage); // total number of pages
 
@@ -69,18 +69,6 @@ const TripsOverview: React.FC = () => {
     setCreateModalVisible(true);
   };
 
-  const CookieRemoval = () => {
-    Cookies.remove("tripID");
-    Cookies.remove("startCity");
-    Cookies.remove("startBusStop");
-    Cookies.remove("destinationCity");
-    Cookies.remove("destinationBusStop");
-    Cookies.remove("date");
-    Cookies.remove("time");
-    Cookies.remove("driver");
-    Cookies.remove("vehicle");
-  };
-
   const [visible, setStateModalVisible] = useState<boolean>(false);
   const handleOpenDeleteModal = (data: any) => {
     setFlip("delete");
@@ -90,31 +78,20 @@ const TripsOverview: React.FC = () => {
 
   const handleOk = () => {
     setModalVisible(false);
-    CookieRemoval();
+    TripCookieRemoval();
   };
 
   const handleCancel = () => {
-    if (flip === "info") {
+    if (flip !== "delete") {
       setModalVisible(false);
       setFlip("");
     }
-    if (flip === "edit") {
-      setModalVisible(false);
-      setFlip("");
-    }
+
     if (flip === "delete") {
       setModalVisible(false);
       setFlip("info");
     }
-    if (flip === "create") {
-      setModalVisible(false);
-      setFlip("");
-    }
-    if (flip === "success") {
-      setModalVisible(false);
-      setFlip("");
-    }
-    CookieRemoval();
+    TripCookieRemoval();
   };
 
   //ALL COLLECTED DATA FROM FORM FIELDS
@@ -176,7 +153,6 @@ const TripsOverview: React.FC = () => {
   return (
     <>
       {/* TRIPS OVERVIEW VIEW*/}
-
       {/* BUSSTOPS HEADER */}
       <div className="border-b h-14 w-full my-2">
         <div className="flex justify-between">
@@ -192,25 +168,9 @@ const TripsOverview: React.FC = () => {
           />
         </div>
       </div>
+
       {/* PAGINATION */}
-      <div className="mb-4 bg-gray-200 rounded-md px-6">
-        <ReactPaginate
-          className="w-full inline-flex py-2 items-center"
-          pageCount={pageCount}
-          pageRangeDisplayed={pageRangeDisplayed}
-          marginPagesDisplayed={marginPagesDisplayed}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          pageLinkClassName={
-            "page-link px-3 py-2 mx-2 leading-tight text-gray-800 rounded-md"
-          }
-          activeClassName={" bg-gray-300 rounded-md"}
-          previousClassName={"previous mr-6"}
-          nextClassName={"next ml-6"}
-          previousLabel={"<"}
-          nextLabel={">"}
-        />
-      </div>
+      <Pagination handlePageClick={handlePageClick} pageCount={pageCount} />
 
       {/* BUSSTOPS LIST - TABLE */}
       <table className="table-auto w-full text-base font-normal text-left text-white">
@@ -240,7 +200,7 @@ const TripsOverview: React.FC = () => {
 
         {/* //TABLE ROWS */}
         <tbody className="">
-          {items.map((item, index) => {
+          {items.map((_item, index) => {
             //ROWRENDERER IS A SEPARATE COMPNENT BEING CALLED HERE
             return rowRenderer({
               data: items,
