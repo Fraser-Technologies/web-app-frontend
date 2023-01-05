@@ -1,5 +1,5 @@
 import { FaEllipsisV } from "react-icons/fa";
-import { Trip_interface } from "../../../interfaces/trip_interface";
+
 
 //TABLE ROW UI
 const rowRenderer = ({
@@ -12,8 +12,8 @@ const rowRenderer = ({
 	handleOpenDeleteModal,
 	setFlip,
 }: {
-	data: Trip_interface;
-	index: number;
+	data: any;
+	index: any;
 	handleOpenModal: any;
 	handleSetMenuToggle: any;
 	menuToggle: any;

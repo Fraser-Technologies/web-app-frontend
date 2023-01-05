@@ -1,4 +1,3 @@
-import React from "react";
 import { FaCaretDown } from "react-icons/fa";
 
 const DropDown = ({

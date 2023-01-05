@@ -1,12 +1,8 @@
 import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
-import { cities } from "../adminData/busstops-test-data";
-import { drivers } from "../adminData/drivers-test-data";
-import { vehicles } from "../adminData/vehicles-test-data";
 import DateField from "./datefield";
 import DropdownComponent from "./full-dropdown";
 import TimePicker from "./time-picker";
-
 
 // FORM TO CREATE A TRIP
 const CreateTripFormComponent = (props: any) => {
@@ -27,7 +23,7 @@ const CreateTripFormComponent = (props: any) => {
     );
   };
 
-  const citiesArray = Object.entries(cities);
+  // const citiesArray = Object.entries(cities);
 
   //   START CITY CONTROLLERS
   const [startCityOpen, setStartCityIsOpen] = useState(false);
@@ -168,25 +164,27 @@ const CreateTripFormComponent = (props: any) => {
         onClickFunction={handleStartCityDropClick}
         dropControllerBool={startCityOpen}
         displayText={startCityDisplayText}
-        dataSetName={cities}
-        dataSetMapFunction={citiesArray.map(([city]) => {
-          return (
-            <a
-              key={city}
-              href="#"
-              className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-              onClick={() => {
-                handleStartCityChange(city);
-              }}
-            >
-              {city}
-            </a>
-          );
-        })}
+        // dataSetName={cities}
+        // dataSetMapFunction={citiesArray.map(([city]) => {
+        //   return (
+        //     <a
+        //       key={city}
+        //       href="#"
+        //       className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+        //       onClick={() => {
+        //         handleStartCityChange(city);
+        //       }}
+        //     >
+        //       {city}
+        //     </a>
+        //   );
+        // })}
         fullBodyClassName="mt-6 z-50"
         dropdownLabel="City"
         dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-50"
         addNewOnClickFunction={() => {}}
+        dataSetName={undefined}
+        dataSetMapFunction={undefined}
       />
 
       <DropdownComponent
@@ -195,29 +193,31 @@ const CreateTripFormComponent = (props: any) => {
         onClickFunction={handleStartBusStopDropClick}
         dropControllerBool={startBusStopOpen}
         displayText={startBusStopDisplayText}
-        dataSetName={cities}
-        dataSetMapFunction={citiesArray.map(([city, busstop]) => {
-          if (city === startCityDisplayText) {
-            return busstop.map((busstop) => {
-              return (
-                <a
-                  key={busstop.busstop}
-                  href="#"
-                  className={`w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900`}
-                  onClick={() => {
-                    handleStartBusStopChange(busstop.busstop);
-                  }}
-                >
-                  {busstop.busstop}
-                </a>
-              );
-            });
-          }
-        })}
+        // dataSetName={cities}
+        // dataSetMapFunction={citiesArray.map(([city, busstop]) => {
+        //   if (city === startCityDisplayText) {
+        //     return busstop.map((busstop) => {
+        //       return (
+        //         <a
+        //           key={busstop.busstop}
+        //           href="#"
+        //           className={`w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900`}
+        //           onClick={() => {
+        //             handleStartBusStopChange(busstop.busstop);
+        //           }}
+        //         >
+        //           {busstop.busstop}
+        //         </a>
+        //       );
+        //     });
+        //   }
+        // })}
         fullBodyClassName="mt-4"
         dropdownLabel="Bus Stop"
         dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-40"
         addNewOnClickFunction={() => {}}
+        dataSetName={undefined}
+        dataSetMapFunction={undefined}
       />
 
       {/* DESTINATION */}
@@ -227,25 +227,27 @@ const CreateTripFormComponent = (props: any) => {
         onClickFunction={handleDestinationCityDropClick}
         dropControllerBool={destinationCityOpen}
         displayText={destinationCityDisplayText}
-        dataSetName={cities}
-        dataSetMapFunction={citiesArray.map(([city]) => {
-          return (
-            <a
-              key={city}
-              href="#"
-              className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-              onClick={() => {
-                handleDestinationCityChange(city);
-              }}
-            >
-              {city}
-            </a>
-          );
-        })}
+        // dataSetName={cities}
+        // dataSetMapFunction={citiesArray.map(([city]) => {
+        //   return (
+        //     <a
+        //       key={city}
+        //       href="#"
+        //       className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+        //       onClick={() => {
+        //         handleDestinationCityChange(city);
+        //       }}
+        //     >
+        //       {city}
+        //     </a>
+        //   );
+        // })}
         fullBodyClassName="mt-6 z-50"
         dropdownLabel="City"
         dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-50"
         addNewOnClickFunction={() => {}}
+        dataSetName={undefined}
+        dataSetMapFunction={undefined}
       />
 
       <DropdownComponent
@@ -254,29 +256,31 @@ const CreateTripFormComponent = (props: any) => {
         onClickFunction={handleDestinationBusStopDropClick}
         dropControllerBool={destinationBusStopOpen}
         displayText={destinationBuStopDisplayText}
-        dataSetName={cities}
-        dataSetMapFunction={citiesArray.map(([city, busstop]) => {
-          if (city === destinationCityDisplayText) {
-            return busstop.map((busstop) => {
-              return (
-                <a
-                  key={busstop.busstop}
-                  href="#"
-                  className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                  onClick={() => {
-                    handleDestinationBusStopChange(busstop.busstop);
-                  }}
-                >
-                  {busstop.busstop}
-                </a>
-              );
-            });
-          }
-        })}
+        // dataSetName={cities}
+        // dataSetMapFunction={citiesArray.map(([city, busstop]) => {
+        //   if (city === destinationCityDisplayText) {
+        //     return busstop.map((busstop) => {
+        //       return (
+        //         <a
+        //           key={busstop.busstop}
+        //           href="#"
+        //           className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+        //           onClick={() => {
+        //             handleDestinationBusStopChange(busstop.busstop);
+        //           }}
+        //         >
+        //           {busstop.busstop}
+        //         </a>
+        //       );
+        //     });
+        //   }
+        // })}
         fullBodyClassName="mt-4"
         dropdownLabel="Bus Stop"
         dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-40"
         addNewOnClickFunction={() => {}}
+        dataSetName={undefined}
+        dataSetMapFunction={undefined}
       />
 
       <div className="w-full mb-2 text-gray-500 mt-8">Date and time</div>
@@ -290,25 +294,27 @@ const CreateTripFormComponent = (props: any) => {
         onClickFunction={handleDriverDropClick}
         dropControllerBool={driverOpen}
         displayText={driverDisplayText}
-        dataSetName={drivers}
-        dataSetMapFunction={drivers.map((driver: any) => {
-          return (
-            <a
-              key={driver}
-              href="#"
-              className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-              onClick={() => {
-                handleDriverChange(driver.driver + " " + driver.lastName);
-              }}
-            >
-              {driver.driver + " " + driver.lastName}
-            </a>
-          );
-        })}
+        // dataSetName={drivers}
+        // dataSetMapFunction={drivers.map((driver: any) => {
+        //   return (
+        //     <a
+        //       key={driver}
+        //       href="#"
+        //       className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+        //       onClick={() => {
+        //         handleDriverChange(driver.driver + " " + driver.lastName);
+        //       }}
+        //     >
+        //       {driver.driver + " " + driver.lastName}
+        //     </a>
+        //   );
+        // })}
         fullBodyClassName="mt-6 z-50"
         dropdownLabel="Driver"
         dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-50"
         addNewOnClickFunction={() => {}}
+        dataSetName={undefined}
+        dataSetMapFunction={undefined}
       />
 
       <DropdownComponent
@@ -317,27 +323,29 @@ const CreateTripFormComponent = (props: any) => {
         onClickFunction={handleVehicleDropClick}
         dropControllerBool={vehicleOpen}
         displayText={vehicleDisplayText}
-        dataSetName={vehicles}
-        dataSetMapFunction={vehicles.map((option: any) => {
-          return (
-            <a
-              key={option}
-              href="#"
-              className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-              onClick={() => {
-                handleVehicleChange(
-                  option.model + " " + option.registrationNumber
-                );
-              }}
-            >
-              {option.model + " " + option.registrationNumber}
-            </a>
-          );
-        })}
+        // dataSetName={vehicles}
+        // dataSetMapFunction={vehicles.map((option: any) => {
+        //   return (
+        //     <a
+        //       key={option}
+        //       href="#"
+        //       className="w-full inline-block px-4 py-2 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+        //       onClick={() => {
+        //         handleVehicleChange(
+        //           option.model + " " + option.registrationNumber
+        //         );
+        //       }}
+        //     >
+        //       {option.model + " " + option.registrationNumber}
+        //     </a>
+        //   );
+        // })}
         fullBodyClassName="mt-4"
         dropdownLabel="Vehicle"
         dropDownClassName="w-full absolute mt-2 rounded-md shadow-lg z-40"
         addNewOnClickFunction={() => {}}
+        dataSetName={undefined}
+        dataSetMapFunction={undefined}
       />
     </div>
   );

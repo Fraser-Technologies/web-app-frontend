@@ -1,7 +1,5 @@
 import Cookies from "js-cookie";
-import React, { useEffect, useState } from "react";
-import { FaCaretDown } from "react-icons/fa";
-import DropDown from "./drop-down";
+import { useEffect, useState } from "react";
 
 const DateField = (props: any) => {
   const { onSendData } = props;
