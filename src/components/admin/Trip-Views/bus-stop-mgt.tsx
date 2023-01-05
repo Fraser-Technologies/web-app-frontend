@@ -221,7 +221,6 @@ const BusStopManagement = () => {
               </div>
 
               <div className="mb-8">
-
                 <div
                   // key={busStop}
                   className="flex py-4 border-b justify-between w-full"

@@ -50,13 +50,6 @@ const TripsOverview: React.FC = () => {
     setModalVisible(true);
   };
 
-  //CREATE CONTROLLERS
-  const [createVisible, setCreateModalVisible] = useState<boolean>(false);
-  const handleOpenCreateModal = (flipValue: any) => {
-    setFlip(flipValue);
-    setCreateModalVisible(true);
-  };
-
   // const CookieRemoval = () => {
   //   Cookies.remove("tripID");
   //   Cookies.remove("startCity");
@@ -154,8 +147,8 @@ const TripsOverview: React.FC = () => {
             className="px-4 py-2 text-xs rounded-md bg-primary-100"
             onClick={() => {
               // handleOpenCreateModal("create");
-              setFlip("create")
-              setStateModalVisible(true);
+              setFlip("create");
+              setModalVisible(true);
             }}
           />
         </div>
@@ -223,7 +216,7 @@ const TripsOverview: React.FC = () => {
 
       {/* MODALS */}
       {flip === "create"
-        ? createVisible && (
+        ? modalVisible && (
             <Modal
               title={
                 <div className="text-lg font-medium boder-b">
@@ -232,7 +225,7 @@ const TripsOverview: React.FC = () => {
               }
               onOk={handleOk}
               onCancel={handleCancel}
-              open={createVisible}
+              open={modalVisible}
               centered={true}
               footer={false}
               closable={true}
