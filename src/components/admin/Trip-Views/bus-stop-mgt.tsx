@@ -2,7 +2,13 @@ import { Input } from "antd";
 import Modal from "antd/es/modal/Modal";
 import React from "react";
 import { useState } from "react";
-import { FaCheck, FaCheckCircle, FaPen, FaTrash } from "react-icons/fa";
+import {
+  FaCheck,
+  FaCheckCircle,
+  FaExclamationCircle,
+  FaPen,
+  FaTrash,
+} from "react-icons/fa";
 import { Button } from "../../Button";
 import { cities } from "../adminData/busstops-test-data";
 
@@ -91,6 +97,16 @@ const BusStopManagement = () => {
   //   }
   // }
 
+  const patterns = [
+    "bg-blue-900",
+    "bg-red-900",
+    "bg-yellow-900",
+    "bg-green-900",
+    "bg-purple-900",
+  ];
+
+  const [busStop, setBusStop] = useState<string>("");
+
   return (
     <div>
       {/* BUSSTOPS HEADER */}
@@ -116,19 +132,21 @@ const BusStopManagement = () => {
       </div>
 
       <div className="grid gap-4 grid-cols-2">
-        {/* API CALL HERE RETURNS THE LIST OF CITIES AND THE NUMBER OF BUSSTOPS */}
-        {Object.keys(cities).map((city) => (
-          <div
-            key={city}
-            className="w-full h-56 bg-black text-white rounded-md flex flex-col items-center justify-center"
-            onClick={() => {
-              handleOpenModal(city, "city");
-            }} //OnClick Opens the city
-          >
-            <div className="text-xl">{city}</div>
-            <div className="text-sm">{cities[city].length} Bus stops</div>
-          </div>
-        ))}
+        {Object.keys(cities).map((city) => {
+          const pattern = patterns[Math.floor(Math.random() * patterns.length)]; // generate a random pattern
+          return (
+            <div
+              key={city}
+              className={`w-full h-56 ${pattern} text-white rounded-md flex flex-col items-center justify-center`}
+              onClick={() => {
+                handleOpenModal(city, "city");
+              }}
+            >
+              <div className="text-xl">{city}</div>
+              <div className="text-sm">{cities[city].length} Bus stops</div>
+            </div>
+          );
+        })}
       </div>
 
       {flip === "create"
@@ -286,7 +304,7 @@ const BusStopManagement = () => {
                     true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
                   } `}
                   onClick={() => {
-                    // setFlip("success");
+                    setFlip("createBusStop");
                   }}
                 >
                   Add new stop
@@ -304,13 +322,7 @@ const BusStopManagement = () => {
                       className={`p-3  font-medium rounded-lg bg-[#00ff6a] hover:bg-[#58FF9E]`}
                       onClick={() => {
                         // handleDeleteBusStop(busStop.busstop);
-                        const index = modalData.indexOf(modalData);
-                        if (index > -1) {
-                          cities[modalData].splice(index, 1);
-                          console.log(cities[modalData]);
-
-                          //LEKAN, THIS IS NOT UPDATING ON THE SCREEN IMMEDIATELY THE DELETE ACTION HAPPENS
-                        }
+                        setFlip("delete");
                       }}
                     >
                       <FaTrash />
@@ -324,8 +336,6 @@ const BusStopManagement = () => {
                   true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
                 } `}
                 onClick={() => {
-                  //COLLECT ALL DATA
-                  //API CALLS AND SET FLIP
                   setFlip("success");
                 }}
               >
@@ -354,8 +364,53 @@ const BusStopManagement = () => {
               </button>
             </Modal>
           )
-        : //  REVIEW MODAL SHOWS AFTER CREATING TRIP
-        flip === "success"
+        : flip === "delete"
+        ? modalVisible && (
+            <Modal
+              onOk={handleOk}
+              onCancel={handleCancel}
+              open={modalVisible}
+              centered={true}
+              footer={false}
+              closable={true}
+              width={240}
+            >
+              <div className="w-full place-items-center text-center">
+                <FaExclamationCircle
+                  size={32}
+                  className="text-[#E71D36] w-full mt-8"
+                />
+                <div className="boder-b mt-4 text-base font-medium">
+                  Delete {modalData} busstop?
+                </div>
+              </div>
+
+              <Button
+                title="Delete"
+                type="submit"
+                className="w-full py-2 mt-8 text-xs rounded-md bg-[#E71D36] text-white"
+                onClick={() => {
+                  //NOT SURE THIS IS USEFUL DURING API CALLS
+                  const index = modalData.indexOf(modalData);
+                  if (index > -1) {
+                    cities[modalData].splice(index, 1);
+                    console.log(cities[modalData]);
+                  }
+                  // setModalVisible(false);
+                  setFlip("city");
+                }}
+              />
+              <Button
+                title="Cancel"
+                type="submit"
+                className="w-full py-2 mt-4 mb-4 text-xs rounded-md border text-gray-600 border-gray-500"
+                onClick={() => {
+                  setFlip("info");
+                }}
+              />
+            </Modal>
+          )
+        : flip === "success"
         ? modalVisible && (
             <Modal
               onOk={handleOk}
@@ -382,6 +437,48 @@ const BusStopManagement = () => {
                 className="w-full py-2 mt-8 mb-4 text-xs rounded-md bg-[#00FF6A] text-black"
                 onClick={() => {
                   setModalVisible(false);
+                }}
+              />
+            </Modal>
+          )
+        : flip === "createBusStop"
+        ? modalVisible && (
+            <Modal
+              onOk={handleOk}
+              onCancel={handleCancel}
+              open={modalVisible}
+              centered={true}
+              footer={false}
+              closable={true}
+              width={240}
+            >
+              <div className="w-full">
+                <div className="boder-b mt-4 text-lg font-medium">
+                  Add New Stop
+                </div>
+              </div>
+
+              <div className="mb-4 mt-8 w-full">
+                <div className="mb-1">
+                  <label className="text-gray-500">Bus Stop Name</label>
+                </div>
+                <Input
+                  className="hover:border-green-500 active:border-green-600 focus:border-green-600 h-12 w-full"
+                  placeholder="Bus Stop Name"
+                  value={busStop}
+                  required={true}
+                  onChange={(e) => setBusStop(e.target.value)}
+                />
+              </div>
+
+              <Button
+                title="Okay"
+                type="submit"
+                className="w-full py-2 mt-8 mb-4 text-xs rounded-md bg-[#00FF6A] text-black"
+                onClick={() => {
+                  //API CALL TO UPDATE BUSSTOPS
+                  // setModalVisible(false);
+                  setFlip("city");
                 }}
               />
             </Modal>
