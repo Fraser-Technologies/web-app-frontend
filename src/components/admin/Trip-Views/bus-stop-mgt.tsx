@@ -390,7 +390,8 @@ const BusStopManagement = () => {
                 type="submit"
                 className="w-full py-2 mt-8 text-xs rounded-md bg-[#E71D36] text-white"
                 onClick={() => {
-                  //NOT SURE THIS IS USEFUL DURING API CALLS
+                  //LEKAN, THIS ISN'T WORKING CORRECTLY YET IT'S FOR DELETING A BUSSTOP
+                  //API CALL
                   const index = modalData.indexOf(modalData);
                   if (index > -1) {
                     cities[modalData].splice(index, 1);
@@ -477,7 +478,7 @@ const BusStopManagement = () => {
                 className="w-full py-2 mt-8 mb-4 text-xs rounded-md bg-[#00FF6A] text-black"
                 onClick={() => {
                   //API CALL TO UPDATE BUSSTOPS
-                  // setModalVisible(false);
+                  //IF SUCCESS, SETFLIP
                   setFlip("city");
                 }}
               />
