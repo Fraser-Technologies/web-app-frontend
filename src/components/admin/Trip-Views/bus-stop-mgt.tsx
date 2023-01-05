@@ -2,7 +2,7 @@ import { Input } from "antd";
 import Modal from "antd/es/modal/Modal";
 import React from "react";
 import { useState } from "react";
-import { FaCheck, FaPen, FaTrash } from "react-icons/fa";
+import { FaCheck, FaCheckCircle, FaPen, FaTrash } from "react-icons/fa";
 import { Button } from "../../Button";
 import { cities } from "../adminData/busstops-test-data";
 
@@ -31,7 +31,7 @@ const BusStopManagement = () => {
     }
   };
 
-  //LEKAN HELP OUT HERE, I'M TRYING TO DO IT SUCH THAT WHEN A USER CLICKS THE CHECK MARK AT (SEARCH FOR CHECKPOINT 1), 
+  //LEKAN HELP OUT HERE, I'M TRYING TO DO IT SUCH THAT WHEN A USER CLICKS THE CHECK MARK AT (SEARCH FOR CHECKPOINT 1),
   //THE VALUE IS SAVED AND IT IS THE NEW PLACEHOLDER FOR THAT INPUT FIELD
   const [inputFields, setInputFields] = React.useState<string[]>([]);
   const [cityName, setCityName] = React.useState("");
@@ -73,6 +73,24 @@ const BusStopManagement = () => {
     });
   };
 
+  // const [stateCities, setStateCities] = useState(cities); // Initialize the state with the imported cities list
+
+  // function handleDeleteBusStop(busstopToDelete: string) {
+  //   const updatedCities = { ...stateCities };
+  //   const city = Object.keys(updatedCities).find((city) => {
+  //     return updatedCities[city].some(
+  //       (stop) => stop.busstop === busstopToDelete
+  //     );
+  //   });
+  //   if (city) {
+  //     // Check if the city was found before using it as an index
+  //     updatedCities[city] = updatedCities[city].filter((stop) => {
+  //       return stop.busstop !== busstopToDelete;
+  //     });
+  //     setStateCities(updatedCities);
+  //   }
+  // }
+
   return (
     <div>
       {/* BUSSTOPS HEADER */}
@@ -103,7 +121,9 @@ const BusStopManagement = () => {
           <div
             key={city}
             className="w-full h-56 bg-black text-white rounded-md flex flex-col items-center justify-center"
-            onClick={() => {}} //OnClick Opens the city
+            onClick={() => {
+              handleOpenModal(city, "city");
+            }} //OnClick Opens the city
           >
             <div className="text-xl">{city}</div>
             <div className="text-sm">{cities[city].length} Bus stops</div>
@@ -152,7 +172,7 @@ const BusStopManagement = () => {
                     <div className="mt-2 relative flex items-center">
                       <Input
                         className="hover:border-green-500 focus:border-green-600 h-12 w-full"
-                        // 
+                        //
                         placeholder="City name"
                         value={field}
                         required
@@ -211,9 +231,102 @@ const BusStopManagement = () => {
                   true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
                 } `}
                 onClick={() => {
-                  if (true) {
-                    // setFlip("review");
-                  }
+                  //COLLECT ALL DATA
+                  //API CALLS AND SET FLIP
+                  setFlip("success");
+                }}
+              >
+                <svg
+                  className={`${
+                    false ? "animate-spin" : "hidden"
+                  } inline -ml-8 mr-4 w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
+                  viewBox="0 0 100 101"
+                  fill="none"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    d="M100 50.5908C100 78.2051 77.6142 100.591 50 100.591C22.3858 100.591 0 78.2051 0 50.5908C0 22.9766 22.3858 0.59082 50 0.59082C77.6142 0.59082 100 22.9766 100 50.5908ZM9.08144 50.5908C9.08144 73.1895 27.4013 91.5094 50 91.5094C72.5987 91.5094 90.9186 73.1895 90.9186 50.5908C90.9186 27.9921 72.5987 9.67226 50 9.67226C27.4013 9.67226 9.08144 27.9921 9.08144 50.5908Z"
+                    fill="white"
+                    stroke="white"
+                    stroke-width="5"
+                  />
+                  <path
+                    d="M93.9676 39.0409C96.393 38.4038 97.8624 35.9116 97.0079 33.5539C95.2932 28.8227 92.871 24.3692 89.8167 20.348C85.8452 15.1192 80.8826 10.7238 75.2124 7.41289C69.5422 4.10194 63.2754 1.94025 56.7698 1.05124C51.7666 0.367541 46.6976 0.446843 41.7345 1.27873C39.2613 1.69328 37.813 4.19778 38.4501 6.62326C39.0873 9.04874 41.5694 10.4717 44.0505 10.1071C47.8511 9.54855 51.7191 9.52689 55.5402 10.0491C60.8642 10.7766 65.9928 12.5457 70.6331 15.2552C75.2735 17.9648 79.3347 21.5619 82.5849 25.841C84.9175 28.9121 86.7997 32.2913 88.1811 35.8758C89.083 38.2158 91.5421 39.6781 93.9676 39.0409Z"
+                    fill="green"
+                    stroke="green"
+                    stroke-width="5"
+                  />
+                </svg>
+                Create City
+              </button>
+            </Modal>
+          )
+        : //  CITY MODAL SHOWS ON CLICK OF CITY CARD
+        flip === "city"
+        ? modalVisible && (
+            <Modal
+              title={
+                <div>
+                  <div className="text-lg font-medium">{modalData}</div>
+                  <div className="text-xs mt-1 font-normal text-[#949292]">
+                    {cities[modalData].length} Bus stops
+                  </div>
+                </div>
+              }
+              onOk={handleOk}
+              onCancel={handleCancel}
+              open={modalVisible}
+              centered={true}
+              footer={false}
+              closable={true}
+            >
+              <div className="w-full flex place-content-end">
+                <button
+                  className={`w-1/3 p-3 font-medium rounded-lg ${
+                    true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+                  } `}
+                  onClick={() => {
+                    // setFlip("success");
+                  }}
+                >
+                  Add new stop
+                </button>
+              </div>
+
+              <div className="mb-8">
+                {cities[modalData].map((busStop) => (
+                  <div
+                    key={busStop.busstop}
+                    className="flex py-4 border-b justify-between w-full"
+                  >
+                    {busStop.busstop}
+                    <button
+                      className={`p-3  font-medium rounded-lg bg-[#00ff6a] hover:bg-[#58FF9E]`}
+                      onClick={() => {
+                        // handleDeleteBusStop(busStop.busstop);
+                        const index = modalData.indexOf(modalData);
+                        if (index > -1) {
+                          cities[modalData].splice(index, 1);
+                          console.log(cities[modalData]);
+
+                          //LEKAN, THIS IS NOT UPDATING ON THE SCREEN IMMEDIATELY THE DELETE ACTION HAPPENS
+                        }
+                      }}
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                ))}
+              </div>
+
+              <button
+                className={`w-full p-3 mb-6 font-medium rounded-lg ${
+                  true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+                } `}
+                onClick={() => {
+                  //COLLECT ALL DATA
+                  //API CALLS AND SET FLIP
+                  setFlip("success");
                 }}
               >
                 <svg
@@ -242,35 +355,33 @@ const BusStopManagement = () => {
             </Modal>
           )
         : //  REVIEW MODAL SHOWS AFTER CREATING TRIP
-        flip === "review"
+        flip === "success"
         ? modalVisible && (
             <Modal
-              title={
-                <div className="boder-b text-lg font-medium">Trip Details</div>
-              }
               onOk={handleOk}
               onCancel={handleCancel}
               open={modalVisible}
               centered={true}
               footer={false}
               closable={true}
+              width={240}
             >
+              <div className="w-full place-items-center text-center">
+                <FaCheckCircle
+                  size={32}
+                  className="text-[#00FF6A] w-full mt-8"
+                />
+                <div className="boder-b mt-4 text-base font-medium">
+                  City created successfully
+                </div>
+              </div>
+
               <Button
-                title="Continue"
+                title="Close"
                 type="submit"
-                className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
+                className="w-full py-2 mt-8 mb-4 text-xs rounded-md bg-[#00FF6A] text-black"
                 onClick={() => {
-                  //API CALL FOR CREATING TRIP
-                  //THEN SET FLIP IF SUCCESS. TO SUCCESS AS SHOWN BELOW
-                  //   setFlip("success");
-                }}
-              />
-              <Button
-                title="Edit"
-                type="submit"
-                className="w-full mt-4 mb-6 px-4 py-3 text-xs rounded-md border text-gray-500 border-gray-500"
-                onClick={() => {
-                  //   setFlip("create");
+                  setModalVisible(false);
                 }}
               />
             </Modal>
