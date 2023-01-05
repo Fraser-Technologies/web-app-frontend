@@ -229,7 +229,7 @@ const EditTripFormComponent = (props: any) => {
 							onClick={() => {
 								handleDestinationCityChange(city?._id);
 							}}>
-							{city?.name}
+							{city?.city}
 						</a>
 					);
 				})}

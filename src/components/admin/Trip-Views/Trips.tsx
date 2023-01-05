@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
-import TripsOverview from "./Trip-Views/trips-overiew";
-import BusStopManagement from "./Trip-Views/bus-stop-mgt";
-import { useAppDispatch } from "../../state/hooks";
-import { getAllTripAction } from "../../state/action/trip.action";
-import { getAllCityAction } from "../../state/action/city.action";
+import { getAllCityAction } from "../../../state/action/city.action";
+import { getAllTripAction } from "../../../state/action/trip.action";
+import { useAppDispatch } from "../../../state/hooks";
+import BusStopManagement from "./bus-stop-mgt";
+import TripsOverview from "./trips-overiew";
 
 const MiddleSection: React.FC = () => {
 	// PAGINATION

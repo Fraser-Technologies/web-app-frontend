@@ -2,7 +2,7 @@ import React from "react";
 import { useAppSelector } from "../../state/hooks";
 import BusStopManagement from "./Trip-Views/bus-stop-mgt";
 import TripsOverview from "./Trip-Views/trips-overiew";
-import Trips from "./Trips";
+import Trips from "./Trip-Views/Trips";
 
 const MiddleSection = () => {
 	const { page } = useAppSelector((state: any) => state.adminPage);

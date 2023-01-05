@@ -17,7 +17,7 @@ import {
 import { AppThunk } from "./../redux-store";
 
 export const createCityAction =
-	(name: string): AppThunk =>
+	(input: any): AppThunk =>
 	async (dispatch, getState) => {
 		dispatch(createCityRequest());
 		try {
@@ -26,7 +26,7 @@ export const createCityAction =
 			} = getState();
 			const { data } = await api.post(
 				"/city",
-				{ name },
+				{ input },
 				{
 					headers: {
 						Authorization: `Bearer ${userInfo?.user_token}`,
@@ -50,7 +50,7 @@ export const getAllCityAction = (): AppThunk => async (dispatch) => {
 };
 
 export const updateCityAction =
-	(id: string, name: string): AppThunk =>
+	(id: string, input: string): AppThunk =>
 	async (dispatch, getState) => {
 		dispatch(updateCityRequest());
 		try {
@@ -59,7 +59,7 @@ export const updateCityAction =
 			} = getState();
 			const { data } = await api.put(
 				`/city/${id}`,
-				{ name },
+				{ input },
 				{
 					headers: {
 						Authorization: `Bearer ${userInfo?.user_token}`,

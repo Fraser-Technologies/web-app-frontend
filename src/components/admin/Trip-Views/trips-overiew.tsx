@@ -9,8 +9,10 @@ import { Trip_interface } from "../../../interfaces/trip_interface";
 import { useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 import { data } from "../adminData/trips-test-data";
+import TripCookieRemoval from "../components/cookie-removal";
 import CreateTripFormComponent from "../components/create-trip-form";
 import EditTripFormComponent from "../components/edit-trip-form";
+import Pagination from "../components/pagination";
 import rowRenderer from "../components/table-rows";
 
 const TripsOverview: React.FC = () => {
