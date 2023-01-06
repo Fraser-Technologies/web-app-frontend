@@ -12,7 +12,11 @@ import {
 	userLoginReducer,
 	userRegisterReducer,
 } from "./slices/user.slice";
-import { getAllBusStopReducer } from "./slices/busstop.slice";
+import {
+	addBusStopReducer,
+	getAllBusStopReducer,
+	removeBusStopReducer,
+} from "./slices/busstop.slice";
 import {
 	allTripReducer,
 	availableTripReducer,
@@ -47,6 +51,8 @@ const rootReducer = combineReducers({
 	allCity: getAllCityReducer,
 	deleteCity: deleteCityReducer,
 	updateCity: updateCityReducer,
+	removeBusStop: removeBusStopReducer,
+	addBusStop: addBusStopReducer,
 });
 
 export default rootReducer;

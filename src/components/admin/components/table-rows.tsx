@@ -1,6 +1,5 @@
 import { FaEllipsisV } from "react-icons/fa";
 
-
 //TABLE ROW UI
 const rowRenderer = ({
 	data,
@@ -52,7 +51,6 @@ const rowRenderer = ({
 				{data?.bus?.name}
 			</td>
 			<td
-				scope="row"
 				className="px-4 py-6 text-xs font-normal text-gray-700"
 				onClick={() => handleSetMenuToggle(index.toString())}>
 				<div>

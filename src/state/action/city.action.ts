@@ -1,3 +1,4 @@
+import { getAllTripAction } from "./trip.action";
 import { api } from "../../utils/api";
 import { RequestError } from "../../utils/requestError";
 import {
@@ -26,7 +27,7 @@ export const createCityAction =
 			} = getState();
 			const { data } = await api.post(
 				"/city",
-				{ input },
+				{ ...input },
 				{
 					headers: {
 						Authorization: `Bearer ${userInfo?.user_token}`,

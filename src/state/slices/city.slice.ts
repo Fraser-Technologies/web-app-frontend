@@ -1,6 +1,5 @@
-import { updateUserAction } from "./../action/user.action";
 import { City_interface } from "./../../interfaces/city_interface";
-import { createSlice, TaskAbortError } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 type createCityType = {
 	city: City_interface | {};
@@ -8,7 +7,7 @@ type createCityType = {
 	error: string;
 };
 
-const createCityInitialState: createCityType = {
+export const createCityInitialState: createCityType = {
 	city: {},
 	loading: false,
 	error: "",
@@ -115,10 +114,12 @@ const updateCitySlice = createSlice({
 	reducers: {
 		updateCityRequest: (state) => {
 			state.loading = true;
+			state.error = "";
 		},
 		updateCitySuccess: (state, { payload }) => {
 			state.loading = false;
 			state.city = payload as unknown as City_interface;
+			state.error = "";
 		},
 		updateCityFailed: (state, { payload }) => {
 			state.loading = true;
