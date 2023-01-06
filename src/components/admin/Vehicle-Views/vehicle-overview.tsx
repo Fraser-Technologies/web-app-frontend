@@ -287,7 +287,9 @@ const VehicleOverview: React.FC = () => {
         ? modalVisible && (
             <Modal
               title={
-                <div className="text-lg font-medium boder-b">User Profile</div>
+                <div className="text-lg font-medium boder-b">
+                  Vehicle Details
+                </div>
               }
               onOk={handleOk}
               onCancel={handleCancel}
@@ -298,9 +300,11 @@ const VehicleOverview: React.FC = () => {
             >
               <div className="h-5/6">
                 <div className="text-center py-8">
-                  <div className="text-lg font-medium mb-2">Amen Olabode</div>
-                  <div className="text-[#949292]">amen.olabode@gmail.com</div>
-                  <div className="text-[#949292]">+2349076736877</div>
+                  <div className="text-lg font-medium mb-2">Toyota Hiace</div>
+                  <div className="text-[#949292]">NKJ 1234 KUS</div>
+                  <div className="bg-[#FAD0D0] text-[#E71D36] mt-2 py-2 text-center rounded-md">
+                    UNAVAILABLE
+                  </div>
                 </div>
 
                 <div>
@@ -318,7 +322,7 @@ const VehicleOverview: React.FC = () => {
                         <div className="text-[#949292] text-xs">3rd Sept.</div>
                       </div>
                     </div>
-                    <div className="text-base font-medium">NGN 2000</div>
+                    <div className="text-base font-medium">Josiah</div>
                   </div>
                 </div>
 
@@ -332,7 +336,7 @@ const VehicleOverview: React.FC = () => {
                       <div className="text-[#949292] text-xs">3rd Sept.</div>
                     </div>
                   </div>
-                  <div className="text-base font-medium">NGN 2000</div>
+                  <div className="text-base font-medium">Josiah</div>
                 </div>
               </div>
             </Modal>
