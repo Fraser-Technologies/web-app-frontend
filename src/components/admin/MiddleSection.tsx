@@ -1,18 +1,18 @@
 import React from "react";
 import { useAppSelector } from "../../state/hooks";
-import BusStopManagement from "./Trip-Views/bus-stop-mgt";
-import TripsOverview from "./Trip-Views/trips-overiew";
 import Trips from "./Trip-Views/Trips";
+import User from "./User-Views/User";
+import Vehicle from "./Vehicle-Views/Vehicle";
 
 const MiddleSection = () => {
-	const { page } = useAppSelector((state: any) => state.adminPage);
-	return (
-		<>
-			{page === 0 && <Trips />}
-			{page === 1 && <TripsOverview />}
-			{page === 2 && <BusStopManagement />}
-		</>
-	);
+  const { page } = useAppSelector((state: any) => state.adminPage);
+  return (
+    <>
+      {page === 0 && <Trips />}
+      {page === 1 && <User />}
+      {page === 2 && <Vehicle />}
+    </>
+  );
 };
 
 export default MiddleSection;

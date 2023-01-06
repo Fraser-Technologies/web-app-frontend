@@ -5,7 +5,7 @@ import { useAppDispatch } from "../../../state/hooks";
 import BusStopManagement from "./bus-stop-mgt";
 import TripsOverview from "./trips-overiew";
 
-const MiddleSection: React.FC = () => {
+const Trips: React.FC = () => {
 	// PAGINATION
 	const dispatch = useAppDispatch();
 
@@ -60,4 +60,4 @@ const MiddleSection: React.FC = () => {
 	);
 };
 
-export default MiddleSection;
+export default Trips;
