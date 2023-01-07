@@ -13,9 +13,6 @@ import TripsOverview from "./trips-overiew";
 const Trips: React.FC = () => {
 	// PAGINATION
 	const dispatch = useAppDispatch();
-	const { trips, loading, error } = useAppSelector(
-		(state: any) => state.allTrip
-	);
 	const { city: removebusStopCity } = useSelector(
 		(state: any) => state.removeBusStop
 	);
@@ -28,13 +25,10 @@ const Trips: React.FC = () => {
 	const { city: updateCityCity } = useAppSelector(
 		(state: any) => state.updateCity
 	);
-
 	const [activeTripsView, setIsActive] = useState("overview");
 	const handleTripViewToggle = (value: string) => {
 		setIsActive(value);
 	};
-
-	console.log("the add bus stop city is ", addBusStopCity);
 
 	useEffect(() => {
 		dispatch(getAllTripAction());

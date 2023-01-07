@@ -8,6 +8,9 @@ import { adminPageReducer } from "./slices/adminPageSlice";
 import { verifyOtpReducer, getOtpReducer } from "./slices/otp.Slice";
 import { combineReducers } from "@reduxjs/toolkit";
 import {
+	allUserReducer,
+	blockUserReducer,
+	unblockUserReducer,
 	updateUserReducer,
 	userLoginReducer,
 	userRegisterReducer,
@@ -35,6 +38,9 @@ const rootReducer = combineReducers({
 	updateUser: updateUserReducer,
 	availableTrip: availableTripReducer,
 	allAvailableTrip: getAllAvailableTripReducer,
+	allUser: allUserReducer,
+	blockUser: blockUserReducer,
+	unblockUser: unblockUserReducer,
 
 	// booking reducer
 	booking: bookingReducer,

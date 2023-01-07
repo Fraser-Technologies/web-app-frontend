@@ -14,8 +14,8 @@ export interface Trip_interface extends Mongo_extra {
 	arrival_date: string;
 	bookings: Booking_interface[];
 	travel_destination: {
-		from: { city: City_interface; busstop: BusStop_interface };
-		to: { city: City_interface; busstop: BusStop_interface };
+		from: { city: City_interface; busstop: string };
+		to: { city: City_interface; busstop: string };
 	};
 	verify_passenger_arrival?: [
 		{

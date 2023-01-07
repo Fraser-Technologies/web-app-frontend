@@ -203,7 +203,7 @@ const TripsOverview: React.FC = () => {
 					footer={false}
 					closable={true}>
 					<CreateTripFormComponent onSendData={handleDataFromChild} />
-					<button
+					{/* <button
 						className={`w-full p-3 mt-8 mb-8 font-medium rounded-lg ${
 							true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
 						} `}
@@ -233,7 +233,7 @@ const TripsOverview: React.FC = () => {
 							/>
 						</svg>
 						Proceed to review
-					</button>
+					</button> */}
 				</Modal>
 			)}
 			{/* : //  REVIEW MODAL SHOWS AFTER CREATING TRIP */}
@@ -382,7 +382,7 @@ const TripsOverview: React.FC = () => {
 							</div>
 							<div className="text-lg">
 								{/* Start Bus Stop */}
-								{modalData?.travel_destination?.from?.busstop?.name}
+								{modalData?.travel_destination?.from?.busstop}
 							</div>
 						</div>
 						<div>
@@ -391,7 +391,7 @@ const TripsOverview: React.FC = () => {
 							</div>
 							<div className="text-lg">
 								{/* Destination Bus Stop */}
-								{modalData?.travel_destination?.to?.busstop?.name}
+								{modalData?.travel_destination?.to?.busstop}
 							</div>
 						</div>
 						<div>
