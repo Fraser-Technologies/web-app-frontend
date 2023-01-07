@@ -162,6 +162,7 @@ const CreateTripFormComponent = (props: any) => {
 
 	return (
 		<div className="">
+			{/* Try to add the data type each session of this function is returning, also try to show the real data mapping done here, as well as other place   */}
 			<DropdownComponent
 				topLabel="Start"
 				onChangeFunction={handleStartCityChange}
