@@ -1,58 +1,16 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
-import {
-	clearAddBusStopFromCityAction,
-	clearRemoveBusStopFromCityAction,
-} from "../../../state/action/bus.action";
-import { getAllCityAction } from "../../../state/action/city.action";
-import { getAllTripAction } from "../../../state/action/trip.action";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import React, { useState } from "react";
 import BusStopManagement from "./bus-stop-mgt";
 import TripsOverview from "./trips-overiew";
 
 const Trips: React.FC = () => {
-	// PAGINATION
-	const dispatch = useAppDispatch();
-	const { city: removebusStopCity } = useSelector(
-		(state: any) => state.removeBusStop
-	);
-	const { city: addBusStopCity } = useAppSelector(
-		(state: any) => state.addBusStop
-	);
-	const { city: createCityCity } = useAppSelector(
-		(state: any) => state.createCity
-	);
-	const { city: updateCityCity } = useAppSelector(
-		(state: any) => state.updateCity
-	);
+	
+	//NO API CALLS NEEDED HERE.
+	
 	const [activeTripsView, setIsActive] = useState("overview");
 	const handleTripViewToggle = (value: string) => {
 		setIsActive(value);
 	};
-
-	useEffect(() => {
-		dispatch(getAllTripAction());
-		dispatch(getAllCityAction());
-	}, [dispatch]);
-
-	useEffect(() => {
-		if (
-			addBusStopCity?._id ||
-			removebusStopCity?._id ||
-			createCityCity?._id ||
-			updateCityCity?._id
-		) {
-			dispatch(getAllCityAction());
-			dispatch(clearAddBusStopFromCityAction());
-			dispatch(clearRemoveBusStopFromCityAction());
-		}
-	}, [
-		dispatch,
-		addBusStopCity,
-		removebusStopCity,
-		createCityCity,
-		updateCityCity,
-	]);
+	
 	return (
 		<div className="h-full col-start-2 col-end-6 bg-white ">
 			<div className="h-full px-6 bg-white">
@@ -85,9 +43,9 @@ const Trips: React.FC = () => {
 
 				{activeTripsView === "overview" ? (
 					<TripsOverview />
-				) : activeTripsView === "management" ? (
+				) : (
 					<BusStopManagement />
-				) : null}
+				)}
 			</div>
 		</div>
 	);
