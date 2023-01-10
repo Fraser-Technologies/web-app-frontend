@@ -1,8 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import Cookies from "js-cookie";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
-import { idText } from "typescript";
 import { Bus_interface } from "../../../interfaces/bus_interface";
 import { City_interface } from "../../../interfaces/city_interface";
 import { Driver_interface } from "../../../interfaces/driver_interface";
@@ -44,28 +43,6 @@ const EditTripFormComponent = ({
 	const [destinationBusStopList, setDestinationBusStopList] = useState<
 		string[]
 	>([]);
-
-	// let finalEDit =  {
-	// 	bus: id,
-	// 	driver: id,
-	// 	take_off_time: string,
-	// 	take_off_data: String,
-	// 	arrival_time: String,
-	// 	arrival_date,: String,
-	// 	travel_destination: {
-	// 		from: {
-	// 			city: idText,
-	// 			busstop: string
-	// 		},
-	// 		to : {
-	// 			city: id,
-	// 			busstop : string
-	// 		}
-	// 	}
-	// 	price:number,
-	// 	complt
-
-	// }
 
 	// the trip variable
 	const [bus, setBus] = useState<string>(trip?.bus?.name || "");
