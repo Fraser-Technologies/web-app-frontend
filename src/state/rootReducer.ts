@@ -26,6 +26,7 @@ import {
 	getAllAvailableTripReducer,
 } from "./slices/trip.slice";
 import { bookingReducer, verifyPaymentReducer } from "./slices/booking.slice";
+import { allDriverReducer } from "./slices/driver.slice";
 
 const rootReducer = combineReducers({
 	getotp: getOtpReducer,
@@ -59,6 +60,9 @@ const rootReducer = combineReducers({
 	updateCity: updateCityReducer,
 	removeBusStop: removeBusStopReducer,
 	addBusStop: addBusStopReducer,
+
+	//driver reducers
+	allDriver: allDriverReducer,
 });
 
 export default rootReducer;

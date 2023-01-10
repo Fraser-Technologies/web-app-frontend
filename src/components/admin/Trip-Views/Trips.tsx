@@ -3,14 +3,11 @@ import BusStopManagement from "./bus-stop-mgt";
 import TripsOverview from "./trips-overiew";
 
 const Trips: React.FC = () => {
-	
-	//NO API CALLS NEEDED HERE.
-	
 	const [activeTripsView, setIsActive] = useState("overview");
 	const handleTripViewToggle = (value: string) => {
 		setIsActive(value);
 	};
-	
+
 	return (
 		<div className="h-full col-start-2 col-end-6 bg-white ">
 			<div className="h-full px-6 bg-white">

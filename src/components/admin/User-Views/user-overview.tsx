@@ -75,10 +75,6 @@ const UserOverview: React.FC = () => {
 	};
 
 	useEffect(() => {
-		dispatch(getAllUserAction());
-	}, [dispatch]);
-
-	useEffect(() => {
 		if (blockUser?._id || unblockUser?._id) {
 			dispatch(getAllUserAction());
 			dispatch(clearBlockUserAction());
