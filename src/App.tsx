@@ -5,7 +5,7 @@ import loadable from "@loadable/component";
 import { _paths_ } from "./utils/appHelpers";
 import LandingPage from "./pages/landingPage";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
-import { getAllBusStop } from "./state/action/bus.action";
+import { getAllBusStopAction } from "./state/action/busStop.action";
 
 const SignIn = loadable(() => import("./pages/signin"), {
 	fallback: (
@@ -137,7 +137,7 @@ const App = () => {
 
 	useEffect(() => {
 		if (!busStops?.length) {
-			dispatch(getAllBusStop());
+			dispatch(getAllBusStopAction());
 		}
 	}, [busStops?.length, dispatch]);
 

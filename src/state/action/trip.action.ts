@@ -1,3 +1,4 @@
+import { userInfo } from "os";
 import { RequestError } from "../../utils/requestError";
 import { api } from "../../utils/api";
 
@@ -12,6 +13,9 @@ import {
 	getAvailableTripFailed,
 	getAvailableTripRequest,
 	getAvailableTripSuccess,
+	updateTripFailed,
+	updateTripRequest,
+	updateTripSuccess,
 } from "../slices/trip.slice";
 
 export const getAvailableTripAction =
@@ -50,3 +54,23 @@ export const getAllTripAction = (): AppThunk => async (dispatch) => {
 		dispatch(getAllTripsFailed(RequestError(error)));
 	}
 };
+
+export const updateTripAction =
+	(id: string, input: any): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(updateTripRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.put(`/trip/${id}`, input, {
+				headers: {
+					Authorization: `Bearer ${userInfo?.user_token}`,
+				},
+			});
+
+			dispatch(updateTripSuccess(data));
+		} catch (error: any) {
+			dispatch(updateTripFailed(RequestError(error)));
+		}
+	};

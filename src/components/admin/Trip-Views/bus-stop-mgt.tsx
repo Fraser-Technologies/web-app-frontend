@@ -8,7 +8,7 @@ import { City_interface } from "../../../interfaces/city_interface";
 import {
 	addBusStopToCityAction,
 	removeBusStopToCityAction,
-} from "../../../state/action/bus.action";
+} from "../../../state/action/busStop.action";
 import { createCityAction } from "../../../state/action/city.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";

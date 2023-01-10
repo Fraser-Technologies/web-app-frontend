@@ -1,3 +1,4 @@
+import { allBusReducer } from "./slices/bus.slice";
 import {
 	createCityReducer,
 	deleteCityReducer,
@@ -48,6 +49,7 @@ const rootReducer = combineReducers({
 
 	adminPage: adminPageReducer,
 
+	// trip reducers
 	allTrip: allTripReducer,
 
 	// trip reducers
@@ -63,6 +65,9 @@ const rootReducer = combineReducers({
 
 	//driver reducers
 	allDriver: allDriverReducer,
+
+	//bus
+	allBus: allBusReducer,
 });
 
 export default rootReducer;
