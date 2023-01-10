@@ -22,6 +22,7 @@ const TripsOverview: React.FC = () => {
 	const [modalData, setModalData] = useState<Trip_interface>(); // current page
 	const [flip, setFlip] = useState("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
+  
 	const itemsPerPage = 10; // number of items per page
 	const pageRangeDisplayed = 5; // number of pages to display
 	const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
@@ -109,7 +110,7 @@ const TripsOverview: React.FC = () => {
 			</div>
 			{/* PAGINATION */}
 			<div className="px-6 mb-4 bg-gray-200 rounded-md">
-				{/* <ReactPaginate
+				<ReactPaginate
           className="inline-flex items-center w-full py-2"
           pageCount={pageCount}
           pageRangeDisplayed={pageRangeDisplayed}
@@ -124,7 +125,7 @@ const TripsOverview: React.FC = () => {
           nextClassName={"next ml-6"}
           previousLabel={"<"}
           nextLabel={">"}
-        /> */}
+        />
 			</div>
 
 			{/* BUSSTOPS LIST - TABLE */}
@@ -155,46 +156,46 @@ const TripsOverview: React.FC = () => {
 
 				{/* //TABLE ROWS */}
 				<tbody className="">
-					{trips?.map((trip: Trip_interface, _index: Number) => {
+					{items?.map((_item: Trip_interface, index: Number) => {
 						return (
 							<tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
 								<td
 									onClick={() => {
-										handleOpenModal(trip, "info");
+										handleOpenModal(items, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-gray-700">
-									{trip?.travel_destination?.from?.city?.city}
+									{items.travel_destination?.from?.city?.city}
 								</td>
 								<td className="text-xs font-normal text-center text-gray-700">
-									{trip?.travel_destination?.to?.city?.city}
+									{items.travel_destination?.to?.city?.city}
 								</td>
 								<td
 									onClick={() => {
-										handleOpenModal(trip, "info");
+										handleOpenModal(items, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-center text-gray-700">
-									{trip?.take_off_date}
+									{items?.take_off_date}
 								</td>
 								<td
 									onClick={() => {
-										handleOpenModal(trip, "info");
+										handleOpenModal(items, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-center text-gray-700">
-									{trip?.take_off_time}
+									{items?.take_off_time}
 								</td>
 								<td
 									onClick={() => {
-										handleOpenModal(trip, "info");
+										handleOpenModal(items, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-center text-gray-700">
-									{`${trip?.driver?.first_name} ${trip?.driver?.last_name} `}
+									{`${items?.driver?.first_name} ${items?.driver?.last_name} `}
 								</td>
 								<td
 									onClick={() => {
-										handleOpenModal(trip, "info");
+										handleOpenModal(items, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-center text-gray-700">
-									{trip?.bus?.name}
+									{items?.bus?.name}
 								</td>
 								<td
 									className="px-4 py-6 text-xs font-normal text-gray-700"
@@ -208,14 +209,14 @@ const TripsOverview: React.FC = () => {
 										<ul className="absolute z-10 py-2 mt-2 bg-white border rounded-md shadow-md">
 											<li
 												onClick={() => {
-													handleOpenModal(trip, "info");
+													handleOpenModal(items, "info");
 												}}
 												className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
 												View
 											</li>
 											<li
 												onClick={() => {
-													handleOpenModal(trip, "edit");
+													handleOpenModal(items, "edit");
 												}}
 												className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
 												Edit
@@ -223,7 +224,7 @@ const TripsOverview: React.FC = () => {
 											<li
 												onClick={() => {
 													setFlip("delete");
-													handleOpenDeleteModal(trip);
+													handleOpenDeleteModal(items);
 												}}
 												className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
 												Delete
