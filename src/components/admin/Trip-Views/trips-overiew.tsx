@@ -14,11 +14,26 @@ import CreateTripFormComponent from "../components/create-trip-form";
 import EditTripFormComponent from "../components/edit-trip-form";
 
 const TripsOverview: React.FC = () => {
+	enum TripOption {
+		SUCCESS = "success",
+		INFO = "info",
+		CREATE = "create",
+		REVIEW = "review",
+		EDIT = "edit",
+		DELETE = "delete",
+	}
 	const { loading, trips } = useAppSelector((state: any) => state.allTrip);
-
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [modalData, setModalData] = useState<Trip_interface>(); // current page
-	const [flip, setFlip] = useState("");
+	const [flip, setFlip] = useState<
+		| ""
+		| TripOption.CREATE
+		| TripOption.DELETE
+		| TripOption.EDIT
+		| TripOption.INFO
+		| TripOption.REVIEW
+		| TripOption.SUCCESS
+	>("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 
 	const itemsPerPage = 10; // number of items per page
@@ -57,7 +72,7 @@ const TripsOverview: React.FC = () => {
 
 	const [visible, setStateModalVisible] = useState<boolean>(false);
 	const handleOpenDeleteModal = (data: any) => {
-		setFlip("delete");
+		setFlip(TripOption.DELETE);
 		setStateModalVisible(true);
 		setModalData(data);
 	};
@@ -73,7 +88,7 @@ const TripsOverview: React.FC = () => {
 		}
 		if (flip === "delete") {
 			setModalVisible(false);
-			setFlip("info");
+			setFlip(TripOption.INFO);
 		}
 	};
 
@@ -91,9 +106,8 @@ const TripsOverview: React.FC = () => {
 						type="submit"
 						className="px-4 py-2 text-xs rounded-md bg-primary-100"
 						onClick={() => {
-							//PASS THE DATA THAT CONTAINS ALL TRIP INFORMATION WHERE - UNDEFINED
-							//I COMMENTED OUT THE MODALDATA CALLS IN THE FLIP (INFO), SO CHECK
-							handleOpenModal(undefined, "create");
+							setModalVisible(true);
+							setFlip(TripOption.CREATE);
 						}}
 					/>
 				</div>
@@ -213,7 +227,7 @@ const TripsOverview: React.FC = () => {
 											</li>
 											<li
 												onClick={() => {
-													setFlip("delete");
+													setFlip(TripOption.DELETE);
 													handleOpenDeleteModal(trip);
 												}}
 												className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
@@ -229,7 +243,7 @@ const TripsOverview: React.FC = () => {
 			</table>
 
 			{/* MODALS */}
-			{flip === "create" && modalVisible && (
+			{flip === TripOption.CREATE && modalVisible && (
 				<Modal
 					title={
 						<div className="text-lg font-medium boder-b">Create a new trip</div>
@@ -244,7 +258,7 @@ const TripsOverview: React.FC = () => {
 				</Modal>
 			)}
 
-			{flip === "review" && modalVisible && (
+			{flip === TripOption.REVIEW && modalVisible && (
 				<Modal
 					title={
 						<div className="text-lg font-medium boder-b">Trip Details</div>
@@ -311,7 +325,7 @@ const TripsOverview: React.FC = () => {
 						onClick={() => {
 							//API CALL FOR CREATING TRIP
 							//THEN SET FLIP IF SUCCESS. TO SUCCESS AS SHOWN BELOW
-							setFlip("success");
+							setFlip(TripOption.SUCCESS);
 						}}
 					/>
 					<Button
@@ -319,13 +333,13 @@ const TripsOverview: React.FC = () => {
 						type="submit"
 						className="w-full px-4 py-3 mt-4 mb-6 text-xs text-gray-500 border border-gray-500 rounded-md"
 						onClick={() => {
-							setFlip("create");
+							setFlip(TripOption.CREATE);
 						}}
 					/>
 				</Modal>
 			)}
 
-			{flip === "success" && modalVisible && (
+			{flip === TripOption.SUCCESS && modalVisible && (
 				<Modal
 					onOk={handleOk}
 					onCancel={handleCancel}
@@ -352,7 +366,7 @@ const TripsOverview: React.FC = () => {
 				</Modal>
 			)}
 
-			{flip === "info" && modalVisible && (
+			{flip === TripOption.INFO && modalVisible && (
 				<Modal
 					title={
 						<div className="text-lg font-medium boder-b">Trip Details</div>
@@ -426,7 +440,7 @@ const TripsOverview: React.FC = () => {
 						type="submit"
 						className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
 						onClick={() => {
-							setFlip("edit");
+							setFlip(TripOption.EDIT);
 						}}
 					/>
 					<Button
@@ -434,14 +448,14 @@ const TripsOverview: React.FC = () => {
 						type="submit"
 						className="w-full px-4 py-3 mt-4 mb-6 text-xs text-red-600 border border-red-500 rounded-md"
 						onClick={() => {
-							setFlip("delete");
+							setFlip(TripOption.DELETE);
 							setStateModalVisible(true);
 						}}
 					/>
 				</Modal>
 			)}
 
-			{flip === "edit" && modalVisible && (
+			{flip === TripOption.EDIT && modalVisible && (
 				<Modal
 					title={<div className="text-lg font-medium boder-b">Edit Trip</div>}
 					onOk={handleOk}
@@ -454,7 +468,7 @@ const TripsOverview: React.FC = () => {
 				</Modal>
 			)}
 
-			{flip === "delete" && visible && (
+			{flip === TripOption.DELETE && visible && (
 				<Modal
 					onOk={handleOk}
 					onCancel={handleCancel}
@@ -484,13 +498,13 @@ const TripsOverview: React.FC = () => {
 						type="submit"
 						className="w-full py-2 mt-4 mb-4 text-xs text-gray-600 border border-gray-500 rounded-md"
 						onClick={() => {
-							setFlip("info");
+							setFlip(TripOption.INFO);
 						}}
 					/>
 				</Modal>
 			)}
 			{/* }   SUCESS MODAL SHOWS AFTER API RETURNS SUCCESS FOR TRIP UPDATES */}
-			{flip === "success" && visible && (
+			{flip === TripOption.SUCCESS && visible && (
 				<Modal
 					onOk={handleOk}
 					onCancel={handleCancel}
@@ -512,7 +526,7 @@ const TripsOverview: React.FC = () => {
 						className="w-full py-2 mt-8 text-xs rounded-md bg-[#00FF6A] text-black"
 						onClick={() => {
 							//NOT SURE THIS IS USEFUL DURING API CALLS
-							setFlip("info");
+							setFlip(TripOption.INFO);
 						}}
 					/>
 					<Button

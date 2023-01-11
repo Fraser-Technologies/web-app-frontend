@@ -370,8 +370,8 @@ const EditTripFormComponent = ({
 
 			{/* DATE AND TIME */}
 			<div className="w-full pb-2 mt-6 text-gray-500">Date and time</div>
-			<DateField onSendData={handleDateFromChild} />
-			<TimePicker onTimeChange={handleTimeFromChild} />
+			{/* <DateField onSendData={handleDateFromChild} /> */}
+			{/* <TimePicker onTimeChange={handleTimeFromChild} /> */}
 
 			{/* VEHICLE AND DRIVER */}
 			<div className="mt-6">

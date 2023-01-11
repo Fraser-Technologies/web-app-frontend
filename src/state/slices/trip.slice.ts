@@ -98,6 +98,34 @@ const initialState: initialStateType = {
 	trip: {},
 };
 
+const createTripSlice = createSlice({
+	name: "create trip",
+	initialState: initialState,
+	reducers: {
+		createTripRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		createTripSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trip = payload;
+		},
+		createTripFailed: (state, { payload }) => {
+			state.error = payload;
+			state.loading = false;
+		},
+		resetCreateTrip: () => initialState,
+	},
+});
+
+export const {
+	createTripFailed,
+	createTripRequest,
+	createTripSuccess,
+	resetCreateTrip,
+} = createTripSlice.actions;
+export const createTripReducer = createTripSlice.reducer;
+
 const updateTripSlice = createSlice({
 	name: "update trip",
 	initialState: initialState,

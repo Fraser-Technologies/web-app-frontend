@@ -1,9 +1,13 @@
+import { Trip_interface } from "./../../interfaces/trip_interface";
 import { userInfo } from "os";
 import { RequestError } from "../../utils/requestError";
 import { api } from "../../utils/api";
 
 import { AppThunk } from "../redux-store";
 import {
+	createTripFailed,
+	createTripRequest,
+	createTripSuccess,
 	getAllAvailableTripFailed,
 	getAllAvailableTripRequest,
 	getAllAvailableTripSuccess,
@@ -13,8 +17,10 @@ import {
 	getAvailableTripFailed,
 	getAvailableTripRequest,
 	getAvailableTripSuccess,
+	resetCreateTrip,
 	updateTripFailed,
 	updateTripRequest,
+	updateTripReset,
 	updateTripSuccess,
 } from "../slices/trip.slice";
 
@@ -55,6 +61,29 @@ export const getAllTripAction = (): AppThunk => async (dispatch) => {
 	}
 };
 
+export const createTripAction =
+	(trip: any): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(createTripRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.post("/trip", trip, {
+				headers: {
+					Authorization: `Bearer ${userInfo?.user_token}`,
+				},
+			});
+			dispatch(createTripSuccess(data));
+		} catch (error: any) {
+			dispatch(createTripFailed(RequestError(error)));
+		}
+	};
+
+export const resetCreateTripAction = (): AppThunk => (dispatch) => {
+	dispatch(resetCreateTrip());
+};
+
 export const updateTripAction =
 	(id: string, input: any): AppThunk =>
 	async (dispatch, getState) => {
@@ -74,3 +103,7 @@ export const updateTripAction =
 			dispatch(updateTripFailed(RequestError(error)));
 		}
 	};
+
+export const resetUpdateTripAction = (): AppThunk => (dispatch) => {
+	dispatch(updateTripReset());
+};

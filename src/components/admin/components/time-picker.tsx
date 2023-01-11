@@ -1,41 +1,31 @@
-import Cookies from "js-cookie";
-import * as React from "react";
+import React, { useEffect, useState } from "react";
 
-interface TimePickerProps {
-  onTimeChange: (time: string) => void;
-}
+const TimePicker = (props: { setTake_off_time: any }) => {
+	const { setTake_off_time } = props;
 
-const TimePicker: React.FC<TimePickerProps> = (props) => {
-  const { onTimeChange } = props;
+	const [time, setTime] = useState<string>("");
 
-  const [time, setTime] = React.useState(Cookies.get("time") || "");
+	const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		setTime(event.target.value);
+	};
 
-  const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setTime(event.target.value);
-  };
+	useEffect(() => {
+		setTake_off_time(time);
+	}, [time]);
 
-  const handleSendTime = () => {
-    onTimeChange(time);
-  };
-
-  React.useEffect(() => {
-    Cookies.set("time", time, { expires: 1 });
-  }, [time]);
-
-  return (
-    <div className="mt-4 flex rounded-md ">
-      <div className="w-full bg-black w-1/4 text-white py-2 px-4 rounded-md mr-2">
-        Time
-      </div>
-      <input
-        className="w-full bg-[#EFF3EF] px-4"
-        type="time"
-        value={time}
-        onChange={handleTimeChange}
-        onBlur={handleSendTime}
-      />
-    </div>
-  );
+	return (
+		<div className="mt-4 flex rounded-md ">
+			<div className=" bg-black w-1/4 text-white py-2 px-4 rounded-md mr-2">
+				Time
+			</div>
+			<input
+				className="w-full bg-[#EFF3EF] px-4"
+				type="time"
+				value={time}
+				onChange={handleTimeChange}
+			/>
+		</div>
+	);
 };
 
 export default TimePicker;

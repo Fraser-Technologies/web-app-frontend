@@ -1,6 +1,6 @@
 import { City_interface } from "./../../interfaces/city_interface";
 import { createCityInitialState } from "./city.slice";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 import { BusStop_interface } from "../../interfaces/busstop_interface";
 
 interface busStopInterface {

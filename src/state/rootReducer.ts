@@ -24,6 +24,7 @@ import {
 import {
 	allTripReducer,
 	availableTripReducer,
+	createTripReducer,
 	getAllAvailableTripReducer,
 	updateTripReducer,
 } from "./slices/trip.slice";
@@ -52,6 +53,7 @@ const rootReducer = combineReducers({
 
 	// trip reducers
 	allTrip: allTripReducer,
+	createTrip: createTripReducer,
 	updateTrip: updateTripReducer,
 
 	// trip reducers

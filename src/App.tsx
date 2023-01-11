@@ -157,9 +157,9 @@ const App = () => {
 				<Route path={_paths_.SIGNIN} element={<SignIn />} /> 
 				<Route path={_paths_.SIGNUP} element={<SignUp />} />*/}
 				<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
-				{/* <Route path={_paths_.CHECKOUT} element={<Checkout />} />
+				<Route path={_paths_.CHECKOUT} element={<Checkout />} />
 				<Route path={_paths_.ADMIN_DASHBOARD} element={<AdminPage />} />
-				<Route path={_paths_.NOTFOUND} element={<NotFound />} /> */}
+				{/*<Route path={_paths_.NOTFOUND} element={<NotFound />} /> */}
 			</Routes>
 		</>
 	);
