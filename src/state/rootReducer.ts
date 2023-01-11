@@ -25,6 +25,7 @@ import {
 	allTripReducer,
 	availableTripReducer,
 	getAllAvailableTripReducer,
+	updateTripReducer,
 } from "./slices/trip.slice";
 import { bookingReducer, verifyPaymentReducer } from "./slices/booking.slice";
 import { allDriverReducer } from "./slices/driver.slice";
@@ -51,6 +52,7 @@ const rootReducer = combineReducers({
 
 	// trip reducers
 	allTrip: allTripReducer,
+	updateTrip: updateTripReducer,
 
 	// trip reducers
 	verifyPayment: verifyPaymentReducer,

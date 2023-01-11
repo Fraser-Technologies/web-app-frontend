@@ -41,8 +41,8 @@ export const createCityAction =
 	};
 
 export const getAllCityAction = (): AppThunk => async (dispatch) => {
-	dispatch(getAllCityRequest());
 	try {
+		dispatch(getAllCityRequest());
 		const { data } = await api.get("/city");
 		dispatch(getAllCitySuccess(data));
 	} catch (error: any) {

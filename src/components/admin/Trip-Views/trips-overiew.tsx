@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { Spinner } from "react-bootstrap";
 import {
 	FaCheckCircle,
@@ -8,8 +8,7 @@ import {
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { Trip_interface } from "../../../interfaces/trip_interface";
-import { getAllTripAction } from "../../../state/action/trip.action";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 import CreateTripFormComponent from "../components/create-trip-form";
 import EditTripFormComponent from "../components/edit-trip-form";
@@ -21,7 +20,7 @@ const TripsOverview: React.FC = () => {
 	const [modalData, setModalData] = useState<Trip_interface>(); // current page
 	const [flip, setFlip] = useState("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
-  
+
 	const itemsPerPage = 10; // number of items per page
 	const pageRangeDisplayed = 5; // number of pages to display
 	const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
@@ -78,14 +77,6 @@ const TripsOverview: React.FC = () => {
 		}
 	};
 
-	const updateTripData = () => {
-		if (true) {
-			setFlip("success");
-			setStateModalVisible(true);
-			// Flip to success modal
-		}
-	};
-
 	return (
 		<>
 			{/* TRIPS OVERVIEW VIEW*/}
@@ -110,21 +101,21 @@ const TripsOverview: React.FC = () => {
 			{/* PAGINATION */}
 			<div className="px-6 mb-4 bg-gray-200 rounded-md">
 				<ReactPaginate
-          className="inline-flex items-center w-full py-2"
-          pageCount={pageCount}
-          pageRangeDisplayed={pageRangeDisplayed}
-          marginPagesDisplayed={marginPagesDisplayed}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          pageLinkClassName={
-            "page-link px-3 py-2 mx-2 leading-tight text-gray-800 rounded-md"
-          }
-          activeClassName={" bg-gray-300 rounded-md"}
-          previousClassName={"previous mr-6"}
-          nextClassName={"next ml-6"}
-          previousLabel={"<"}
-          nextLabel={">"}
-        />
+					className="inline-flex items-center w-full py-2"
+					pageCount={pageCount}
+					pageRangeDisplayed={pageRangeDisplayed}
+					marginPagesDisplayed={marginPagesDisplayed}
+					onPageChange={handlePageClick}
+					containerClassName={"pagination"}
+					pageLinkClassName={
+						"page-link px-3 py-2 mx-2 leading-tight text-gray-800 rounded-md"
+					}
+					activeClassName={" bg-gray-300 rounded-md"}
+					previousClassName={"previous mr-6"}
+					nextClassName={"next ml-6"}
+					previousLabel={"<"}
+					nextLabel={">"}
+				/>
 			</div>
 
 			{/* BUSSTOPS LIST - TABLE */}
@@ -155,46 +146,46 @@ const TripsOverview: React.FC = () => {
 
 				{/* //TABLE ROWS */}
 				<tbody className="">
-					{items?.map((_item: Trip_interface, index: Number) => {
+					{trips?.map((trip: Trip_interface, index: Number) => {
 						return (
 							<tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
 								<td
 									onClick={() => {
-										handleOpenModal(items, "info");
+										handleOpenModal(trip, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-gray-700">
-									{items.travel_destination?.from?.city?.city}
+									{trip?.travel_destination?.from?.city?.city}
 								</td>
 								<td className="text-xs font-normal text-center text-gray-700">
 									{items.travel_destination?.to?.city?.city}
 								</td>
 								<td
 									onClick={() => {
-										handleOpenModal(items, "info");
+										handleOpenModal(trip, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-center text-gray-700">
-									{items?.take_off_date}
+									{trip?.take_off_date}
 								</td>
 								<td
 									onClick={() => {
-										handleOpenModal(items, "info");
+										handleOpenModal(trip, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-center text-gray-700">
-									{items?.take_off_time}
+									{trip?.take_off_time}
 								</td>
 								<td
 									onClick={() => {
-										handleOpenModal(items, "info");
+										handleOpenModal(trip, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-center text-gray-700">
-									{`${items?.driver?.first_name} ${items?.driver?.last_name} `}
+									{`${trip?.driver?.first_name} ${trip?.driver?.last_name} `}
 								</td>
 								<td
 									onClick={() => {
-										handleOpenModal(items, "info");
+										handleOpenModal(trip, "info");
 									}}
 									className="px-4 py-4 text-xs font-normal text-center text-gray-700">
-									{items?.bus?.name}
+									{trip?.bus?.name}
 								</td>
 								<td
 									className="px-4 py-6 text-xs font-normal text-gray-700"
@@ -208,14 +199,14 @@ const TripsOverview: React.FC = () => {
 										<ul className="absolute z-10 py-2 mt-2 bg-white border rounded-md shadow-md">
 											<li
 												onClick={() => {
-													handleOpenModal(items, "info");
+													handleOpenModal(trip, "info");
 												}}
 												className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
 												View
 											</li>
 											<li
 												onClick={() => {
-													handleOpenModal(items, "edit");
+													handleOpenModal(trip, "edit");
 												}}
 												className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
 												Edit
@@ -223,7 +214,7 @@ const TripsOverview: React.FC = () => {
 											<li
 												onClick={() => {
 													setFlip("delete");
-													handleOpenDeleteModal(items);
+													handleOpenDeleteModal(trip);
 												}}
 												className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
 												Delete

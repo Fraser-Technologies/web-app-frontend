@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import Offeringcard from "../components/offeringcard";
 import StepComp from "../components/StepComp";
 import Accordion from "../components/Accordion";

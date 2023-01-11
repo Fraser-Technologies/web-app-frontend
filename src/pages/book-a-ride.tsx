@@ -13,12 +13,32 @@ import {
 } from "../state/action/user.action";
 import {
 	getAllAvailableTripAction,
+	getAllTripAction,
 	getAvailableTripAction,
 } from "../state/action/trip.action";
 import GeometricPatterns from "../components/GeometricPatterns";
 import { FaCaretDown } from "react-icons/fa";
+import { getAllBusStopAction } from "../state/action/busStop.action";
+import { BusStop_interface } from "../interfaces/busstop_interface";
+import { City_interface } from "../interfaces/city_interface";
+import { getAllCityAction } from "../state/action/city.action";
 
 const BookRide = () => {
+	enum TripValidOption {
+		selectedCityOption = "Set your current city",
+		destinationBusStopOption = "Select destination bus stop",
+		startBusStopOption = "Select start bus stop",
+	}
+
+	const { userInfo, error: loginError } = useAppSelector(
+		(state: any) => state.userLogin
+	);
+	const { error: registerUserError } = useAppSelector(
+		(state: any) => state.registerUser
+	);
+	const { busStops } = useAppSelector((state: any) => state.allBusStop);
+	const { cities } = useAppSelector((state: any) => state.allCity);
+
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [firstName, setFirstName] = useState<string>("");
@@ -37,6 +57,10 @@ const BookRide = () => {
 	const [startOpen, setStartBusStopIsOpen] = useState(false);
 	const [destinationOpen, setDestinationIsOpen] = useState(false);
 
+	// collecting the city part
+	const [startCity, setStartCity] = useState<string>();
+	const [startBusStopList, setStartBusStopList] = useState<string[]>([]);
+
 	const handleCityClick = () => {
 		setIsOpen(!isOpen);
 	};
@@ -46,32 +70,29 @@ const BookRide = () => {
 	const handleDestinationClick = () => {
 		setDestinationIsOpen(!destinationOpen);
 	};
-	const [selectedCity, setSelectedCity] = useState("Set your current city");
+	const [selectedCity, setSelectedCity] = useState(
+		TripValidOption.selectedCityOption || ""
+	);
 	const handleOptionClick = (option: any) => {
 		setSelectedCity(option);
 		setIsOpen(false);
 	};
 
-	const [startBusStop, setStartBusStop] = useState("Select start bus stop");
+	const [startBusStop, setStartBusStop] = useState(
+		TripValidOption.startBusStopOption || ""
+	);
 	const handleStartBusStop = (option: any) => {
 		setStartBusStop(option);
 		setStartBusStopIsOpen(false);
 	};
 
 	const [destinationBusStop, setDestinationBusStop] = useState(
-		"Select destination bus stop"
+		TripValidOption.destinationBusStopOption || ""
 	);
 	const handleDestinationBusStop = (option: any) => {
 		setDestinationBusStop(option);
 		setDestinationIsOpen(false);
 	};
-
-	const { userInfo, error: loginError } = useAppSelector(
-		(state: any) => state.userLogin
-	);
-	const { error: registerUserError, loading: registerUserLoading } =
-		useAppSelector((state: any) => state.registerUser);
-	const { busStops } = useAppSelector((state: any) => state.allBusStop);
 
 	const handleAvailableTrips = () => {
 		if (from && to) {
@@ -88,19 +109,19 @@ const BookRide = () => {
 		});
 	};
 
-	useEffect(() => {
-		if (destinationBusStop !== "Select destination bus stop") {
-			setDestinationBusStop("Select destination bus stop");
-		}
-		if (startBusStop !== "Select start bus stop") {
-			setStartBusStop("Select start bus stop");
-		}
-	}, [destinationBusStop, selectedCity, startBusStop]);
+	// useEffect(() => {
+	// 	if (destinationBusStop !== "Select destination bus stop") {
+	// 		setDestinationBusStop("Select destination bus stop");
+	// 	}
+	// 	if (startBusStop !== "Select start bus stop") {
+	// 		setStartBusStop("Select start bus stop");
+	// 	}
+	// }, [destinationBusStop, selectedCity, startBusStop]);
 
 	const TripValid =
-		selectedCity !== "Set your current city" &&
-		destinationBusStop !== "Select destination bus stop" &&
-		startBusStop !== "Select start bus stop";
+		selectedCity !== TripValidOption.selectedCityOption &&
+		destinationBusStop !== TripValidOption.destinationBusStopOption &&
+		startBusStop !== TripValidOption.startBusStopOption;
 
 	const loginValid = phone !== "" && phone.length === 10;
 
@@ -154,6 +175,11 @@ const BookRide = () => {
 		}
 	}, [loginError, messageApi, userInfo]);
 
+	useEffect(() => {
+		dispatch(getAllBusStopAction());
+		dispatch(getAllCityAction());
+	}, [dispatch]);
+
 	return (
 		<Layout title="Book a Ride">
 			{contextHolder}
@@ -168,12 +194,10 @@ const BookRide = () => {
 								Book a Ride
 							</h1>
 							<p className="text-sm text-gray-600 pt-2 pb-8 w-11/12">
-								{" "}
 								Easily book a ride to your desired destination. Simply select
-								your city, enter your starting and ending locations and Voila!.{" "}
+								your city, enter your starting and ending locations and Voila!.
 							</p>
 
-							{/* <label className="ml-4 mt-8 mb-2 text-sm text-gray-600">Set Current City</label> */}
 							{/* CURRENT CITY */}
 							<div className="relative inline text-left z-40">
 								<div>
@@ -192,18 +216,20 @@ const BookRide = () => {
 									<div className="w-full z-10 absolute mt-2 rounded-md shadow-lg">
 										<div className="w-full rounded-md bg-white shadow-xs">
 											<div className="w-full py-4">
-												<a
-													href="#"
-													className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-													onClick={() => handleOptionClick("Lagos")}>
-													Lagos
-												</a>
-												<a
-													href="#"
-													className="block px-4 py-2 text-sm leading-5 text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-													onClick={() => handleOptionClick("Ibadan")}>
-													Ibadan
-												</a>
+												{cities?.map((city: City_interface) => {
+													return (
+														<a
+															href="#"
+															className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+															onClick={() => {
+																handleOptionClick("Lagos");
+																setStartCity(city?.city);
+																setStartBusStopList(city?.bus_stops);
+															}}>
+															{city?.city}
+														</a>
+													);
+												})}
 											</div>
 										</div>
 									</div>
@@ -239,7 +265,7 @@ const BookRide = () => {
 												<div className="w-full absolute mt-2 rounded-md shadow-lg">
 													<div className="w-full rounded-md bg-white shadow-xs">
 														<div className="w-full py-4">
-															{busStops == null ? (
+															{!startBusStopList ? (
 																<div className="px-6 py-2 animate-pulse flex space-x-4">
 																	<div className="flex-1 space-y-6 py-1">
 																		<div className="h-2 bg-slate-200 rounded"></div>
@@ -253,38 +279,50 @@ const BookRide = () => {
 																	</div>
 																</div>
 															) : (
-																busStops?.map((option: any) => {
-																	if (selectedCity === "Lagos") {
-																		if (option?.state !== "Ibadan") {
-																			return (
-																				<a
-																					key={option?.name}
-																					href="#"
-																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-																					onClick={() => {
-																						handleStartBusStop(option.name);
-																						setFrom(option?._id);
-																					}}>
-																					{option.name}
-																				</a>
-																			);
-																		}
-																	} else if (selectedCity === "Ibadan") {
-																		if (option?.state === "Ibadan") {
-																			return (
-																				<a
-																					key={option}
-																					href="#"
-																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-																					onClick={() => {
-																						handleStartBusStop(option.name);
-																						setFrom(option?._id);
-																					}}>
-																					{option.name}
-																				</a>
-																			);
-																		}
-																	}
+																startBusStopList?.map((stops: any) => {
+																	return (
+																		<a
+																			key={stops}
+																			href="#"
+																			className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																			onClick={() => {
+																				handleStartBusStop(stops);
+																				// setFrom(option?._id);
+																			}}>
+																			{stops}
+																		</a>
+																	);
+																	// if (selectedCity === "Lagos") {
+																	// 	if (option?.city !== "Ibadan") {
+																	// 		return (
+																	// 			<a
+																	// 				key={option?.name}
+																	// 				href="#"
+																	// 				className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																	// 				onClick={() => {
+																	// 					handleStartBusStop(option.name);
+																	// 					setFrom(option?._id);
+																	// 				}}>
+																	// 				{option.name}
+																	// 			</a>
+																	// 		);
+																	// 	}
+																	// } else if (selectedCity === "Ibadan") {
+																	// 	if (option?.state === "Ibadan") {
+																	// 		return (
+																	// 			<a
+																	// 				key={option}
+																	// 				href="#"
+																	// 				className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																	// 				onClick={() => {
+																	// 					handleStartBusStop(option.name);
+																	// 					setFrom(option?._id);
+																	// 				}}>
+																	// 				{option.name}
+																	// 			</a>
+																	// 		);
+																	// 	}
+																	// }
 																})
 															)}
 														</div>
@@ -318,7 +356,7 @@ const BookRide = () => {
 												<div className="w-full absolute mt-2 rounded-md shadow-lg">
 													<div className="w-full rounded-md bg-white shadow-xs">
 														<div className="w-full py-4">
-															{busStops == null ? (
+															{!busStops ? (
 																<div className="px-6 py-2 animate-pulse flex space-x-4">
 																	<div className="flex-1 space-y-6 py-1">
 																		<div className="h-2 bg-slate-200 rounded"></div>
@@ -333,41 +371,41 @@ const BookRide = () => {
 																</div>
 															) : (
 																busStops?.map((option: any) => {
-																	if (selectedCity === "Lagos") {
-																		if (option?.state === "Ibadan") {
-																			return (
-																				<a
-																					key={option?.state}
-																					href="#"
-																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-																					onClick={() => {
-																						handleDestinationBusStop(
-																							option.name
-																						);
-																						setTo(option?._id);
-																					}}>
-																					{option.name}
-																				</a>
-																			);
-																		}
-																	} else if (selectedCity === "Ibadan") {
-																		if (option?.state !== "Ibadan") {
-																			return (
-																				<a
-																					key={option?._id}
-																					href="#"
-																					className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-																					onClick={() => {
-																						handleDestinationBusStop(
-																							option.name
-																						);
-																						setTo(option?._id);
-																					}}>
-																					{option.name}
-																				</a>
-																			);
-																		}
-																	}
+																	// if (selectedCity === "Lagos") {
+																	// 	if (option?.state === "Ibadan") {
+																	// 		return (
+																	// 			<a
+																	// 				key={option?.state}
+																	// 				href="#"
+																	// 				className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																	// 				onClick={() => {
+																	// 					handleDestinationBusStop(
+																	// 						option.name
+																	// 					);
+																	// 					setTo(option?._id);
+																	// 				}}>
+																	// 				{option.name}
+																	// 			</a>
+																	// 		);
+																	// 	}
+																	// } else if (selectedCity === "Ibadan") {
+																	// 	if (option?.state !== "Ibadan") {
+																	// 		return (
+																	// 			<a
+																	// 				key={option?._id}
+																	// 				href="#"
+																	// 				className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																	// 				onClick={() => {
+																	// 					handleDestinationBusStop(
+																	// 						option.name
+																	// 					);
+																	// 					setTo(option?._id);
+																	// 				}}>
+																	// 				{option.name}
+																	// 			</a>
+																	// 		);
+																	// 	}
+																	// }
 																})
 															)}
 														</div>
@@ -422,7 +460,7 @@ const BookRide = () => {
 								</p>
 
 								<div>
-									{loginError ? (
+									{loginError && (
 										<Alert
 											message={
 												loginError === "user doesn't exist please sign in"
@@ -433,8 +471,6 @@ const BookRide = () => {
 											showIcon
 											className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
 										/>
-									) : (
-										<></>
 									)}
 								</div>
 							</div>
@@ -445,15 +481,13 @@ const BookRide = () => {
 						closable={false}>
 						{flip ? (
 							<div>
-								{registerUserError ? (
+								{registerUserError && (
 									<Alert
 										message={registerUserError}
 										description={registerUserError}
 										type="warning"
 										showIcon
 									/>
-								) : (
-									<></>
 								)}
 								<div className="mb-6 mt-8">
 									<div className="mb-1">
@@ -515,36 +549,17 @@ const BookRide = () => {
 									/>
 								</div>
 
-								{/* <div className="mb-6">
-                  <div className="mb-1">
-                    <label className="text-gray-500">
-                      Referred by(Optional)
-                    </label>
-                  </div>
-                  <Input
-                    className="hover:border-green-500 active:border-green-600 h-12 w-full"
-                    placeholder="Email"
-                    value={referred_by}
-                    onChange={(e) => setReferred_by(e.target.value)}
-                  />
-                </div> */}
-
 								<div>
 									<button
-										// className={`items-center justify-center flex w-full p-3 mt-6 font-medium rounded-lg bg-[#00ff6a] hover:bg-[#58FF9E]`}
-										// onClick={() => CreateUser()}
-
 										className={`items-center justify-center flex w-full p-3 mt-6 font-medium rounded-lg ${
 											signUpValid
 												? "bg-[#00ff6a] hover:bg-[#58FF9E]"
 												: "bg-[#f5f5f5]"
 										} `}
-										onClick={() =>
-											signUpValid ? CreateUser() : console.log(signUpValid)
-										}>
+										onClick={() => signUpValid && CreateUser()}>
 										<svg
 											className={`${
-												loading === true ? "animate-spin" : "hidden"
+												loading ? "animate-spin" : "hidden"
 											} inline -ml-8 mr-4 w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
 											viewBox="0 0 100 101"
 											fill="none"
@@ -595,18 +610,15 @@ const BookRide = () => {
 								{/* USER LOGIN */}
 								<div>
 									<button
-										// className={`w-full p-3 mt-6 font-medium rounded-lg bg-[#00ff6a] hover:bg-[#58FF9E]"
-										//  `}
-										// onClick={() => LoginUser()}
 										className={`w-full p-3 mt-6 font-medium rounded-lg ${
 											loginValid
 												? "bg-[#00ff6a] hover:bg-[#58FF9E]"
 												: "bg-[#f5f5f5]"
 										} `}
-										onClick={() => (loginValid ? LoginUser() : "")}>
+										onClick={() => loginValid && LoginUser()}>
 										<svg
 											className={`${
-												loading === true ? "animate-spin" : "hidden"
+												loading ? "animate-spin" : "hidden"
 											} inline -ml-8 mr-4 w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
 											viewBox="0 0 100 101"
 											fill="none"

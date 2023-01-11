@@ -1,11 +1,12 @@
 import { City_interface } from "./../../interfaces/city_interface";
 import { createCityInitialState } from "./city.slice";
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { BusStop_interface } from "../../interfaces/busstop_interface";
 
 interface busStopInterface {
 	loading: boolean;
-	error: string | any;
-	busStops: [];
+	error: string;
+	busStops: BusStop_interface[] | [];
 }
 
 const allBusStop: busStopInterface = {
@@ -21,13 +22,13 @@ export const busSlice = createSlice({
 		getAllBusStopRequest: (state) => {
 			state.loading = true;
 		},
-		getAllbusStopSuccess: (state, { payload }: PayloadAction) => {
+		getAllbusStopSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.busStops = payload as unknown as any;
+			state.busStops = payload;
 		},
-		getAllBusStopFailed: (state, { payload }: PayloadAction) => {
+		getAllBusStopFailed: (state, { payload }) => {
 			state.loading = true;
-			state.error = payload as unknown as string;
+			state.error = payload;
 		},
 	},
 });

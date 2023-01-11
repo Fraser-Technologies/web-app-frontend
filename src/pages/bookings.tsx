@@ -107,12 +107,6 @@ const Bookings = () => {
 		}
 	}, [availableTripData, dispatch]);
 
-	useEffect(() => {
-		if (busStops?.length === 0) {
-			dispatch(getAllBusStopAction());
-		}
-	}, [busStops, dispatch]);
-
 	return (
 		<Layout title="Fraser - Book a ride">
 			<div className="relative bg-black h-24 -z-10 lg:h-32">
