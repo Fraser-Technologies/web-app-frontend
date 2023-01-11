@@ -1,5 +1,5 @@
 import { Modal } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import {
 	FaCheckCircle,
@@ -8,7 +8,8 @@ import {
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { Trip_interface } from "../../../interfaces/trip_interface";
-import { useAppSelector } from "../../../state/hooks";
+import { getAllTripAction } from "../../../state/action/trip.action";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 import CreateTripFormComponent from "../components/create-trip-form";
 import EditTripFormComponent from "../components/edit-trip-form";
@@ -22,7 +23,9 @@ const TripsOverview: React.FC = () => {
 		EDIT = "edit",
 		DELETE = "delete",
 	}
+	const dispatch = useAppDispatch();
 	const { loading, trips } = useAppSelector((state: any) => state.allTrip);
+	const { trip } = useAppSelector((state: any) => state.createTrip);
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [modalData, setModalData] = useState<Trip_interface>(); // current page
 	const [flip, setFlip] = useState<
@@ -53,17 +56,6 @@ const TripsOverview: React.FC = () => {
 	const endIndex = startIndex + itemsPerPage;
 	const items = trips.slice(startIndex, endIndex); // items to display on the current page
 
-	//TOGGLE
-	const handleSetMenuToggle = (value: string) => {
-		setMenuVisible(!menuVisible);
-
-		// if (menuToggle === value) {
-		//   setMenuVisible(!menuVisible);
-		// } else {
-		//   setMenuToggle(value);
-		// }
-	};
-
 	const handleOpenModal = (data: any, flipValue: any) => {
 		setFlip(flipValue);
 		setModalData(data);
@@ -92,6 +84,12 @@ const TripsOverview: React.FC = () => {
 		}
 	};
 
+	useEffect(() => {
+		if (trip?._id) {
+			dispatch(getAllTripAction());
+			setMenuVisible(!menuVisible);
+		}
+	}, [dispatch, menuVisible, trip]);
 	return (
 		<>
 			{/* TRIPS OVERVIEW VIEW*/}
@@ -171,7 +169,7 @@ const TripsOverview: React.FC = () => {
 									{trip?.travel_destination?.from?.city?.city}
 								</td>
 								<td className="text-xs font-normal text-center text-gray-700">
-									{items.travel_destination?.to?.city?.city}
+									{trip?.travel_destination?.to?.city?.city}
 								</td>
 								<td
 									onClick={() => {
@@ -204,7 +202,7 @@ const TripsOverview: React.FC = () => {
 								<td
 									className="px-4 py-6 text-xs font-normal text-gray-700"
 									onClick={() => {
-										handleSetMenuToggle("value");
+										setMenuVisible(!menuVisible);
 									}}>
 									<div>
 										<FaEllipsisV />

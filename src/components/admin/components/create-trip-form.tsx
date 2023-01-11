@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { Alert, Input, InputNumber, message } from "antd";
 import { FaCaretDown } from "react-icons/fa";
 import { BusStop_interface } from "../../../interfaces/busstop_interface";
@@ -9,6 +9,9 @@ import { createTripAction } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import DateField from "./datefield";
 import TimePicker from "./time-picker";
+import EndDateField from "./endDateField";
+import EndTimePicker from "./endTimePicker";
+import { resetCreateTrip } from "../../../state/slices/trip.slice";
 
 // FORM TO CREATE A TRIP
 const CreateTripFormComponent = () => {
@@ -123,13 +126,46 @@ const CreateTripFormComponent = () => {
 		dispatch(createTripAction(fullData));
 	};
 
+	const resetAll = () => {
+		setBus("");
+		setStartBusStop("");
+		setArrival_date("");
+		setDestinationBusStopDisplayText("Select Destination Bus Stop");
+		setDestinationCityDisplayText("Select Destination City");
+		setDriverDisplayText("Select Driver");
+		setEndCity("");
+		setPrice("");
+		setStartCityDisplayText("Select Start City");
+		setDriver("");
+		setDriverDisplayText("Select Driver");
+		setStartBusStopDisplayText("Select Start Bus Stop");
+		setStartCity("");
+		setStartCityBusStopList([]);
+		setStopCityBusStopList([]);
+		setTake_off_date("");
+		setTake_off_time("");
+		setVehicleDisplayText("Select Vehicle");
+	};
+
+	useEffect(() => {
+		if (trip?._id) {
+			messageApi.open({
+				type: "success",
+				content: "a new trip have been created",
+			});
+
+			resetAll();
+			dispatch(resetCreateTrip());
+		}
+	}, [dispatch, messageApi, trip]);
+
 	return (
 		<div className="">
 			{contextHolder}
 			{/* START */}
 			<div>
 				<p className="w-full mb-2 text-gray-500">Start</p>
-				{/* {error && <Alert type="error" message={error} />} */}
+				{error && <Alert type="error" message={error} />}
 				<div className="w-full flex items-center mt-2">
 					<div className=" bg-black w-1/4 text-white py-2 px-4 rounded-md mr-2">
 						City
@@ -331,15 +367,23 @@ const CreateTripFormComponent = () => {
 								</div>
 							</div>
 						)}
-						r
 					</div>
 				</div>
 			</div>
 
-			{/* DATE AND TIME */}
-			<div className="w-full text-gray-500 mt-6 pb-2">Date and time</div>
+			{/*TAKE OFF DATE AND TIME */}
+			<div className="w-full text-gray-500 mt-6 pb-2">
+				Takeoff Date and time
+			</div>
 			<DateField setTake_off_date={setTake_off_date} />
 			<TimePicker setTake_off_time={setTake_off_time} />
+
+			{/*ARRIVAL DATE AND TIME */}
+			<div className="w-full text-gray-500 mt-6 pb-2">
+				Arrival Date and time
+			</div>
+			<EndDateField setArrival_date={setArrival_date} />
+			<EndTimePicker setArrival_time={setArrival_time} />
 
 			{/* VEHICLE AND DRIVER */}
 			<div className="mt-6">
@@ -406,7 +450,7 @@ const CreateTripFormComponent = () => {
 						</button>
 
 						{driverOpen && (
-							<div className="w-full absolute mt-2 rounded-md shadow-lg">
+							<div className="w-full absolute mt-2 rounded-md shadow-lg z-10">
 								<div className="w-full pb-12 overflow-y-scroll rounded-md bg-white shadow-xs  py-4 ">
 									{drivers.map((driver: Driver_interface) => {
 										return (
@@ -441,7 +485,7 @@ const CreateTripFormComponent = () => {
 			{/* PRICE */}
 			<div className="mt-6">
 				<p className="w-full text-gray-500">Price</p>
-				<div className="w-full flex items-center mt-2">
+				<div className="w-full flex items-center mt-2 ">
 					<div className=" bg-black w-1/4 text-white py-2 px-4 rounded-md mr-2">
 						Price
 					</div>
@@ -476,7 +520,7 @@ const CreateTripFormComponent = () => {
 						/>
 					</svg>
 				)}
-				Proceed to review
+				Create Trip
 			</button>
 		</div>
 	);
