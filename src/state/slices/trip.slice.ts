@@ -2,7 +2,7 @@ import { Trip_interface } from "./../../interfaces/trip_interface";
 import { createSlice } from "@reduxjs/toolkit";
 
 type initialType = {
-	trips: Trip_interface[];
+	trips: Trip_interface[] | [];
 	loading: boolean;
 	error: string;
 };
@@ -20,12 +20,12 @@ export const getAvailableTripSlice = createSlice({
 		},
 
 		getAvailableTripSuccess: (state, { payload }) => {
-			state.trips = payload as unknown as Trip_interface[];
+			state.trips = payload;
 			state.loading = false;
 		},
 		getAvailableTripFailed: (state, { payload }) => {
 			state.loading = false;
-			state.error = payload as unknown as string;
+			state.error = payload;
 		},
 	},
 });

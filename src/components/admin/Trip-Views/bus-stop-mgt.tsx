@@ -1,7 +1,7 @@
 import { CircularProgress } from "@mui/material";
 import { Alert, Input } from "antd";
 import Modal from "antd/es/modal/Modal";
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { FaCheckCircle, FaExclamationCircle, FaTrash } from "react-icons/fa";
 import { City_interface } from "../../../interfaces/city_interface";
@@ -9,7 +9,10 @@ import {
 	addBusStopToCityAction,
 	removeBusStopToCityAction,
 } from "../../../state/action/busStop.action";
-import { createCityAction } from "../../../state/action/city.action";
+import {
+	createCityAction,
+	getAllCityAction,
+} from "../../../state/action/city.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 
@@ -17,9 +20,9 @@ const BusStopManagement = () => {
 	const [flip, setFlip] = useState("");
 	const dispatch = useAppDispatch();
 	const { loading, error } = useAppSelector((state: any) => state?.createCity);
-	const { loading: createBusStopLoading } = useAppSelector(
-		(state: any) => state?.addBusStop
-	);
+	const { loading: createBusStopLoading, city: addBusStopToCity } =
+		useAppSelector((state: any) => state?.addBusStop);
+	const { city } = useAppSelector((state: any) => state?.createCity);
 
 	type deleteBusStopType = {
 		id: string;
@@ -74,6 +77,12 @@ const BusStopManagement = () => {
 		setFlip("city");
 		setFlip("success");
 	};
+
+	useEffect(() => {
+		if (city?._id || addBusStopToCity?._id) {
+			dispatch(getAllCityAction());
+		}
+	}, [addBusStopToCity, city, dispatch]);
 
 	return (
 		<div>

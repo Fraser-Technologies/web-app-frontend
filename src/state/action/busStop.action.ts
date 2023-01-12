@@ -29,8 +29,9 @@ export const getAllBusStopAction = (): AppThunk => async (dispatch) => {
 export const addBusStopToCityAction =
 	(id: string, busStop: string): AppThunk =>
 	async (dispatch, getState) => {
-		dispatch(addBusStopFromCityRequest());
+		console.log("the id and bus stop is ", id, busStop);
 		try {
+			dispatch(addBusStopFromCityRequest());
 			const {
 				userLogin: { userInfo },
 			} = getState();
