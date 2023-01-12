@@ -93,16 +93,14 @@ const CreateTripFormComponent = () => {
 		travel_destination: {
 			from: {
 				city: startCity,
-				busstop: startBusStop,
+				start_busstop: startBusStop,
 			},
 			to: {
 				city: endCity,
-				busstop: stopBusStop,
+				stop_busstop: stopBusStop,
 			},
 		},
 	};
-
-	console.log("the full data for creating a trip is ", fullData);
 
 	const CreateThisTrip = () => {
 		if (

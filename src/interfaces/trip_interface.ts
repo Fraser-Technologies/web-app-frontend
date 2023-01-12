@@ -13,8 +13,8 @@ export interface Trip_interface extends Mongo_extra {
 	arrival_date: string;
 	bookings: Booking_interface[];
 	travel_destination: {
-		from: { city: City_interface; busstop: string };
-		to: { city: City_interface; busstop: string };
+		from: { city: City_interface; start_busstop: string };
+		to: { city: City_interface; stop_busstop: string };
 	};
 	verify_passenger_arrival?: [
 		{

@@ -93,7 +93,6 @@ const TripsOverview: React.FC = () => {
 	return (
 		<>
 			{/* TRIPS OVERVIEW VIEW*/}
-
 			{/* BUSSTOPS HEADER */}
 			<div className="w-full my-2 border-b h-14">
 				<div className="flex justify-between">
@@ -129,7 +128,6 @@ const TripsOverview: React.FC = () => {
 					nextLabel={">"}
 				/>
 			</div>
-
 			{/* BUSSTOPS LIST - TABLE */}
 			<table className="w-full text-base font-normal text-left text-white table-auto">
 				<thead className="uppercase bg-black">
@@ -239,7 +237,6 @@ const TripsOverview: React.FC = () => {
 					})}
 				</tbody>
 			</table>
-
 			{/* MODALS */}
 			{flip === TripOption.CREATE && modalVisible && (
 				<Modal
@@ -255,7 +252,6 @@ const TripsOverview: React.FC = () => {
 					<CreateTripFormComponent />
 				</Modal>
 			)}
-
 			{flip === TripOption.REVIEW && modalVisible && (
 				<Modal
 					title={
@@ -321,8 +317,6 @@ const TripsOverview: React.FC = () => {
 						type="submit"
 						className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
 						onClick={() => {
-							//API CALL FOR CREATING TRIP
-							//THEN SET FLIP IF SUCCESS. TO SUCCESS AS SHOWN BELOW
 							setFlip(TripOption.SUCCESS);
 						}}
 					/>
@@ -336,7 +330,6 @@ const TripsOverview: React.FC = () => {
 					/>
 				</Modal>
 			)}
-
 			{flip === TripOption.SUCCESS && modalVisible && (
 				<Modal
 					onOk={handleOk}
@@ -363,7 +356,6 @@ const TripsOverview: React.FC = () => {
 					/>
 				</Modal>
 			)}
-
 			{flip === TripOption.INFO && modalVisible && (
 				<Modal
 					title={
@@ -397,7 +389,7 @@ const TripsOverview: React.FC = () => {
 								Start
 							</div>
 							<div className="text-lg">
-								{modalData?.travel_destination?.from?.busstop}
+								{modalData?.travel_destination?.from?.start_busstop}
 							</div>
 						</div>
 						<div>
@@ -405,7 +397,7 @@ const TripsOverview: React.FC = () => {
 								Destination
 							</div>
 							<div className="text-lg">
-								{modalData?.travel_destination?.to?.busstop}
+								{modalData?.travel_destination?.to?.stop_busstop}
 							</div>
 						</div>
 						<div>
@@ -452,7 +444,7 @@ const TripsOverview: React.FC = () => {
 					/>
 				</Modal>
 			)}
-
+			Edit T
 			{flip === TripOption.EDIT && modalVisible && (
 				<Modal
 					title={<div className="text-lg font-medium boder-b">Edit Trip</div>}
@@ -465,7 +457,6 @@ const TripsOverview: React.FC = () => {
 					<EditTripFormComponent trip={modalData} />
 				</Modal>
 			)}
-
 			{flip === TripOption.DELETE && visible && (
 				<Modal
 					onOk={handleOk}

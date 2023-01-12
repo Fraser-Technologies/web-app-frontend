@@ -1,6 +1,7 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
+import { Input, message } from "antd";
 import Cookies from "js-cookie";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { Bus_interface } from "../../../interfaces/bus_interface";
 import { City_interface } from "../../../interfaces/city_interface";
@@ -9,6 +10,8 @@ import { Trip_interface } from "../../../interfaces/trip_interface";
 import { updateTripAction } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import DateField from "./datefield";
+import EndDateField from "./endDateField";
+import EndTimePicker from "./endTimePicker";
 import TimePicker from "./time-picker";
 
 const EditTripFormComponent = ({
@@ -26,28 +29,6 @@ const EditTripFormComponent = ({
 		trip: updatedTrip,
 	} = useAppSelector((state: any) => state.updateTrip);
 
-	// All Data
-	//   startCityDisplayText,
-	//   startBusStopDisplayText,
-	//   destinationCityDisplayText,
-	//   destinationBuStopDisplayText,
-	//   driverDisplayText,
-	//   vehicleDisplayText,
-	//   year,
-	//   month,
-	//   day,
-	//   time
-
-	//   START CITY CONTROLLERS
-	const [startCityOpen, setStartCityIsOpen] = useState<boolean>(false);
-	const [startCityDisplayText, setStartCityDisplayText] = useState<string>(
-		trip?.travel_destination?.from?.city?.city || "Select Start City"
-	);
-	const [startBusStopList, setStartBusStopList] = useState<string[]>([]);
-	const [destinationBusStopList, setDestinationBusStopList] = useState<
-		string[]
-	>([]);
-
 	// the trip variable
 	const [bus, setBus] = useState<string>(trip?.bus?.name || "");
 	const [driver, setDriver] = useState<string>(trip?.driver?._id || "");
@@ -57,7 +38,13 @@ const EditTripFormComponent = ({
 	const [take_off_time, setTake_off_time] = useState<string>(
 		trip?.take_off_time || ""
 	);
-	const [price, setPrice] = useState<number>(trip?.price || 0);
+	const [arrival_time, setArrival_time] = useState<string>(
+		trip?.arrival_date || ""
+	);
+	const [arrival_date, setArrival_date] = useState<string>(
+		trip?.arrival_date || ""
+	);
+	const [price, setPrice] = useState<string>(String(trip?.price) || "");
 	const [startCity, setStartCity] = useState<string>(
 		trip?.travel_destination?.from?.city?._id || ""
 	);
@@ -65,86 +52,56 @@ const EditTripFormComponent = ({
 		trip?.travel_destination?.to?.city?._id || ""
 	);
 	const [startBusStop, setStartBusStop] = useState<string>(
-		trip?.travel_destination?.from?.busstop || ""
+		trip?.travel_destination?.from?.start_busstop || ""
 	);
 	const [stopBusStop, setStopBusStop] = useState<string>(
-		trip?.travel_destination?.to?.busstop || ""
+		trip?.travel_destination?.to?.stop_busstop || ""
 	);
 
-	const handleStartCityChange = (option: any) => {
-		setStartCityDisplayText(option);
-		setStartCityIsOpen(!startCityOpen);
-	};
-	const handleStartCityDropClick = () => {
-		setStartCityIsOpen(!startCityOpen);
-	};
+	const [startCityBusStopList, setStartCityBusStopList] = useState<string[]>(
+		[]
+	);
+	const [stopCityBusStopList, setStopCityBusStopList] = useState<string[]>([]);
+
+	const [messageApi, contextHolder] = message.useMessage();
+
+	//   START CITY CONTROLLERS
+	const [startCityOpen, setStartCityIsOpen] = useState<boolean>(false);
+	const [startCityDisplayText, setStartCityDisplayText] = useState<string>(
+		trip?.travel_destination?.from?.city?.city || "Select Start City"
+	);
 
 	//   START BUSSTOP CONTROLLERS
 	const [startBusStopOpen, setStartBusStopIsOpen] = useState(false);
 	const [startBusStopDisplayText, setStartBusStopDisplayText] = useState(
-		trip?.travel_destination?.to?.busstop || "Select Start Bus Stop"
+		trip?.travel_destination?.from?.start_busstop || "Select Start Bus Stop"
 	);
-	const handleStartBusStopChange = (option: any) => {
-		setStartBusStopDisplayText(option);
-		setStartBusStopIsOpen(!startBusStopOpen);
-	};
-	const handleStartBusStopDropClick = () => {
-		setStartBusStopIsOpen(!startBusStopOpen);
-	};
 
 	//   DESITNATION CITY CONTROLLERS
 	const [destinationCityOpen, setDestinationCityIsOpen] = useState(false);
 	const [destinationCityDisplayText, setDestinationCityDisplayText] = useState(
 		trip?.travel_destination?.to?.city?.city || "Select Destination City"
 	);
-	const handleDestinationCityChange = (option: any) => {
-		setDestinationCityDisplayText(option);
-		setDestinationCityIsOpen(!destinationCityOpen);
-	};
-
-	const handleDestinationCityDropClick = () => {
-		setDestinationCityIsOpen(!destinationCityOpen);
-	};
 
 	//   DESITNATION BUSSTOP CONTROLLERS
 	const [destinationBusStopOpen, setDestinationBusStopIsOpen] = useState(false);
 	const [destinationBuStopDisplayText, setDestinationBusStopDisplayText] =
 		useState(
-			trip?.travel_destination?.to?.busstop || "Select Destination Bus Stop"
+			trip?.travel_destination?.to?.stop_busstop ||
+				"Select Destination Bus Stop"
 		);
-	const handleDestinationBusStopChange = (option: any) => {
-		setDestinationBusStopDisplayText(option);
-		setDestinationBusStopIsOpen(!destinationBusStopOpen);
-	};
-	const handleDestinationBusStopDropClick = () => {
-		setDestinationBusStopIsOpen(!destinationBusStopOpen);
-	};
 
 	//   VEHICLE CONTROLLERS
 	const [vehicleOpen, setVehicleIsOpen] = useState(false);
 	const [vehicleDisplayText, setVehicleDisplayText] = useState(
 		trip?.bus?.name || "Select Vehicle"
 	);
-	const handleVehicleChange = (option: any) => {
-		setVehicleDisplayText(option);
-		setVehicleIsOpen(!vehicleOpen);
-	};
-	const handleVehicleDropClick = () => {
-		setVehicleIsOpen(!vehicleOpen);
-	};
 
 	//   DRIVER  CONTROLLERS
 	const [driverOpen, setDriverIsOpen] = useState(false);
 	const [driverDisplayText, setDriverDisplayText] = useState(
 		`${trip?.driver?.first_name} ${trip?.driver?.last_name}` || "Select Driver"
 	);
-	const handleDriverChange = (driver: Driver_interface) => {
-		setDriverDisplayText(`${driver?.first_name} ${driver?.last_name}`);
-		setDriverIsOpen(!driverOpen);
-	};
-	const handleDriverDropClick = () => {
-		setDriverIsOpen(!driverOpen);
-	};
 
 	// SET YEAR, MONTH AND DAY FROM CHILD COMPONENT (DATEFIELD)
 	const [year, setYear] = useState(Cookies.get("year"));
@@ -163,30 +120,83 @@ const EditTripFormComponent = ({
 		setTime(time);
 	};
 
-	const updateTripData = () => {
-		dispatch(
-			updateTripAction(trip?._id || "", {
-				bus,
-				driver,
-				take_off_date,
-				take_off_time,
-				travel_destination: {
-					from: {
-						city: startCity,
-						busstop: startBusStop,
-					},
-					to: {
-						city: endCity,
-						busstop: stopBusStop,
-					},
-				},
-				price,
-			})
-		);
+	const updateData = {
+		bus,
+		driver,
+		take_off_date,
+		take_off_time,
+		arrival_date,
+		arrival_time,
+		price,
+		travel_destination: {
+			from: {
+				city: startCity,
+				start_busstop: startBusStop,
+			},
+			to: {
+				city: endCity,
+				stop_busstop: stopBusStop,
+			},
+		},
 	};
+
+	console.log("the start city is ", startCity, startBusStop);
+
+	const updateTripData = () => {
+		if (
+			!bus ||
+			!driver ||
+			!take_off_date ||
+			!take_off_time ||
+			!arrival_date ||
+			!arrival_time ||
+			!price ||
+			!startCity ||
+			!startBusStop ||
+			!endCity ||
+			!stopBusStop
+		) {
+			return messageApi.open({
+				type: "warning",
+				content: "Please enter all the required details",
+			});
+		}
+		dispatch(updateTripAction(trip?._id || "", updateData));
+	};
+
+	const resetAll = () => {
+		setBus("");
+		setStartBusStop("");
+		setArrival_date("");
+		setDestinationBusStopDisplayText("Select Destination Bus Stop");
+		setDestinationCityDisplayText("Select Destination City");
+		setDriverDisplayText("Select Driver");
+		setEndCity("");
+		setPrice("");
+		setStartCityDisplayText("Select Start City");
+		setDriver("");
+		setDriverDisplayText("Select Driver");
+		setStartBusStopDisplayText("Select Start Bus Stop");
+		setStartCity("");
+		setStartCityBusStopList([]);
+		setStopCityBusStopList([]);
+		setTake_off_date("");
+		setTake_off_time("");
+		setVehicleDisplayText("Select Vehicle");
+	};
+
+	useEffect(() => {
+		if (error) {
+			messageApi.open({
+				type: "error",
+				content: error,
+			});
+		}
+	}, [error, messageApi]);
 
 	return (
 		<div className="">
+			{contextHolder}
 			{/* START */}
 			<div>
 				<p className="w-full mb-2 text-gray-500">Start</p>
@@ -197,8 +207,9 @@ const EditTripFormComponent = ({
 					<div className="relative z-50 inline w-full text-left">
 						<button
 							className="inline-flex w-full px-4 py-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={handleStartCityDropClick}
-							onChange={handleStartCityChange}>
+							onClick={() => {
+								setStartCityIsOpen(!startCityOpen);
+							}}>
 							{startCityDisplayText}
 							<FaCaretDown className="ml-auto" />
 						</button>
@@ -206,20 +217,30 @@ const EditTripFormComponent = ({
 						{startCityOpen && (
 							<div className="absolute w-full mt-2 rounded-md shadow-lg">
 								<div className="w-full py-4 pb-12 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{cities?.map((city: City_interface) => {
-										return (
-											<a
-												href="#"
-												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-												onClick={() => {
-													handleStartCityChange(city?.city);
-													setStartCity(city?._id);
-													setStartBusStopList(city?.bus_stops);
-												}}>
-												{city?.city}
-											</a>
-										);
-									})}
+									{cities
+										.filter(
+											(city: City_interface) =>
+												city?.city !== destinationCityDisplayText
+										)
+										.map((city: City_interface) => {
+											return (
+												<a
+													key={city?._id}
+													href="#"
+													className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+													onClick={() => {
+														setStartBusStopDisplayText(city?.city);
+														setStartCityIsOpen(!startCityOpen);
+														setStartCity(city?._id);
+														setStartCityBusStopList(city?.bus_stops);
+														setStartBusStop("");
+														setStartBusStopDisplayText("Select Start Bus Stop");
+														setStartCityDisplayText(city?.city);
+													}}>
+													{city?.city}
+												</a>
+											);
+										})}
 								</div>
 
 								<div
@@ -242,25 +263,28 @@ const EditTripFormComponent = ({
 					<div className="relative z-40 inline w-full text-left">
 						<button
 							className="inline-flex w-full px-4 py-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={handleStartBusStopDropClick}
-							onChange={handleStartBusStopChange}>
+							onClick={() => {
+								setStartBusStopIsOpen(!startBusStopOpen);
+							}}>
 							{startBusStopDisplayText}
 							<FaCaretDown className="ml-auto" />
 						</button>
 
 						{startBusStopOpen && (
-							<div className="absolute w-full mt-2 rounded-md shadow-lg">
-								<div className="w-full py-4 pb-12 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{startBusStopList.map((busStop: string) => {
+							<div className="w-full absolute mt-2 rounded-md shadow-lg">
+								<div className="w-full pb-12 overflow-y-scroll rounded-md bg-white shadow-xs  py-4 ">
+									{startCityBusStopList?.map((busstop: string) => {
 										return (
 											<a
+												key={busstop}
 												href="#"
-												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+												className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
-													handleStartBusStopChange(busStop);
-													setStartBusStop(busStop);
+													setStartBusStop(busstop);
+													setStartBusStopDisplayText(busstop);
+													setStartBusStopIsOpen(!startBusStopOpen);
 												}}>
-												{busStop}
+												{busstop}
 											</a>
 										);
 									})}
@@ -286,31 +310,41 @@ const EditTripFormComponent = ({
 					</div>
 					<div className="relative z-30 inline w-full text-left">
 						<button
-							className="inline-flex w-full px-4 py-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={handleDestinationCityDropClick}
-							onChange={handleDestinationCityChange}>
+							className=" shadow-sm inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white  leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+							onClick={() => {
+								setDestinationCityIsOpen(!destinationCityOpen);
+							}}>
 							{destinationCityDisplayText}
 							<FaCaretDown className="ml-auto" />
 						</button>
 
 						{destinationCityOpen && (
 							<div className="absolute w-full mt-2 rounded-md shadow-lg z-10">
-								<div className="w-full py-4 pb-12 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{cities?.map((city: City_interface) => {
-										return (
-											<a
-												key={city?._id}
-												href="#"
-												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-												onClick={() => {
-													handleDestinationCityChange(city?.city);
-													setDestinationBusStopList(city?.bus_stops);
-													setEndCity(city?._id);
-												}}>
-												{city?.city}
-											</a>
-										);
-									})}
+								<div className="w-full pb-12 overflow-y-scroll rounded-md bg-white shadow-xs  py-4 ">
+									{cities
+										.filter(
+											(city: City_interface) =>
+												city.city !== startCityDisplayText
+										)
+										?.map((city: City_interface) => {
+											return (
+												<a
+													key={city?._id}
+													href="#"
+													className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+													onClick={() => {
+														setDestinationCityDisplayText(city.city);
+														setEndCity(city?._id);
+														setStopCityBusStopList(city?.bus_stops);
+														setDestinationBusStopDisplayText(
+															"Select Destination Bus Stop"
+														);
+														setDestinationCityIsOpen(!destinationCityOpen);
+													}}>
+													{city?.city}
+												</a>
+											);
+										})}
 								</div>
 
 								<div
@@ -327,36 +361,40 @@ const EditTripFormComponent = ({
 
 				{/* BUSSTOPS FROM THE SELECTED CITY ABOVE */}
 				<div className="flex items-center w-full mt-2">
-					<div className="w-1/4  px-4 py-2 mr-2 text-white bg-black rounded-md">
+					<div className=" bg-black w-1/4 text-white py-2 px-4 rounded-md mr-2">
 						Busstops
 					</div>
-					<div className="relative z-20 inline w-full text-left">
+					<div className="relative inline text-left z-20 w-full">
 						<button
-							className="inline-flex w-full px-4 py-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={handleDestinationBusStopDropClick}
-							onChange={handleDestinationBusStopChange}>
+							className=" shadow-sm inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white  leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+							onClick={() =>
+								setDestinationBusStopIsOpen(!destinationBusStopOpen)
+							}>
 							{destinationBuStopDisplayText}
 							<FaCaretDown className="ml-auto" />
 						</button>
 
 						{destinationBusStopOpen && (
-							<div className="absolute w-full mt-2 rounded-md shadow-lg">
-								<div className="w-full py-4 pb-12 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{destinationBusStopList?.map((busstop: string) => {
+							<div className="w-full absolute mt-2 rounded-md shadow-lg">
+								<div className="w-full pb-12 overflow-y-scroll rounded-md bg-white shadow-xs  py-4 ">
+									{stopCityBusStopList?.map((busstop: string) => {
 										return (
 											<a
 												key={busstop}
 												href="#"
-												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+												className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
-													handleDestinationBusStopChange(busstop);
+													setDestinationBusStopIsOpen(!destinationBusStopOpen);
+													setDestinationBusStopDisplayText(busstop);
 													setStopBusStop(busstop);
+													setDestinationBusStopDisplayText(busstop);
 												}}>
 												{busstop}
 											</a>
 										);
 									})}
 								</div>
+
 								<div
 									onClick={() => {}}
 									className={`absolute bottom-0 cursor-pointer text-[#22B11E] bg-[#EFF3EF] border-t w-full rounded-b-md text-center py-3 z-50`}>
@@ -368,10 +406,19 @@ const EditTripFormComponent = ({
 				</div>
 			</div>
 
-			{/* DATE AND TIME */}
-			<div className="w-full pb-2 mt-6 text-gray-500">Date and time</div>
-			{/* <DateField onSendData={handleDateFromChild} /> */}
-			{/* <TimePicker onTimeChange={handleTimeFromChild} /> */}
+			{/*TAKE OFF DATE AND TIME */}
+			<div className="w-full text-gray-500 mt-6 pb-2">
+				Takeoff Date and time
+			</div>
+			<DateField setTake_off_date={setTake_off_date} />
+			<TimePicker setTake_off_time={setTake_off_time} />
+
+			{/*ARRIVAL DATE AND TIME */}
+			<div className="w-full text-gray-500 mt-6 pb-2">
+				Arrival Date and time
+			</div>
+			<EndDateField setArrival_date={setArrival_date} />
+			<EndTimePicker setArrival_time={setArrival_time} />
 
 			{/* VEHICLE AND DRIVER */}
 			<div className="mt-6">
@@ -383,8 +430,9 @@ const EditTripFormComponent = ({
 					<div className="relative z-50 inline w-full text-left">
 						<button
 							className="inline-flex w-full px-4 py-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={handleVehicleDropClick}
-							onChange={handleVehicleChange}>
+							onClick={() => {
+								setVehicleIsOpen(!vehicleOpen);
+							}}>
 							{vehicleDisplayText}
 							<FaCaretDown className="ml-auto" />
 						</button>
@@ -399,8 +447,9 @@ const EditTripFormComponent = ({
 												href="#"
 												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
-													handleVehicleChange(bus?.name);
+													setVehicleDisplayText(bus?.name);
 													setBus(bus?._id);
+													setVehicleIsOpen(!vehicleOpen);
 												}}>
 												{bus?.name}
 											</a>
@@ -426,9 +475,9 @@ const EditTripFormComponent = ({
 					<div className="relative z-40 inline w-full text-left">
 						<button
 							className="inline-flex w-full px-4 py-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={handleDriverDropClick}
-							// onChange={handleDriverChange}
-						>
+							onClick={() => {
+								setDriverIsOpen(!driverOpen);
+							}}>
 							{driverDisplayText}
 							<FaCaretDown className="ml-auto" />
 						</button>
@@ -436,15 +485,18 @@ const EditTripFormComponent = ({
 						{driverOpen && (
 							<div className="absolute w-full mt-2 rounded-md shadow-lg">
 								<div className="w-full py-4 pb-12 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{drivers?.map((driver: Driver_interface) => {
+									{drivers.map((driver: Driver_interface) => {
 										return (
 											<a
 												key={driver?._id}
 												href="#"
-												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+												className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
-													handleDriverChange(driver);
 													setDriver(driver?._id);
+													setDriverDisplayText(
+														`${driver?.first_name} ${driver?.last_name}`
+													);
+													setDriverIsOpen(!driverOpen);
 												}}>
 												{driver?.first_name} {driver?.last_name}
 											</a>
@@ -459,6 +511,19 @@ const EditTripFormComponent = ({
 								</div>
 							</div>
 						)}
+					</div>
+				</div>
+
+				{/* PRICE */}
+				<div className="mt-6">
+					<p className="w-full text-gray-500">Price</p>
+					<div className="w-full flex items-center mt-2 ">
+						<div className=" bg-black w-1/4 text-white py-2 px-4 rounded-md mr-2">
+							Price
+						</div>
+						<div className="relative inline text-left z-50 w-full">
+							<Input value={price} onChange={(e) => setPrice(e.target.value)} />
+						</div>
 					</div>
 				</div>
 
