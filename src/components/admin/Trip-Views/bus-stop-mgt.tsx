@@ -76,6 +76,7 @@ const BusStopManagement = () => {
 
 		setFlip("city");
 		setFlip("success");
+		setCityName("");
 	};
 
 	useEffect(() => {
