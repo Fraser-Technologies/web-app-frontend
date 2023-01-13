@@ -9,7 +9,9 @@ import {
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { Driver_interface } from "../../../interfaces/driver_interface";
-import { useAppSelector } from "../../../state/hooks";
+import { Trip_interface } from "../../../interfaces/trip_interface";
+import { getTripByDriverAction } from "../../../state/action/trip.action";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 
 const DriverOverview: React.FC = () => {
@@ -18,6 +20,7 @@ const DriverOverview: React.FC = () => {
 		SUCCESS = "success",
 		DEACTIVATE = "deactivate",
 	}
+	const dispatch = useAppDispatch();
 	const [currentPage, setCurrentPage] = useState(0); // current page
 	const itemsPerPage = 10; // number of items per page
 	const pageRangeDisplayed = 5; // number of pages to display
@@ -28,6 +31,11 @@ const DriverOverview: React.FC = () => {
 	const { drivers, loading, error } = useAppSelector(
 		(state: any) => state?.allDriver
 	);
+	const {
+		trips: byDriverTrip,
+		loading: byDriverLoading,
+		error: byDriverError,
+	} = useAppSelector((state: any) => state?.tripByDriver);
 	// function to handle page clicks
 	const handlePageClick = (data: any) => {
 		setCurrentPage(data.selected); // update the current page
@@ -52,6 +60,7 @@ const DriverOverview: React.FC = () => {
 		setModalData(driver);
 		setFlip(flipType.OPEN);
 		setModalVisible(true);
+		dispatch(getTripByDriverAction(driver?._id));
 	};
 
 	const [visible, setStateModalVisible] = useState<boolean>(false);
@@ -131,7 +140,9 @@ const DriverOverview: React.FC = () => {
 				<tbody className="">
 					{drivers?.map((driver: Driver_interface) => {
 						return (
-							<tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
+							<tr
+								className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50"
+								key={driver?._id}>
 								<td
 									onClick={() => {
 										handleOpenModal(driver);
@@ -170,7 +181,7 @@ const DriverOverview: React.FC = () => {
 									}}
 									className="px-4 py-4 pl-16 text-xs font-normal text-gray-700">
 									<div className="bg-[#D1FAD0] text-[#22B11E] py-2 text-center rounded-md">
-										{driver?.available}
+										{`${driver?.available}`}
 									</div>
 								</td>
 								<td
@@ -212,7 +223,15 @@ const DriverOverview: React.FC = () => {
 			{flip === flipType.OPEN && modalVisible && (
 				<Modal
 					title={
-						<div className="text-lg font-medium boder-b">Driver Details</div>
+						<div className="text-lg font-medium boder-b">
+							Driver Details
+							<span>
+								{byDriverLoading && <CircularProgress />}{" "}
+								{byDriverError && (
+									<Alert type="error" message={byDriverError} />
+								)}
+							</span>
+						</div>
 					}
 					onOk={handleOk}
 					onCancel={handleCancel}
@@ -236,31 +255,31 @@ const DriverOverview: React.FC = () => {
 						<div>
 							<div className="text-lg font-medium">Trip History</div>
 
-							<div className="flex overflow-hidden justify-between border-b py-2 my-4 text-gray-800">
-								<div className="flex">
-									<div className="mt-2 mr-4">
-										<FaBus />
+							{byDriverTrip?.map((trip: Trip_interface) => {
+								return (
+									<div
+										className="flex overflow-hidden justify-between border-b py-2 my-4 text-gray-800"
+										key={trip?._id}>
+										<div className="flex">
+											<div className="mt-2 mr-4">
+												<FaBus />
+											</div>
+											<div>
+												<div className="truncate text-base">
+													{trip?.travel_destination?.from?.city?.city} to{" "}
+													{trip?.travel_destination?.to?.city?.city}
+												</div>
+												<div className="text-[#949292] text-xs">
+													{trip?.take_off_date}
+												</div>
+											</div>
+										</div>
+										<div className="text-base font-medium">
+											{trip?.driver?.first_name}
+										</div>
 									</div>
-									<div>
-										<div className="truncate text-base">Lagos to Ibadan</div>
-										<div className="text-[#949292] text-xs">3rd Sept.</div>
-									</div>
-								</div>
-								<div className="text-base font-medium">Josiah</div>
-							</div>
-						</div>
-
-						<div className="flex overflow-hidden justify-between border-b py-2 my-4 text-gray-800">
-							<div className="flex">
-								<div className="mt-2 mr-4">
-									<FaBus />
-								</div>
-								<div>
-									<div className="truncate text-base">Lagos to Ibadan</div>
-									<div className="text-[#949292] text-xs">3rd Sept.</div>
-								</div>
-							</div>
-							<div className="text-base font-medium">Josiah</div>
+								);
+							})}
 						</div>
 					</div>
 				</Modal>

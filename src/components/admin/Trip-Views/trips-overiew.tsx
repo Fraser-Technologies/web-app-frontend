@@ -172,7 +172,9 @@ const TripsOverview: React.FC = () => {
 				<tbody className="">
 					{trips?.map((trip: Trip_interface, index: Number) => {
 						return (
-							<tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
+							<tr
+								className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50"
+								key={trip?._id}>
 								<td
 									onClick={() => {
 										handleOpenModal(trip, "info");

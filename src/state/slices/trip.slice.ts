@@ -153,3 +153,54 @@ export const {
 	updateTripReset,
 } = updateTripSlice.actions;
 export const updateTripReducer = updateTripSlice.reducer;
+
+const getTripByBusSlice = createSlice({
+	name: "get trip by bus",
+	initialState: allTripState,
+	reducers: {
+		getTripByBusRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+
+		getTripByBusSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trips = payload;
+		},
+		getTripByBusFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const { getTripByBusFailed, getTripByBusRequest, getTripByBusSuccess } =
+	getTripByBusSlice.actions;
+export const getTripByBusReducer = getTripByBusSlice.reducer;
+
+const getTripByDriverSlice = createSlice({
+	name: "get trip by bus",
+	initialState: allTripState,
+	reducers: {
+		getTripByDriverRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+
+		getTripByDriverSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trips = payload;
+		},
+		getTripByDriverFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const {
+	getTripByDriverFailed,
+	getTripByDriverRequest,
+	getTripByDriverSuccess,
+} = getTripByDriverSlice.actions;
+export const getTripByDriverReducer = getTripByDriverSlice.reducer;

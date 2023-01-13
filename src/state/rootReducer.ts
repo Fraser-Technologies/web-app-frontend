@@ -1,8 +1,4 @@
-import {
-	allBusReducer,
-	getTripByBusReducer,
-	updateBusSliceReducer,
-} from "./slices/bus.slice";
+import { allBusReducer, updateBusSliceReducer } from "./slices/bus.slice";
 import {
 	createCityReducer,
 	deleteCityReducer,
@@ -30,6 +26,8 @@ import {
 	availableTripReducer,
 	createTripReducer,
 	getAllAvailableTripReducer,
+	getTripByBusReducer,
+	getTripByDriverReducer,
 	updateTripReducer,
 } from "./slices/trip.slice";
 import { bookingReducer, verifyPaymentReducer } from "./slices/booking.slice";
@@ -42,6 +40,7 @@ const rootReducer = combineReducers({
 	// bus reducers
 	allBusStop: getAllBusStopReducer,
 	tripByBus: getTripByBusReducer,
+	tripByDriver: getTripByDriverReducer,
 	updateBus: updateBusSliceReducer,
 
 	//user reducers

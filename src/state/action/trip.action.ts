@@ -1,5 +1,3 @@
-import { Trip_interface } from "./../../interfaces/trip_interface";
-import { userInfo } from "os";
 import { RequestError } from "../../utils/requestError";
 import { api } from "../../utils/api";
 
@@ -17,17 +15,18 @@ import {
 	getAvailableTripFailed,
 	getAvailableTripRequest,
 	getAvailableTripSuccess,
+	getTripByBusFailed,
+	getTripByBusRequest,
+	getTripByBusSuccess,
+	getTripByDriverFailed,
+	getTripByDriverRequest,
+	getTripByDriverSuccess,
 	resetCreateTrip,
 	updateTripFailed,
 	updateTripRequest,
 	updateTripReset,
 	updateTripSuccess,
 } from "../slices/trip.slice";
-import {
-	getTripByBusFailed,
-	getTripByBusRequest,
-	getTripByBusSuccess,
-} from "../slices/bus.slice";
 
 export const getAvailableTripAction =
 	({ from, to }: { from: string; to: string }): AppThunk =>
@@ -122,5 +121,17 @@ export const getTripByBusAction =
 			dispatch(getTripByBusSuccess(data));
 		} catch (error: any) {
 			dispatch(getTripByBusFailed(RequestError(error)));
+		}
+	};
+
+export const getTripByDriverAction =
+	(driver_id: string): AppThunk =>
+	async (dispatch) => {
+		try {
+			dispatch(getTripByDriverRequest());
+			const { data } = await api.get(`/trip/tripbydriver/${driver_id}`);
+			dispatch(getTripByDriverSuccess(data));
+		} catch (error: any) {
+			dispatch(getTripByDriverFailed(RequestError(error)));
 		}
 	};
