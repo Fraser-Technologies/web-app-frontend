@@ -26,7 +26,6 @@ const EditTripFormComponent = ({
 	const {
 		loading,
 		error,
-		trip: updatedTrip,
 	} = useAppSelector((state: any) => state.updateTrip);
 
 	// the trip variable

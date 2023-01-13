@@ -1,12 +1,12 @@
 import { Trip_interface } from "./../../interfaces/trip_interface";
 import { createSlice } from "@reduxjs/toolkit";
 
-type initialType = {
+export type initialType = {
 	trips: Trip_interface[] | [];
 	loading: boolean;
 	error: string;
 };
-const allTripState: initialType = {
+export const allTripState: initialType = {
 	trips: [],
 	loading: false,
 	error: "",

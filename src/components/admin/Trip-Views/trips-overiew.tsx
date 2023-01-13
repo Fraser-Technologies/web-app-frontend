@@ -8,7 +8,10 @@ import {
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { Trip_interface } from "../../../interfaces/trip_interface";
-import { getAllTripAction } from "../../../state/action/trip.action";
+import {
+	getAllTripAction,
+	resetUpdateTripAction,
+} from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 import CreateTripFormComponent from "../components/create-trip-form";
@@ -26,6 +29,9 @@ const TripsOverview: React.FC = () => {
 	const dispatch = useAppDispatch();
 	const { loading, trips } = useAppSelector((state: any) => state.allTrip);
 	const { trip } = useAppSelector((state: any) => state.createTrip);
+	const { trip: updatedTrip } = useAppSelector(
+		(state: any) => state.updateTrip
+	);
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [modalData, setModalData] = useState<Trip_interface>(); // current page
 	const [flip, setFlip] = useState<
@@ -88,8 +94,16 @@ const TripsOverview: React.FC = () => {
 		if (trip?._id) {
 			dispatch(getAllTripAction());
 			setMenuVisible(!menuVisible);
+			setFlip("");
 		}
 	}, [dispatch, menuVisible, trip]);
+
+	useEffect(() => {
+		if (updatedTrip?._id) {
+			setFlip("");
+			dispatch(resetUpdateTripAction());
+		}
+	}, [dispatch, updatedTrip]);
 	return (
 		<>
 			{/* TRIPS OVERVIEW VIEW*/}
@@ -444,7 +458,7 @@ const TripsOverview: React.FC = () => {
 					/>
 				</Modal>
 			)}
-			Edit T
+
 			{flip === TripOption.EDIT && modalVisible && (
 				<Modal
 					title={<div className="text-lg font-medium boder-b">Edit Trip</div>}
