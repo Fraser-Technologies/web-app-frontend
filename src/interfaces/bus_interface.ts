@@ -6,5 +6,5 @@ export interface Bus_interface extends Mongo_extra {
 	type: string;
 	image: string;
 	number_of_seat: number;
-	status: string;
+	status: "available" | "unavailable" | "in use";
 }

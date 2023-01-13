@@ -1,6 +1,6 @@
 import { CircularProgress } from "@mui/material";
-import { Modal } from "antd";
-import React, { useState } from "react";
+import { Alert, message, Modal } from "antd";
+import React, { useEffect, useState } from "react";
 import {
 	FaBus,
 	FaCheckCircle,
@@ -10,7 +10,12 @@ import {
 import ReactPaginate from "react-paginate";
 import { Bus_interface } from "../../../interfaces/bus_interface";
 import { Trip_interface } from "../../../interfaces/trip_interface";
-import { getTripByBusAction } from "../../../state/action/bus.action";
+import {
+	getAllBusAction,
+	getTripByBusAction,
+	resetUpdateBusAction,
+	updateBusAction,
+} from "../../../state/action/bus.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 
@@ -33,14 +38,14 @@ const VehicleOverview: React.FC = () => {
 	const { loading, error, trips } = useAppSelector(
 		(state: any) => state?.tripByBus
 	);
-
-	console.log("he trip s here are ", trips);
+	const { bus: updatedBus } = useAppSelector((state: any) => state?.updateBus);
 
 	// function to handle page clicks
 	const handlePageClick = (data: any) => {
 		setCurrentPage(data.selected); // update the current page
 	};
 	const [busModalData, setBusModalData] = useState<Bus_interface>();
+	const [messageApi, contextHolder] = message.useMessage();
 
 	// calculate the start and end index of the items to display on the current page
 	const startIndex = currentPage * itemsPerPage;
@@ -75,8 +80,21 @@ const VehicleOverview: React.FC = () => {
 		setFlip("");
 	};
 
+	useEffect(() => {
+		if (updatedBus?._id) {
+			messageApi.open({
+				type: "info",
+				content: "bus have been updated",
+			});
+
+			dispatch(getAllBusAction());
+			dispatch(resetUpdateBusAction());
+		}
+	}, [dispatch, messageApi, updatedBus]);
+
 	return (
 		<>
+			{contextHolder}
 			{/* TRIPS OVERVIEW VIEW*/}
 			{/* BUSSTOPS HEADER */}
 			<div className="w-full my-2 border-b h-14">
@@ -141,7 +159,11 @@ const VehicleOverview: React.FC = () => {
 									className="px-4 py-4 text-xs font-normal text-gray-700">
 									{bus?.plate_number}
 								</td>
-								<td className="text-xs font-normal text-center text-gray-700 ">
+								<td
+									className="text-xs font-normal text-center text-gray-700 "
+									onClick={() => {
+										handleOpenModal(bus);
+									}}>
 									{bus?.name}
 								</td>
 								<td
@@ -197,6 +219,9 @@ const VehicleOverview: React.FC = () => {
 												onClick={() => {
 													setBusModalData(bus);
 													setFlip(tripType.DEACTIVATE);
+													dispatch(
+														updateBusAction(bus?._id, { status: "unavailable" })
+													);
 												}}
 												className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
 												Deactivate
@@ -236,6 +261,7 @@ const VehicleOverview: React.FC = () => {
 							<div className="text-lg font-medium">
 								Trip History <span> {loading && <CircularProgress />} </span>
 							</div>
+							{error && <Alert type="error" message={error} />}
 
 							{trips?.map((trip: Trip_interface) => {
 								return (

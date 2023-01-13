@@ -59,3 +59,42 @@ const getTripByBusSlice = createSlice({
 export const { getTripByBusFailed, getTripByBusRequest, getTripByBusSuccess } =
 	getTripByBusSlice.actions;
 export const getTripByBusReducer = getTripByBusSlice.reducer;
+
+type busInitialState = {
+	loading: boolean;
+	error: string;
+	bus: Bus_interface | {};
+};
+
+const intiBusState: busInitialState = {
+	loading: false,
+	error: "",
+	bus: {},
+};
+
+const updateBusSlice = createSlice({
+	name: "update slice",
+	initialState: intiBusState,
+	reducers: {
+		updateBusRequest: (state) => {
+			state.loading = true;
+		},
+		updateBusSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.bus = payload;
+		},
+		updateBusFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+		resetUpdateBus: () => intiBusState,
+	},
+});
+
+export const {
+	updateBusFailed,
+	updateBusRequest,
+	updateBusSuccess,
+	resetUpdateBus,
+} = updateBusSlice.actions;
+export const updateBusSliceReducer = updateBusSlice.reducer;

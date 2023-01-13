@@ -8,6 +8,10 @@ import {
 	getTripByBusFailed,
 	getTripByBusRequest,
 	getTripByBusSuccess,
+	resetUpdateBus,
+	updateBusFailed,
+	updateBusRequest,
+	updateBusSuccess,
 } from "../slices/bus.slice";
 
 export const getAllBusAction = (): AppThunk => async (dispatch) => {
@@ -31,3 +35,28 @@ export const getTripByBusAction =
 			dispatch(getTripByBusFailed(RequestError(error)));
 		}
 	};
+
+export const updateBusAction =
+	(bus_id: string, update: any): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(updateBusRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.put(
+				`/bus/${bus_id}`,
+				{ ...update },
+				{
+					headers: { Authorization: `Bearer ${userInfo?.user_token}` },
+				}
+			);
+			dispatch(updateBusSuccess(data));
+		} catch (error: any) {
+			dispatch(updateBusFailed(RequestError(error)));
+		}
+	};
+
+export const resetUpdateBusAction = (): AppThunk => (dispatch) => {
+	dispatch(resetUpdateBus());
+};
