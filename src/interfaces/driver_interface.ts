@@ -7,4 +7,6 @@ export interface Driver_interface extends Mongo_extra {
 	email?: string;
 	phone: string;
 	completed_trips: [Trip_interface];
+	location: string;
+	available: boolean;
 }

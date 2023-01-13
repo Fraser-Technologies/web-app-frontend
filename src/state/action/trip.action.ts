@@ -23,6 +23,11 @@ import {
 	updateTripReset,
 	updateTripSuccess,
 } from "../slices/trip.slice";
+import {
+	getTripByBusFailed,
+	getTripByBusRequest,
+	getTripByBusSuccess,
+} from "../slices/bus.slice";
 
 export const getAvailableTripAction =
 	({ from, to }: { from: string; to: string }): AppThunk =>
@@ -107,3 +112,15 @@ export const updateTripAction =
 export const resetUpdateTripAction = (): AppThunk => (dispatch) => {
 	dispatch(updateTripReset());
 };
+
+export const getTripByBusAction =
+	(bus_id: string): AppThunk =>
+	async (dispatch) => {
+		try {
+			dispatch(getTripByBusRequest());
+			const { data } = await api.get(`/trip/tripbybus/${bus_id}`);
+			dispatch(getTripByBusSuccess(data));
+		} catch (error: any) {
+			dispatch(getTripByBusFailed(RequestError(error)));
+		}
+	};

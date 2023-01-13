@@ -5,9 +5,6 @@ import {
 	getAllBusFailed,
 	getAllBusRequest,
 	getAllBusSuccess,
-	getTripByBusFailed,
-	getTripByBusRequest,
-	getTripByBusSuccess,
 	resetUpdateBus,
 	updateBusFailed,
 	updateBusRequest,
@@ -23,18 +20,6 @@ export const getAllBusAction = (): AppThunk => async (dispatch) => {
 		dispatch(getAllBusFailed(RequestError(error)));
 	}
 };
-
-export const getTripByBusAction =
-	(bus_id: string): AppThunk =>
-	async (dispatch) => {
-		try {
-			dispatch(getTripByBusRequest());
-			const { data } = await api.get(`/bus/tripbybus/${bus_id}`);
-			dispatch(getTripByBusSuccess(data));
-		} catch (error: any) {
-			dispatch(getTripByBusFailed(RequestError(error)));
-		}
-	};
 
 export const updateBusAction =
 	(bus_id: string, update: any): AppThunk =>

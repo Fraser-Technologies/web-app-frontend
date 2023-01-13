@@ -12,10 +12,10 @@ import { Bus_interface } from "../../../interfaces/bus_interface";
 import { Trip_interface } from "../../../interfaces/trip_interface";
 import {
 	getAllBusAction,
-	getTripByBusAction,
 	resetUpdateBusAction,
 	updateBusAction,
 } from "../../../state/action/bus.action";
+import { getTripByBusAction } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 
@@ -355,7 +355,7 @@ const VehicleOverview: React.FC = () => {
 					<div className="w-full text-center place-items-center">
 						<FaCheckCircle size={32} className="text-[#00FF6A] w-full mt-8" />
 						<div className="mt-4 text-base font-medium boder-b">
-							User deactivated succesfully
+							Vehicle deactivated succesfully
 						</div>
 					</div>
 
