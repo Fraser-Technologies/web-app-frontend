@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 
-const EndDateField = (props: { setArrival_date: any }) => {
+const EndDateField = (props: { setArrival_date: any; arrival_date: any }) => {
 	// PASS DATA TO PARENT
-	const { setArrival_date } = props;
+	const { setArrival_date, arrival_date } = props;
 
-	const [year, setYear] = useState<string>("");
-	const [month, setMonth] = useState<string>("");
-	const [day, setDay] = useState<string>("");
+	const [year, setYear] = useState<string>(
+		arrival_date?.split(",")[2].trim() || ""
+	);
+	const [month, setMonth] = useState<string>(
+		arrival_date?.split(",")[1].trim() || ""
+	);
+	const [day, setDay] = useState<string>(
+		arrival_date?.split(",")[0].trim() || ""
+	);
 
 	// Array of years to display in the dropdown menu
 	const years = ["Select", 2023, 2024, 2025];

@@ -1,9 +1,9 @@
 import React, { useEffect, useState } from "react";
 
-const TimePicker = (props: { setTake_off_time: any }) => {
-	const { setTake_off_time } = props;
+const TimePicker = (props: { setTake_off_time: any; take_off_time: any }) => {
+	const { setTake_off_time, take_off_time } = props;
 
-	const [time, setTime] = useState<string>("");
+	const [time, setTime] = useState<string>(take_off_time || "");
 
 	const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		setTime(event.target.value);

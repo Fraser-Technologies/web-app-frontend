@@ -1,6 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { Input, message } from "antd";
-import Cookies from "js-cookie";
 import { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { Bus_interface } from "../../../interfaces/bus_interface";
@@ -23,10 +22,7 @@ const EditTripFormComponent = ({
 	const { cities } = useAppSelector((state: any) => state?.allCity);
 	const { drivers } = useAppSelector((state: any) => state?.allDriver);
 	const { buses } = useAppSelector((state: any) => state.allBus);
-	const {
-		loading,
-		error,
-	} = useAppSelector((state: any) => state.updateTrip);
+	const { loading, error } = useAppSelector((state: any) => state.updateTrip);
 
 	// the trip variable
 	const [bus, setBus] = useState<string>(trip?.bus?.name || "");
@@ -101,23 +97,6 @@ const EditTripFormComponent = ({
 	const [driverDisplayText, setDriverDisplayText] = useState(
 		`${trip?.driver?.first_name} ${trip?.driver?.last_name}` || "Select Driver"
 	);
-
-	// SET YEAR, MONTH AND DAY FROM CHILD COMPONENT (DATEFIELD)
-	const [year, setYear] = useState(Cookies.get("year"));
-	const [month, setMonth] = useState(Cookies.get("month"));
-	const [day, setDay] = useState(Cookies.get("day"));
-
-	const handleDateFromChild = (year: any, month: any, day: any) => {
-		setYear(year);
-		setMonth(month);
-		setDay(day);
-	};
-
-	//SET TIME FROM CHILD COMPONENT
-	const [time, setTime] = useState("");
-	const handleTimeFromChild = (time: any) => {
-		setTime(time);
-	};
 
 	const updateData = {
 		bus,
@@ -409,15 +388,27 @@ const EditTripFormComponent = ({
 			<div className="w-full text-gray-500 mt-6 pb-2">
 				Takeoff Date and time
 			</div>
-			<DateField setTake_off_date={setTake_off_date} />
-			<TimePicker setTake_off_time={setTake_off_time} />
+			<DateField
+				take_off_date={take_off_date}
+				setTake_off_date={setTake_off_date}
+			/>
+			<TimePicker
+				take_off_time={take_off_time}
+				setTake_off_time={setTake_off_time}
+			/>
 
 			{/*ARRIVAL DATE AND TIME */}
 			<div className="w-full text-gray-500 mt-6 pb-2">
 				Arrival Date and time
 			</div>
-			<EndDateField setArrival_date={setArrival_date} />
-			<EndTimePicker setArrival_time={setArrival_time} />
+			<EndDateField
+				arrival_date={arrival_date}
+				setArrival_date={setArrival_date}
+			/>
+			<EndTimePicker
+				arrival_time={take_off_time}
+				setArrival_time={setArrival_time}
+			/>
 
 			{/* VEHICLE AND DRIVER */}
 			<div className="mt-6">

@@ -1,12 +1,18 @@
 import { useEffect, useState } from "react";
 
-const DateField = (props: { setTake_off_date: any }) => {
+const DateField = (props: { setTake_off_date: any; take_off_date: any }) => {
 	// PASS DATA TO PARENT
-	const { setTake_off_date } = props;
+	const { setTake_off_date, take_off_date } = props;
 
-	const [year, setYear] = useState<string>("");
-	const [month, setMonth] = useState<string>("");
-	const [day, setDay] = useState<string>("");
+	const [year, setYear] = useState<string>(
+		take_off_date?.split(",")[2].trim() || ""
+	);
+	const [month, setMonth] = useState<string>(
+		take_off_date?.split(",")[1].trim() || ""
+	);
+	const [day, setDay] = useState<string>(
+		take_off_date?.split(","[0].trim() || "")
+	);
 
 	// Array of years to display in the dropdown menu
 	const years = ["Select", 2023, 2024, 2025];

@@ -129,37 +129,18 @@ const AdminPage = loadable(() => import("./pages/admin"), {
 });
 
 const App = () => {
-	const dispatch = useAppDispatch();
-	const navigate = useNavigate();
-	const { busStops } = useAppSelector((state: any) => state.allBusStop);
-	const {
-		userInfo: { _id },
-	} = useAppSelector((state: any) => state.userLogin);
-
-	// useEffect(() => {
-	// 	if (!busStops?.length) {
-	// 		dispatch(getAllBusStopAction());
-	// 	}
-	// }, [busStops?.length, dispatch]);
-
-	// useEffect(() => {
-	// 	if (!_id) {
-	// 		navigate("/");
-	// 	}
-	// }, [_id, navigate]);
-
 	return (
 		<>
 			<Routes>
-				{/* <Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
+				<Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
 				<Route path={_paths_.AVAILABLE_TRIP} element={<Booking />} />
 				<Route path={_paths_.TERMS_OF_SERVICE} element={<TermsOfService />} />
-				<Route path={_paths_.SIGNIN} element={<SignIn />} /> 
-				<Route path={_paths_.SIGNUP} element={<SignUp />} />*/}
+				<Route path={_paths_.SIGNIN} element={<SignIn />} />
+				<Route path={_paths_.SIGNUP} element={<SignUp />} />
 				<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
 				<Route path={_paths_.CHECKOUT} element={<Checkout />} />
 				<Route path={_paths_.ADMIN_DASHBOARD} element={<AdminPage />} />
-				{/*<Route path={_paths_.NOTFOUND} element={<NotFound />} /> */}
+				<Route path={_paths_.NOTFOUND} element={<NotFound />} />
 			</Routes>
 		</>
 	);

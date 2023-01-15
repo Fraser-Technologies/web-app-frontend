@@ -373,15 +373,24 @@ const CreateTripFormComponent = () => {
 			<div className="w-full text-gray-500 mt-6 pb-2">
 				Takeoff Date and time
 			</div>
-			<DateField setTake_off_date={setTake_off_date} />
-			<TimePicker setTake_off_time={setTake_off_time} />
+			{/* <DateField setTake_off_date={setTake_off_date} /> */}
+			<TimePicker
+				setTake_off_time={setTake_off_time}
+				take_off_time={undefined}
+			/>
 
 			{/*ARRIVAL DATE AND TIME */}
 			<div className="w-full text-gray-500 mt-6 pb-2">
 				Arrival Date and time
 			</div>
-			<EndDateField setArrival_date={setArrival_date} />
-			<EndTimePicker setArrival_time={setArrival_time} />
+			<EndDateField
+				setArrival_date={setArrival_date}
+				arrival_date={undefined}
+			/>
+			<EndTimePicker
+				setArrival_time={setArrival_time}
+				arrival_time={undefined}
+			/>
 
 			{/* VEHICLE AND DRIVER */}
 			<div className="mt-6">
