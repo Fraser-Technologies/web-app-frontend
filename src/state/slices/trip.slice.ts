@@ -26,6 +26,7 @@ export const getAvailableTripSlice = createSlice({
 		getAvailableTripFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
+			state.trips = [];
 		},
 	},
 });
@@ -52,6 +53,7 @@ export const allAvailableTripSlice = createSlice({
 		getAllAvailableTripFailed: (state, { payload }) => {
 			state.error = payload as unknown as string;
 			state.loading = false;
+			state.trips = [];
 		},
 	},
 });
@@ -78,6 +80,7 @@ const getAllTripSlice = createSlice({
 		getAllTripsFailed: (state, { payload }) => {
 			state.error = payload as unknown as string;
 			state.loading = false;
+			state.trips = [];
 		},
 	},
 });
@@ -113,6 +116,7 @@ const createTripSlice = createSlice({
 		createTripFailed: (state, { payload }) => {
 			state.error = payload;
 			state.loading = false;
+			state.trip = {};
 		},
 		resetCreateTrip: () => initialState,
 	},
@@ -141,6 +145,7 @@ const updateTripSlice = createSlice({
 		updateTripFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
+			state.trip = {};
 		},
 		updateTripReset: () => initialState,
 	},

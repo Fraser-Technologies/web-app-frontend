@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
-import { Alert, Input, InputNumber, message } from "antd";
+import { Alert, Input, message } from "antd";
 import { FaCaretDown } from "react-icons/fa";
 import { BusStop_interface } from "../../../interfaces/busstop_interface";
 import { City_interface } from "../../../interfaces/city_interface";
@@ -12,6 +12,8 @@ import TimePicker from "./time-picker";
 import EndDateField from "./endDateField";
 import EndTimePicker from "./endTimePicker";
 import { resetCreateTrip } from "../../../state/slices/trip.slice";
+import { resetCreateCity } from "../../../state/slices/city.slice";
+import React from "react";
 
 // FORM TO CREATE A TRIP
 const CreateTripFormComponent = () => {
@@ -156,6 +158,17 @@ const CreateTripFormComponent = () => {
 			dispatch(resetCreateTrip());
 		}
 	}, [dispatch, messageApi, trip]);
+
+	useEffect(() => {
+		if (error) {
+			messageApi.open({
+				type: "error",
+				content: error,
+			});
+
+			dispatch(resetCreateTrip());
+		}
+	}, [dispatch, error, messageApi]);
 
 	return (
 		<div className="">
