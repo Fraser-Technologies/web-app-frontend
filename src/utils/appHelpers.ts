@@ -37,5 +37,6 @@ export const _paths_ = {
 	// BOOKRIDE: "/book-a-ride",
 	CHECKOUT: "/checkout",
 	NOTFOUND: "*",
-	TERMS_OF_SERVICE: "/termsofservice"
+	TERMS_OF_SERVICE: "/termsofservice",
+	ADMIN_DASHBOARD: "/admin",
 };

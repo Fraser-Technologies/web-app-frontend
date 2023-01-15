@@ -3,12 +3,29 @@ import { api } from "../../utils/api";
 
 import { AppThunk } from "../redux-store";
 import {
+	createTripFailed,
+	createTripRequest,
+	createTripSuccess,
 	getAllAvailableTripFailed,
 	getAllAvailableTripRequest,
 	getAllAvailableTripSuccess,
+	getAllTripsFailed,
+	getAllTripsRequest,
+	getAllTripsSuccess,
 	getAvailableTripFailed,
 	getAvailableTripRequest,
 	getAvailableTripSuccess,
+	getTripByBusFailed,
+	getTripByBusRequest,
+	getTripByBusSuccess,
+	getTripByDriverFailed,
+	getTripByDriverRequest,
+	getTripByDriverSuccess,
+	resetCreateTrip,
+	updateTripFailed,
+	updateTripRequest,
+	updateTripReset,
+	updateTripSuccess,
 } from "../slices/trip.slice";
 
 export const getAvailableTripAction =
@@ -37,3 +54,84 @@ export const getAllAvailableTripAction = (): AppThunk => async (dispatch) => {
 		dispatch(getAllAvailableTripFailed(RequestError(error)));
 	}
 };
+
+export const getAllTripAction = (): AppThunk => async (dispatch) => {
+	dispatch(getAllTripsRequest());
+	try {
+		const { data } = await api.get("/trip");
+		dispatch(getAllTripsSuccess(data));
+	} catch (error: any) {
+		dispatch(getAllTripsFailed(RequestError(error)));
+	}
+};
+
+export const createTripAction =
+	(trip: any): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(createTripRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.post("/trip", trip, {
+				headers: {
+					Authorization: `Bearer ${userInfo?.user_token}`,
+				},
+			});
+			dispatch(createTripSuccess(data));
+		} catch (error: any) {
+			dispatch(createTripFailed(RequestError(error)));
+		}
+	};
+
+export const resetCreateTripAction = (): AppThunk => (dispatch) => {
+	dispatch(resetCreateTrip());
+};
+
+export const updateTripAction =
+	(id: string, input: any): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(updateTripRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.put(`/trip/${id}`, input, {
+				headers: {
+					Authorization: `Bearer ${userInfo?.user_token}`,
+				},
+			});
+
+			dispatch(updateTripSuccess(data));
+		} catch (error: any) {
+			dispatch(updateTripFailed(RequestError(error)));
+		}
+	};
+
+export const resetUpdateTripAction = (): AppThunk => (dispatch) => {
+	dispatch(updateTripReset());
+};
+
+export const getTripByBusAction =
+	(bus_id: string): AppThunk =>
+	async (dispatch) => {
+		try {
+			dispatch(getTripByBusRequest());
+			const { data } = await api.get(`/trip/tripbybus/${bus_id}`);
+			dispatch(getTripByBusSuccess(data));
+		} catch (error: any) {
+			dispatch(getTripByBusFailed(RequestError(error)));
+		}
+	};
+
+export const getTripByDriverAction =
+	(driver_id: string): AppThunk =>
+	async (dispatch) => {
+		try {
+			dispatch(getTripByDriverRequest());
+			const { data } = await api.get(`/trip/tripbydriver/${driver_id}`);
+			dispatch(getTripByDriverSuccess(data));
+		} catch (error: any) {
+			dispatch(getTripByDriverFailed(RequestError(error)));
+		}
+	};
