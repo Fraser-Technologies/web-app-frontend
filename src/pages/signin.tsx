@@ -11,7 +11,6 @@ const SignIn = () => {
 	const [phone, setPhone] = React.useState<any>("");
 	const [isView, setIsView] = React.useState<boolean>(false);
 	const [otp, setOtp] = React.useState<any>("");
-	const [user, setUser] = React.useState<any>("");
 	const [phoneError, setPhoneError] = React.useState<any>("");
 
 	const handleSignIn = () => {
@@ -33,7 +32,6 @@ const SignIn = () => {
 
 	return (
 		<Layout
-			user={user}
 			bg={
 				"h-screen bg-[#F4F4F4] xs:bg-signup-hero-bg-mobile bg-signin-hero-bg bg-no-repeat"
 			}

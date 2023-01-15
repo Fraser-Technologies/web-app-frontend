@@ -1,4 +1,3 @@
-import { motion } from "framer-motion";
 import Offeringcard from "../components/offeringcard";
 import StepComp from "../components/StepComp";
 import Accordion from "../components/Accordion";
@@ -6,7 +5,7 @@ import { Button } from "../components/Button";
 import { useNavigate } from "react-router-dom";
 import { _paths_ } from "../utils/appHelpers";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { getAllBusStop } from "../state/action/bus.action";
+import { getAllBusStopAction } from "../state/action/busStop.action";
 import { useEffect } from "react";
 
 const LandingPage = () => {
@@ -16,7 +15,7 @@ const LandingPage = () => {
 
 	useEffect(() => {
 		if (!busStops?.length) {
-			dispatch(getAllBusStop());
+			dispatch(getAllBusStopAction());
 		}
 	}, [busStops?.length, dispatch]);
 	return (
@@ -128,7 +127,10 @@ const LandingPage = () => {
 						stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
 					/>
 				</div>
-				<Button title="Get Started" onClick={() => navigate(_paths_.BOOKRIDE)} />
+				<Button
+					title="Get Started"
+					onClick={() => navigate(_paths_.BOOKRIDE)}
+				/>
 			</div>
 
 			<div className="flex items-center justify-center w-full bg-center ">
@@ -154,7 +156,10 @@ const LandingPage = () => {
 					All aboard
 				</h1>
 				<br />
-				<Button title="Get Started" onClick={() => navigate(_paths_.BOOKRIDE)} />
+				<Button
+					title="Get Started"
+					onClick={() => navigate(_paths_.BOOKRIDE)}
+				/>
 			</div>
 		</div>
 	);

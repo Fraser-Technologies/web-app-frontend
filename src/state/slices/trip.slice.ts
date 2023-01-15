@@ -1,6 +1,12 @@
+import { Trip_interface } from "./../../interfaces/trip_interface";
 import { createSlice } from "@reduxjs/toolkit";
 
-const allTripState = {
+export type initialType = {
+	trips: Trip_interface[] | [];
+	loading: boolean;
+	error: string;
+};
+export const allTripState: initialType = {
 	trips: [],
 	loading: false,
 	error: "",
@@ -14,12 +20,12 @@ export const getAvailableTripSlice = createSlice({
 		},
 
 		getAvailableTripSuccess: (state, { payload }) => {
-			state.trips = payload as unknown as any;
+			state.trips = payload;
 			state.loading = false;
 		},
 		getAvailableTripFailed: (state, { payload }) => {
 			state.loading = false;
-			state.error = payload as unknown as string;
+			state.error = payload;
 		},
 	},
 });
@@ -40,7 +46,7 @@ export const allAvailableTripSlice = createSlice({
 		},
 
 		getAllAvailableTripSuccess: (state, { payload }) => {
-			state.trips = payload as unknown as any;
+			state.trips = payload as unknown as Trip_interface[];
 			state.loading = false;
 		},
 		getAllAvailableTripFailed: (state, { payload }) => {
@@ -56,3 +62,145 @@ export const {
 	getAllAvailableTripSuccess,
 } = allAvailableTripSlice.actions;
 export const getAllAvailableTripReducer = allAvailableTripSlice.reducer;
+
+const getAllTripSlice = createSlice({
+	name: "all trip",
+	initialState: allTripState,
+	reducers: {
+		getAllTripsRequest: (state) => {
+			state.loading = true;
+		},
+		getAllTripsSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trips = payload as unknown as Trip_interface[];
+		},
+
+		getAllTripsFailed: (state, { payload }) => {
+			state.error = payload as unknown as string;
+			state.loading = false;
+		},
+	},
+});
+
+export const { getAllTripsFailed, getAllTripsRequest, getAllTripsSuccess } =
+	getAllTripSlice.actions;
+export const allTripReducer = getAllTripSlice.reducer;
+
+type initialStateType = {
+	loading: boolean;
+	error: string;
+	trip: Trip_interface | {};
+};
+
+const initialState: initialStateType = {
+	loading: false,
+	error: "",
+	trip: {},
+};
+
+const createTripSlice = createSlice({
+	name: "create trip",
+	initialState: initialState,
+	reducers: {
+		createTripRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		createTripSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trip = payload;
+		},
+		createTripFailed: (state, { payload }) => {
+			state.error = payload;
+			state.loading = false;
+		},
+		resetCreateTrip: () => initialState,
+	},
+});
+
+export const {
+	createTripFailed,
+	createTripRequest,
+	createTripSuccess,
+	resetCreateTrip,
+} = createTripSlice.actions;
+export const createTripReducer = createTripSlice.reducer;
+
+const updateTripSlice = createSlice({
+	name: "update trip",
+	initialState: initialState,
+	reducers: {
+		updateTripRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		updateTripSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trip = payload;
+		},
+		updateTripFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+		updateTripReset: () => initialState,
+	},
+});
+
+export const {
+	updateTripRequest,
+	updateTripFailed,
+	updateTripSuccess,
+	updateTripReset,
+} = updateTripSlice.actions;
+export const updateTripReducer = updateTripSlice.reducer;
+
+const getTripByBusSlice = createSlice({
+	name: "get trip by bus",
+	initialState: allTripState,
+	reducers: {
+		getTripByBusRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+
+		getTripByBusSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trips = payload;
+		},
+		getTripByBusFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const { getTripByBusFailed, getTripByBusRequest, getTripByBusSuccess } =
+	getTripByBusSlice.actions;
+export const getTripByBusReducer = getTripByBusSlice.reducer;
+
+const getTripByDriverSlice = createSlice({
+	name: "get trip by bus",
+	initialState: allTripState,
+	reducers: {
+		getTripByDriverRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+
+		getTripByDriverSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trips = payload;
+		},
+		getTripByDriverFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const {
+	getTripByDriverFailed,
+	getTripByDriverRequest,
+	getTripByDriverSuccess,
+} = getTripByDriverSlice.actions;
+export const getTripByDriverReducer = getTripByDriverSlice.reducer;

@@ -1,3 +1,4 @@
+import React from "react";
 import { BsArrowRight } from "react-icons/bs";
 import { Button } from "./Button";
 
@@ -22,44 +23,120 @@ const BookingCard = ({
   arrivalTime,
   onClick,
 }: BookingCardInterface) => {
+  const timeRegex = /^(\d{1,2}):(\d{2})(am|pm)$/;
+
+  const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
+  const [, day, month, year] = takeOffDate.match(dateRegex) || [];
+
+  const newDay = day.toString();
+
+  let ordinalDay;
+  if (newDay.endsWith("1")) {
+    ordinalDay = newDay + "st";
+  } else if (newDay.endsWith("2")) {
+    ordinalDay = newDay + "nd";
+  } else if (newDay.endsWith("3")) {
+    ordinalDay = newDay + "rd";
+  } else {
+    ordinalDay = newDay + "th";
+  }
+
+  let monthName;
+  switch (month) {
+    case "01":
+      monthName = "Jan.";
+      break;
+    case "02":
+      monthName = "Feb.";
+      break;
+    case "03":
+      monthName = "Mar.";
+      break;
+    case "04":
+      monthName = "Apr.";
+      break;
+    case "05":
+      monthName = "May";
+      break;
+    case "06":
+      monthName = "June";
+      break;
+    case "07":
+      monthName = "July";
+      break;
+    case "08":
+      monthName = "Aug.";
+      break;
+    case "09":
+      monthName = "Sept.";
+      break;
+    case "10":
+      monthName = "Oct.";
+      break;
+    case "11":
+      monthName = "Nov.";
+      break;
+    case "12":
+      monthName = "Dec.";
+      break;
+  }
+  const formattedDate = `${ordinalDay} ${monthName}, ${year}`;
+  // const formattedArrivalTime = arrivalTime.replace(timeRegex, '$1:$2 $3');
   return (
     <>
       <div
         onClick={onClick}
-        className="bg-black flex lg:px-8 px-3 py-5 mb-4 rounded-lg justify-between"
+        className="bg-black flex-row lg:flex lg:px-8 px-3 py-5 mb-4 rounded-lg justify-between"
       >
-        <div className="w-1/3">
-          <h3 className="md:text-base h-14 mr-8 text-xs text-primary-100 mb-2">
-            {from}
-          </h3>
-          <div className="text-white md:text-sm text-xs">
-            <p className="text-gray-400">Take Off Time</p>
-            <p className="mt-1">{takeOffTime}</p>
+        <div className="flex lg:w-4/5">
+          <div className="w-1/2 lg:w-1/3">
+            <h3 className="md:text-base h-14 lg:h-20 mr-8 lg:mr-0 text-lg text-primary-100 mb-2 ">
+              {from}
+            </h3>
+            <div className="text-white ">
+              <p className="text-gray-400 md:text-sm text-sm">Departure Date</p>
+              <p className="mt-1 md:text-xs text-xs">
+              {formattedDate}
+              </p>
+              {/* <p className="text-gray-400 md:text-sm text-sm">Take Off Time</p>
+              <p className="mt-1 md:text-xs text-xs">
+                {takeOffTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
+              </p> */}
 
-            {/* <p>{takeOffDate}</p> */}
+              
+            </div>
+          </div>
+
+          <BsArrowRight className="lg:w-4 mt-1 lg:mr-14 mr-8 lg:mr-0 text-primary-100  md:top-2 top-0 left-10 md:left-10" />
+          <div className="w-1/2 lg:w-1/3 ">
+            <h3 className="md:text-base h-14 lg:h-20 text-lg text-primary-100 mb-2 ">
+              {to}
+            </h3>
+            <div className="text-white ">
+              <p className="text-gray-400  md:text-sm text-sm">Take Off Time</p>
+              <p className="mt-1 md:text-xs text-xs">
+                {takeOffTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
+              </p>
+              {/* <p className="text-gray-400  md:text-sm text-sm">
+                Estimated Arrival Time
+              </p>
+              <p className="mt-1 md:text-xs text-xs">
+                {arrivalTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
+              </p> */}
+              {/* <p>{arrivalDate}</p> */}
+            </div>
           </div>
         </div>
 
-        <BsArrowRight className="w-4 mt-1 -ml-8 text-primary-100  md:top-2 top-0 left-10 md:left-10" />
-        <div className="w-1/3">
-          <h3 className="md:text-base h-14 text-base text-primary-100 mb-2">
-            {to}
-          </h3>
-          <div className="text-white md:text-sm text-xs">
-            <p className="text-gray-400">Estimated Arrival Time</p>
-            <p className="mt-1">{arrivalTime}</p>
-            {/* <p>{arrivalDate}</p> */}
-          </div>
-        </div>
-
-        <div className="w-1 border-r my-2 md:mr-0 mr-4"></div>
-        <div className="flex flex-col w-1/5 mb-2">
-          <p className="text-primary-100 md:text-lg text-sm font-semibold mb-2">
-            NGN {price}
+        <div className="flex flex-col w-full lg:w-1/4 mb-2 mt-6 lg:mt-0">
+          <p className="text-gray-400 md:text-sm text-sm">Price</p>
+          <p className="mt-1 text-primary-100 md:text-lg text-xl font-semibold mb-2 justify-between">
+            NGN {price.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,") + ".00"}
           </p>
+          <div className="border-b border-gray-200 w-full lg:w-1/2 lg:border-r my-2 md:mr-0 mr-4 "></div>
           <Button
             title="Continue"
-            className="bg-primary-100 text-black text-sm md:py-2 py-1 md:px-5 px-2"
+            className="w-full h-[48px] lg:h-[40px] p-3 mt-4 text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E] hover:bg-[#58FF9E] rounded-lg "
             onClick={onClick}
           />
         </div>
