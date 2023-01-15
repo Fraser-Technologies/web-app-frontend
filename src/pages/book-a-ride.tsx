@@ -36,7 +36,6 @@ const BookRide = () => {
 	const { error: registerUserError } = useAppSelector(
 		(state: any) => state.registerUser
 	);
-	const { busStops } = useAppSelector((state: any) => state.allBusStop);
 	const { cities } = useAppSelector((state: any) => state.allCity);
 
 	const dispatch = useAppDispatch();
@@ -89,10 +88,6 @@ const BookRide = () => {
 	const [destinationBusStop, setDestinationBusStop] = useState(
 		TripValidOption.destinationBusStopOption || ""
 	);
-	const handleDestinationBusStop = (option: any) => {
-		setDestinationBusStop(option);
-		setDestinationIsOpen(false);
-	};
 
 	const handleAvailableTrips = () => {
 		if (from && to) {
@@ -108,15 +103,6 @@ const BookRide = () => {
 			},
 		});
 	};
-
-	// useEffect(() => {
-	// 	if (destinationBusStop !== "Select destination bus stop") {
-	// 		setDestinationBusStop("Select destination bus stop");
-	// 	}
-	// 	if (startBusStop !== "Select start bus stop") {
-	// 		setStartBusStop("Select start bus stop");
-	// 	}
-	// }, [destinationBusStop, selectedCity, startBusStop]);
 
 	const TripValid =
 		selectedCity !== TripValidOption.selectedCityOption &&
@@ -200,13 +186,21 @@ const BookRide = () => {
 
 							{/* CURRENT CITY */}
 							<div className="relative inline text-left z-40">
+								<label className=" mt-3 mb-2 text-sm text-gray-600">
+									Pickup City
+								</label>
 								<div>
 									<span className="rounded-md shadow-sm">
 										<button
 											type="button"
 											className="inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-											onClick={handleCityClick}
-											onChange={handleOptionClick}>
+											onClick={() => {
+												handleCityClick();
+											}}
+											// onChange={() => {
+											// 	handleOptionClick();
+											// }}
+										>
 											{selectedCity}
 											<FaCaretDown className="ml-auto" />
 										</button>
@@ -242,7 +236,7 @@ const BookRide = () => {
 									selectedCity === "Set your current city" ? "hidden " : ""
 								}`}>
 								<>
-									<label className="ml-4 mt-8 mb-2 text-sm text-gray-600">
+									<label className="ml-4 mt-3 mb-2 text-sm text-gray-600">
 										Pickup Station
 									</label>
 
@@ -334,11 +328,11 @@ const BookRide = () => {
 
 									{/* DESTINATION BUSSTOP */}
 
-									<label className="ml-4 mt-4 mb-2 text-sm text-gray-600">
-										Destination
-									</label>
+									{/* <label className="ml-4 mt-4 mb-2 text-sm text-gray-600">
+										Destination City
+									</label> */}
 
-									<div className="relative inline text-left z-20">
+									{/* <div className="relative inline text-left z-20">
 										<div>
 											<span className="rounded-md shadow-sm">
 												<button
@@ -413,7 +407,7 @@ const BookRide = () => {
 												</div>
 											</>
 										)}
-									</div>
+									</div> */}
 								</>
 							</div>
 						</div>
