@@ -12,7 +12,7 @@ const Trips: React.FC = () => {
     <div className="h-full col-start-2 col-end-6 bg-white px-4">
       {/* <div className="h-full px-6 bg-white"> */}
         {/* GROUP BUTTON - NAVIGATION */}
-        <div className="w-full fixed bg-white py-4 mt-4 border-b">
+        <div className="w-full fixed bg-white py-4 pt-8 border-b">
           <div className="inline-flex rounded-md" role="group">
             <button
               onClick={() => handleTripViewToggle("overview")}
