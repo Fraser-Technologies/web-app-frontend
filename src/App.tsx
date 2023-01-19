@@ -1,5 +1,5 @@
 import React, { useEffect } from "react";
-import { Routes, Route, useNavigate } from "react-router-dom";
+import { Routes, Route, useNavigate, Router } from "react-router-dom";
 import { CircularProgress } from "@mui/material";
 import loadable from "@loadable/component";
 import { _paths_ } from "./utils/appHelpers";
@@ -7,6 +7,7 @@ import LandingPage from "./pages/landingPage";
 import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { getAllBusStopAction } from "./state/action/busStop.action";
 import BookRide from "./pages/book-a-ride";
+import { useSelector } from "react-redux";
 
 const SignIn = loadable(() => import("./pages/signin"), {
 	fallback: (
@@ -129,6 +130,14 @@ const AdminPage = loadable(() => import("./pages/admin"), {
 });
 
 const App = () => {
+	const { userInfo } = useSelector((state: any) => state.userLogin);
+	const navigate = useNavigate();
+
+	useEffect(() => {
+		if (!userInfo?.is_admin) {
+			navigate(_paths_.BOOKRIDE);
+		}
+	}, [navigate, userInfo]);
 	return (
 		<>
 			<Routes>
