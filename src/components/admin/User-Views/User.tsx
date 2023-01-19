@@ -6,7 +6,6 @@ const User: React.FC = () => {
 	return (
 		<div className="h-full col-start-2 col-end-6 bg-white ">
 			<div className="h-full mt-8 bg-white">
-				
 				<UserOverview />
 			</div>
 		</div>

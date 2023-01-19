@@ -33,8 +33,9 @@ const TripsOverview: React.FC = () => {
   const { trip: updatedTrip } = useAppSelector(
     (state: any) => state.updateTrip
   );
-  const [currentPage, setCurrentPage] = useState<number>(0);
-  const [modalData, setModalData] = useState<Trip_interface>(); // current page
+  
+
+  const [modalData, setModalData] = useState<Trip_interface>(); 
   const [flip, setFlip] = useState<
     | ""
     | TripOption.CREATE
@@ -46,6 +47,7 @@ const TripsOverview: React.FC = () => {
   >("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
+  const [currentPage, setCurrentPage] = useState<number>(0);// current page
   const itemsPerPage = 10; // number of items per page
   const pageRangeDisplayed = 5; // number of pages to display
   const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
