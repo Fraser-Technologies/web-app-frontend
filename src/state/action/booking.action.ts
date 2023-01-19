@@ -2,6 +2,9 @@ import { RequestError } from "./../../utils/requestError";
 import {
 	addToBooking,
 	emptyBooking,
+	getAllBookingFailed,
+	getAllBookingRequest,
+	getAllBookingSuccess,
 	removeFromBooking,
 	verifyPaymentFailed,
 	verifyPaymentRequest,
@@ -54,3 +57,13 @@ export const verifyPaymentAction =
 			dispatch(verifyPaymentFailed(RequestError(error)));
 		}
 	};
+
+export const getAllBookingAction = (): AppThunk => async (dispatch) => {
+	try {
+		dispatch(getAllBookingRequest());
+		const { data } = await api.get("/booking");
+		dispatch(getAllBookingSuccess(data));
+	} catch (error: any) {
+		dispatch(getAllBookingFailed(RequestError(error)));
+	}
+};

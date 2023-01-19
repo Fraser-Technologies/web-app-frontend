@@ -26,6 +26,7 @@ const UserOverview: React.FC = () => {
 	);
 	const { user: blockUser } = useAppSelector((state: any) => state.blockUser);
 	const { user: unblockUser } = useAppSelector((state: any) => state.blockUser);
+	const { bookings } = useAppSelector((state: any) => state.allBooking);
 	const [flip, setFlip] = useState("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 	const [visible, setStateModalVisible] = useState<boolean>(false);
@@ -93,10 +94,10 @@ const UserOverview: React.FC = () => {
 			<h2 className="mb-4 pl-4 bg-white fixed border-b top-16 py-6 mt-4 w-full text-xs font-medium">
 				Users{" "}
 				{/* {loading && (
-              <span className="ml-2">
-                <CircularProgress />
-              </span>
-            )} */}
+					<span className="ml-2">
+						<CircularProgress />
+					</span>
+				)} */}
 				{error && (
 					<span className="ml-2">
 						<Alert type="error" message={error} />
@@ -117,7 +118,7 @@ const UserOverview: React.FC = () => {
 						</div>
 						<div className="text-center">
 							<p className="text-sm text-gray-400"> Total Tickets Booked</p>
-							<p className="text-white ">20,000</p>
+							<p className="text-white ">{bookings.length}</p>
 						</div>
 					</div>
 				</div>

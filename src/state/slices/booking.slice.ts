@@ -1,5 +1,6 @@
 import { createSlice } from "@reduxjs/toolkit";
 import Cookie from "js-cookie";
+import { Booking_interface } from "../../interfaces/Booking_interface";
 
 export const verifyPaymentSlice = createSlice({
 	name: "verify payment",
@@ -65,3 +66,41 @@ export const BookingSlice = createSlice({
 export const { addToBooking, removeFromBooking, emptyBooking } =
 	BookingSlice.actions;
 export const bookingReducer = BookingSlice.reducer;
+
+type allBookingType = {
+	loading: boolean;
+	error: string;
+	bookings: Booking_interface[] | [];
+};
+
+const initialAllBooking: allBookingType = {
+	loading: false,
+	error: "",
+	bookings: [],
+};
+
+const getAllBookingSlice = createSlice({
+	name: "get all bookings",
+	initialState: initialAllBooking,
+	reducers: {
+		getAllBookingRequest: (state) => {
+			state.loading = true;
+		},
+		getAllBookingSuccess: (state, { payload }) => {
+			state.bookings = payload;
+			state.loading = false;
+			state.error = "";
+		},
+		getAllBookingFailed: (state, { payload }) => {
+			state.error = payload;
+			state.loading = false;
+		},
+	},
+});
+
+export const {
+	getAllBookingFailed,
+	getAllBookingRequest,
+	getAllBookingSuccess,
+} = getAllBookingSlice.actions;
+export const allBookingReducer = getAllBookingSlice.reducer;

@@ -9,6 +9,7 @@ import { getAllCityAction } from "../state/action/city.action";
 import { getAllUserAction } from "../state/action/user.action";
 import { getAllDriverAction } from "../state/action/driver.action";
 import { getAllBusAction } from "../state/action/bus.action";
+import { getAllBookingAction } from "../state/action/booking.action";
 
 const AdminDashBoard = () => {
 	const dispatch = useAppDispatch();
@@ -19,6 +20,7 @@ const AdminDashBoard = () => {
 		dispatch(getAllUserAction());
 		dispatch(getAllDriverAction());
 		dispatch(getAllBusAction());
+		dispatch(getAllBookingAction());
 	}, [dispatch]);
 	return (
 		<Layout title="Checkout - Fraser">
