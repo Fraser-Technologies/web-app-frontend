@@ -1,4 +1,4 @@
-import { Modal } from "antd";
+import { Modal, message } from "antd";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import {
@@ -11,6 +11,7 @@ import { Trip_interface } from "../../../interfaces/trip_interface";
 import {
 	deleteTripByIdAction,
 	getAllTripAction,
+	resetDeleteTripAction,
 	resetUpdateTripAction,
 } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
@@ -33,6 +34,9 @@ const TripsOverview: React.FC = () => {
 	const { trip: updatedTrip } = useAppSelector(
 		(state: any) => state.updateTrip
 	);
+	const { trip: deletedTrip } = useAppSelector(
+		(state: any) => state.deleteTrip
+	);
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [modalData, setModalData] = useState<Trip_interface>(); // current page
 	const [flip, setFlip] = useState<
@@ -45,6 +49,7 @@ const TripsOverview: React.FC = () => {
 		| TripOption.SUCCESS
 	>("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
+	const [messageApi, contextHolder] = message.useMessage();
 
 	const itemsPerPage = 10; // number of items per page
 	const pageRangeDisplayed = 5; // number of pages to display
@@ -105,11 +110,22 @@ const TripsOverview: React.FC = () => {
 			dispatch(resetUpdateTripAction());
 		}
 	}, [dispatch, updatedTrip]);
+
+	useEffect(() => {
+		if (updatedTrip?._id) {
+			messageApi.open({
+				type: "info",
+				content: "This trip have been deleted",
+			});
+			dispatch(resetDeleteTripAction());
+		}
+	}, [dispatch, messageApi, updatedTrip]);
 	return (
 		<>
 			{/* TRIPS OVERVIEW VIEW*/}
 			{/* BUSSTOPS HEADER */}
 			<div className="w-full my-2 border-b h-14">
+				{contextHolder}
 				<div className="flex justify-between">
 					<h2 className="mt-2 text-lg font-medium">Busstops</h2>{" "}
 					{loading && <Spinner />}
