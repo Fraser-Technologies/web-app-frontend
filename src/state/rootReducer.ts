@@ -25,6 +25,7 @@ import {
 	allTripReducer,
 	availableTripReducer,
 	createTripReducer,
+	deleteTripByIdReducer,
 	getAllAvailableTripReducer,
 	getTripByBusReducer,
 	getTripByDriverReducer,
@@ -62,6 +63,7 @@ const rootReducer = combineReducers({
 	allTrip: allTripReducer,
 	createTrip: createTripReducer,
 	updateTrip: updateTripReducer,
+	deleteTrip: deleteTripByIdReducer,
 
 	// trip reducers
 	verifyPayment: verifyPaymentReducer,

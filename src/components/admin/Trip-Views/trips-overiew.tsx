@@ -9,6 +9,7 @@ import {
 import ReactPaginate from "react-paginate";
 import { Trip_interface } from "../../../interfaces/trip_interface";
 import {
+	deleteTripByIdAction,
 	getAllTripAction,
 	resetUpdateTripAction,
 } from "../../../state/action/trip.action";
@@ -496,7 +497,9 @@ const TripsOverview: React.FC = () => {
 						title="Delete"
 						type="submit"
 						className="w-full py-2 mt-8 text-xs rounded-md bg-[#E71D36] text-white"
-						onClick={() => {}}
+						onClick={() => {
+							deleteTripByIdAction(modalData?._id || "");
+						}}
 					/>
 					<Button
 						title="Cancel"
