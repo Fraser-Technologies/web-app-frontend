@@ -89,9 +89,8 @@ const UserOverview: React.FC = () => {
 
   return (
     <>
-      {/* TRIPS OVERVIEW VIEW*/}
-      {/* BUSSTOPS HEADER */}
-      <h2 className="mt-2 mb-4 text-lg font-medium">
+  
+      <h2 className="mb-4 bg-white fixed w-full text-lg font-medium">
         Users{" "}
         {/* {loading && (
               <span className="ml-2">
@@ -106,59 +105,7 @@ const UserOverview: React.FC = () => {
       </h2>{" "}
       {/* DATA */}
       <div className="bg-black rounded-md py-3 px-4 my-4 ">
-        {/* <div className="m-auto text-white text-sm mb-4 justify-between flex w-1/3">
-          <div
-            className={` px-2 py-1 cursor-pointer ${
-              selectedData === "day"
-                ? "bg-[#00ff6a] text-center text-black"
-                : "text-[#666666]"
-            }`}
-            
-          >
-            Day
-          </div>
-          <div
-            className={` px-2 py-1 cursor-pointer ${
-              selectedData === "week"
-                ? "bg-[#00ff6a] text-center text-black"
-                : "text-[#666666]"
-            }`}
-            
-          >
-            Week
-          </div>
-          <div
-            className={` px-2 py-1 cursor-pointer ${
-              selectedData === "month"
-                ? "bg-[#00ff6a] text-center text-black"
-                : "text-[#666666]"
-            }`}
-            
-          >
-            Month
-          </div>
-          <div
-            className={` px-2 py-1 cursor-pointer ${
-              selectedData === "6 months"
-                ? "bg-[#00ff6a] text-center text-black"
-                : "text-[#666666]"
-            }`}
-            
-          >
-            6 Months
-          </div>
-          <div
-            className={` px-2 py-1 cursor-pointer ${
-              selectedData === "year"
-                ? "bg-[#00ff6a] text-center text-black"
-                : "text-[#666666]"
-            }`}
-            
-          >
-            Year
-          </div>
-        </div> */}
-        <div className="justify-evenly mb-4 border-t border-[#666666] pt-6 flex w-full">
+        <div className="justify-evenly mb-4 pt-6 flex w-full">
           <div className="text-center">
             <p className="text-sm text-gray-400">Total Number of Users </p>
             <p className="text-white ">20,000</p>
