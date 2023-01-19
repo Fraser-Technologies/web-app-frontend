@@ -133,7 +133,7 @@ const TripsOverview: React.FC = () => {
 			dispatch(getAllTripAction());
 			setFlip(TripOption.NONE);
 		}
-	}, [TripOption.NONE, deletedTrip, dispatch, messageApi]);
+	}, [deletedTrip, dispatch, messageApi]);
 
 	const [selectedData, setIsSelected] = useState("day");
 	const handleFilterToggle = (value: string) => {
