@@ -60,7 +60,7 @@ const TripsOverview: React.FC = () => {
   // calculate the start and end index of the items to display on the current page
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-    const items = trips.slice(startIndex, endIndex); // items to display on the current page
+  const items = trips.slice(startIndex, endIndex); // items to display on the current page
 
   const handleOpenModal = (data: any, flipValue: any) => {
     setFlip(flipValue);
