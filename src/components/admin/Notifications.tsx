@@ -88,7 +88,7 @@ const RightSidebar: React.FC = () => {
             return (
               <div
                 key={index}
-                className="flex overflow-hidden border-b py-2 my-2 text-base text-gray-800"
+                className="flex overflow-hidden border-b py-2 my-2 text-sm text-gray-800"
               >
                 <div className="py-1 mr-2">{notification.icon}</div>
                 <div className="truncate">

@@ -36,20 +36,24 @@ const LeftSidebar: React.FC = () => {
 
 	const [active, setIsActive] = useState("trips");
 
-	const handleClick = (value: string) => {
+	const handleClick = (value: string, i:any) => {
+		dispatch(changePageAction(i))
 		setIsActive(value);
 	};
 
 	return (
 		<div className="fixed w-2/12 h-screen col-start-1 col-end-2">
 			<div className="bg-white border-r h-full">
-				<ul className="pt-8 px-4 py-2">
+				<ul className="pt-4 px-4">
 					{menuItems.map((item: any, i: number) => {
 						return (
 							<li
 								key={item.id}
-								onClick={() => dispatch(changePageAction(i))}
-								className={`flex text-base items-center my-4 py-4 px-6 ${
+								onClick={() =>{
+									handleClick(item.id, i)
+
+								}}
+								className={`flex text-sm items-center my-4 py-4 px-6 cursor-pointer ${
 									active === item.id
 										? "bg-black text-white rounded-md font-medium"
 										: "text-gray-500 font-normal"
