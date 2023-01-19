@@ -6,6 +6,9 @@ import {
 	createTripFailed,
 	createTripRequest,
 	createTripSuccess,
+	deleteTripByIdFailed,
+	deleteTripByIdRequest,
+	deleteTripByIdSuccess,
 	getAllAvailableTripFailed,
 	getAllAvailableTripRequest,
 	getAllAvailableTripSuccess,
@@ -27,6 +30,7 @@ import {
 	updateTripReset,
 	updateTripSuccess,
 } from "../slices/trip.slice";
+import { resetDeleteCity } from "../slices/city.slice";
 
 export const getAvailableTripAction =
 	({ from, to }: { from: string; to: string }): AppThunk =>
@@ -135,3 +139,28 @@ export const getTripByDriverAction =
 			dispatch(getTripByDriverFailed(RequestError(error)));
 		}
 	};
+
+export const deleteTripByIdAction =
+	(trip_id: string): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(deleteTripByIdRequest());
+
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.delete(`/trip/${trip_id}`, {
+				headers: {
+					Authorization: `Bearer ${userInfo?.user_token}`,
+				},
+			});
+
+			dispatch(deleteTripByIdSuccess(data));
+		} catch (error: any) {
+			dispatch(deleteTripByIdFailed(RequestError(error)));
+		}
+	};
+
+export const resetDeleteTripAction = (): AppThunk => (dispatch) => {
+	dispatch(resetDeleteCity());
+};

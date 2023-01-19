@@ -209,3 +209,36 @@ export const {
 	getTripByDriverSuccess,
 } = getTripByDriverSlice.actions;
 export const getTripByDriverReducer = getTripByDriverSlice.reducer;
+
+const deleteTripByIdSlice = createSlice({
+	name: "delete trip by id",
+	initialState: initialState,
+	reducers: {
+		deleteTripByIdRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+
+		deleteTripByIdSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trip = payload;
+		},
+		deleteTripByIdFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+		resetDeleteTripById: (state) => {
+			state.loading = false;
+			state.error = "";
+			state.trip = {};
+		},
+	},
+});
+
+export const {
+	deleteTripByIdFailed,
+	deleteTripByIdRequest,
+	deleteTripByIdSuccess,
+	resetDeleteTripById,
+} = deleteTripByIdSlice.actions;
+export const deleteTripByIdReducer = deleteTripByIdSlice.reducer;
