@@ -36,7 +36,8 @@ const LeftSidebar: React.FC = () => {
 
 	const [active, setIsActive] = useState("trips");
 
-	const handleClick = (value: string) => {
+	const handleClick = (value: string, i:any) => {
+		dispatch(changePageAction(i))
 		setIsActive(value);
 	};
 
@@ -48,8 +49,11 @@ const LeftSidebar: React.FC = () => {
 						return (
 							<li
 								key={item.id}
-								onClick={() => dispatch(changePageAction(i))}
-								className={`flex text-sm items-center my-4 py-4 px-6 ${
+								onClick={() =>{
+									handleClick(item.id, i)
+
+								}}
+								className={`flex text-sm items-center my-4 py-4 px-6 cursor-pointer ${
 									active === item.id
 										? "bg-black text-white rounded-md font-medium"
 										: "text-gray-500 font-normal"

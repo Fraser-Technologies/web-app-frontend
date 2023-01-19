@@ -88,9 +88,8 @@ const UserOverview: React.FC = () => {
   }, [blockUser, dispatch, unblockUser]);
 
   return (
-    <>
-  
-      <h2 className="mb-4 bg-white fixed w-full text-lg font-medium">
+    <div>
+      <h2 className="mb-4 ml-4 bg-white fixed border-b top-16 py-6 mt-4 w-full text-xs font-medium">
         Users{" "}
         {/* {loading && (
               <span className="ml-2">
@@ -103,163 +102,171 @@ const UserOverview: React.FC = () => {
           </span>
         )}
       </h2>{" "}
-      {/* DATA */}
-      <div className="bg-black rounded-md py-3 px-4 my-4 ">
-        <div className="justify-evenly mb-4 pt-6 flex w-full">
-          <div className="text-center">
-            <p className="text-sm text-gray-400">Total Number of Users </p>
-            <p className="text-white ">20,000</p>
-          </div>
-          <div className="text-center">
-            <p className="text-sm text-gray-400">Total Active Users</p>
-            <p className="text-white ">20,000</p>
-          </div>
-          <div className="text-center">
-            <p className="text-sm text-gray-400"> Total Tickets Booked</p>
-            <p className="text-white ">20,000</p>
+      <div className="mx-4">
+        {/* DATA */}
+        <div className="bg-black rounded-md mt-24 py-3 px-4 my-4 ">
+          <div className="justify-evenly mb-4 pt-6 flex w-full">
+            <div className="text-center">
+              <p className="text-sm text-gray-400">Total Number of Users </p>
+              <p className="text-white ">20,000</p>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-gray-400">Total Active Users</p>
+              <p className="text-white ">20,000</p>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-gray-400"> Total Tickets Booked</p>
+              <p className="text-white ">20,000</p>
+            </div>
           </div>
         </div>
-      </div>
-      {/* PAGINATION */}
-      <div className="px-6 mb-4 bg-gray-200 rounded-md">
-        <ReactPaginate
-          className="inline-flex items-center w-full py-2"
-          pageCount={pageCount}
-          pageRangeDisplayed={pageRangeDisplayed}
-          marginPagesDisplayed={marginPagesDisplayed}
-          onPageChange={handlePageClick}
-          containerClassName={"pagination"}
-          pageLinkClassName={
-            "page-link px-3 py-2 mx-2 text-sm leading-tight text-gray-800 rounded-md"
-          }
-          activeClassName={" bg-gray-300 rounded-md"}
-          previousClassName={"previous text-sm  mr-6"}
-          nextClassName={"next text-sm ml-6"}
-          previousLabel={"<"}
-          nextLabel={">"}
-        />
-      </div>
-      {/* BUSSTOPS LIST - TABLE */}
-      <table className="w-full text-left text-white">
-        <thead className="bg-black">
-          <tr className="w-full font-normal">
-            <th scope="col" className="px-4 py-4 text-sm rounded-l-md">
-              First Name
-            </th>
-            <th scope="col" className="px-2 py-4 text-sm text-center ">
-              Last Name
-            </th>
-            <th scope="col" className="px-2 py-4 text-sm text-center">
-              Phone Number
-            </th>
-            <th scope="col" className="px-2 py-4 text-sm pl-16">
-              Email
-            </th>
-            <th scope="col" className="px-2 py-4 text-sm pl-16">
-              Is Blocked
-            </th>
-            <th scope="col" className="px-2 py-4 text-sm rounded-r-md"></th>
-          </tr>
-        </thead>
+        {/* PAGINATION */}
+        <div className="px-6 mb-4 bg-gray-200 rounded-md">
+          <ReactPaginate
+            className="inline-flex items-center w-full py-2"
+            pageCount={pageCount}
+            pageRangeDisplayed={pageRangeDisplayed}
+            marginPagesDisplayed={marginPagesDisplayed}
+            onPageChange={handlePageClick}
+            containerClassName={"pagination"}
+            pageLinkClassName={
+              "page-link px-3 py-2 mx-2 text-sm leading-tight text-gray-800 rounded-md"
+            }
+            activeClassName={" bg-gray-300 rounded-md"}
+            previousClassName={"previous text-sm  mr-6"}
+            nextClassName={"next text-sm ml-6"}
+            previousLabel={"<"}
+            nextLabel={">"}
+          />
+        </div>
+        {/* BUSSTOPS LIST - TABLE */}
+        <table className="w-full text-left text-white">
+          <thead className="bg-black">
+            <tr className="w-full font-normal">
+              <th scope="col" className="px-4 py-4 text-sm rounded-l-md">
+                First Name
+              </th>
+              <th scope="col" className="px-2 py-4 text-sm text-center ">
+                Last Name
+              </th>
+              <th scope="col" className="px-2 py-4 text-sm text-center">
+                Phone Number
+              </th>
+              <th scope="col" className="px-2 py-4 text-sm pl-16">
+                Email
+              </th>
+              <th scope="col" className="px-2 py-4 text-sm pl-16">
+                Is Blocked
+              </th>
+              <th scope="col" className="px-2 py-4 text-sm rounded-r-md"></th>
+            </tr>
+          </thead>
 
-        {/* //TABLE ROWS */}
-        <tbody className="">
-          {items?.map((user: User_interface, index: Number) => {
-            return (
-              <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-                <td
-                  onClick={() => {
-                    setSelectedUser(user);
-                    handleOpenModal("openUser");
-                  }}
-                  className="px-4 text-sm text-gray-700"
-                >
-                  {user?.first_name}
-                </td>
-                <td className="text-sm text-center text-gray-700 ">
-                  {user?.last_name}
-                </td>
-                <td
-                  onClick={() => {
-                    setSelectedUser(user);
-                    handleOpenModal("openUser");
-                  }}
-                  className="px-4 text-sm text-center text-gray-700"
-                >
-                  {user?.phone}
-                </td>
+          {/* //TABLE ROWS */}
+          <tbody className="">
+            {items?.map((user: User_interface, index: Number) => {
+              return (
+                <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
+                  <td
+                    onClick={() => {
+                      setSelectedUser(user);
+                      handleOpenModal("openUser");
+                    }}
+                    className="px-4 text-sm text-gray-700"
+                  >
+                    {user?.first_name}
+                  </td>
+                  <td
+                    onClick={() => {
+                      setSelectedUser(user);
+                      handleOpenModal("openUser");
+                    }}
+                    className="text-sm text-center text-gray-700 "
+                  >
+                    {user?.last_name}
+                  </td>
+                  <td
+                    onClick={() => {
+                      setSelectedUser(user);
+                      handleOpenModal("openUser");
+                    }}
+                    className="px-4 text-sm text-center text-gray-700"
+                  >
+                    {user?.phone}
+                  </td>
 
-                <td
-                  onClick={() => {
-                    setSelectedUser(user);
-                    handleOpenModal("openUser");
-                  }}
-                  className="px-4 pl-16 text-sm text-gray-700"
-                >
-                  {user?.email}
-                </td>
+                  <td
+                    onClick={() => {
+                      setSelectedUser(user);
+                      handleOpenModal("openUser");
+                    }}
+                    className="px-4 pl-16 text-sm text-gray-700"
+                  >
+                    {user?.email}
+                  </td>
 
-                <td
-                  onClick={() => {
-                    setSelectedUser(user);
-                    handleOpenModal("openUser");
-                  }}
-                  className="px-4 pl-16 text-sm text-gray-700"
-                >
-                  {`${user?.is_blocked}`}
-                </td>
-                <td
-                  className="px-4 py-4 text-sm text-gray-700"
-                  onClick={() => {
-                    handleSetMenuToggle(index.toString());
-                  }}
-                >
-                  <div>
-                    <FaEllipsisV />
-                  </div>
-                  {menuToggle === index.toString()
-                    ? menuVisible && (
-                        <ul className="absolute z-10 py-2 mt-2 bg-white border rounded-md shadow-md">
-                          <li
-                            onClick={() => {
-                              setSelectedUser(user);
-                              handleOpenModal("openUser");
-                            }}
-                            className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100"
-                          >
-                            View
-                          </li>
-
-                          {user?.is_blocked ? (
+                  <td
+                    onClick={() => {
+                      setSelectedUser(user);
+                      handleOpenModal("openUser");
+                    }}
+                    className="px-4 pl-16 text-sm text-gray-700"
+                  >
+                    {`${user?.is_blocked}`}
+                  </td>
+                  <td
+                    className="px-4 py-4 text-sm text-gray-700"
+                    onClick={() => {
+                      handleSetMenuToggle(index.toString());
+                    }}
+                  >
+                    <div>
+                      <FaEllipsisV />
+                    </div>
+                    {menuToggle === index.toString()
+                      ? menuVisible && (
+                          <ul className="absolute z-10 py-2 mt-2 bg-white border rounded-md shadow-md">
                             <li
                               onClick={() => {
                                 setSelectedUser(user);
-                                handleOpenModal("activate");
+                                handleOpenModal("openUser");
                               }}
                               className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100"
                             >
-                              Activate
+                              View
                             </li>
-                          ) : (
-                            <li
-                              onClick={() => {
-                                setSelectedUser(user);
-                                handleOpenModal("deactivate");
-                              }}
-                              className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100"
-                            >
-                              Deactivate
-                            </li>
-                          )}
-                        </ul>
-                      )
-                    : ""}
-                </td>
-              </tr>
-            );
-          })}
-        </tbody>
-      </table>
+
+                            {user?.is_blocked ? (
+                              <li
+                                onClick={() => {
+                                  setSelectedUser(user);
+                                  handleOpenModal("activate");
+                                }}
+                                className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100"
+                              >
+                                Activate
+                              </li>
+                            ) : (
+                              <li
+                                onClick={() => {
+                                  setSelectedUser(user);
+                                  handleOpenModal("deactivate");
+                                }}
+                                className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100"
+                              >
+                                Deactivate
+                              </li>
+                            )}
+                          </ul>
+                        )
+                      : ""}
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
       {/* MODALS */}
       {flip === "openUser" && modalVisible && (
         <Modal
@@ -274,8 +281,8 @@ const UserOverview: React.FC = () => {
           closable={true}
         >
           <div className="h-5/6">
-            <div className="text-center py-8">
-              <div className="text-lg font-medium mb-2">
+            <div className="text-center mt-4 mb-6">
+              <div className="text-lg font-medium mb-1">
                 {`${selectedUser?.first_name} ${selectedUser?.last_name}`}
               </div>
               <div className="text-[#949292]">{selectedUser?.email}</div>
@@ -283,11 +290,11 @@ const UserOverview: React.FC = () => {
             </div>
 
             <div>
-              <div className="text-lg font-medium">Trip History</div>
+              <div className="text-xs font-medium mb-2">Trip History</div>
               {!selectedUser?.bookings?.length && (
                 <Alert
                   type="info"
-                  message={"This user have not book a trip yet"}
+                  message={"No history available"}
                 />
               )}
 
@@ -428,7 +435,7 @@ const UserOverview: React.FC = () => {
           />
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 
