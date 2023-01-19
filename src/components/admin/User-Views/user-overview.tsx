@@ -29,11 +29,12 @@ const UserOverview: React.FC = () => {
   const [flip, setFlip] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [visible, setStateModalVisible] = useState<boolean>(false);
+
   const [currentPage, setCurrentPage] = useState(0); // current page
   const itemsPerPage = 10; // number of items per page
   const pageRangeDisplayed = 5; // number of pages to display
   const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
-  const totalItems = 10; // total number of items
+  const totalItems = users.length; // total number of items
   const pageCount = Math.ceil(totalItems / itemsPerPage); // total number of pages
   const [selectedUser, setSelectedUser] = useState<User_interface>();
   // function to handle page clicks
@@ -89,7 +90,7 @@ const UserOverview: React.FC = () => {
 
   return (
     <div>
-      <h2 className="mb-4 ml-4 bg-white fixed border-b top-16 py-6 mt-4 w-full text-xs font-medium">
+      <h2 className="mb-4 pl-4 bg-white fixed border-b top-16 py-6 mt-4 w-full text-xs font-medium">
         Users{" "}
         {/* {loading && (
               <span className="ml-2">
@@ -102,13 +103,13 @@ const UserOverview: React.FC = () => {
           </span>
         )}
       </h2>{" "}
-      <div className="mx-4">
+      <div className="px-4">
         {/* DATA */}
         <div className="bg-black rounded-md mt-24 py-3 px-4 my-4 ">
           <div className="justify-evenly mb-4 pt-6 flex w-full">
             <div className="text-center">
               <p className="text-sm text-gray-400">Total Number of Users </p>
-              <p className="text-white ">20,000</p>
+              <p className="text-white ">{users.length}</p>
             </div>
             <div className="text-center">
               <p className="text-sm text-gray-400">Total Active Users</p>
@@ -142,23 +143,23 @@ const UserOverview: React.FC = () => {
         {/* BUSSTOPS LIST - TABLE */}
         <table className="w-full text-left text-white">
           <thead className="bg-black">
-            <tr className="w-full font-normal">
-              <th scope="col" className="px-4 py-4 text-sm rounded-l-md">
+            <tr className="w-full">
+              <th scope="col" className="px-4 py-4 font-normal text-sm rounded-l-md">
                 First Name
               </th>
-              <th scope="col" className="px-2 py-4 text-sm text-center ">
+              <th scope="col" className="px-2 py-4 font-normal text-sm text-center ">
                 Last Name
               </th>
-              <th scope="col" className="px-2 py-4 text-sm text-center">
+              <th scope="col" className="px-2 py-4 font-normal text-sm text-center">
                 Phone Number
               </th>
-              <th scope="col" className="px-2 py-4 text-sm pl-16">
+              <th scope="col" className="px-2 py-4 font-normal text-sm pl-16">
                 Email
               </th>
-              <th scope="col" className="px-2 py-4 text-sm pl-16">
+              <th scope="col" className="px-2 py-4 font-normal text-sm pl-16">
                 Is Blocked
               </th>
-              <th scope="col" className="px-2 py-4 text-sm rounded-r-md"></th>
+              <th scope="col" className="px-2 py-4 font-normal text-sm rounded-r-md"></th>
             </tr>
           </thead>
 
@@ -172,7 +173,7 @@ const UserOverview: React.FC = () => {
                       setSelectedUser(user);
                       handleOpenModal("openUser");
                     }}
-                    className="px-4 text-sm text-gray-700"
+                    className="px-4 py-4 text-sm text-gray-700"
                   >
                     {user?.first_name}
                   </td>
@@ -215,7 +216,7 @@ const UserOverview: React.FC = () => {
                     {`${user?.is_blocked}`}
                   </td>
                   <td
-                    className="px-4 py-4 text-sm text-gray-700"
+                    className=" font-normal text-sm text-gray-700"
                     onClick={() => {
                       handleSetMenuToggle(index.toString());
                     }}
