@@ -119,23 +119,40 @@ const TripsOverview: React.FC = () => {
     <>
       {/* TRIPS OVERVIEW VIEW*/}
       {/* BUSSTOPS HEADER */}
-      <div className="w-full my-2 border-b h-14">
-        <div className="flex justify-between">
-          <h2 className="mt-2 text-lg font-medium">Trips</h2>{" "}
-          {loading && <Spinner />}
+
+      <div>
+        <div className="flex place-content-end my-2  mt-24 w-full  bg-white">
+          {/* <h2 className=" text-xs font-medium">Trips</h2>{" "} */}
+          {/* {loading && <Spinner />} */}
           <Button
             title="+ Create new trip"
             type="submit"
-            className="px-4 py-2 text-xs rounded-md bg-primary-100"
+            className="px-4 py-2 text-sm rounded-md bg-primary-100"
             onClick={() => {
               setModalVisible(true);
               setFlip(TripOption.CREATE);
             }}
           />
         </div>
+
+        <div className="bg-black rounded-md justify-evenly  py-6 px-4 my-4 flex">
+          <div className="text-center">
+            <p className="text-sm text-gray-400">Total Trips Executed</p>
+            <p className="text-white ">20,000</p>
+          </div>
+          <div className="text-center">
+            <p className="text-sm text-gray-400">Total Available Trips</p>
+            <p className="text-white ">20,000</p>
+          </div>
+          <div className="text-center">
+            <p className="text-sm text-gray-400"> Active Trips</p>
+            <p className="text-white ">20,000</p>
+          </div>
+        </div>
       </div>
+
       {/* PAGINATION */}
-      <div className="px-6 mb-4 bg-gray-200 rounded-md">
+      <div className="px-4 mb-2 bg-gray-200 rounded-md">
         <ReactPaginate
           className="inline-flex items-center w-full py-2"
           pageCount={pageCount}
@@ -144,11 +161,11 @@ const TripsOverview: React.FC = () => {
           onPageChange={handlePageClick}
           containerClassName={"pagination"}
           pageLinkClassName={
-            "page-link px-3 py-2 mx-2 leading-tight text-gray-800 rounded-md"
+            "page-link px-2 mx-2 text-sm leading-tight text-gray-800 rounded-md"
           }
           activeClassName={" bg-gray-300 rounded-md"}
-          previousClassName={"previous mr-6"}
-          nextClassName={"next ml-6"}
+          previousClassName={"previous text-sm mr-6"}
+          nextClassName={"next text-sm ml-6"}
           previousLabel={"<"}
           nextLabel={">"}
         />
@@ -157,25 +174,43 @@ const TripsOverview: React.FC = () => {
       <table className="w-full text-base font-normal text-left text-white table-auto">
         <thead className="uppercase bg-black">
           <tr>
-            <th scope="col" className="px-4 py-4 font-normal rounded-l-md">
-              Start
-            </th>
-            <th scope="col" className="px-2 py-4 font-normal text-center">
-              Destination
-            </th>
-            <th scope="col" className="px-2 py-4 font-normal text-center">
+            <th
+              scope="col"
+              className="pl-4 px-2 py-4 font-normal text-sm rounded-l-md"
+            >
               Date
             </th>
-            <th scope="col" className="px-2 py-4 font-normal text-center">
+            <th scope="col" className="py-4 font-normal text-sm">
               Departure
             </th>
-            <th scope="col" className="px-2 py-4 font-normal text-center">
+            <th
+              scope="col"
+              className="px-4 py-4 font-normal text-sm text-center"
+            >
+              Start
+            </th>
+            <th
+              scope="col"
+              className="px-2 py-4 font-normal text-sm text-center"
+            >
+              Destination
+            </th>
+            <th
+              scope="col"
+              className="px-2 py-4 font-normal text-sm text-center"
+            >
               Driver
             </th>
-            <th scope="col" className="px-2 py-4 font-normal text-center">
+            <th
+              scope="col"
+              className="px-2 py-4 font-normal text-sm text-center"
+            >
               Vehicle
             </th>
-            <th scope="col" className="px-2 py-4 font-normal rounded-r-md"></th>
+            <th
+              scope="col"
+              className="px-2 py-4 font-normal text-sm rounded-r-md"
+            ></th>
           </tr>
         </thead>
 
@@ -191,23 +226,7 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className="px-4 py-4 text-xs font-normal text-gray-700"
-                >
-                  {trip?.travel_destination?.from?.city?.city}
-                </td>
-                <td
-                  onClick={() => {
-                    handleOpenModal(trip, "info");
-                  }}
-                  className="text-xs font-normal text-center text-gray-700"
-                >
-                  {trip?.travel_destination?.to?.city?.city}
-                </td>
-                <td
-                  onClick={() => {
-                    handleOpenModal(trip, "info");
-                  }}
-                  className="px-4 py-4 text-xs font-normal text-center text-gray-700"
+                  className="pl-4 py-4 text-sm font-normal text-gray-700"
                 >
                   {trip?.take_off_date}
                 </td>
@@ -215,7 +234,7 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className="px-4 py-4 text-xs font-normal text-center text-gray-700"
+                  className=" py-4 text-sm font-normal  text-gray-700"
                 >
                   {trip?.take_off_time}
                 </td>
@@ -223,7 +242,24 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className="px-4 py-4 text-xs font-normal text-center text-gray-700"
+                  className="px-4 py-4 text-sm font-normal text-center text-gray-700"
+                >
+                  {trip?.travel_destination?.from?.city?.city}
+                </td>
+                <td
+                  onClick={() => {
+                    handleOpenModal(trip, "info");
+                  }}
+                  className="text-sm font-normal text-center text-gray-700"
+                >
+                  {trip?.travel_destination?.to?.city?.city}
+                </td>
+
+                <td
+                  onClick={() => {
+                    handleOpenModal(trip, "info");
+                  }}
+                  className="px-4 py-4 text-sm font-normal text-center text-gray-700"
                 >
                   {`${trip?.driver?.first_name} ${trip?.driver?.last_name} `}
                 </td>
@@ -231,12 +267,12 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className="px-4 py-4 text-xs font-normal text-center text-gray-700"
+                  className="px-4 py-4 text-sm font-normal text-center text-gray-700"
                 >
                   {trip?.bus?.name}
                 </td>
                 <td
-                  className="px-4 py-6 text-xs font-normal text-gray-700"
+                  className="px-4 py-4 text-sm font-normal text-gray-700"
                   onClick={() => {
                     // setMenuVisible(!menuVisible);
                     handleSetMenuToggle(index.toString());
@@ -362,7 +398,7 @@ const TripsOverview: React.FC = () => {
           <Button
             title="Continue"
             type="submit"
-            className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
+            className="w-full px-4 py-4 text-sm rounded-md bg-primary-100"
             onClick={() => {
               setFlip(TripOption.SUCCESS);
             }}
@@ -370,7 +406,7 @@ const TripsOverview: React.FC = () => {
           <Button
             title="Edit"
             type="submit"
-            className="w-full px-4 py-3 mt-4 mb-6 text-xs text-gray-500 border border-gray-500 rounded-md"
+            className="w-full px-4 py-4 mt-4 mb-6 text-sm text-gray-500 border border-gray-500 rounded-md"
             onClick={() => {
               setFlip(TripOption.CREATE);
             }}
@@ -397,7 +433,7 @@ const TripsOverview: React.FC = () => {
           <Button
             title="Close"
             type="submit"
-            className="w-full py-2 mt-8 mb-4 text-xs rounded-md bg-[#00FF6A] text-black"
+            className="w-full py-2 mt-8 mb-4 text-sm rounded-md bg-[#00FF6A] text-black"
             onClick={() => {
               setModalVisible(false);
             }}
@@ -477,7 +513,7 @@ const TripsOverview: React.FC = () => {
           <Button
             title="Edit"
             type="submit"
-            className="w-full px-4 py-3 text-xs rounded-md bg-primary-100"
+            className="w-full px-4 py-4 text-sm rounded-md bg-primary-100"
             onClick={() => {
               setFlip(TripOption.EDIT);
             }}
@@ -485,7 +521,7 @@ const TripsOverview: React.FC = () => {
           <Button
             title="Delete"
             type="submit"
-            className="w-full px-4 py-3 mt-4 mb-6 text-xs text-red-600 border border-red-500 rounded-md"
+            className="w-full px-4 py-4 mt-4 mb-6 text-sm text-red-600 border border-red-500 rounded-md"
             onClick={() => {
               setFlip(TripOption.DELETE);
               setStateModalVisible(true);
@@ -530,13 +566,13 @@ const TripsOverview: React.FC = () => {
           <Button
             title="Delete"
             type="submit"
-            className="w-full py-2 mt-8 text-xs rounded-md bg-[#E71D36] text-white"
+            className="w-full py-2 mt-8 text-sm rounded-md bg-[#E71D36] text-white"
             onClick={() => {}}
           />
           <Button
             title="Cancel"
             type="submit"
-            className="w-full py-2 mt-4 mb-4 text-xs text-gray-600 border border-gray-500 rounded-md"
+            className="w-full py-2 mt-4 mb-4 text-sm text-gray-600 border border-gray-500 rounded-md"
             onClick={() => {
               setFlip(TripOption.INFO);
             }}
@@ -564,7 +600,7 @@ const TripsOverview: React.FC = () => {
           <Button
             title="View"
             type="submit"
-            className="w-full py-2 mt-8 text-xs rounded-md bg-[#00FF6A] text-black"
+            className="w-full py-2 mt-8 text-sm rounded-md bg-[#00FF6A] text-black"
             onClick={() => {
               //NOT SURE THIS IS USEFUL DURING API CALLS
               setFlip(TripOption.INFO);
@@ -573,7 +609,7 @@ const TripsOverview: React.FC = () => {
           <Button
             title="Close"
             type="submit"
-            className="w-full py-2 mt-4 mb-4 text-xs text-gray-600 border border-gray-500 rounded-md"
+            className="w-full py-2 mt-4 mb-4 text-sm text-gray-600 border border-gray-500 rounded-md"
             onClick={() => {
               setModalVisible(false);
               setStateModalVisible(false);
