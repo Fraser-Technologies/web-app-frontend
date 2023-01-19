@@ -2,6 +2,7 @@ import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import { Spinner } from "react-bootstrap";
 import {
+  FaCaretDown,
   FaCheckCircle,
   FaEllipsisV,
   FaExclamationCircle,
@@ -114,6 +115,10 @@ const TripsOverview: React.FC = () => {
     }
   }, [dispatch, updatedTrip]);
 
+  const [selectedData, setIsSelected] = useState("day");
+  const handleFilterToggle = (value: string) => {
+    setIsSelected(value);
+  };
   //
   return (
     <>
@@ -135,11 +140,62 @@ const TripsOverview: React.FC = () => {
           />
         </div>
 
-        <div className="bg-black rounded-md py-6 px-4 my-4">
-          <div>
-            <p>Today</p>
+
+        {/* DATA */}
+        <div className="bg-black rounded-md py-3 px-4 my-4 ">
+          <div className="m-auto text-white text-sm mb-4 justify-between flex w-1/3">
+            <div
+              className={` px-2 py-1 cursor-pointer ${
+                selectedData === "day"
+                  ? "bg-[#00ff6a] text-center text-black"
+                  : "text-[#666666]"
+              }`}
+              onClick={() => handleFilterToggle("day")}
+            >
+              Day
+            </div>
+            <div
+              className={` px-2 py-1 cursor-pointer ${
+                selectedData === "week"
+                  ? "bg-[#00ff6a] text-center text-black"
+                  : "text-[#666666]"
+              }`}
+              onClick={() => handleFilterToggle("week")}
+            >
+              Week
+            </div>
+            <div
+              className={` px-2 py-1 cursor-pointer ${
+                selectedData === "month"
+                  ? "bg-[#00ff6a] text-center text-black"
+                  : "text-[#666666]"
+              }`}
+              onClick={() => handleFilterToggle("month")}
+            >
+              Month
+            </div>
+            <div
+              className={` px-2 py-1 cursor-pointer ${
+                selectedData === "6 months"
+                  ? "bg-[#00ff6a] text-center text-black"
+                  : "text-[#666666]"
+              }`}
+              onClick={() => handleFilterToggle("6 months")}
+            >
+              6 Months
+            </div>
+            <div
+              className={` px-2 py-1 cursor-pointer ${
+                selectedData === "year"
+                  ? "bg-[#00ff6a] text-center text-black"
+                  : "text-[#666666]"
+              }`}
+              onClick={() => handleFilterToggle("year")}
+            >
+              Year
+            </div>
           </div>
-          <div className="justify-evenly flex w-full">
+          <div className="justify-evenly mb-4 border-t border-[#666666] pt-6 flex w-full">
             <div className="text-center">
               <p className="text-sm text-gray-400">Total Trips Executed </p>
               <p className="text-white ">20,000</p>
@@ -177,45 +233,27 @@ const TripsOverview: React.FC = () => {
       </div>
       {/* BUSSTOPS LIST - TABLE */}
       <table className="w-full text-base text-left text-white table-auto">
-        <thead className="uppercase bg-black">
+        <thead className="bg-black text-normal">
           <tr>
-            <th
-              scope="col"
-              className="pl-4 px-2 py-4 text-sm rounded-l-md"
-            >
+            <th scope="col" className="pl-4 px-2 py-4 text-sm rounded-l-md">
               Date
             </th>
             <th scope="col" className="py-4 text-sm">
               Departure
             </th>
-            <th
-              scope="col"
-              className="px-4 py-4 text-sm text-center"
-            >
+            <th scope="col" className="px-4 py-4 text-sm text-center">
               Start
             </th>
-            <th
-              scope="col"
-              className="px-2 py-4 text-sm text-center"
-            >
+            <th scope="col" className="px-2 py-4 text-sm text-center">
               Destination
             </th>
-            <th
-              scope="col"
-              className="px-2 py-4 text-sm text-center"
-            >
+            <th scope="col" className="px-2 py-4 text-sm text-center">
               Driver
             </th>
-            <th
-              scope="col"
-              className="px-2 py-4 text-sm text-center"
-            >
+            <th scope="col" className="px-2 py-4 text-sm text-center">
               Vehicle
             </th>
-            <th
-              scope="col"
-              className="px-2 py-4 text-sm rounded-r-md"
-            ></th>
+            <th scope="col" className="px-2 py-4 text-sm rounded-r-md"></th>
           </tr>
         </thead>
 
@@ -353,22 +391,16 @@ const TripsOverview: React.FC = () => {
         >
           <div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
             <div>
-              <div className="mb-1 text-sm text-gray-400">
-                Start
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Start</div>
               <div className="text-xs">Start City </div>
             </div>
 
             <div>
-              <div className="mb-1 text-sm text-gray-400">
-                Destination
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Destination</div>
               <div className="text-xs">Destination City</div>
             </div>
             <div>
-              <div className="mb-1 text-sm text-gray-400">
-                Start Bus Stop
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Start Bus Stop</div>
               <div className="text-xs">Start Bus Stop</div>
             </div>
             <div>
@@ -378,9 +410,7 @@ const TripsOverview: React.FC = () => {
               <div className="text-xs">Destination Bus Stop</div>
             </div>
             <div>
-              <div className="mb-1 text-sm text-gray-400">
-                Departure Time
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Departure Time</div>
               <div className="text-xs">Time</div>
             </div>
             <div>
@@ -388,15 +418,11 @@ const TripsOverview: React.FC = () => {
               <div className="text-xs">Date</div>
             </div>
             <div>
-              <div className="mb-1 text-sm text-gray-400">
-                Driver
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Driver</div>
               <div className="text-xs">Driver</div>
             </div>
             <div>
-              <div className="mb-1 text-sm text-gray-400">
-                Vehicle
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Vehicle</div>
               <div className="text-xs">Vehicle</div>
             </div>
           </div>
@@ -459,41 +485,31 @@ const TripsOverview: React.FC = () => {
         >
           <div className="grid grid-cols-2 gap-2 pb-12 mt-8">
             <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-              <div className="mb-1 text-sm text-gray-400">
-                Start
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Start</div>
               <div className="text-xs">
                 {modalData?.travel_destination?.from?.city?.city}
               </div>
             </div>
             <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-              <div className="mb-1 text-sm text-gray-400">
-                Destination
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Destination</div>
               <div className="text-xs">
                 {modalData?.travel_destination?.to?.city?.city}
               </div>
             </div>
             <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-              <div className="mb-1 text-sm text-gray-400">
-                Start
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Start</div>
               <div className="text-xs">
                 {modalData?.travel_destination?.from?.start_busstop}
               </div>
             </div>
             <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-              <div className="mb-1 text-sm text-gray-400">
-                Destination
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Destination</div>
               <div className="text-xs">
                 {modalData?.travel_destination?.to?.stop_busstop}
               </div>
             </div>
             <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-              <div className="mb-1 text-sm text-gray-400">
-                Departure Time
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Departure Time</div>
               <div className="text-xs">{modalData?.take_off_time}</div>
             </div>
             <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
@@ -501,17 +517,13 @@ const TripsOverview: React.FC = () => {
               <div className="text-xs">{modalData?.take_off_date}</div>
             </div>
             <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-              <div className="mb-1 text-sm text-gray-400">
-                Driver
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Driver</div>
               <div className="text-xs">
                 {`${modalData?.driver?.first_name} ${modalData?.driver?.last_name}`}
               </div>
             </div>
             <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-              <div className="mb-1 text-sm text-gray-400">
-                Vehicle
-              </div>
+              <div className="mb-1 text-sm text-gray-400">Vehicle</div>
               <div className="text-xs">{modalData?.bus?.name}</div>
             </div>
           </div>

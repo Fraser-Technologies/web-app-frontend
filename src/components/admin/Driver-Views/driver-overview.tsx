@@ -112,7 +112,7 @@ const DriverOverview: React.FC = () => {
 
 			{/* BUSSTOPS LIST - TABLE */}
 			<table className="w-full text-base font-normal text-left text-white">
-				<thead className="uppercase bg-black">
+				<thead className=" bg-black">
 					<tr className="w-full ">
 						<th scope="col" className="px-4 py-4 font-normal rounded-l-md">
 							First Name
