@@ -14,7 +14,7 @@ const TimePicker = (props: { setTake_off_time: any; take_off_time: any }) => {
 	}, [time]);
 
 	return (
-		<div className="mt-4 flex rounded-md ">
+		<div className="mt-2 text-sm flex rounded-md ">
 			<div className=" bg-black w-1/4 text-white py-2 px-4 rounded-md mr-2">
 				Time
 			</div>

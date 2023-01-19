@@ -135,18 +135,23 @@ const TripsOverview: React.FC = () => {
           />
         </div>
 
-        <div className="bg-black rounded-md justify-evenly  py-6 px-4 my-4 flex">
-          <div className="text-center">
-            <p className="text-sm text-gray-400">Total Trips Executed</p>
-            <p className="text-white ">20,000</p>
+        <div className="bg-black rounded-md py-6 px-4 my-4">
+          <div>
+            <p>Today</p>
           </div>
-          <div className="text-center">
-            <p className="text-sm text-gray-400">Total Available Trips</p>
-            <p className="text-white ">20,000</p>
-          </div>
-          <div className="text-center">
-            <p className="text-sm text-gray-400"> Active Trips</p>
-            <p className="text-white ">20,000</p>
+          <div className="justify-evenly flex w-full">
+            <div className="text-center">
+              <p className="text-sm text-gray-400">Total Trips Executed </p>
+              <p className="text-white ">20,000</p>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-gray-400">Total Available Trips</p>
+              <p className="text-white ">20,000</p>
+            </div>
+            <div className="text-center">
+              <p className="text-sm text-gray-400"> Active Trips</p>
+              <p className="text-white ">20,000</p>
+            </div>
           </div>
         </div>
       </div>
@@ -171,45 +176,45 @@ const TripsOverview: React.FC = () => {
         />
       </div>
       {/* BUSSTOPS LIST - TABLE */}
-      <table className="w-full text-base font-normal text-left text-white table-auto">
+      <table className="w-full text-base text-left text-white table-auto">
         <thead className="uppercase bg-black">
           <tr>
             <th
               scope="col"
-              className="pl-4 px-2 py-4 font-normal text-sm rounded-l-md"
+              className="pl-4 px-2 py-4 text-sm rounded-l-md"
             >
               Date
             </th>
-            <th scope="col" className="py-4 font-normal text-sm">
+            <th scope="col" className="py-4 text-sm">
               Departure
             </th>
             <th
               scope="col"
-              className="px-4 py-4 font-normal text-sm text-center"
+              className="px-4 py-4 text-sm text-center"
             >
               Start
             </th>
             <th
               scope="col"
-              className="px-2 py-4 font-normal text-sm text-center"
+              className="px-2 py-4 text-sm text-center"
             >
               Destination
             </th>
             <th
               scope="col"
-              className="px-2 py-4 font-normal text-sm text-center"
+              className="px-2 py-4 text-sm text-center"
             >
               Driver
             </th>
             <th
               scope="col"
-              className="px-2 py-4 font-normal text-sm text-center"
+              className="px-2 py-4 text-sm text-center"
             >
               Vehicle
             </th>
             <th
               scope="col"
-              className="px-2 py-4 font-normal text-sm rounded-r-md"
+              className="px-2 py-4 text-sm rounded-r-md"
             ></th>
           </tr>
         </thead>
@@ -226,7 +231,7 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className="pl-4 py-4 text-sm font-normal text-gray-700"
+                  className="pl-4 py-4 text-sm text-gray-700"
                 >
                   {trip?.take_off_date}
                 </td>
@@ -234,7 +239,7 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className=" py-4 text-sm font-normal  text-gray-700"
+                  className=" py-4 text-sm  text-gray-700"
                 >
                   {trip?.take_off_time}
                 </td>
@@ -242,7 +247,7 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className="px-4 py-4 text-sm font-normal text-center text-gray-700"
+                  className="px-4 py-4 text-sm text-center text-gray-700"
                 >
                   {trip?.travel_destination?.from?.city?.city}
                 </td>
@@ -250,7 +255,7 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className="text-sm font-normal text-center text-gray-700"
+                  className="text-sm text-center text-gray-700"
                 >
                   {trip?.travel_destination?.to?.city?.city}
                 </td>
@@ -259,7 +264,7 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className="px-4 py-4 text-sm font-normal text-center text-gray-700"
+                  className="px-4 py-4 text-sm text-center text-gray-700"
                 >
                   {`${trip?.driver?.first_name} ${trip?.driver?.last_name} `}
                 </td>
@@ -267,12 +272,12 @@ const TripsOverview: React.FC = () => {
                   onClick={() => {
                     handleOpenModal(trip, "info");
                   }}
-                  className="px-4 py-4 text-sm font-normal text-center text-gray-700"
+                  className="px-4 py-4 text-sm text-center text-gray-700"
                 >
                   {trip?.bus?.name}
                 </td>
                 <td
-                  className="px-4 py-4 text-sm font-normal text-gray-700"
+                  className="px-4 py-4 text-sm text-gray-700"
                   onClick={() => {
                     // setMenuVisible(!menuVisible);
                     handleSetMenuToggle(index.toString());
@@ -322,7 +327,7 @@ const TripsOverview: React.FC = () => {
       {flip === TripOption.CREATE && modalVisible && (
         <Modal
           title={
-            <div className="text-lg font-medium boder-b">Create a new trip</div>
+            <div className="text-xs font-medium boder-b">Create a new trip</div>
           }
           onOk={handleOk}
           onCancel={handleCancel}
@@ -337,7 +342,7 @@ const TripsOverview: React.FC = () => {
       {flip === TripOption.REVIEW && modalVisible && (
         <Modal
           title={
-            <div className="text-lg font-medium boder-b">Trip Details</div>
+            <div className="text-xs font-medium boder-b">Trip Details</div>
           }
           onOk={handleOk}
           onCancel={handleCancel}
@@ -348,51 +353,51 @@ const TripsOverview: React.FC = () => {
         >
           <div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
             <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+              <div className="mb-1 text-sm text-gray-400">
                 Start
               </div>
-              <div className="text-lg">Start City </div>
+              <div className="text-xs">Start City </div>
             </div>
 
             <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+              <div className="mb-1 text-sm text-gray-400">
                 Destination
               </div>
-              <div className="text-lg">Destination City</div>
+              <div className="text-xs">Destination City</div>
             </div>
             <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+              <div className="mb-1 text-sm text-gray-400">
                 Start Bus Stop
               </div>
-              <div className="text-lg">Start Bus Stop</div>
+              <div className="text-xs">Start Bus Stop</div>
             </div>
             <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+              <div className="mb-1 text-sm text-gray-400">
                 Destination Bus Stop
               </div>
-              <div className="text-lg">Destination Bus Stop</div>
+              <div className="text-xs">Destination Bus Stop</div>
             </div>
             <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+              <div className="mb-1 text-sm text-gray-400">
                 Departure Time
               </div>
-              <div className="text-lg">Time</div>
+              <div className="text-xs">Time</div>
             </div>
             <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">Date</div>
-              <div className="text-lg">Date</div>
+              <div className="mb-1 text-sm text-gray-400">Date</div>
+              <div className="text-xs">Date</div>
             </div>
             <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+              <div className="mb-1 text-sm text-gray-400">
                 Driver
               </div>
-              <div className="text-lg">Driver</div>
+              <div className="text-xs">Driver</div>
             </div>
             <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+              <div className="mb-1 text-sm text-gray-400">
                 Vehicle
               </div>
-              <div className="text-lg">Vehicle</div>
+              <div className="text-xs">Vehicle</div>
             </div>
           </div>
           <Button
@@ -443,7 +448,7 @@ const TripsOverview: React.FC = () => {
       {flip === TripOption.INFO && modalVisible && (
         <Modal
           title={
-            <div className="text-lg font-medium boder-b">Trip Details</div>
+            <div className="text-lg font-medium boder-b mt-4">Trip Details</div>
           }
           onOk={handleOk}
           onCancel={handleCancel}
@@ -452,62 +457,62 @@ const TripsOverview: React.FC = () => {
           footer={false}
           closable={true}
         >
-          <div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
-            <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+          <div className="grid grid-cols-2 gap-2 pb-12 mt-8">
+            <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
+              <div className="mb-1 text-sm text-gray-400">
                 Start
               </div>
-              <div className="text-lg">
+              <div className="text-xs">
                 {modalData?.travel_destination?.from?.city?.city}
               </div>
             </div>
-            <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+            <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
+              <div className="mb-1 text-sm text-gray-400">
                 Destination
               </div>
-              <div className="text-lg">
+              <div className="text-xs">
                 {modalData?.travel_destination?.to?.city?.city}
               </div>
             </div>
-            <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+            <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
+              <div className="mb-1 text-sm text-gray-400">
                 Start
               </div>
-              <div className="text-lg">
+              <div className="text-xs">
                 {modalData?.travel_destination?.from?.start_busstop}
               </div>
             </div>
-            <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+            <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
+              <div className="mb-1 text-sm text-gray-400">
                 Destination
               </div>
-              <div className="text-lg">
+              <div className="text-xs">
                 {modalData?.travel_destination?.to?.stop_busstop}
               </div>
             </div>
-            <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+            <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
+              <div className="mb-1 text-sm text-gray-400">
                 Departure Time
               </div>
-              <div className="text-lg">{modalData?.take_off_time}</div>
+              <div className="text-xs">{modalData?.take_off_time}</div>
             </div>
-            <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">Date</div>
-              <div className="text-lg">{modalData?.take_off_date}</div>
+            <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
+              <div className="mb-1 text-sm text-gray-400">Date</div>
+              <div className="text-xs">{modalData?.take_off_date}</div>
             </div>
-            <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+            <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
+              <div className="mb-1 text-sm text-gray-400">
                 Driver
               </div>
-              <div className="text-lg">
+              <div className="text-xs">
                 {`${modalData?.driver?.first_name} ${modalData?.driver?.last_name}`}
               </div>
             </div>
-            <div>
-              <div className="mb-1 text-sm font-normal text-gray-400">
+            <div className="bg-[#fcfcfc] rounded-md py-2 px-4">
+              <div className="mb-1 text-sm text-gray-400">
                 Vehicle
               </div>
-              <div className="text-lg">{modalData?.bus?.name}</div>
+              <div className="text-xs">{modalData?.bus?.name}</div>
             </div>
           </div>
           <Button
@@ -532,7 +537,7 @@ const TripsOverview: React.FC = () => {
 
       {flip === TripOption.EDIT && modalVisible && (
         <Modal
-          title={<div className="text-lg font-medium boder-b">Edit Trip</div>}
+          title={<div className="text-xs font-medium boder-b">Edit Trip</div>}
           onOk={handleOk}
           onCancel={handleCancel}
           open={true}
