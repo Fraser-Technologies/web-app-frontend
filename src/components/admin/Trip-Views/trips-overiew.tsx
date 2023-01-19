@@ -60,7 +60,7 @@ const TripsOverview: React.FC = () => {
   // calculate the start and end index of the items to display on the current page
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  //   const items = trips.slice(startIndex, endIndex); // items to display on the current page
+    const items = trips.slice(startIndex, endIndex); // items to display on the current page
 
   const handleOpenModal = (data: any, flipValue: any) => {
     setFlip(flipValue);
@@ -181,7 +181,7 @@ const TripsOverview: React.FC = () => {
 
         {/* //TABLE ROWS */}
         <tbody className="">
-          {trips?.map((trip: Trip_interface, index: Number) => {
+          {items?.map((trip: Trip_interface, index: Number) => {
             return (
               <tr
                 className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50"
