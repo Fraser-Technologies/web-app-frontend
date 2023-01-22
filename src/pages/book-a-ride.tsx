@@ -281,7 +281,7 @@ const BookRide = () => {
 
 							<div className="relative w-full ease-in-out duration-300 inline text-left z-30">
 								<label className="text-sm ml-2 text-gray-600">
-									Desitnation City
+									Destination City
 								</label>
 								<button
 									type="button"
