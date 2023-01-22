@@ -36,7 +36,7 @@ const BookingCard = ({
 	} else if (newDay.endsWith("2")) {
 		ordinalDay = newDay + "nd";
 	} else if (newDay.endsWith("3")) {
-		ordinalDay = newDay + "rd";
+		ordinalDay = newDay + "rdlook ";
 	} else {
 		ordinalDay = newDay + "th";
 	}
