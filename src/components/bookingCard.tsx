@@ -25,62 +25,6 @@ const BookingCard = ({
 }: BookingCardInterface) => {
 	const timeRegex = /^(\d{1,2}):(\d{2})(am|pm)$/;
 
-	const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-	const [, day, month, year] = takeOffDate.match(dateRegex) || [];
-
-	const newDay = String(day);
-
-	let ordinalDay;
-	if (newDay.endsWith("1")) {
-		ordinalDay = newDay + "st";
-	} else if (newDay.endsWith("2")) {
-		ordinalDay = newDay + "nd";
-	} else if (newDay.endsWith("3")) {
-		ordinalDay = newDay + "rd";
-	} else {
-		ordinalDay = newDay + "th";
-	}
-
-	let monthName;
-	switch (month) {
-		case "01":
-			monthName = "Jan.";
-			break;
-		case "02":
-			monthName = "Feb.";
-			break;
-		case "03":
-			monthName = "Mar.";
-			break;
-		case "04":
-			monthName = "Apr.";
-			break;
-		case "05":
-			monthName = "May";
-			break;
-		case "06":
-			monthName = "June";
-			break;
-		case "07":
-			monthName = "July";
-			break;
-		case "08":
-			monthName = "Aug.";
-			break;
-		case "09":
-			monthName = "Sept.";
-			break;
-		case "10":
-			monthName = "Oct.";
-			break;
-		case "11":
-			monthName = "Nov.";
-			break;
-		case "12":
-			monthName = "Dec.";
-			break;
-	}
-	const formattedDate = `${ordinalDay} ${monthName}, ${year}`;
 	// const formattedArrivalTime = arrivalTime.replace(timeRegex, '$1:$2 $3');
 	return (
 		<>
@@ -94,7 +38,7 @@ const BookingCard = ({
 						</h3>
 						<div className="text-white ">
 							<p className="text-sm text-gray-400 md:text-sm">Departure Date</p>
-							<p className="mt-1 text-xs md:text-xs">{formattedDate}</p>
+							<p className="mt-1 text-xs md:text-xs">{takeOffDate}</p>
 							{/* <p className="text-sm text-gray-400 md:text-sm">Take Off Time</p>
               <p className="mt-1 text-xs md:text-xs">
                 {takeOffTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
