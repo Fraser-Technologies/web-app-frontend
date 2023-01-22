@@ -129,6 +129,21 @@ const AdminPage = loadable(() => import("./pages/admin"), {
 	),
 });
 
+const DriverPortalPage = loadable(() => import("./pages/DriverPortal"), {
+	fallback: (
+		<div
+			style={{
+				display: "flex",
+				minWidth: 0,
+				alignItems: "center",
+				alignContent: "center",
+				height: "100%",
+			}}>
+			<CircularProgress sx={{ m: "-40px auto 0" }} />
+		</div>
+	),
+});
+
 const App = () => {
 	const { userInfo } = useSelector((state: any) => state.userLogin);
 	const navigate = useNavigate();
@@ -149,6 +164,7 @@ const App = () => {
 				<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
 				<Route path={_paths_.CHECKOUT} element={<Checkout />} />
 				<Route path={_paths_.ADMIN_DASHBOARD} element={<AdminPage />} />
+				<Route path={_paths_.DRIVER_PORTAL} element={<DriverPortalPage />} />
 				<Route path={_paths_.NOTFOUND} element={<NotFound />} />
 			</Routes>
 		</>

@@ -39,4 +39,5 @@ export const _paths_ = {
 	NOTFOUND: "*",
 	TERMS_OF_SERVICE: "/termsofservice",
 	ADMIN_DASHBOARD: "/admin",
+	DRIVER_PORTAL: "/driverportal",
 };

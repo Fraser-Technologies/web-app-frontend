@@ -38,10 +38,6 @@ const BookingCard = ({
 						<div className="text-white ">
 							<p className="text-sm text-gray-400 md:text-sm">Departure Date</p>
 							<p className="mt-1 text-xs md:text-xs">{takeOffDate}</p>
-							{/* <p className="text-sm text-gray-400 md:text-sm">Take Off Time</p>
-              <p className="mt-1 text-xs md:text-xs">
-                {takeOffTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
-              </p> */}
 						</div>
 					</div>
 
@@ -55,13 +51,6 @@ const BookingCard = ({
 							<p className="mt-1 text-xs md:text-xs">
 								{takeOffTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
 							</p>
-							{/* <p className="text-sm text-gray-400 md:text-sm">
-                Estimated Arrival Time
-              </p>
-              <p className="mt-1 text-xs md:text-xs">
-                {arrivalTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
-              </p> */}
-							{/* <p>{arrivalDate}</p> */}
 						</div>
 					</div>
 				</div>
