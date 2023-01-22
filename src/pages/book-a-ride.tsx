@@ -17,7 +17,6 @@ import {
 } from "../state/action/trip.action";
 import GeometricPatterns from "../components/GeometricPatterns";
 import { FaCaretDown } from "react-icons/fa";
-import { getAllBusStopAction } from "../state/action/busStop.action";
 import { City_interface } from "../interfaces/city_interface";
 import { getAllCityAction } from "../state/action/city.action";
 
@@ -158,37 +157,36 @@ const BookRide = () => {
 	}, [loginError, messageApi, userInfo]);
 
 	useEffect(() => {
-		dispatch(getAllBusStopAction());
 		dispatch(getAllCityAction());
 	}, [dispatch]);
 
 	return (
 		<Layout title="Book a Ride">
 			{contextHolder}
-			<div className="relative bg-black h-24 -z-10 lg:h-32">
+			<div className="relative h-24 bg-black -z-10 lg:h-32">
 				<GeometricPatterns />
 			</div>
-			<div className="flex -mt-16 lg:mt:0 overflow-hidden flex-col items-center justify-center w-full h-full">
-				<div className="my-8 mx-6 sm:w-3/5">
+			<div className="flex flex-col items-center justify-center w-full h-full -mt-16 overflow-hidden lg:mt:0">
+				<div className="mx-6 my-8 sm:w-3/5">
 					<div className="w-full px-8 py-12 bg-white rounded-md">
 						<div className="">
-							<h1 className="text-xl font-semibold leading-64px tracking-tight">
+							<h1 className="text-xl font-semibold tracking-tight leading-64px">
 								Book a Ride
 							</h1>
-							<p className="text-sm text-gray-600 pt-2 pb-8 w-11/12">
+							<p className="w-11/12 pt-2 pb-8 text-sm text-gray-600">
 								Easily book a ride to your desired destination. Simply select
 								your city, enter your starting and ending locations and Voila!.
 							</p>
 
 							{/* START */}
 							<div className="mb-4">
-								<div className="relative w-full ease-in-out duration-300 inline text-left z-50">
-									<label className="text-sm ml-2 text-gray-600">
+								<div className="relative z-50 inline w-full text-left duration-300 ease-in-out">
+									<label className="ml-2 text-sm text-gray-600">
 										Pickup City
 									</label>
 									<button
 										type="button"
-										className="mt-1 mb-2  shadow-sm inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+										className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 										onClick={() => {
 											setStartCityIsOpen(!startCityIsOpen);
 										}}>
@@ -196,7 +194,7 @@ const BookRide = () => {
 										<FaCaretDown className="ml-auto" />
 									</button>
 									{startCityIsOpen && (
-										<div className="w-full z-10 absolute mt-2 rounded-md shadow-lg bg-white shadow-xs py-4">
+										<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
 											{cities
 												?.filter(
 													(city: City_interface) =>
@@ -206,7 +204,7 @@ const BookRide = () => {
 													return (
 														<a
 															href="#"
-															className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+															className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 															onClick={() => {
 																setStartCity(city?.city);
 																setStartBusStopList(city?.bus_stops);
@@ -232,7 +230,7 @@ const BookRide = () => {
 									{/* START BUSSTOP */}
 									<button
 										type="button"
-										className="mt-1 mb-2  shadow-sm inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+										className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 										onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
 										onChange={handleStartBusStop}>
 										{startBusStop}
@@ -240,17 +238,17 @@ const BookRide = () => {
 									</button>
 
 									{startBusStopIsOpen && (
-										<div className="w-full absolute mt-2 rounded-md shadow-lg bg-white shadow-xs py-4">
+										<div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
 											{!startBusStopList ? (
-												<div className="px-6 py-2 animate-pulse flex space-x-4">
-													<div className="flex-1 space-y-6 py-1">
-														<div className="h-2 bg-slate-200 rounded"></div>
+												<div className="flex px-6 py-2 space-x-4 animate-pulse">
+													<div className="flex-1 py-1 space-y-6">
+														<div className="h-2 rounded bg-slate-200"></div>
 														<div className="space-y-3">
 															<div className="grid grid-cols-3 gap-4">
-																<div className="h-2 bg-slate-200 rounded col-span-2"></div>
-																<div className="h-2 bg-slate-200 rounded col-span-1"></div>
+																<div className="h-2 col-span-2 rounded bg-slate-200"></div>
+																<div className="h-2 col-span-1 rounded bg-slate-200"></div>
 															</div>
-															<div className="h-2 bg-slate-200 rounded"></div>
+															<div className="h-2 rounded bg-slate-200"></div>
 														</div>
 													</div>
 												</div>
@@ -260,7 +258,7 @@ const BookRide = () => {
 														<a
 															key={stops}
 															href="#"
-															className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+															className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 															onClick={() => {
 																handleStartBusStop(stops);
 																setFrom(stops);
@@ -279,13 +277,13 @@ const BookRide = () => {
 
 							{/* DESTINATION */}
 
-							<div className="relative w-full ease-in-out duration-300 inline text-left z-30">
-								<label className="text-sm ml-2 text-gray-600">
+							<div className="relative z-30 inline w-full text-left duration-300 ease-in-out">
+								<label className="ml-2 text-sm text-gray-600">
 									Desitnation City
 								</label>
 								<button
 									type="button"
-									className="mt-1 mb-2 shadow-sm inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+									className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 									onClick={() => {
 										setDestinationCityIsOpen(!destinationCityIsOpen);
 									}}>
@@ -293,7 +291,7 @@ const BookRide = () => {
 									<FaCaretDown className="ml-auto" />
 								</button>
 								{destinationCityIsOpen && (
-									<div className="w-full z-10 absolute mt-2 rounded-md shadow-lg bg-white shadow-xs py-4">
+									<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
 										{cities
 											?.filter(
 												(city: City_interface) => city.city !== startCity
@@ -302,7 +300,7 @@ const BookRide = () => {
 												return (
 													<a
 														href="#"
-														className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+														className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 														onClick={() => {
 															setDestinationBusStopList(city?.bus_stops);
 															setDestinationCityIsOpen(!destinationCityIsOpen);
@@ -328,7 +326,7 @@ const BookRide = () => {
 								{/* START BUSSTOP */}
 								<button
 									type="button"
-									className="mt-1 shadow-sm inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white text-sm leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+									className="inline-flex w-full px-4 py-2 mt-1 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 									onClick={() =>
 										setDestinationBusStopIsOpen(!destinationBusStopIsOpen)
 									}
@@ -338,17 +336,17 @@ const BookRide = () => {
 								</button>
 
 								{destinationBusStopIsOpen && (
-									<div className="w-full absolute mt-2 rounded-md shadow-lg bg-white shadow-xs py-4">
+									<div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
 										{!desinationBusStopList ? (
-											<div className="px-6 py-2 animate-pulse flex space-x-4">
-												<div className="flex-1 space-y-6 py-1">
-													<div className="h-2 bg-slate-200 rounded"></div>
+											<div className="flex px-6 py-2 space-x-4 animate-pulse">
+												<div className="flex-1 py-1 space-y-6">
+													<div className="h-2 rounded bg-slate-200"></div>
 													<div className="space-y-3">
 														<div className="grid grid-cols-3 gap-4">
-															<div className="h-2 bg-slate-200 rounded col-span-2"></div>
-															<div className="h-2 bg-slate-200 rounded col-span-1"></div>
+															<div className="h-2 col-span-2 rounded bg-slate-200"></div>
+															<div className="h-2 col-span-1 rounded bg-slate-200"></div>
 														</div>
-														<div className="h-2 bg-slate-200 rounded"></div>
+														<div className="h-2 rounded bg-slate-200"></div>
 													</div>
 												</div>
 											</div>
@@ -358,7 +356,7 @@ const BookRide = () => {
 													<a
 														key={stops}
 														href="#"
-														className="w-full inline-block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+														className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 														onClick={() => {
 															handleDestinationBusStop(stops);
 															setTo(stops);
@@ -405,10 +403,10 @@ const BookRide = () => {
 					<Modal
 						title={
 							<div>
-								<h1 className="text-xl pt-2">
+								<h1 className="pt-2 text-xl">
 									{flip ? "Let's get you started" : "Welcome Back"}
 								</h1>
-								<p className="text-gray-500 text-sm font-light pt-1">
+								<p className="pt-1 text-sm font-light text-gray-500">
 									{flip
 										? "You're almost there, create an account in just one simple step. "
 										: "Please enter your phone number to continue"}
@@ -444,12 +442,12 @@ const BookRide = () => {
 										showIcon
 									/>
 								)}
-								<div className="mb-6 mt-8">
+								<div className="mt-8 mb-6">
 									<div className="mb-1">
 										<label className="text-gray-500">First Name</label>
 									</div>
 									<Input
-										className="hover:border-green-500 active:border-green-600 h-12 w-full"
+										className="w-full h-12 hover:border-green-500 active:border-green-600"
 										placeholder="Please enter your first name"
 										value={firstName}
 										required={true}
@@ -462,7 +460,7 @@ const BookRide = () => {
 										<label className="text-gray-500">Last Name</label>
 									</div>
 									<Input
-										className="hover:border-green-500 active:border-green-600 h-12 w-full"
+										className="w-full h-12 hover:border-green-500 active:border-green-600"
 										placeholder="Last name"
 										value={lastName}
 										required={true}
@@ -475,7 +473,7 @@ const BookRide = () => {
 										<label className="text-gray-500">Email Address</label>
 									</div>
 									<Input
-										className="hover:border-green-500 active:border-green-600 h-12 w-full"
+										className="w-full h-12 hover:border-green-500 active:border-green-600"
 										placeholder="Email"
 										value={email}
 										required={true}
@@ -488,7 +486,7 @@ const BookRide = () => {
 										<label className="text-gray-500">Phone Number</label>
 									</div>
 									<Input
-										className="hover:border-green-500 active:border-green-600 h-12 w-full"
+										className="w-full h-12 hover:border-green-500 active:border-green-600"
 										placeholder="901 1234 123"
 										type="number"
 										value={phone}
@@ -544,9 +542,9 @@ const BookRide = () => {
 							</div>
 						) : (
 							<div>
-								<div className="mt-3 mb-3 pt-8">
+								<div className="pt-8 mt-3 mb-3">
 									<Input
-										className="hover:border-green-500 active:border-green-600 h-12 w-full"
+										className="w-full h-12 hover:border-green-500 active:border-green-600"
 										placeholder="903 123 1234"
 										value={phone}
 										prefix={"+234"}
