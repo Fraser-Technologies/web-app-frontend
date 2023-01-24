@@ -1,7 +1,10 @@
 import { Modal, Alert, Switch, Space } from "antd";
+import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import { FaStar, FaEllipsisV, FaClock, FaCalendar } from "react-icons/fa";
 import { Button } from "../Button";
+import moment from 'moment';
+
 
 const DriverOverview = () => {
   enum DriverViews {
@@ -42,6 +45,16 @@ const DriverOverview = () => {
     setModalVisible(false);
     setFlip("");
   };
+
+  const [dates, setDates] = useState<string[]>([]);
+
+  React.useEffect(() => {
+    let dateArray = [];
+    for (let i = 0; i <= 7; i++) {
+      dateArray.push(moment().add(i, 'days').format('dddd Do MMMM YYYY'));
+    }
+    setDates(dateArray);
+  }, []);
 
   return (
     <>
@@ -147,14 +160,117 @@ const DriverOverview = () => {
                 </div>
               </div>
             </div>
+
+            {/* TABLE  */}
+            <p className="mt-8 text-base font-medium">Trip History</p>
+            <table className="mt-2 w-full text-base font-normal text-left text-white table-auto">
+              <thead className=" bg-black">
+                <tr>
+                  <th
+                    scope="col"
+                    className="pl-4 px-2 py-4 font-normal text-sm rounded-l-md"
+                  >
+                    Trips
+                  </th>
+                  <th scope="col" className="py-4 font-normal text-sm">
+                    Date
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-4 py-4 font-normal text-sm text-center"
+                  >
+                    Passengers
+                  </th>
+
+                  <th
+                    scope="col"
+                    className="px-2 py-4 font-normal text-sm text-center"
+                  >
+                    Rating
+                  </th>
+                  <th
+                    scope="col"
+                    className="px-2 py-4 font-normal text-sm text-center rounded-r-md"
+                  >
+                    Earning
+                  </th>
+                </tr>
+              </thead>
+
+              {/* //TABLE ROWS */}
+              <tbody className="">
+                <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
+                  <td
+                    onClick={() => {
+                      handleOpenModal(undefined, "view");
+                    }}
+                    className="pl-4 py-4 text-sm text-gray-700"
+                  >
+                    Lagos to Ibadan
+                  </td>
+                  <td
+                    onClick={() => {
+                      handleOpenModal(undefined, "view");
+                    }}
+                    className=" py-4 text-sm  text-gray-700"
+                  >
+                    8, January, 2023
+                  </td>
+                  <td
+                    onClick={() => {
+                      handleOpenModal(undefined, "view");
+                    }}
+                    className="px-4 py-4 text-sm text-center text-gray-700"
+                  >
+                    25
+                  </td>
+                  <td
+                    onClick={() => {
+                      handleOpenModal(undefined, "view");
+                    }}
+                    className="text-sm text-center text-gray-700"
+                  >
+                    4.1
+                  </td>
+                  <td
+                    onClick={() => {
+                      handleOpenModal(undefined, "view");
+                    }}
+                    className="px-4 py-4 text-sm text-center text-gray-700"
+                  >
+                    NGN 24,000
+                  </td>
+                </tr>
+
+                {/* )} */}
+              </tbody>
+            </table>
           </div>
 
           {/* DETAILS ON RIGHT */}
-          <div className="col-start-6 text-black col-end-9">
-            {/* <p className="text-base text-black font-medium border-b pb-2">
-              Upcoming Trip Schedule
-            </p> */}
-            <div className="border-l mt-12 px-12 py-12 w-full">
+          <div className="w-3/12 fixed right-40 text-black ">
+            <div className="border-l px-8  w-full">
+  
+              <div className="mb-8">
+                <h3 className="font-medium text-base mb-4">Your Availability</h3>
+                {dates.map((date, index) => (
+                  <div
+                    className="flex justify-between bg-gray-100 items-center rounded-md px-2 py-2"
+                    key={index}
+                  >
+                    <div className="">
+                      <h3 className="font-medium">{date.split(" ")[0]}</h3>
+                      <p className="">{date.split(" ").slice(1).join(" ")}</p>
+                    </div>
+                    <Switch
+                      checkedChildren={<CheckOutlined />}
+                      unCheckedChildren={<CloseOutlined />}
+                      defaultChecked
+                    />
+                  </div>
+                ))}
+              </div>
+
               <div className="mb-8">
                 <p className="text-sm mb-2 font-normal text-[#929292]">
                   Trips Completed
@@ -183,89 +299,6 @@ const DriverOverview = () => {
         </div>
 
         {/* TABLE */}
-        <p className="mt-8 text-base font-medium">Trip History</p>
-        <table className="mt-2 w-full text-base font-normal text-left text-white table-auto">
-          <thead className=" bg-black">
-            <tr>
-              <th
-                scope="col"
-                className="pl-4 px-2 py-4 font-normal text-sm rounded-l-md"
-              >
-                Trips
-              </th>
-              <th scope="col" className="py-4 font-normal text-sm">
-                Date
-              </th>
-              <th
-                scope="col"
-                className="px-4 py-4 font-normal text-sm text-center"
-              >
-                Passengers
-              </th>
-
-              <th
-                scope="col"
-                className="px-2 py-4 font-normal text-sm text-center"
-              >
-                Rating
-              </th>
-              <th
-                scope="col"
-                className="px-2 py-4 font-normal text-sm text-center rounded-r-md"
-              >
-                Earning
-              </th>
-            </tr>
-          </thead>
-
-          {/* //TABLE ROWS */}
-          <tbody className="">
-            <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-              <td
-                onClick={() => {
-                  handleOpenModal(undefined, "view");
-                }}
-                className="pl-4 py-4 text-sm text-gray-700"
-              >
-                Lagos to Ibadan
-              </td>
-              <td
-                onClick={() => {
-                  handleOpenModal(undefined, "view");
-                }}
-                className=" py-4 text-sm  text-gray-700"
-              >
-                8, January, 2023
-              </td>
-              <td
-                onClick={() => {
-                  handleOpenModal(undefined, "view");
-                }}
-                className="px-4 py-4 text-sm text-center text-gray-700"
-              >
-                25
-              </td>
-              <td
-                onClick={() => {
-                  handleOpenModal(undefined, "view");
-                }}
-                className="text-sm text-center text-gray-700"
-              >
-                4.1
-              </td>
-              <td
-                onClick={() => {
-                  handleOpenModal(undefined, "view");
-                }}
-                className="px-4 py-4 text-sm text-center text-gray-700"
-              >
-                NGN 24,000
-              </td>
-            </tr>
-
-            {/* )} */}
-          </tbody>
-        </table>
 
         {flip === DriverViews.VIEW && modalVisible && (
           <Modal
