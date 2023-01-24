@@ -70,76 +70,80 @@ const DriverOverview = () => {
             </div> */}
 
             <div className="mt-4 text-[#929292] bg-black px-8 pb-4 pt-2 rounded-md">
-              <p className="border-b border-[#353535] py-2">
-                Outbound Schedule
-              </p>
-              <div className="flex justify-between mt-3 items-center">
-                <span>
-                  <p className="text-base text-white">Ibadan to Lagos</p>
-                  <div className="flex ">
-                    <div className="flex items-center mt-1 mr-4">
-                      <FaCalendar className="mr-2" />
-                      Feb 3rd, 2023
-                    </div>
-                    <div className="flex items-center mt-1">
-                      <FaClock className="mr-2" />
-                      6:00 AM
+              <div>
+                <p className="border-b border-[#353535] py-2">
+                  Outbound Schedule
+                </p>
+                <div className="flex justify-between mt-3 items-center">
+                  <div>
+                    <p className="text-base text-white">Ibadan to Lagos</p>
+                    <div className="flex ">
+                      <div className="flex items-center mt-1 mr-4">
+                        <FaCalendar className="mr-2" />
+                        Feb 3rd, 2023
+                      </div>
+                      <div className="flex items-center mt-1">
+                        <FaClock className="mr-2" />
+                        6:00 AM
+                      </div>
                     </div>
                   </div>
-                </span>
 
-                <div className="flex w-2/4">
-                  <Button
-                    title="View Details"
-                    type="submit"
-                    className="w-full h-[40px] mr-4 my-1 text-xs rounded-md border border-[#ffffff] text-white"
-                    onClick={() => {
-                      handleOpenModal(undefined, "view");
-                    }}
-                  />
-                  <Button
-                    title="Start Trip"
-                    type="submit"
-                    className="w-full h-[40px] my-1 mr-4 text-xs rounded-md bg-[#00FF6A] text-black"
-                    onClick={() => {}}
-                  />
+                  <div className="flex w-2/4">
+                    <Button
+                      title="View Details"
+                      type="submit"
+                      className="w-full h-[40px] mr-4 my-1 text-xs rounded-md border border-[#ffffff] text-white"
+                      onClick={() => {
+                        handleOpenModal(undefined, "view");
+                      }}
+                    />
+                    <Button
+                      title="Start Trip"
+                      type="submit"
+                      className="w-full h-[40px] my-1 mr-4 text-xs rounded-md bg-[#00FF6A] text-black"
+                      onClick={() => {}}
+                    />
+                  </div>
                 </div>
               </div>
-            </div>
 
-            {/* RETURN TRIP */}
-            <div className="mt-6 text-[#929292] bg-black px-8 pb-4 pt-2 rounded-md">
-              <p className="border-b border-[#353535] py-2">Return Schedule</p>
-              <div className="flex justify-between mt-3 items-center">
-                <span>
-                  <p className="text-base text-white">Ibadan to Lagos</p>
-                  <div className="flex ">
-                    <div className="flex items-center mt-1 mr-4">
-                      <FaCalendar className="mr-2" />
-                      Feb 3rd, 2023
-                    </div>
-                    <div className="flex items-center mt-1">
-                      <FaClock className="mr-2" />
-                      6:00 AM
+              {/* RETURN */}
+              <div className="mt-8 mb-8">
+                <p className="border-b border-[#353535] py-2">
+                  Return Schedule
+                </p>
+                <div className="flex justify-between mt-3 items-center">
+                  <div>
+                    <p className="text-base text-white">Ibadan to Lagos</p>
+                    <div className="flex ">
+                      <div className="flex items-center mt-1 mr-4">
+                        <FaCalendar className="mr-2" />
+                        Feb 3rd, 2023
+                      </div>
+                      <div className="flex items-center mt-1">
+                        <FaClock className="mr-2" />
+                        6:00 AM
+                      </div>
                     </div>
                   </div>
-                </span>
 
-                <div className="flex w-2/4">
-                  <Button
-                    title="View Details"
-                    type="submit"
-                    className="w-full h-[40px] mr-4 my-1 text-xs rounded-md border border-[#ffffff] text-white"
-                    onClick={() => {
-                      handleOpenModal(undefined, "view");
-                    }}
-                  />
-                  <Button
-                    title="Start Trip"
-                    type="submit"
-                    className="w-full h-[40px] my-1 mr-4 text-xs rounded-md bg-[#00FF6A] text-black"
-                    onClick={() => {}}
-                  />
+                  <div className="flex w-2/4">
+                    <Button
+                      title="View Details"
+                      type="submit"
+                      className="w-full h-[40px] mr-4 my-1 text-xs rounded-md border border-[#ffffff] text-white"
+                      onClick={() => {
+                        handleOpenModal(undefined, "view");
+                      }}
+                    />
+                    <Button
+                      title="Start Trip"
+                      type="submit"
+                      className="w-full h-[40px] my-1 mr-4 text-xs rounded-md bg-[#00FF6A] text-black"
+                      onClick={() => {}}
+                    />
+                  </div>
                 </div>
               </div>
             </div>
