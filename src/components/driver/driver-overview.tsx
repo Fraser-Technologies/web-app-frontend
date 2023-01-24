@@ -62,14 +62,14 @@ const DriverOverview = () => {
       <div className="mx-[120px] text-sm">
         <div className="grid grid-cols-8 gap-8">
           <div className="col-start-1 text-black col-end-6">
-            <p className="text-base font-medium border-b pb-2">
+            <p className="text-base mt-2 font-medium pb-2">
               Upcoming Trip Schedule
             </p>
             {/* <div className="w-fit bg-[#000000] rounded-2xl py-2 px-4 text-[#00FF6A] font-medium">
               Feb 3rd, 2023
             </div> */}
 
-            <div className="mt-3 text-[#929292] bg-black px-8 pb-4 pt-2 rounded-md">
+            <div className="mt-4 text-[#929292] bg-black px-8 pb-4 pt-2 rounded-md">
               <p className="border-b border-[#353535] py-2">
                 Outbound Schedule
               </p>
@@ -101,16 +101,14 @@ const DriverOverview = () => {
                     title="Start Trip"
                     type="submit"
                     className="w-full h-[40px] my-1 mr-4 text-xs rounded-md bg-[#00FF6A] text-black"
-                    onClick={() => {
-                      handleOpenModal(undefined, "view");
-                    }}
+                    onClick={() => {}}
                   />
                 </div>
               </div>
             </div>
 
             {/* RETURN TRIP */}
-            <div className="mt-4 text-[#929292] bg-black px-8 pb-4 pt-2 rounded-md">
+            <div className="mt-6 text-[#929292] bg-black px-8 pb-4 pt-2 rounded-md">
               <p className="border-b border-[#353535] py-2">Return Schedule</p>
               <div className="flex justify-between mt-3 items-center">
                 <span>
@@ -140,9 +138,7 @@ const DriverOverview = () => {
                     title="Start Trip"
                     type="submit"
                     className="w-full h-[40px] my-1 mr-4 text-xs rounded-md bg-[#00FF6A] text-black"
-                    onClick={() => {
-                      handleOpenModal(undefined, "view");
-                    }}
+                    onClick={() => {}}
                   />
                 </div>
               </div>
@@ -150,11 +146,11 @@ const DriverOverview = () => {
           </div>
 
           {/* DETAILS ON RIGHT */}
-          <div className="col-start-6 text-white col-end-9">
+          <div className="col-start-6 text-black col-end-9">
             {/* <p className="text-base text-black font-medium border-b pb-2">
               Upcoming Trip Schedule
             </p> */}
-            <div className="bg-black mt-4 px-12 rounded-md py-12 w-full">
+            <div className="border-l mt-12 px-12 py-12 w-full">
               <div className="mb-8">
                 <p className="text-sm mb-2 font-normal text-[#929292]">
                   Trips Completed
