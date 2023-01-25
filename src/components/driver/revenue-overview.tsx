@@ -1,12 +1,54 @@
+import { Input, Modal } from "antd";
 import React, { useState } from "react";
-import { BsArrowDownLeftCircleFill, BsArrowUpRightCircleFill } from "react-icons/bs";
-import { FaSuitcase } from "react-icons/fa";
+import {
+  BsArrowDownLeftCircleFill,
+  BsArrowUpRightCircleFill,
+} from "react-icons/bs";
+import { FaCaretDown, FaSuitcase } from "react-icons/fa";
 import { Button } from "../Button";
 
 const DriverRevenueOverview = () => {
+  enum DriverRevenueView {
+    WITHDRAWAL = "withdrawal",
+    ADDBANK = "addbank",
+  }
+
   const [selectedData, setIsSelected] = useState("day");
   const handleFilterToggle = (value: string) => {
     setIsSelected(value);
+  };
+  const [flip, setFlip] = useState<"" | DriverRevenueView>("");
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [value, setValue] = useState("");
+  const [bankIsOpen, setBankIsOpen] = useState(false);
+  const [selectedBank, setSelectedBank] = useState("Select receiving bank");
+  const [accountNumber, setAccountNumber] = useState("");
+
+  const handleBankChange = (bank: any) => {
+    setSelectedBank(bank);
+    setBankIsOpen(!bankIsOpen);
+  };
+
+  // const regex = /\B(?=(\d{3})+(?!\d))/g;
+
+  const handleChange = (e: any) => {
+    const inputValue = e.target.value;
+    setValue(inputValue);
+    // const formattedValue = inputValue.replace(regex, ",");
+    // setValue(formattedValue);
+  };
+  const handleOk = () => {
+    setModalVisible(false);
+  };
+
+  const handleCancel = () => {
+    setModalVisible(false);
+    setFlip("");
+  };
+
+  const handlePayout = (data: any, flip: any) => {
+    setFlip(flip);
+    setModalVisible(true);
   };
 
   return (
@@ -25,7 +67,9 @@ const DriverRevenueOverview = () => {
                 title="Request Payout"
                 type="submit"
                 className="px-4 py-3 mb-12 text-xs rounded-md bg-[#00FF6A] text-black"
-                onClick={() => {}}
+                onClick={() => {
+                  handlePayout(undefined, "withdrawal");
+                }}
               />
 
               {/* //FILTERS */}
@@ -107,7 +151,10 @@ const DriverRevenueOverview = () => {
               <div className="flex items-center border-b pb-4 mb-4">
                 <div className="flex mr-auto items-center">
                   <div className="bg-[#E5FCF5] px-4 py-4 flex">
-                    <BsArrowDownLeftCircleFill className="m-auto text-[#22B11E]" size="24px" />
+                    <BsArrowDownLeftCircleFill
+                      className="m-auto text-[#22B11E]"
+                      size="24px"
+                    />
                   </div>
                   <div className="ml-4 text-[16px] font-medium">
                     Trip Fulfilment
@@ -122,7 +169,10 @@ const DriverRevenueOverview = () => {
               <div className="flex items-center border-b pb-4 mb-4">
                 <div className="flex mr-auto items-center">
                   <div className="bg-[#FFEFF1] px-4 py-4 flex">
-                    <BsArrowUpRightCircleFill className="m-auto text-[#E71D36]" size="24px" />
+                    <BsArrowUpRightCircleFill
+                      className="m-auto text-[#E71D36]"
+                      size="24px"
+                    />
                   </div>
                   <div className="ml-4 text-[16px] font-medium">
                     Withdrawal
@@ -133,12 +183,206 @@ const DriverRevenueOverview = () => {
                 </div>
                 <div className="text-base font-semibold">NGN 35,989.89</div>
               </div>
-
-              
             </div>
           </div>
         </div>
       </div>
+
+      {flip === DriverRevenueView.WITHDRAWAL && modalVisible && (
+        <Modal
+          title="Request Payout"
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+          width={"360px"}
+        >
+          <div className="">
+            <div className="w-full my-8  place-content-center">
+              <p className="text-sm ">NGN</p>
+              <input
+                type="number"
+                value={value}
+                onChange={handleChange}
+                placeholder="0"
+                className=" w-min text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
+              />
+            </div>
+
+            {/* THIS SHOWS THE ACCOUNT INFORMATION THE USER HAS PREVIOUSLY PROVIDED IN THEIR PROFILE */}
+            <div className="">
+              <label className="text-gray-500 text-[10px] ml-1">
+                Receiving Bank
+              </label>
+              <div className="flex items-center w-full mt-2">
+                <div className="relative z-50 inline w-full text-left">
+                  <button
+                    className="inline-flex text-[12px] w-full px-4 py-2 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    onClick={() => {
+                      setBankIsOpen(!bankIsOpen);
+                    }}
+                  >
+                    {selectedBank}
+                    <FaCaretDown className="ml-auto" />
+                  </button>
+                  {bankIsOpen && (
+                    <div className="absolute w-full mt-2  rounded-md">
+                      <div className="w-full py-2 pb-4 h-[160px] overflow-y-scroll bg-white rounded-md shadow-md border">
+                        <div className=" w-full bg-white relative  z-10 rounded-md ">
+                          <a
+                            // key={stops}
+                            href="#"
+                            className="inline-block text-sm w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            onClick={() => {
+                              handleBankChange("Wema Bank");
+                            }}
+                          >
+                            Wema Bank - Amen Olabode Oluwaseun
+                          </a>
+                          <a
+                            // key={stops}
+                            href="#"
+                            className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            onClick={() => {
+                              handleBankChange("First Bank");
+                            }}
+                          >
+                            First Bank - Amen Olabode Oluwaseun
+                          </a>
+                          <a
+                            // key={stops}
+                            href="#"
+                            className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            onClick={() => {
+                              handleBankChange("First Bank");
+                            }}
+                          >
+                            Access Bank - Amen Olabode Oluwaseun
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            className={`w-full p-3 mt-8 mb-2 text-sm rounded-lg ${
+              true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+            } `}
+            onClick={() => {}}
+          >
+            Request Payout
+          </button>
+        </Modal>
+      )}
+      {flip === DriverRevenueView.ADDBANK && modalVisible && (
+        <Modal
+          title="Request Payout"
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+          width={"360px"}
+        >
+          <div className="">
+            <div className="w-full my-8 m-auto place-content-center">
+              <p className="text-sm ">NGN</p>
+              <input
+                type="number"
+                value={value}
+                onChange={handleChange}
+                placeholder="0"
+                className=" w-min text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
+              />
+            </div>
+
+            <div className="mb-4">
+              <label className="text-gray-500 text-[10px] ml-1">
+                Account Number
+              </label>
+
+              <Input
+                className="w-full h-10 mt-1 hover:border-green-500 active:border-green-600 text-[12px]"
+                placeholder="Account Number"
+                value={accountNumber}
+                required={true}
+                onChange={(e) => setAccountNumber(e.target.value)}
+              />
+            </div>
+
+            <div className="mt-3">
+              <label className="text-gray-500 text-[10px] ml-1">
+                Receiving Bank
+              </label>
+              <div className="flex items-center w-full mt-2">
+                <div className="relative z-50 inline w-full text-left">
+                  <button
+                    className="inline-flex text-[12px] w-full px-4 py-2 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    onClick={() => {
+                      setBankIsOpen(!bankIsOpen);
+                    }}
+                  >
+                    {selectedBank}
+                    <FaCaretDown className="ml-auto" />
+                  </button>
+                  {bankIsOpen && (
+                    <div className="absolute w-full mt-2  rounded-md">
+                      <div className="w-full py-2 pb-4 h-[160px] overflow-y-scroll bg-white rounded-md shadow-md border">
+                        <div className=" w-full bg-white relative  z-10 rounded-md ">
+                          <a
+                            // key={stops}
+                            href="#"
+                            className="inline-block text-sm w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            onClick={() => {
+                              handleBankChange("Wema Bank");
+                            }}
+                          >
+                            Wema Bank
+                          </a>
+                          <a
+                            // key={stops}
+                            href="#"
+                            className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            onClick={() => {
+                              handleBankChange("First Bank");
+                            }}
+                          >
+                            First Bank
+                          </a>
+                          <a
+                            // key={stops}
+                            href="#"
+                            className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            onClick={() => {
+                              handleBankChange("First Bank");
+                            }}
+                          >
+                            First Bank
+                          </a>
+                        </div>
+                      </div>
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+          <button
+            className={`w-full p-3 mt-8 mb-2 text-sm rounded-lg ${
+              true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+            } `}
+            onClick={() => {}}
+          >
+            Request Payout
+          </button>
+        </Modal>
+      )}
     </>
   );
 };

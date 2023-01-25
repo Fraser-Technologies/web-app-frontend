@@ -16,10 +16,10 @@ const DriverOverview = () => {
   enum DriverViews {
     VIEW = "view",
     MANIFEST = "manifest",
-    endoutboundtrip = "endoutboundtrip",
-    endreturntrip = "endreturntrip",
-    startOutBoundTrip = "startOutBoundTrip",
-    startReturnTrip = "startReturnTrip",
+    ENDOUTBOUNDTRIP = "endoutboundtrip",
+    ENDRETURNTRIP = "endreturntrip",
+    STARTOUTBOUNDTRIP = "startOutBoundTrip",
+    STARTRETURNTRIP = "startReturnTrip",
     TRIPINFO = "tripinformation",
   }
   const [visible, setVisible] = useState(true);
@@ -401,7 +401,7 @@ const DriverOverview = () => {
             </div>
           </Modal>
         )}
-        {flip === DriverViews.startOutBoundTrip && modalVisible && (
+        {flip === DriverViews.STARTOUTBOUNDTRIP && modalVisible && (
           <Modal
             onOk={handleOk}
             onCancel={handleCancel}
@@ -441,7 +441,7 @@ const DriverOverview = () => {
             </div>
           </Modal>
         )}
-        {flip === DriverViews.startReturnTrip && modalVisible && (
+        {flip === DriverViews.STARTRETURNTRIP && modalVisible && (
           <Modal
             onOk={handleOk}
             onCancel={handleCancel}
@@ -473,7 +473,7 @@ const DriverOverview = () => {
                 className="w-full py-2 text-xs rounded-md bg-black text-white"
                 onClick={() => {
                   // setstartOutBoundTrip(!startOutBoundTrip);
-                  setstartReturnTrip(!startReturnTrip)
+                  setstartReturnTrip(!startReturnTrip);
                   setVisible(true);
                   setAlertMessage("Trip Started, your ETA is 3:00PM");
                   setModalVisible(false);
@@ -482,7 +482,9 @@ const DriverOverview = () => {
             </div>
           </Modal>
         )}
-        {flip === DriverViews.endoutboundtrip && modalVisible && (
+
+        {/* WHEN A TRIP ENDS, REMOVE THE TRIP FROM THE UPCOMING SCHEDULE */}
+        {flip === DriverViews.ENDOUTBOUNDTRIP && modalVisible && (
           <Modal
             onOk={handleOk}
             onCancel={handleCancel}
@@ -522,7 +524,7 @@ const DriverOverview = () => {
             </div>
           </Modal>
         )}
-        {flip === DriverViews.endreturntrip && modalVisible && (
+        {flip === DriverViews.ENDRETURNTRIP && modalVisible && (
           <Modal
             onOk={handleOk}
             onCancel={handleCancel}
