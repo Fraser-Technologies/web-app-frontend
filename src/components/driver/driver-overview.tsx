@@ -2,11 +2,21 @@ import { Modal, Alert, Switch, Space } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import React, { useState } from "react";
 import {
+<<<<<<< HEAD
 	FaStar,
 	FaClock,
 	FaCalendar,
 	FaCheck,
 	FaMinusCircle,
+=======
+  FaStar,
+  FaClock,
+  FaCalendar,
+  FaCheck,
+  FaMinusCircle,
+  FaExclamationCircle,
+  FaChevronRight,
+>>>>>>> 73699ebf21430bec65c2dab6c6eeb92616652bfd
 } from "react-icons/fa";
 import { Button } from "../Button";
 import moment from "moment";
@@ -188,6 +198,7 @@ const DriverOverview = () => {
 									</div>
 								</div>
 
+<<<<<<< HEAD
 								{/* RETURN */}
 								<div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black pb-4 pt-2 rounded-md">
 									<div className="bg-black p-4 lg:p-0 rounded-md ">
@@ -250,6 +261,80 @@ const DriverOverview = () => {
 								</div>
 							</div>
 						</div>
+=======
+                {/* RETURN */}
+                <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black pb-4 pt-2 rounded-md">
+                  <div className="bg-black p-4 lg:p-0 rounded-md ">
+                    <p className="border-b text-[14px] lg:text-sm border-[#353535] py-2">
+                      Return Schedule
+                    </p>
+                    <div className=" lg:flex justify-between lg:mt-3 items-center">
+                      <div className="py-3 lg:py-6 lg:py-0 rounded-md">
+                        <p className="text-xl lg:text-base text-white">
+                          Lagos to Ibadan
+                        </p>
+                        <div className="flex lg:mt-0 mt-2 lg:mt-4">
+                          <div className="flex items-center mt-1 mr-4">
+                            <FaCalendar className="mr-2" />
+                            Feb 3rd, 2023
+                          </div>
+                          <div className="flex items-center mt-1">
+                            <FaClock className="mr-2" />
+                            6:00 AM
+                          </div>
+                        </div>
+                        <div
+                          className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer hidden lg:block"
+                          onClick={() => {
+                            handleOpenModal(undefined, "tripinformation");
+                          }}
+                        >
+                          see more
+                        </div>
+                      </div>
+
+                      <div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
+                       
+                        <Button
+                          title="View Manifest"
+                          type="submit"
+                          className="w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
+                          onClick={() => {
+                            handleOpenModal(undefined, "manifest");
+                          }}
+                        />
+                        <Button
+                          title={startReturnTrip ? "End Trip" : "Start Trip"}
+                          type="submit"
+                          className={`w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md ${
+                            startReturnTrip
+                              ? "bg-[#E71D36] text-white"
+                              : "bg-[#00FF6A] text-black"
+                          }`}
+                          onClick={() => {
+                            if (!startReturnTrip) {
+                              handleOpenModal(undefined, "startReturnTrip");
+                            }
+                            if (startReturnTrip) {
+                              handleOpenModal(undefined, "endreturntrip");
+                            }
+                          }}
+                        />
+                         <div
+                          className="w-full h-[48px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
+                          onClick={() => {
+                            handleOpenModal(undefined, "tripinformation");
+                          }}
+                        >
+                          <FaChevronRight className="m-auto text-black"/>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+>>>>>>> 73699ebf21430bec65c2dab6c6eeb92616652bfd
 
 						{/* TRIP HISTORY  */}
 						<div
