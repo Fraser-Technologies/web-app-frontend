@@ -9,6 +9,9 @@ import {
   FaMinusCircle,
   FaExclamationCircle,
   FaChevronRight,
+  FaPlayCircle,
+  FaPlay,
+  FaBook,
 } from "react-icons/fa";
 import { Button } from "../Button";
 import moment from "moment";
@@ -139,6 +142,7 @@ const DriverOverview = () => {
               Feb 3rd, 2023
             </div> */}
 
+            {/* OUTGOING TRIP SCHEDULE */}
               <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 pt-2 rounded-md">
                 <div className="bg-black p-4 lg:p-0 rounded-md ">
                   <p className="border-b text-[14px] lg:text-sm border-[#353535] py-2">
@@ -159,21 +163,23 @@ const DriverOverview = () => {
                           6:00 AM
                         </div>
                       </div>
+
+                      {/* SEE MORE IS HIDDEN ON RESPONSIVE VIEW */}
                       <div
-                        className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer hidden lg:block"
-                        onClick={() => {
-                          handleOpenModal(undefined, "tripinformation");
-                        }}
-                      >
-                        see more
-                      </div>
+                          className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer hidden lg:block"
+                          onClick={() => {
+                            handleOpenModal(undefined, "tripinformation");
+                          }}
+                        >
+                          see more
+                        </div>
                     </div>
 
-                    <div className="lg:flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
+                    <div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
                       <Button
                         title="View Manifest"
                         type="submit"
-                        className="w-full h-[48px] lg:h-[40px] mr-4 my-1 mb-3 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
+                        className="lg:block hidden w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
                         onClick={() => {
                           handleOpenModal(undefined, "manifest");
                         }}
@@ -181,7 +187,7 @@ const DriverOverview = () => {
                       <Button
                         title={startOutBoundTrip ? "End Trip" : "Start Trip"}
                         type="submit"
-                        className={`w-full h-[48px] lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md ${
+                        className={`lg:block hidden w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md ${
                           startOutBoundTrip
                             ? "bg-[#E71D36] text-white"
                             : "bg-[#00FF6A] text-black"
@@ -195,11 +201,51 @@ const DriverOverview = () => {
                           }
                         }}
                       />
+
+                      {/* RESPONSIVE MENU ICONS FOR TRIP SCHEDULE CARD */}
+                      <div
+                          className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+                          onClick={() => {
+                            handleOpenModal(undefined, "manifest");
+                          }}
+                        >
+                          <div className="m-auto flex flex-col items-center">
+                            <FaBook className="m-auto text-white mb-2" />
+                            Manifest
+                          </div>
+                        </div>
+                        <div
+                          className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+                          onClick={() => {
+                            if (!startOutBoundTrip) {
+                              handleOpenModal(undefined, "startOutBoundTrip");
+                            }
+                            if (startOutBoundTrip) {
+                              handleOpenModal(undefined, "endoutboundtrip");
+                            }
+                          }}
+                        >
+                          <div className="m-auto flex flex-col items-center">
+                            <FaPlay className="m-auto text-white mb-2" />
+                            {startOutBoundTrip ? "End Trip" : "Start Trip"}
+                          </div>
+                        </div>
+                        <div
+                          className="w-full h-[56px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#161616] lg:bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
+                          onClick={() => {
+                            handleOpenModal(undefined, "tripinformation");
+                          }}
+                        >
+                          <div className="m-auto flex flex-col items-center">
+                            <FaChevronRight className="m-auto text-white mb-2" />
+                            View Details
+                          </div>
+                        </div>
                     </div>
                   </div>
                 </div>
 
-                {/* RETURN */}
+                {/* RETURN TRIP SCHEDULE */}
                 <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black pb-4 pt-2 rounded-md">
                   <div className="bg-black p-4 lg:p-0 rounded-md ">
                     <p className="border-b text-[14px] lg:text-sm border-[#353535] py-2">
@@ -220,6 +266,8 @@ const DriverOverview = () => {
                             6:00 AM
                           </div>
                         </div>
+
+                        {/* SEE MORE IS HIDDEN ON RESPONSIVE VIEW */}
                         <div
                           className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer hidden lg:block"
                           onClick={() => {
@@ -231,11 +279,10 @@ const DriverOverview = () => {
                       </div>
 
                       <div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
-                       
                         <Button
                           title="View Manifest"
                           type="submit"
-                          className="w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
+                          className="lg:block hidden w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
                           onClick={() => {
                             handleOpenModal(undefined, "manifest");
                           }}
@@ -243,10 +290,10 @@ const DriverOverview = () => {
                         <Button
                           title={startReturnTrip ? "End Trip" : "Start Trip"}
                           type="submit"
-                          className={`w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md ${
+                          className={`lg:block hidden w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md ${
                             startReturnTrip
                               ? "bg-[#E71D36] text-white"
-                              : "bg-[#00FF6A] text-black"
+                              : "bg-[#161616] text-white lg:bg-[#00FF6A] lg:text-black"
                           }`}
                           onClick={() => {
                             if (!startReturnTrip) {
@@ -257,13 +304,45 @@ const DriverOverview = () => {
                             }
                           }}
                         />
-                         <div
-                          className="w-full h-[48px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
+
+                        {/* RESPONSIVE MENU ICONS FOR TRIP SCHEDULE CARD */}
+                        <div
+                          className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+                          onClick={() => {
+                            handleOpenModal(undefined, "manifest");
+                          }}
+                        >
+                          <div className="m-auto flex flex-col items-center">
+                            <FaBook className="m-auto text-white mb-2" />
+                            Manifest
+                          </div>
+                        </div>
+                        <div
+                          className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+                          onClick={() => {
+                            if (!startReturnTrip) {
+                              handleOpenModal(undefined, "startReturnTrip");
+                            }
+                            if (startReturnTrip) {
+                              handleOpenModal(undefined, "endreturntrip");
+                            }
+                          }}
+                        >
+                          <div className="m-auto flex flex-col items-center">
+                            <FaPlay className="m-auto text-white mb-2" />
+                            {startReturnTrip ? "End Trip" : "Start Trip"}
+                          </div>
+                        </div>
+                        <div
+                          className="w-full h-[56px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#161616] lg:bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
                           onClick={() => {
                             handleOpenModal(undefined, "tripinformation");
                           }}
                         >
-                          <FaChevronRight className="m-auto text-black"/>
+                          <div className="m-auto flex flex-col items-center">
+                            <FaChevronRight className="m-auto text-white mb-2" />
+                            View Details
+                          </div>
                         </div>
                       </div>
                     </div>
