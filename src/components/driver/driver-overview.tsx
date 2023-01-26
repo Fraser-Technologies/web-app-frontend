@@ -28,7 +28,7 @@ const DriverOverview = () => {
     STARTRETURNTRIP = "startReturnTrip",
     TRIPINFO = "tripinformation",
   }
-  const [visible, setVisible] = useState(true);
+  const [visible, setVisible] = useState(false);
   const [flip, setFlip] = useState<"" | DriverViews>("");
   // const [modalData, setModalData] = useState();
   const [modalVisible, setModalVisible] = useState<boolean>(false);

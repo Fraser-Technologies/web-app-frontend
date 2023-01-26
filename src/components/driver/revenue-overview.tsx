@@ -4,7 +4,13 @@ import {
   BsArrowDownLeftCircleFill,
   BsArrowUpRightCircleFill,
 } from "react-icons/bs";
-import { FaCaretDown, FaExclamationCircle, FaSuitcase } from "react-icons/fa";
+import {
+  FaCaretDown,
+  FaChevronCircleLeft,
+  FaChevronCircleRight,
+  FaExclamationCircle,
+  FaSuitcase,
+} from "react-icons/fa";
 import { Button } from "../Button";
 
 const DriverRevenueOverview = () => {
@@ -52,100 +58,148 @@ const DriverRevenueOverview = () => {
     setModalVisible(true);
   };
 
+  const [item, setItem] = useState(0);
+  const nextItem = () => {
+    if (item <= 2) {
+      setItem(item + 1);
+    }
+    if (item >= 2) {
+      setItem(0);
+    }
+  };
+  const previousItem = () => {
+    if (item >= 0) {
+      setItem(item - 1);
+    }
+    if (item >= -1) {
+      setItem(0);
+    }
+  };
+
   return (
     <>
-      <div className="mx-[120px] text-sm mt-8">
-        <div className="grid grid-cols-12 gap-4">
-          <div className="col-start-1 text-black col-end-8">
-            <div className="bg-black text-white px-12 py-16 rounded-md">
-              <div className="mb-6 pb-3 text-sm font-normal text-[#646464]">
-                Total Available Balance
-                <h3 className="text-[24px] mt-3 text-white font-semibold">
-                  NGN 212,345.00
-                </h3>
+      <div className="mx-[18px] lg:mx-[120px] text-sm lg:mt-8">
+        <div className="lg:grid lg:grid-cols-12 lg:gap-4">
+          <div className="lg:col-start-1 text-black lg:col-end-8">
+            <div className="lg:bg-black text-white lg:px-12 lg:py-16 rounded-md">
+              <div className="bg-black mt-6 px-6 lg:px-0 py-16 text-center lg:text-left lg:py-4 lg:mt-0  rounded-md text-sm font-normal text-[#646464]">
+                <div className="flex items-center justify-between">
+                  <FaChevronCircleLeft
+                    className="lg:hidden text-white text-xl"
+                    onClick={previousItem}
+                  />
+                  <div className="w-full items-center place-content-center lg:place-content-start">
+                    <div
+                      className={`${item === 0 ? "block" : "hidden lg:block"}`}
+                    >
+                      <div>Total Available Balance</div>
+                      <h3 className="text-[24px] mt-3 text-white font-semibold">
+                        NGN 212,345.00
+                      </h3>
+                    </div>
+                    <div className="lg:flex lg:mt-8 justify-between">
+                      <div
+                        className={`${
+                          item === 1 ? "block" : "hidden lg:block"
+                        }`}
+                      >
+                        <div className="lg:text-sm lg:mb-3 lg:font-normal lg:text-[#646464]">
+                          Total Earnings
+                        </div>
+                        <h3 className="text-[24px] mt-3 lg:mt-0 text-white lg:text-[#646464] font-semibold lg:text-[18px] lg:font-medium">
+                          NGN 212,000.00
+                        </h3>
+                      </div>
+                      <div
+                        className={`ml-auto mr-auto ${
+                          item === 2 ? "block" : "hidden lg:block"
+                        }`}
+                      >
+                        <div className="lg:text-sm lg:mb-3 lg:font-normal lg:text-[#646464]">
+                          Total Withdrawals
+                        </div>
+                        <h3 className="text-[24px] mt-3 lg:mt-0 text-white lg:text-[#646464] font-semibold lg:text-[18px] lg:font-medium">
+                          NGN 212,123.00
+                        </h3>
+                      </div>
+                    </div>
+                  </div>
+                  <FaChevronCircleRight
+                    className="lg:hidden text-white text-xl"
+                    onClick={nextItem}
+                  />
+                </div>
               </div>
-              <Button
-                title="Request Payout"
-                type="submit"
-                className="px-4 py-3 mb-12 text-xs rounded-md bg-[#00FF6A] text-black"
-                onClick={() => {
-                  handlePayout(undefined, "withdrawal");
-                }}
-              />
 
               {/* //FILTERS */}
-              <div className="border-b border-[#353535] pb-4 w-1/2 text-white text-sm mb-8 flex">
+              {/* <div className="hidden lg:block border-b border-[#353535] pb-4 w-1/2 text-white text-sm mb-8 flex lg:flex">
                 <div
-                  className={` px-2 py-1 cursor-pointer ${
+                  className={` px-3 py-2  items-center cursor-pointer ${
                     selectedData === "day"
                       ? "bg-[#00ff6a] text-center text-black"
                       : "text-[#666666]"
                   }`}
                   onClick={() => handleFilterToggle("day")}
                 >
-                  Day
+                  D
                 </div>
                 <div
-                  className={` px-2 py-1 cursor-pointer ${
+                  className={` px-3 py-2 cursor-pointer ${
                     selectedData === "week"
                       ? "bg-[#00ff6a] text-center text-black"
                       : "text-[#666666]"
                   }`}
                   onClick={() => handleFilterToggle("week")}
                 >
-                  Week
+                  W
                 </div>
                 <div
-                  className={` px-2 py-1 cursor-pointer ${
+                  className={` px-3 py-2 cursor-pointer ${
                     selectedData === "month"
                       ? "bg-[#00ff6a] text-center text-black"
                       : "text-[#666666]"
                   }`}
                   onClick={() => handleFilterToggle("month")}
                 >
-                  Month
+                  M
                 </div>
                 <div
-                  className={` px-2 py-1 cursor-pointer ${
+                  className={` px-3 py-2  cursor-pointer ${
                     selectedData === "6 months"
                       ? "bg-[#00ff6a] text-center text-black"
                       : "text-[#666666]"
                   }`}
                   onClick={() => handleFilterToggle("6 months")}
                 >
-                  6 Months
+                  6M
                 </div>
                 <div
-                  className={` px-2 py-1 cursor-pointer ${
+                  className={` px-3 py-2  cursor-pointer ${
                     selectedData === "year"
                       ? "bg-[#00ff6a] text-center text-black"
                       : "text-[#666666]"
                   }`}
                   onClick={() => handleFilterToggle("year")}
                 >
-                  Year
+                  Y
                 </div>
-              </div>
+              </div> */}
 
-              <div className="flex justify-between">
-                <div className="">
-                  <p className="text-sm mb-3 font-normal text-[#646464]">
-                    Total Earnings
-                  </p>
-                  <h3 className="text-[18px] font-medium">NGN 212,345.00</h3>
-                </div>
-                <div className="ml-auto mr-auto">
-                  <p className="text-sm mb-3 font-normal text-[#646464]">
-                    Total Withdrawals
-                  </p>
-                  <h3 className="text-[18px] font-medium">NGN 212,345.00</h3>
-                </div>
+              <div className="w-full flex items-center lg:items-start">
+                <Button
+                  title="Request Payout"
+                  type="submit"
+                  className="m-auto lg:m-0 w-full lg:w-fit px-4 py-8 lg:py-3 mt-4 lg:mt-8 text-base font-medium lg:font-normal lg:text-xs rounded-md bg-[#00FF6A] text-black"
+                  onClick={() => {
+                    handlePayout(undefined, "withdrawal");
+                  }}
+                />
               </div>
             </div>
           </div>
 
-          <div className="col-start-8 col-end-13 px-6 rounded-md text-black">
-            <p className="mt-4 text-base font-medium border-b mb-4 pb-4">
+          <div className="col-start-8 col-end-13 lg:px-6 rounded-md text-black">
+            <p className="mt-12 lg:mt-4 text-lg lg:text-base font-medium border-b mb-4 pb-4">
               Trip History
             </p>
             <div className="">
