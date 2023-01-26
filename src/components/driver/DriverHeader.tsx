@@ -24,7 +24,7 @@ const DriverHeader = (props: Props) => {
     },
   ];
   return (
-    <div className="flex text-white text-sm flex-col bg-black">
+    <div className="w-full fixed top-0 z-10 flex text-white text-sm flex-col bg-black">
       <div className="my-4 px-[10px] px-[40px] flex flex-row w-full justify-between">
         <div className="flex flex-row items-center justify-start ">
           <div className="py-1 border-r border-[#ffffff]">
@@ -38,7 +38,7 @@ const DriverHeader = (props: Props) => {
         </div>
 
         <Dropdown menu={{ items }} trigger={["click"]}>
-          <div className="text-white cursor-pointer">
+          <div className="hidden lg:block text-white cursor-pointer">
             <div className="flex flex-row items-center item-center">
               <img
                 className="w-[30px] h-[30px] rounded-full bg-gray-300"
@@ -54,7 +54,7 @@ const DriverHeader = (props: Props) => {
         </Dropdown>
       </div>
 
-      <div className="bg-[#E1EDE1] px-[120px] py-[10px] px-[10px]">
+      <div className="bg-[#E1EDE1] lg:px-[120px] py-[10px]">
         {/* GROUP BUTTON - NAVIGATION */}
 
         <div className="inline-flex rounded-md" role="group">
