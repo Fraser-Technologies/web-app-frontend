@@ -8,6 +8,7 @@ import {
   FaCheck,
   FaMinusCircle,
   FaExclamationCircle,
+  FaChevronRight,
 } from "react-icons/fa";
 import { Button } from "../Button";
 import moment from "moment";
@@ -207,7 +208,7 @@ const DriverOverview = () => {
                     <div className=" lg:flex justify-between lg:mt-3 items-center">
                       <div className="py-3 lg:py-6 lg:py-0 rounded-md">
                         <p className="text-xl lg:text-base text-white">
-                           Lagos to Ibadan
+                          Lagos to Ibadan
                         </p>
                         <div className="flex lg:mt-0 mt-2 lg:mt-4">
                           <div className="flex items-center mt-1 mr-4">
@@ -229,11 +230,12 @@ const DriverOverview = () => {
                         </div>
                       </div>
 
-                      <div className="lg:flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
+                      <div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
+                       
                         <Button
                           title="View Manifest"
                           type="submit"
-                          className="w-full h-[48px] lg:h-[40px] mr-4 my-1 mb-3 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
+                          className="w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
                           onClick={() => {
                             handleOpenModal(undefined, "manifest");
                           }}
@@ -241,7 +243,7 @@ const DriverOverview = () => {
                         <Button
                           title={startReturnTrip ? "End Trip" : "Start Trip"}
                           type="submit"
-                          className={`w-full h-[48px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md ${
+                          className={`w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md ${
                             startReturnTrip
                               ? "bg-[#E71D36] text-white"
                               : "bg-[#00FF6A] text-black"
@@ -255,6 +257,14 @@ const DriverOverview = () => {
                             }
                           }}
                         />
+                         <div
+                          className="w-full h-[48px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
+                          onClick={() => {
+                            handleOpenModal(undefined, "tripinformation");
+                          }}
+                        >
+                          <FaChevronRight className="m-auto text-black"/>
+                        </div>
                       </div>
                     </div>
                   </div>
