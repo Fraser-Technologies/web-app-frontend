@@ -208,12 +208,16 @@ const DriverOverview = () => {
                         }}
                       >
                         <div className="m-auto flex flex-col items-center">
-                          <FaBook className="m-auto text-white mb-2" />
+                          <FaBook className="m-auto mt-1 text-white mb-2" />
                           Manifest
                         </div>
                       </div>
                       <div
-                        className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+                        className={`w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md cursor-pointer block lg:hidden flex flex-col items-center  ${
+                          startOutBoundTrip
+                            ? "bg-[#E71D36] text-white"
+                            : "bg-[#161616]"
+                        }`}
                         onClick={() => {
                           if (!startOutBoundTrip) {
                             handleOpenModal(undefined, "startOutBoundTrip");
@@ -223,8 +227,8 @@ const DriverOverview = () => {
                           }
                         }}
                       >
-                        <div className="m-auto flex flex-col items-center">
-                          <FaPlay className="m-auto text-white mb-2" />
+                        <div className={`m-auto flex flex-col items-center`}>
+                          <FaPlay className="m-auto mt-1 text-white mb-2" />
                           {startOutBoundTrip ? "End Trip" : "Start Trip"}
                         </div>
                       </div>
@@ -235,7 +239,7 @@ const DriverOverview = () => {
                         }}
                       >
                         <div className="m-auto flex flex-col items-center">
-                          <FaChevronRight className="m-auto text-white mb-2" />
+                          <FaChevronRight className="m-auto mt-1 text-white mb-2" />
                           View Details
                         </div>
                       </div>
@@ -311,7 +315,7 @@ const DriverOverview = () => {
                           }}
                         >
                           <div className="m-auto flex flex-col items-center">
-                            <FaBook className="m-auto text-white mb-2" />
+                            <FaBook className="m-auto mt-1 text-white mb-2" />
                             Manifest
                           </div>
                         </div>
@@ -331,7 +335,7 @@ const DriverOverview = () => {
                           }}
                         >
                           <div className={`m-auto flex flex-col items-center `}>
-                            <FaPlay className="m-auto text-white mb-2" />
+                            <FaPlay className="m-auto mt-1 text-white mb-2" />
                             {startReturnTrip ? "End Trip" : "Start Trip"}
                           </div>
                         </div>
@@ -342,7 +346,7 @@ const DriverOverview = () => {
                           }}
                         >
                           <div className="m-auto flex flex-col items-center">
-                            <FaChevronRight className="m-auto text-white mb-2" />
+                            <FaChevronRight className="m-auto mt-1 text-white mb-2" />
                             View Details
                           </div>
                         </div>
@@ -364,88 +368,90 @@ const DriverOverview = () => {
               <p className="text-lg lg:mt-8 mb:text-base font-medium pb-2">
                 Trip History
               </p>
-              <div className="hidden lg:block"><table className="mt-2 w-full text-base font-normal text-left text-white table-auto">
-                <thead className="w-full bg-black">
-                  <tr className="w-full">
-                    <th
-                      scope="col"
-                      className="pl-4 px-2 py-4 font-normal text-sm rounded-mdlg"
-                    >
-                      Trips
-                    </th>
-                    <th scope="col" className="py-4 font-normal text-sm">
-                      Date
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-4 font-normal text-sm text-center"
-                    >
-                      Passengers
-                    </th>
+              <div className="hidden lg:block">
+                <table className="mt-2 w-full text-base font-normal text-left text-white table-auto">
+                  <thead className="w-full bg-black">
+                    <tr className="w-full">
+                      <th
+                        scope="col"
+                        className="pl-4 px-2 py-4 font-normal text-sm rounded-mdlg"
+                      >
+                        Trips
+                      </th>
+                      <th scope="col" className="py-4 font-normal text-sm">
+                        Date
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-4 py-4 font-normal text-sm text-center"
+                      >
+                        Passengers
+                      </th>
 
-                    <th
-                      scope="col"
-                      className="px-2 py-4 font-normal text-sm text-center"
-                    >
-                      Rating
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-2 py-4 font-normal text-sm text-center rounded-mdlg"
-                    >
-                      Earning
-                    </th>
-                  </tr>
-                </thead>
+                      <th
+                        scope="col"
+                        className="px-2 py-4 font-normal text-sm text-center"
+                      >
+                        Rating
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-2 py-4 font-normal text-sm text-center rounded-mdlg"
+                      >
+                        Earning
+                      </th>
+                    </tr>
+                  </thead>
 
-                {/* //TABLE ROWS */}
-                <tbody className="">
-                  <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-                    <td
-                      onClick={() => {
-                        handleOpenModal(undefined, "view");
-                      }}
-                      className="pl-4 py-4 text-sm text-gray-700"
-                    >
-                      Lagos to Ibadan
-                    </td>
-                    <td
-                      onClick={() => {
-                        handleOpenModal(undefined, "view");
-                      }}
-                      className=" py-4 text-sm  text-gray-700"
-                    >
-                      8, January, 2023
-                    </td>
-                    <td
-                      onClick={() => {
-                        handleOpenModal(undefined, "view");
-                      }}
-                      className="px-4 py-4 text-sm text-center text-gray-700"
-                    >
-                      25
-                    </td>
-                    <td
-                      onClick={() => {
-                        handleOpenModal(undefined, "view");
-                      }}
-                      className="text-sm text-center text-gray-700"
-                    >
-                      4.1
-                    </td>
-                    <td
-                      onClick={() => {
-                        handleOpenModal(undefined, "view");
-                      }}
-                      className="px-4 py-4 text-sm text-center text-gray-700"
-                    >
-                      NGN 24,000
-                    </td>
-                  </tr>
+                  {/* //TABLE ROWS */}
+                  <tbody className="">
+                    <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
+                      <td
+                        onClick={() => {
+                          handleOpenModal(undefined, "view");
+                        }}
+                        className="pl-4 py-4 text-sm text-gray-700"
+                      >
+                        Lagos to Ibadan
+                      </td>
+                      <td
+                        onClick={() => {
+                          handleOpenModal(undefined, "view");
+                        }}
+                        className=" py-4 text-sm  text-gray-700"
+                      >
+                        8, January, 2023
+                      </td>
+                      <td
+                        onClick={() => {
+                          handleOpenModal(undefined, "view");
+                        }}
+                        className="px-4 py-4 text-sm text-center text-gray-700"
+                      >
+                        25
+                      </td>
+                      <td
+                        onClick={() => {
+                          handleOpenModal(undefined, "view");
+                        }}
+                        className="text-sm text-center text-gray-700"
+                      >
+                        4.1
+                      </td>
+                      <td
+                        onClick={() => {
+                          handleOpenModal(undefined, "view");
+                        }}
+                        className="px-4 py-4 text-sm text-center text-gray-700"
+                      >
+                        NGN 24,000
+                      </td>
+                    </tr>
 
-                  {/* )} */}
-                </tbody>
-              </table></div>
+                    {/* )} */}
+                  </tbody>
+                </table>
+              </div>
 
               {/* RESPONSIVE VIEW FOR TRIP HISTORY */}
               <div className="lg:hidden px-4 py-4 rounded-md bg-black text-white justify-between w-full items-center mt-4">
@@ -467,9 +473,16 @@ const DriverOverview = () => {
             </div>
           </div>
 
-          {/* COLUM ON RIGHT */}
-          <div className="hidden lg:block col-start-6 col-end-9 text-black border rounded-md">
-            <div className="flex rounded-mdlg pt-4 px-4 text-white bg-black border-b pb-6">
+          {/* INFO ON RIGHT */}
+
+          <div
+            className={` col-start-6 col-end-9 text-black border rounded-md  ${
+              selection === "Info"
+                ? "block lg:mt-8 mx-[18px] lg:mx-0"
+                : "hidden"
+            } lg:block`}
+          >
+            <div className="flex rounded-t-md pt-4 px-4 text-white bg-black border-b pb-6">
               <div className="">
                 <p className="text-sm mb-2 font-normal text-[#929292]">
                   Trips Completed
