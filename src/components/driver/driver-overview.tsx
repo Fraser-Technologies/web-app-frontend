@@ -132,7 +132,7 @@ const DriverOverview = () => {
           <div className={`col-start-1 text-black col-end-6`}>
             <div
               className={`${
-                selection === "Schedule" ? "block  mx-[18px]" : "hidden"
+                selection === "Schedule" ? "block  mx-[18px] lg:mx-0" : "hidden"
               } `}
             >
               <p className="text-lg mb:text-base font-medium pb-2">
@@ -142,18 +142,18 @@ const DriverOverview = () => {
               Feb 3rd, 2023
             </div> */}
 
-            {/* OUTGOING TRIP SCHEDULE */}
+              {/* OUTGOING TRIP SCHEDULE */}
               <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 pt-2 rounded-md">
                 <div className="bg-black p-4 lg:p-0 rounded-md ">
                   <p className="border-b text-[14px] lg:text-sm border-[#353535] py-2">
                     Outbound Schedule
                   </p>
-                  <div className=" lg:flex justify-between lg:mt-3 items-center">
-                    <div className="py-3 lg:py-6 lg:py-0 rounded-md">
+                  <div className="lg:flex justify-between lg:mt-2 items-center">
+                    <div className="py-3 lg:py-0 rounded-md">
                       <p className="text-xl lg:text-base text-white">
                         Ibadan to Lagos
                       </p>
-                      <div className="flex lg:mt-0 mt-2 lg:mt-4">
+                      <div className="flex lg:mt-0 mt-2">
                         <div className="flex items-center mt-1 mr-4">
                           <FaCalendar className="mr-2" />
                           Feb 3rd, 2023
@@ -166,13 +166,13 @@ const DriverOverview = () => {
 
                       {/* SEE MORE IS HIDDEN ON RESPONSIVE VIEW */}
                       <div
-                          className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer hidden lg:block"
-                          onClick={() => {
-                            handleOpenModal(undefined, "tripinformation");
-                          }}
-                        >
-                          see more
-                        </div>
+                        className="text-[10px] text-[#00FF6A] mt-3 cursor-pointer hidden lg:block"
+                        onClick={() => {
+                          handleOpenModal(undefined, "tripinformation");
+                        }}
+                      >
+                        see more
+                      </div>
                     </div>
 
                     <div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
@@ -204,43 +204,43 @@ const DriverOverview = () => {
 
                       {/* RESPONSIVE MENU ICONS FOR TRIP SCHEDULE CARD */}
                       <div
-                          className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
-                          onClick={() => {
-                            handleOpenModal(undefined, "manifest");
-                          }}
-                        >
-                          <div className="m-auto flex flex-col items-center">
-                            <FaBook className="m-auto text-white mb-2" />
-                            Manifest
-                          </div>
+                        className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+                        onClick={() => {
+                          handleOpenModal(undefined, "manifest");
+                        }}
+                      >
+                        <div className="m-auto flex flex-col items-center">
+                          <FaBook className="m-auto text-white mb-2" />
+                          Manifest
                         </div>
-                        <div
-                          className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
-                          onClick={() => {
-                            if (!startOutBoundTrip) {
-                              handleOpenModal(undefined, "startOutBoundTrip");
-                            }
-                            if (startOutBoundTrip) {
-                              handleOpenModal(undefined, "endoutboundtrip");
-                            }
-                          }}
-                        >
-                          <div className="m-auto flex flex-col items-center">
-                            <FaPlay className="m-auto text-white mb-2" />
-                            {startOutBoundTrip ? "End Trip" : "Start Trip"}
-                          </div>
+                      </div>
+                      <div
+                        className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+                        onClick={() => {
+                          if (!startOutBoundTrip) {
+                            handleOpenModal(undefined, "startOutBoundTrip");
+                          }
+                          if (startOutBoundTrip) {
+                            handleOpenModal(undefined, "endoutboundtrip");
+                          }
+                        }}
+                      >
+                        <div className="m-auto flex flex-col items-center">
+                          <FaPlay className="m-auto text-white mb-2" />
+                          {startOutBoundTrip ? "End Trip" : "Start Trip"}
                         </div>
-                        <div
-                          className="w-full h-[56px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#161616] lg:bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
-                          onClick={() => {
-                            handleOpenModal(undefined, "tripinformation");
-                          }}
-                        >
-                          <div className="m-auto flex flex-col items-center">
-                            <FaChevronRight className="m-auto text-white mb-2" />
-                            View Details
-                          </div>
+                      </div>
+                      <div
+                        className="w-full h-[56px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#161616] lg:bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
+                        onClick={() => {
+                          handleOpenModal(undefined, "tripinformation");
+                        }}
+                      >
+                        <div className="m-auto flex flex-col items-center">
+                          <FaChevronRight className="m-auto text-white mb-2" />
+                          View Details
                         </div>
+                      </div>
                     </div>
                   </div>
                 </div>
@@ -252,11 +252,11 @@ const DriverOverview = () => {
                       Return Schedule
                     </p>
                     <div className=" lg:flex justify-between lg:mt-3 items-center">
-                      <div className="py-3 lg:py-6 lg:py-0 rounded-md">
+                      <div className="py-3 lg:py-0 rounded-md">
                         <p className="text-xl lg:text-base text-white">
                           Lagos to Ibadan
                         </p>
-                        <div className="flex lg:mt-0 mt-2 lg:mt-4">
+                        <div className="flex lg:mt-0 mt-2">
                           <div className="flex items-center mt-1 mr-4">
                             <FaCalendar className="mr-2" />
                             Feb 3rd, 2023
@@ -269,7 +269,7 @@ const DriverOverview = () => {
 
                         {/* SEE MORE IS HIDDEN ON RESPONSIVE VIEW */}
                         <div
-                          className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer hidden lg:block"
+                          className="text-[10px] text-[#00FF6A] mt-3 cursor-pointer hidden lg:block"
                           onClick={() => {
                             handleOpenModal(undefined, "tripinformation");
                           }}
@@ -318,7 +318,11 @@ const DriverOverview = () => {
                           </div>
                         </div>
                         <div
-                          className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+                          className={`w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md cursor-pointer block lg:hidden flex flex-col items-center ${
+                            startReturnTrip
+                              ? "bg-[#E71D36] text-white"
+                              : "bg-[#161616]"
+                          }`}
                           onClick={() => {
                             if (!startReturnTrip) {
                               handleOpenModal(undefined, "startReturnTrip");
@@ -328,7 +332,7 @@ const DriverOverview = () => {
                             }
                           }}
                         >
-                          <div className="m-auto flex flex-col items-center">
+                          <div className={`m-auto flex flex-col items-center `}>
                             <FaPlay className="m-auto text-white mb-2" />
                             {startReturnTrip ? "End Trip" : "Start Trip"}
                           </div>
