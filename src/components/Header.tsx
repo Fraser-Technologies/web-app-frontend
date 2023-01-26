@@ -7,26 +7,18 @@ import { Button } from "./Button";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { Dropdown } from "antd";
 import type { MenuProps } from "antd";
-import { logOut } from "../state/slices/user.slice";
 import { _paths_ } from "../utils/appHelpers";
-import Cookie from "js-cookie";
+import { logoutUserAction } from "../state/action/user.action";
 
-interface Props {
-	user?: string;
-}
-
-export const Header = ({ user }: Props) => {
+export const Header = () => {
 	const { userInfo } = useAppSelector((state: any) => state.userLogin);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
 	const [openNavBar, setOpenNavBar] = React.useState(false);
 
 	const logOutUser = () => {
-		dispatch(logOut());
-		localStorage.removeItem("userInfo");
-		Cookie.remove("userInfo");
+		dispatch(logoutUserAction());
 		setOpenNavBar(false);
-		return;
 	};
 
 	const getList = () => {

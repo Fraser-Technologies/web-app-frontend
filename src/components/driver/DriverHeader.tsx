@@ -1,7 +1,9 @@
 import React from "react";
 import { BsChevronBarDown } from "react-icons/bs";
+import { useAppSelector } from "../../state/hooks";
 
 const DriverHeader = () => {
+	const { userInfo } = useAppSelector((state: any) => state.userLogin);
 	return (
 		<div className="flex flex-col ">
 			<div className="py-[8px] px-[10px] flex flex-row w-full justify-between">
@@ -14,7 +16,7 @@ const DriverHeader = () => {
 				<div className="flex flex-row items-center item-center">
 					<img className="w-[30px] h-[30px] rounded-full bg-gray-300" alt="" />
 
-					<p className="ml-[10px]">Amen Olabody</p>
+					<p className="ml-[10px]">{`${userInfo?.first_name} ${userInfo?.last_name}`}</p>
 					<p className="ml-[10px]">
 						<BsChevronBarDown />
 					</p>
