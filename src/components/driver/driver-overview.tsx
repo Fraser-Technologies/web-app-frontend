@@ -12,6 +12,7 @@ import {
   FaPlayCircle,
   FaPlay,
   FaBook,
+  FaUser,
 } from "react-icons/fa";
 import { Button } from "../Button";
 import moment from "moment";
@@ -127,20 +128,17 @@ const DriverOverview = () => {
         )}
       </Space>
 
-      <div className=" lg:mx-[120px] pb-24 lg:pb-0 text-sm">
+      <div className=" lg:mx-[120px] h-screen pb-24 lg:pb-0 text-sm">
         <div className="lg:grid lg:grid-cols-8 lg:gap-8">
           <div className={`col-start-1 text-black col-end-6`}>
             <div
               className={`${
-                selection === "Schedule" ? "block  mx-[18px] lg:mx-0" : "hidden"
+                selection === "Schedule" ? "block mx-[18px] lg:mx-0" : "hidden"
               } `}
             >
               <p className="text-lg mb:text-base font-medium pb-2">
                 Upcoming Trip Schedule
               </p>
-              {/* <div className="w-fit bg-[#000000] rounded-mdl py-2 px-4 text-[#00FF6A] font-medium">
-              Feb 3rd, 2023
-            </div> */}
 
               {/* OUTGOING TRIP SCHEDULE */}
               <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 pt-2 rounded-md">
@@ -358,13 +356,17 @@ const DriverOverview = () => {
             {/* TRIP HISTORY  */}
             <div
               className={`${
-                selection === "History" ? "block mt-8" : "hidden mt-8"
+                selection === "History"
+                  ? "block lg:mt-8 mx-[18px] lg:mx-0"
+                  : "hidden"
               } lg:block`}
             >
-              <p className=" text-base font-medium">Trip History</p>
-              <table className="mt-2 w-full text-base font-normal text-left text-white table-auto">
-                <thead className=" bg-black">
-                  <tr>
+              <p className="text-lg lg:mt-8 mb:text-base font-medium pb-2">
+                Trip History
+              </p>
+              <div className="hidden lg:block"><table className="mt-2 w-full text-base font-normal text-left text-white table-auto">
+                <thead className="w-full bg-black">
+                  <tr className="w-full">
                     <th
                       scope="col"
                       className="pl-4 px-2 py-4 font-normal text-sm rounded-mdlg"
@@ -443,7 +445,25 @@ const DriverOverview = () => {
 
                   {/* )} */}
                 </tbody>
-              </table>
+              </table></div>
+
+              {/* RESPONSIVE VIEW FOR TRIP HISTORY */}
+              <div className="lg:hidden px-4 py-4 rounded-md bg-black text-white justify-between w-full items-center mt-4">
+                <div className="flex justify-between w-full">
+                  <div className="text-base font-medium">Lagos to Ibadan</div>
+                  <div className="text-base font-semibold">NGN 24,000</div>
+                </div>
+                <div className="flex text-[#929292] pt-4 rounded-b-md border-t mt-3 pt-4">
+                  <div className=" mr-4">8th January, 2023</div>
+                  <div className="flex mr-4">
+                    <FaUser className="mr-2" />
+                    25
+                  </div>
+                  <div className="flex ">
+                    <FaStar className="mr-2 text-[#FCAB64]" /> 4.1
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
 
@@ -461,7 +481,6 @@ const DriverOverview = () => {
                   Rating
                 </p>
                 <h3 className="text-[18px] font-medium flex items-center">
-                  {" "}
                   <FaStar className="text-[#FCAB64] h-[16px] mr-1" /> 4.5
                 </h3>
               </div>
