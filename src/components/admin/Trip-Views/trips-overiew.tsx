@@ -403,7 +403,7 @@ const TripsOverview: React.FC = () => {
 					<CreateTripFormComponent />
 				</Modal>
 			)}
-			{flip === TripOption.REVIEW && modalVisible && (
+			{/* {flip === TripOption.REVIEW && modalVisible && (
 				<Modal
 					title={
 						<div className="text-xs font-medium boder-b">Trip Details</div>
@@ -468,7 +468,7 @@ const TripsOverview: React.FC = () => {
 						}}
 					/>
 				</Modal>
-			)}
+			)} */}
 			{flip === TripOption.SUCCESS && modalVisible && (
 				<Modal
 					onOk={handleOk}

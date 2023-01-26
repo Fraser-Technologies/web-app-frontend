@@ -78,11 +78,13 @@ export const Header = () => {
 					{getList()}
 				</Drawer>
 				<div>
-					<img
-						src="/assets/images/fraser-white-logo.svg"
-						alt="Fraser Logo"
-						className="w-14 lg:w-20"
-					/>
+					<Link to="/" className="text-white ">
+						<img
+							src="/assets/images/fraser-white-logo.svg"
+							alt="Fraser Logo"
+							className="w-14 lg:w-20"
+						/>
+					</Link>
 				</div>
 			</div>
 			<div className="items-center justify-between hidden space-x-12 md:flex">

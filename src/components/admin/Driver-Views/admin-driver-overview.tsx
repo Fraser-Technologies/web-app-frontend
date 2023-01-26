@@ -14,7 +14,7 @@ import { getTripByDriverAction } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { Button } from "../../Button";
 
-const DriverOverview: React.FC = () => {
+const AdminDriverOverview: React.FC = () => {
   enum flipType {
     OPEN = "open",
     SUCCESS = "success",
@@ -367,4 +367,4 @@ const DriverOverview: React.FC = () => {
   );
 };
 
-export default DriverOverview;
+export default AdminDriverOverview;
