@@ -11,6 +11,7 @@ import {
 } from "react-icons/fa";
 import { Button } from "../Button";
 import moment from "moment";
+import { setSelectionRange } from "@testing-library/user-event/dist/utils";
 
 const DriverOverview = () => {
   enum DriverViews {
@@ -32,6 +33,7 @@ const DriverOverview = () => {
   const [startOutBoundTrip, setstartOutBoundTrip] = useState(false);
   const [startReturnTrip, setstartReturnTrip] = useState(false);
   const [alertmessage, setAlertMessage] = useState("");
+  const [selection, setSelection] = useState("Schedule");
 
   const handleClose = () => {
     setVisible(false);
@@ -66,6 +68,48 @@ const DriverOverview = () => {
 
   return (
     <>
+      <div className="fixed lg:hidden mb-4 bottom-0 w-full flex items-center place-content-center">
+        <div className="flex w-5/6 bg-black rounded-md text-white px-1">
+          <div
+            className={`text-center w-1/3 py-3 px-4 mx-1 my-2 rounded-md ${
+              selection === "Schedule"
+                ? "bg-[#00FF6A] text-black"
+                : "text-[#929292]"
+            }`}
+            onClick={() => {
+              setSelection("Schedule");
+            }}
+          >
+            Schedule
+          </div>
+          <div
+            className={`text-center w-1/3 py-3 px-4 mx-1 my-2 rounded-md ${
+              selection === "History"
+                ? "bg-[#00FF6A] text-black"
+                : "text-[#929292]"
+            }`}
+            onClick={() => {
+              setSelection("History");
+            }}
+          >
+            {" "}
+            History{" "}
+          </div>
+          <div
+            className={`text-center w-1/3 py-3 px-4 mx-1 my-2 rounded-md ${
+              selection === "Info"
+                ? "bg-[#00FF6A] text-black"
+                : "text-[#929292]"
+            }`}
+            onClick={() => {
+              setSelection("Info");
+            }}
+          >
+            {" "}
+            Info{" "}
+          </div>
+        </div>
+      </div>
       <Space direction="vertical" className="items-center w-full mt-4">
         {visible && (
           <Alert
@@ -79,220 +123,240 @@ const DriverOverview = () => {
         )}
       </Space>
 
-      <div className="mx-[120px] text-sm">
-        <div className="grid grid-cols-8 gap-8">
-          <div className="col-start-1 text-black col-end-6">
-            <p className="text-base font-medium pb-2">Upcoming Trip Schedule</p>
-            {/* <div className="w-fit bg-[#000000] rounded-2xl py-2 px-4 text-[#00FF6A] font-medium">
+      <div className=" lg:mx-[120px] pb-24 lg:pb-0 text-sm">
+        <div className="lg:grid lg:grid-cols-8 lg:gap-8">
+          <div className={`col-start-1 text-black col-end-6`}>
+            <div
+              className={`${
+                selection === "Schedule" ? "block  mx-[18px]" : "hidden"
+              } `}
+            >
+              <p className="text-lg mb:text-base font-medium pb-2">
+                Upcoming Trip Schedule
+              </p>
+              {/* <div className="w-fit bg-[#000000] rounded-mdl py-2 px-4 text-[#00FF6A] font-medium">
               Feb 3rd, 2023
             </div> */}
 
-            <div className="mt-4 text-[#929292] bg-black px-8 pb-4 pt-2 rounded-md">
-              <div>
-                <p className="border-b border-[#353535] py-2">
-                  Outbound Schedule
-                </p>
-                <div className="flex justify-between mt-3 items-center">
-                  <div>
-                    <p className="text-base text-white">Ibadan to Lagos</p>
-                    <div className="flex ">
-                      <div className="flex items-center mt-1 mr-4">
-                        <FaCalendar className="mr-2" />
-                        Feb 3rd, 2023
+              <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 pt-2 rounded-md">
+                <div className="bg-black p-4 lg:p-0 rounded-md ">
+                  <p className="border-b text-[14px] lg:text-sm border-[#353535] py-2">
+                    Outbound Schedule
+                  </p>
+                  <div className=" lg:flex justify-between lg:mt-3 items-center">
+                    <div className="py-3 lg:py-6 lg:py-0 rounded-md">
+                      <p className="text-xl lg:text-base text-white">
+                        Ibadan to Lagos
+                      </p>
+                      <div className="flex lg:mt-0 mt-2 lg:mt-4">
+                        <div className="flex items-center mt-1 mr-4">
+                          <FaCalendar className="mr-2" />
+                          Feb 3rd, 2023
+                        </div>
+                        <div className="flex items-center mt-1">
+                          <FaClock className="mr-2" />
+                          6:00 AM
+                        </div>
                       </div>
-                      <div className="flex items-center mt-1">
-                        <FaClock className="mr-2" />
-                        6:00 AM
+                      <div
+                        className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer hidden lg:block"
+                        onClick={() => {
+                          handleOpenModal(undefined, "tripinformation");
+                        }}
+                      >
+                        see more
                       </div>
                     </div>
-                    <div
-                      className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer"
-                      onClick={() => {
-                        handleOpenModal(undefined, "tripinformation");
-                      }}
-                    >
-                      see more
-                    </div>
-                  </div>
 
-                  <div className="flex w-2/4">
-                    <Button
-                      title="View Manifest"
-                      type="submit"
-                      className="w-full h-[40px] mr-4 my-1 text-xs rounded-md border border-[#ffffff] text-white"
-                      onClick={() => {
-                        handleOpenModal(undefined, "manifest");
-                      }}
-                    />
-                    <Button
-                      title={startOutBoundTrip ? "End Trip" : "Start Trip"}
-                      type="submit"
-                      className={`w-full h-[40px] my-1 mr-4 text-xs rounded-md ${
-                        startOutBoundTrip
-                          ? "bg-[#E71D36] text-white"
-                          : "bg-[#00FF6A] text-black"
-                      }`}
-                      onClick={() => {
-                        if (!startOutBoundTrip) {
-                          handleOpenModal(undefined, "startOutBoundTrip");
-                        }
-                        if (startOutBoundTrip) {
-                          handleOpenModal(undefined, "endoutboundtrip");
-                        }
-                      }}
-                    />
+                    <div className="lg:flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
+                      <Button
+                        title="View Manifest"
+                        type="submit"
+                        className="w-full h-[48px] lg:h-[40px] mr-4 my-1 mb-3 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
+                        onClick={() => {
+                          handleOpenModal(undefined, "manifest");
+                        }}
+                      />
+                      <Button
+                        title={startOutBoundTrip ? "End Trip" : "Start Trip"}
+                        type="submit"
+                        className={`w-full h-[48px] lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md ${
+                          startOutBoundTrip
+                            ? "bg-[#E71D36] text-white"
+                            : "bg-[#00FF6A] text-black"
+                        }`}
+                        onClick={() => {
+                          if (!startOutBoundTrip) {
+                            handleOpenModal(undefined, "startOutBoundTrip");
+                          }
+                          if (startOutBoundTrip) {
+                            handleOpenModal(undefined, "endoutboundtrip");
+                          }
+                        }}
+                      />
+                    </div>
                   </div>
                 </div>
-              </div>
 
-              {/* RETURN */}
-              <div className="mt-8 mb-8">
-                <p className="border-b border-[#353535] py-2">
-                  Return Schedule
-                </p>
-                <div className="flex justify-between mt-3 items-center">
-                  <div>
-                    <p className="text-base text-white">Ibadan to Lagos</p>
-                    <div className="flex ">
-                      <div className="flex items-center mt-1 mr-4">
-                        <FaCalendar className="mr-2" />
-                        Feb 3rd, 2023
+                {/* RETURN */}
+                <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black pb-4 pt-2 rounded-md">
+                  <div className="bg-black p-4 lg:p-0 rounded-md ">
+                    <p className="border-b text-[14px] lg:text-sm border-[#353535] py-2">
+                      Return Schedule
+                    </p>
+                    <div className=" lg:flex justify-between lg:mt-3 items-center">
+                      <div className="py-3 lg:py-6 lg:py-0 rounded-md">
+                        <p className="text-xl lg:text-base text-white">
+                           Lagos to Ibadan
+                        </p>
+                        <div className="flex lg:mt-0 mt-2 lg:mt-4">
+                          <div className="flex items-center mt-1 mr-4">
+                            <FaCalendar className="mr-2" />
+                            Feb 3rd, 2023
+                          </div>
+                          <div className="flex items-center mt-1">
+                            <FaClock className="mr-2" />
+                            6:00 AM
+                          </div>
+                        </div>
+                        <div
+                          className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer hidden lg:block"
+                          onClick={() => {
+                            handleOpenModal(undefined, "tripinformation");
+                          }}
+                        >
+                          see more
+                        </div>
                       </div>
-                      <div className="flex items-center mt-1">
-                        <FaClock className="mr-2" />
-                        6:00 AM
+
+                      <div className="lg:flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
+                        <Button
+                          title="View Manifest"
+                          type="submit"
+                          className="w-full h-[48px] lg:h-[40px] mr-4 my-1 mb-3 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
+                          onClick={() => {
+                            handleOpenModal(undefined, "manifest");
+                          }}
+                        />
+                        <Button
+                          title={startReturnTrip ? "End Trip" : "Start Trip"}
+                          type="submit"
+                          className={`w-full h-[48px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md ${
+                            startReturnTrip
+                              ? "bg-[#E71D36] text-white"
+                              : "bg-[#00FF6A] text-black"
+                          }`}
+                          onClick={() => {
+                            if (!startReturnTrip) {
+                              handleOpenModal(undefined, "startReturnTrip");
+                            }
+                            if (startReturnTrip) {
+                              handleOpenModal(undefined, "endreturntrip");
+                            }
+                          }}
+                        />
                       </div>
                     </div>
-                    <div
-                      className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer"
-                      onClick={() => {
-                        handleOpenModal(undefined, "tripinformation");
-                      }}
-                    >
-                      see more
-                    </div>
-                  </div>
-
-                  <div className="flex w-2/4">
-                    <Button
-                      title="View Manifest"
-                      type="submit"
-                      className="w-full h-[40px] mr-4 my-1 text-xs rounded-md border border-[#ffffff] text-white"
-                      onClick={() => {
-                        handleOpenModal(undefined, "manifest");
-                      }}
-                    />
-                    <Button
-                      title={startReturnTrip ? "End Trip" : "Start Trip"}
-                      type="submit"
-                      className={`w-full h-[40px] my-1 mr-4 text-xs rounded-md ${
-                        startReturnTrip
-                          ? "bg-[#E71D36] text-white"
-                          : "bg-[#00FF6A] text-black"
-                      }`}
-                      onClick={() => {
-                        if (!startReturnTrip) {
-                          handleOpenModal(undefined, "startReturnTrip");
-                        }
-                        if (startReturnTrip) {
-                          handleOpenModal(undefined, "endreturntrip");
-                        }
-                      }}
-                    />
                   </div>
                 </div>
               </div>
             </div>
 
-            {/* TABLE  */}
-            <p className="mt-8 text-base font-medium">Trip History</p>
-            <table className="mt-2 w-full text-base font-normal text-left text-white table-auto">
-              <thead className=" bg-black">
-                <tr>
-                  <th
-                    scope="col"
-                    className="pl-4 px-2 py-4 font-normal text-sm rounded-l-md"
-                  >
-                    Trips
-                  </th>
-                  <th scope="col" className="py-4 font-normal text-sm">
-                    Date
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-4 py-4 font-normal text-sm text-center"
-                  >
-                    Passengers
-                  </th>
+            {/* TRIP HISTORY  */}
+            <div
+              className={`${
+                selection === "History" ? "block mt-8" : "hidden mt-8"
+              } lg:block`}
+            >
+              <p className=" text-base font-medium">Trip History</p>
+              <table className="mt-2 w-full text-base font-normal text-left text-white table-auto">
+                <thead className=" bg-black">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="pl-4 px-2 py-4 font-normal text-sm rounded-mdlg"
+                    >
+                      Trips
+                    </th>
+                    <th scope="col" className="py-4 font-normal text-sm">
+                      Date
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-4 py-4 font-normal text-sm text-center"
+                    >
+                      Passengers
+                    </th>
 
-                  <th
-                    scope="col"
-                    className="px-2 py-4 font-normal text-sm text-center"
-                  >
-                    Rating
-                  </th>
-                  <th
-                    scope="col"
-                    className="px-2 py-4 font-normal text-sm text-center rounded-r-md"
-                  >
-                    Earning
-                  </th>
-                </tr>
-              </thead>
+                    <th
+                      scope="col"
+                      className="px-2 py-4 font-normal text-sm text-center"
+                    >
+                      Rating
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-2 py-4 font-normal text-sm text-center rounded-mdlg"
+                    >
+                      Earning
+                    </th>
+                  </tr>
+                </thead>
 
-              {/* //TABLE ROWS */}
-              <tbody className="">
-                <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-                  <td
-                    onClick={() => {
-                      handleOpenModal(undefined, "view");
-                    }}
-                    className="pl-4 py-4 text-sm text-gray-700"
-                  >
-                    Lagos to Ibadan
-                  </td>
-                  <td
-                    onClick={() => {
-                      handleOpenModal(undefined, "view");
-                    }}
-                    className=" py-4 text-sm  text-gray-700"
-                  >
-                    8, January, 2023
-                  </td>
-                  <td
-                    onClick={() => {
-                      handleOpenModal(undefined, "view");
-                    }}
-                    className="px-4 py-4 text-sm text-center text-gray-700"
-                  >
-                    25
-                  </td>
-                  <td
-                    onClick={() => {
-                      handleOpenModal(undefined, "view");
-                    }}
-                    className="text-sm text-center text-gray-700"
-                  >
-                    4.1
-                  </td>
-                  <td
-                    onClick={() => {
-                      handleOpenModal(undefined, "view");
-                    }}
-                    className="px-4 py-4 text-sm text-center text-gray-700"
-                  >
-                    NGN 24,000
-                  </td>
-                </tr>
+                {/* //TABLE ROWS */}
+                <tbody className="">
+                  <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
+                    <td
+                      onClick={() => {
+                        handleOpenModal(undefined, "view");
+                      }}
+                      className="pl-4 py-4 text-sm text-gray-700"
+                    >
+                      Lagos to Ibadan
+                    </td>
+                    <td
+                      onClick={() => {
+                        handleOpenModal(undefined, "view");
+                      }}
+                      className=" py-4 text-sm  text-gray-700"
+                    >
+                      8, January, 2023
+                    </td>
+                    <td
+                      onClick={() => {
+                        handleOpenModal(undefined, "view");
+                      }}
+                      className="px-4 py-4 text-sm text-center text-gray-700"
+                    >
+                      25
+                    </td>
+                    <td
+                      onClick={() => {
+                        handleOpenModal(undefined, "view");
+                      }}
+                      className="text-sm text-center text-gray-700"
+                    >
+                      4.1
+                    </td>
+                    <td
+                      onClick={() => {
+                        handleOpenModal(undefined, "view");
+                      }}
+                      className="px-4 py-4 text-sm text-center text-gray-700"
+                    >
+                      NGN 24,000
+                    </td>
+                  </tr>
 
-                {/* )} */}
-              </tbody>
-            </table>
+                  {/* )} */}
+                </tbody>
+              </table>
+            </div>
           </div>
 
           {/* COLUM ON RIGHT */}
-          <div className="col-start-6 col-end-9 text-black border rounded-md">
-            <div className="flex rounded-t-md pt-4 px-4 text-white bg-black border-b pb-6">
+          <div className="hidden lg:block col-start-6 col-end-9 text-black border rounded-md">
+            <div className="flex rounded-mdlg pt-4 px-4 text-white bg-black border-b pb-6">
               <div className="">
                 <p className="text-sm mb-2 font-normal text-[#929292]">
                   Trips Completed
@@ -309,7 +373,7 @@ const DriverOverview = () => {
                 </h3>
               </div>
             </div>
-            <div className=" rounded-b-md px-4 pt-4 pb-4 w-full">
+            <div className=" rounded-mdlg px-4 pt-4 pb-4 w-full">
               <div className="mb-8">
                 <h3 className="font-medium text-base mb-4">
                   Your Availability
@@ -590,13 +654,13 @@ const DriverOverview = () => {
                   <tr>
                     <th
                       scope="col"
-                      className="pl-4 px-2 py-2 font-normal text-sm rounded-l-md"
+                      className="pl-4 px-2 py-2 font-normal text-sm rounded-mdlg"
                     >
                       Name
                     </th>
                     <th
                       scope="col"
-                      className="px-2 py-2 font-normal text-sm text-center rounded-r-md"
+                      className="px-2 py-2 font-normal text-sm text-center rounded-mdlg"
                     >
                       Action
                     </th>

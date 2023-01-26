@@ -4,7 +4,7 @@ import {
   BsArrowDownLeftCircleFill,
   BsArrowUpRightCircleFill,
 } from "react-icons/bs";
-import { FaCaretDown, FaSuitcase } from "react-icons/fa";
+import { FaCaretDown, FaExclamationCircle, FaSuitcase } from "react-icons/fa";
 import { Button } from "../Button";
 
 const DriverRevenueOverview = () => {
@@ -23,6 +23,7 @@ const DriverRevenueOverview = () => {
   const [bankIsOpen, setBankIsOpen] = useState(false);
   const [selectedBank, setSelectedBank] = useState("Select receiving bank");
   const [accountNumber, setAccountNumber] = useState("");
+  const [visible, setVisible] = useState(false);
 
   const handleBankChange = (bank: any) => {
     setSelectedBank(bank);
@@ -207,8 +208,20 @@ const DriverRevenueOverview = () => {
                 value={value}
                 onChange={handleChange}
                 placeholder="0"
-                className=" w-min text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
+                className=" w-full text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
               />
+
+              {/* IF AMOUNT ENTERED IS MORE THAN AMOUNT IN ACCOUNT */}
+              {/* IF AMOUNT ENTERED IS LESS THAN STANDARD WITHDRAWAL AMOUNT OF NGN100 */}
+              {visible && Number(value) < 100 && (
+                <div className=" p-auto flex">
+                  <div className="text-center text-[#E71D36] text-sm mt-2 flex m-auto items-center">
+                    {" "}
+                    <FaExclamationCircle className="mr-1" /> Amount can't be
+                    less than NGN 100
+                  </div>
+                </div>
+              )}
             </div>
 
             {/* THIS SHOWS THE ACCOUNT INFORMATION THE USER HAS PREVIOUSLY PROVIDED IN THEIR PROFILE */}
@@ -229,7 +242,7 @@ const DriverRevenueOverview = () => {
                   </button>
                   {bankIsOpen && (
                     <div className="absolute w-full mt-2  rounded-md">
-                      <div className="w-full py-2 pb-4 h-[160px] overflow-y-scroll bg-white rounded-md shadow-md border">
+                      <div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-md border">
                         <div className=" w-full bg-white relative  z-10 rounded-md ">
                           <a
                             // key={stops}
@@ -267,13 +280,23 @@ const DriverRevenueOverview = () => {
                   )}
                 </div>
               </div>
+              <div
+                className="mt-10 text-center text-sm ml-2 text-semibold text-[#22B11E] cursor-pointer"
+                onClick={() => {
+                  handlePayout(undefined, "addbank");
+                }}
+              >
+                Add new Bank
+              </div>
             </div>
           </div>
           <button
-            className={`w-full p-3 mt-8 mb-2 text-sm rounded-lg ${
+            className={`w-full p-3 mt-4 mb-2 text-sm rounded-lg ${
               true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
             } `}
-            onClick={() => {}}
+            onClick={() => {
+              setVisible(true);
+            }}
           >
             Request Payout
           </button>

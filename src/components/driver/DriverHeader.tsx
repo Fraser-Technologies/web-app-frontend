@@ -1,3 +1,5 @@
+import { Dropdown, MenuProps } from "antd";
+import { userInfo } from "os";
 import React, { useState } from "react";
 import { FaCaretDown, FaSuitcase, FaThLarge } from "react-icons/fa";
 
@@ -11,30 +13,45 @@ const DriverHeader = (props: Props) => {
     setIsActive(value);
     props.onViewChange(value);
   };
-
+  const items: MenuProps["items"] = [
+    {
+      key: "profile",
+      label: <span onClick={() => {}}>View Profile</span>,
+    },
+    {
+      key: "logout",
+      label: <span onClick={() => {}}>Logout</span>,
+    },
+  ];
   return (
     <div className="flex text-white text-sm flex-col bg-black">
       <div className="my-4 px-[10px] px-[40px] flex flex-row w-full justify-between">
         <div className="flex flex-row items-center justify-start ">
-          <div className="py-1 border-r border-[#ffffff]"><img
-            className="pr-[10px] h-[20px]"
-            src="/assets/images/fraser-white-logo.svg"
-            alt=""
-          /></div>
+          <div className="py-1 border-r border-[#ffffff]">
+            <img
+              className="pr-[10px] h-[20px]"
+              src="/assets/images/fraser-white-logo.svg"
+              alt=""
+            />
+          </div>
           <span className="ml-[10px] ">Driver Portal</span>
         </div>
 
-        <div className="flex flex-row items-center item-center">
-          <img
-            className="w-[30px] h-[30px] rounded-full bg-gray-300"
-            src="/assets/images/shutterstock_1791760502 1fraserlandingpage.png"
-            alt=""
-          />
-          <p className="ml-[10px] text-white">Amen Olabode</p>
-          <p className="ml-[10px]">
-            <FaCaretDown className="ml-auto" />
-          </p>
-        </div>
+        <Dropdown menu={{ items }} trigger={["click"]}>
+          <div className="text-white cursor-pointer">
+            <div className="flex flex-row items-center item-center">
+              <img
+                className="w-[30px] h-[30px] rounded-full bg-gray-300"
+                src="/assets/images/shutterstock_1791760502 1fraserlandingpage.png"
+                alt=""
+              />
+              <p className="ml-[10px] text-white">Amen Olabode</p>
+              <p className="ml-[10px]">
+                <FaCaretDown className="ml-auto" />
+              </p>
+            </div>
+          </div>
+        </Dropdown>
       </div>
 
       <div className="bg-[#E1EDE1] px-[120px] py-[10px] px-[10px]">
