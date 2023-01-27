@@ -40,4 +40,5 @@ export const _paths_ = {
 	TERMS_OF_SERVICE: "/termsofservice",
 	ADMIN_DASHBOARD: "/admin",
 	DRIVER_PORTAL: "/driverportal",
+	DRIVER_LOGIN: "/driverlogin",
 };

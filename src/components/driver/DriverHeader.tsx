@@ -1,12 +1,16 @@
 import { Dropdown, MenuProps } from "antd";
 import React, { useState } from "react";
 import { FaCaretDown, FaSuitcase, FaThLarge } from "react-icons/fa";
+import { logoutUserAction } from "../../state/action/user.action";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 
 type Props = {
 	onViewChange: (value: string) => void;
 };
 
 const DriverHeader = (props: Props) => {
+	const dispatch = useAppDispatch();
+	const { userInfo } = useAppSelector((state: any) => state.userLogin);
 	const [activeView, setIsActive] = useState("overview");
 	const handleToggle = (value: string) => {
 		setIsActive(value);
@@ -19,11 +23,18 @@ const DriverHeader = (props: Props) => {
 		},
 		{
 			key: "logout",
-			label: <span onClick={() => {}}>Logout</span>,
+			label: (
+				<span
+					onClick={() => {
+						dispatch(logoutUserAction());
+					}}>
+					Logout
+				</span>
+			),
 		},
 	];
 	return (
-		<div className="flex text-white text-sm flex-col bg-black">
+		<div className="flex flex-col text-sm text-white bg-black">
 			<div className="my-4  px-[40px] flex flex-row w-full justify-between">
 				<div className="flex flex-row items-center justify-start ">
 					<div className="py-1 border-r border-[#ffffff]">
@@ -41,10 +52,14 @@ const DriverHeader = (props: Props) => {
 						<div className="flex flex-row items-center item-center">
 							<img
 								className="w-[30px] h-[30px] rounded-full bg-gray-300"
-								src="/assets/images/shutterstock_1791760502 1fraserlandingpage.png"
+								src={
+									userInfo?.profile_pic ||
+									"/assets/images/shutterstock_1791760502 1fraserlandingpage.png"
+								}
 								alt=""
 							/>
-							<p className="ml-[10px] text-white">Amen Olabode</p>
+							<p className="ml-[10px] text-white"></p>
+							{`${userInfo?.first_name} ${userInfo?.last_name}`}
 							<p className="ml-[10px]">
 								<FaCaretDown className="ml-auto" />
 							</p>
@@ -53,7 +68,7 @@ const DriverHeader = (props: Props) => {
 				</Dropdown>
 			</div>
 
-			<div className="bg-[#E1EDE1] px-[120px] py-[10px] px-[10px]">
+			<div className="bg-[#E1EDE1] py-[10px] px-[10px]">
 				{/* GROUP BUTTON - NAVIGATION */}
 
 				<div className="inline-flex rounded-md" role="group">
@@ -63,7 +78,7 @@ const DriverHeader = (props: Props) => {
 						className={`inline-flex mr-6 items-center text-sm font-medium  ${
 							activeView === "overview"
 								? //   true
-								  "text-[#22B11E] font-semibold text-black"
+								  "text-[#22B11E] font-semibold"
 								: "text-gray-400 font-normal"
 						}`}>
 						<FaThLarge className="mr-2" />
@@ -76,7 +91,7 @@ const DriverHeader = (props: Props) => {
 						className={`inline-flex items-center text-sm font-medium  ${
 							activeView === "revenue"
 								? //   false
-								  "text-[#22B11E] font-semibold text-black"
+								  "text-[#22B11E] font-semibold"
 								: "text-gray-400 font-normal"
 						}`}>
 						<FaSuitcase className="mr-2" />

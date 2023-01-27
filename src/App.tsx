@@ -8,6 +8,7 @@ import { useAppDispatch, useAppSelector } from "./state/hooks";
 import { getAllBusStopAction } from "./state/action/busStop.action";
 import BookRide from "./pages/book-a-ride";
 import { useSelector } from "react-redux";
+import DriverLogin from "./pages/driver-login";
 
 const SignIn = loadable(() => import("./pages/signin"), {
 	fallback: (
@@ -166,6 +167,7 @@ const App = () => {
 				<Route path={_paths_.ADMIN_DASHBOARD} element={<AdminPage />} />
 				<Route path={_paths_.DRIVER_PORTAL} element={<DriverPortalPage />} />
 				<Route path={_paths_.NOTFOUND} element={<NotFound />} />
+				<Route path={_paths_.DRIVER_LOGIN} element={<DriverLogin />} />
 			</Routes>
 		</>
 	);
