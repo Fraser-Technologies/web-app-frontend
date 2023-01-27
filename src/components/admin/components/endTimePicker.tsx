@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 const EndTimePicker = (props: { setArrival_time: any; arrival_time: any }) => {
 	const { setArrival_time, arrival_time } = props;
 
-	console.log("the arrival time is ", arrival_time);
+	
 	const [time, setTime] = useState<string>(arrival_time || "");
 
 	const handleTimeChange = (event: React.ChangeEvent<HTMLInputElement>) => {
