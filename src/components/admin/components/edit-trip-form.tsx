@@ -118,7 +118,7 @@ const EditTripFormComponent = ({
 		},
 	};
 
-	console.log("the start city is ", startCity, startBusStop);
+
 
 	const updateTripData = () => {
 		if (

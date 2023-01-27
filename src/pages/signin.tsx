@@ -16,7 +16,7 @@ const SignIn = () => {
 	const handleSignIn = () => {
 		if (phone) {
 			setIsView(true);
-			console.log(phone);
+			
 		} else {
 			setPhoneError("Please enter your phone number");
 		}
@@ -27,7 +27,7 @@ const SignIn = () => {
 	};
 
 	const handleVerify = () => {
-		console.log(otp);
+		// console.log(otp);
 	};
 
 	return (

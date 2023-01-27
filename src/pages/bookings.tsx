@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
-import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../components/bookingCard";
 import Layout from "../components/layouts/SignInLayout";
 import { Button } from "../components/Button";
@@ -69,6 +69,7 @@ const Bookings = () => {
   const [desinationBusStopList, setDestinationBusStopList] = useState<string[]>(
     []
   );
+  const timeRegex = /^(\d{1,2}):(\d{2})(am|pm)$/;
 
   //RESPONSIVENESS
   //WHERE TO||LEFT COLUMN
@@ -142,7 +143,6 @@ const Bookings = () => {
       window.removeEventListener("resize", handleResize);
     };
   }, [screenWidth]);
-
 
   //VALIDATE BUTTON BEFORE CLICK
   const isValid =
@@ -440,7 +440,7 @@ const Bookings = () => {
               <div className="mx-4 lg:mx-0 ">
                 {/* HEADER */}
 
-                <div className="w-full px-8 py-4 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
+                <div className="w-full px-8 py-4 pb-24 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
                   {availableTripLoading ? (
                     <div className="flex px-6 py-2 mb-8 space-x-4 animate-pulse">
                       <div className="flex-1 py-1 space-y-6">
@@ -521,6 +521,22 @@ const Bookings = () => {
                 {" "}
                 Available Seats: {modalData?.no_of_seat}
               </div>
+              <div className="mt-6 flex-row justify-evenly text-center px-6 py-4 bg-black rounded-lg lg:flex lg:px-8">
+                <div className="flex lg:w-4/5">
+                  <div className="w-1/2 lg:w-1/3">
+                    <h3 className=" mr-8 text-lg md:text-base lg:mr-0 text-primary-100 ">
+                      {modalData?.travel_destination?.from?.start_busstop}
+                    </h3>
+                  </div>
+
+                  <BsArrowRight className="top-0 mt-1 lg:w-1/3 text-primary-100 md:top-2 left-10 md:left-10" />
+                  <div className="w-1/2 lg:w-1/3 ">
+                    <h3 className="text-lg md:text-base text-primary-100 ">
+                      {modalData?.travel_destination?.to?.stop_busstop}
+                    </h3>
+                  </div>
+                </div>
+              </div>
             </div>
           }
           placement="bottom"
@@ -528,15 +544,16 @@ const Bookings = () => {
           onClose={handleCancel}
           open={modalVisible}
           key="bottom"
-          className="rounded-t-md"
+          className="rounded-t-xl"
+		  height="60vh"
         >
-          <div className="flex mt-6 justify-evenly items-center mx-6">
+          <div className="flex justify-evenly items-center mx-6">
             <FaMinusCircle
               size={32}
               onClick={minusItem}
               className="cursor-pointer"
             />
-            <div className="w-full my-8  place-content-center">
+            <div className="w-full my-12  place-content-center">
               <input
                 type="number"
                 value={value}
@@ -574,6 +591,22 @@ const Bookings = () => {
               <div className="text-[#929292] font-light text-xs mt-1">
                 {" "}
                 Available Seats: {modalData?.no_of_seat}
+              </div>
+			  <div className="mt-6 flex-row justify-evenly text-center px-6 py-4 bg-black rounded-lg lg:flex lg:px-8">
+                <div className="flex lg:w-4/5">
+                  <div className="w-1/2 lg:w-1/3">
+                    <h3 className=" mr-8 text-lg md:text-base lg:mr-0 text-primary-100 ">
+                      {modalData?.travel_destination?.from?.start_busstop}
+                    </h3>
+                  </div>
+
+                  <BsArrowRight className="top-0 mt-1 lg:w-1/3 text-primary-100 md:top-2 left-10 md:left-10" />
+                  <div className="w-1/2 lg:w-1/3 ">
+                    <h3 className="text-lg md:text-base text-primary-100 ">
+                      {modalData?.travel_destination?.to?.stop_busstop}
+                    </h3>
+                  </div>
+                </div>
               </div>
             </div>
           }
