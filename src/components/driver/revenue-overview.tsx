@@ -78,10 +78,10 @@ const DriverRevenueOverview = () => {
 
   return (
     <>
-      <div className="mx-[18px] lg:mx-[120px] text-sm lg:mt-8">
-        <div className="lg:grid lg:grid-cols-12 lg:gap-4">
+      <div className="mx-[18px]  lg:mx-[120px] text-sm lg:mt-8">
+        <div className="lg:grid h-screen pt-2 lg:pt-8 lg:grid-cols-12 lg:gap-4">
           <div className="lg:col-start-1 text-black lg:col-end-8">
-            <div className="lg:bg-black text-white lg:px-12 lg:py-16 rounded-md">
+            <div className="lg:bg-black  text-white lg:px-12 lg:py-16 rounded-md">
               <div className="bg-black mt-6 px-6 lg:px-0 py-16 text-center lg:text-left lg:py-4 lg:mt-0  rounded-md text-sm font-normal text-[#646464]">
                 <div className="flex items-center justify-between">
                   <FaChevronCircleLeft

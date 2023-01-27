@@ -12,7 +12,7 @@ const DriverPortal = () => {
   };
 
   return (
-    <div className="w-full bg-white h-full">
+    <div className="w-full mt-24 bg-white h-full">
       <DriverHeader onViewChange={handleViewChange} />
 
       {selectedView === "overview" && <DriverOverview />}
