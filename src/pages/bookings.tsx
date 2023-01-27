@@ -521,17 +521,17 @@ const Bookings = () => {
                 {" "}
                 Available Seats: {modalData?.no_of_seat}
               </div>
-              <div className="mt-6 flex-row justify-evenly text-center px-6 py-4 bg-black rounded-lg lg:flex lg:px-8">
+              <div className="mt-6 flex-row justify-between px-6 py-4 bg-black rounded-lg lg:flex lg:px-8">
                 <div className="flex lg:w-4/5">
                   <div className="w-1/2 lg:w-1/3">
-                    <h3 className=" mr-8 text-lg md:text-base lg:mr-0 text-primary-100 ">
+                    <h3 className=" mr-8 text-lg md:text-base lg:h-20 lg:mr-0 text-primary-100 ">
                       {modalData?.travel_destination?.from?.start_busstop}
                     </h3>
                   </div>
 
-                  <BsArrowRight className="top-0 mt-1 lg:w-1/3 text-primary-100 md:top-2 left-10 md:left-10" />
+                  <BsArrowRight className="top-0 mt-1 mr-8 lg:w-4 lg:mr-14 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
                   <div className="w-1/2 lg:w-1/3 ">
-                    <h3 className="text-lg md:text-base text-primary-100 ">
+                    <h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
                       {modalData?.travel_destination?.to?.stop_busstop}
                     </h3>
                   </div>
@@ -600,7 +600,7 @@ const Bookings = () => {
                     </h3>
                   </div>
 
-                  <BsArrowRight className="top-0 mt-1 lg:w-1/3 text-primary-100 md:top-2 left-10 md:left-10" />
+                  <BsArrowRight className="top-0 mt-1 lg:w-4  lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
                   <div className="w-1/2 lg:w-1/3 ">
                     <h3 className="text-lg md:text-base text-primary-100 ">
                       {modalData?.travel_destination?.to?.stop_busstop}
