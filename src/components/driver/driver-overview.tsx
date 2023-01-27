@@ -15,7 +15,10 @@ import { RootState } from "../../state/redux-store";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Trip_interface } from "../../interfaces/trip_interface";
 import { currency_formatter } from "../../utils/currency-formatter";
-import { getTripByDriverAction } from "../../state/action/trip.action";
+import {
+	getTripByDriverAction,
+	updateTripAction,
+} from "../../state/action/trip.action";
 
 const DriverOverview = () => {
 	enum DriverViews {
@@ -31,6 +34,9 @@ const DriverOverview = () => {
 
 	const { trips } = useAppSelector((state: RootState) => state.tripByDriver);
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
+	const { trip, loading, error } = useAppSelector(
+		(state: RootState) => state.updateTrip
+	);
 	const [visible, setVisible] = useState(true);
 	const [flip, setFlip] = useState<"" | DriverViews>("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -39,7 +45,7 @@ const DriverOverview = () => {
 	const [startReturnTrip, setstartReturnTrip] = useState(false);
 	const [alertmessage, setAlertMessage] = useState("");
 	const [selection, setSelection] = useState("Schedule");
-	const [modelData, setModalData] = useState<Trip_interface | {}>({});
+	const [modalData, setModalData] = useState<Trip_interface | any>({});
 
 	const handleClose = () => {
 		setVisible(false);
@@ -462,46 +468,60 @@ const DriverOverview = () => {
 						<div className="grid w-full grid-cols-2 gap-8 pb-12 mt-8">
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Start</div>
-								<div className="text-xs">Start City </div>
+								<div className="text-xs">
+									{modalData?.travel_destination?.from?.city?.city}
+								</div>
 							</div>
 
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Destination</div>
-								<div className="text-xs">Destination City</div>
+								<div className="text-xs">
+									{modalData?.travel_destination?.to?.city?.city}
+								</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Start Bus Stop</div>
-								<div className="text-xs">Start Bus Stop</div>
+								<div className="text-xs">
+									{modalData?.travel_destination?.from?.start_busstop}
+								</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">
 									Destination Bus Stop
 								</div>
-								<div className="text-xs">Destination Bus Stop</div>
+								<div className="text-xs">
+									{modalData?.travel_destination?.to?.stop_busstop}
+								</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Departure Time</div>
-								<div className="text-xs">Departure Time</div>
+								<div className="text-xs">{modalData?.take_off_time}</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Departure Date</div>
-								<div className="text-xs">Departure Date</div>
+								<div className="text-xs">{modalData?.take_off_date}</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Arrival Time</div>
-								<div className="text-xs">Arrival Time</div>
+								<div className="text-xs">{modalData?.arrival_time}</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Arrival Date</div>
-								<div className="text-xs">Arrival Date</div>
+								<div className="text-xs">{modalData?.arrival_date}</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Rating</div>
-								<div className="text-xs">4.1</div>
+								<div className="text-xs">
+									{modalData?.ratings?.reduce(
+										(total: number, num: number) => total + num
+									) / modalData?.ratings?.length}
+								</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Amount Earned</div>
-								<div className="text-xs">NGN 24,000</div>
+								<div className="text-xs">
+									{currency_formatter(modalData?.amount_earn)}
+								</div>
 							</div>
 						</div>
 					</Modal>
@@ -540,6 +560,11 @@ const DriverOverview = () => {
 									setVisible(true);
 									setAlertMessage("Trip Started, your ETA is 3:00PM");
 									setModalVisible(false);
+									dispatch();
+									updateTripAction(modalData?._id, {
+										has_started: true,
+										start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+									});
 								}}
 							/>
 						</div>
