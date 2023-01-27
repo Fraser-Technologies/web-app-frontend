@@ -43,7 +43,7 @@ const TripsOverview: React.FC = () => {
     (state: any) => state.deleteTrip
   );
   const [currentPage, setCurrentPage] = useState<number>(0);
-  const [modalData, setModalData] = useState<Trip_interface>(); // current page
+  const [modalData, setModalData] = useState<Trip_interface>();
   const [flip, setFlip] = useState<
     | ""
     | TripOption.CREATE
