@@ -231,7 +231,7 @@ const BusStopManagement = () => {
             </div>
 
             <button
-              className={`w-full mt-4 p-3 text-sm rounded-lg ${
+              className={`w-full mt-4 p-3 text-sm rounded-md bg-primary-100 ${
                 true ? " hover:text-[#1D7225]" : "bg-[#f5f5f5]"
               } `}
               onClick={() => {
@@ -239,6 +239,17 @@ const BusStopManagement = () => {
               }}
             >
               Add new stop
+            </button>
+            <button
+              className={`w-full mt-2 p-3 text-sm rounded-lg text-[#E71D36] ${
+                true ? " hover:text-[#C81027]" : "bg-[#f5f5f5]"
+              } `}
+              onClick={() => {
+                // setFlip("createBusStop");
+                //LEKAN WE'LL NEED TO FIX THIS
+              }}
+            >
+              Delete City
             </button>
           </Modal>
         )
