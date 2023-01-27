@@ -12,4 +12,6 @@ export interface User_interface extends Mongo_extra {
 	is_admin: boolean;
 	password?: string;
 	is_blocked: boolean;
+	user_type: "user" | "driver";
+	location: string;
 }

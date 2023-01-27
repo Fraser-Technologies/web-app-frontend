@@ -26,4 +26,11 @@ export interface Trip_interface extends Mongo_extra {
 	currency?: string;
 	completed_status: boolean;
 	no_of_seat: number;
+	amount_earn: number;
+	ratings: number[];
+	has_started: boolean;
+	start_time: string;
+	has_ended: boolean;
+	end_time: string;
+	trip_type: "outbound" | "return";
 }
