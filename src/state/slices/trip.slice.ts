@@ -1,5 +1,5 @@
 import { Trip_interface } from "./../../interfaces/trip_interface";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type initialType = {
 	trips: Trip_interface[] | [];
@@ -111,12 +111,11 @@ const createTripSlice = createSlice({
 		},
 		createTripSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.trip = payload;
+			state.trip = payload as unknown as Trip_interface;
 		},
 		createTripFailed: (state, { payload }) => {
 			state.error = payload;
 			state.loading = false;
-			state.trip = {};
 		},
 		resetCreateTrip: () => initialState,
 	},
@@ -140,12 +139,11 @@ const updateTripSlice = createSlice({
 		},
 		updateTripSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.trip = payload;
+			state.trip = payload as unknown as Trip_interface;
 		},
 		updateTripFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
-			state.trip = {};
 		},
 		updateTripReset: () => initialState,
 	},

@@ -9,4 +9,5 @@ export interface Booking_interface extends Mongo_extra {
 	completed_trip: boolean;
 	seat?: number;
 	rating?: number;
+	verify_onboard: boolean;
 }

@@ -97,14 +97,21 @@ export const updateTripAction =
 	async (dispatch, getState) => {
 		try {
 			dispatch(updateTripRequest());
+
 			const {
 				userLogin: { userInfo },
 			} = getState();
-			const { data } = await api.put(`/trip/${id}`, input, {
-				headers: {
-					Authorization: `Bearer ${userInfo?.user_token}`,
-				},
-			});
+			const { data } = await api.put(
+				`/trip/${id}`,
+				{ ...input },
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+
+			console.log("the updated data is ", data);
 
 			dispatch(updateTripSuccess(data));
 		} catch (error: any) {

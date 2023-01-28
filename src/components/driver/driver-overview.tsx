@@ -17,8 +17,10 @@ import { Trip_interface } from "../../interfaces/trip_interface";
 import { currency_formatter } from "../../utils/currency-formatter";
 import {
 	getTripByDriverAction,
+	resetUpdateTripAction,
 	updateTripAction,
 } from "../../state/action/trip.action";
+import { Booking_interface } from "../../interfaces/Booking_interface";
 
 const DriverOverview = () => {
 	enum DriverViews {
@@ -37,6 +39,8 @@ const DriverOverview = () => {
 	const { trip, loading, error } = useAppSelector(
 		(state: RootState) => state.updateTrip
 	);
+
+	console.log("the updated trip is ", trip);
 	const [visible, setVisible] = useState(true);
 	const [flip, setFlip] = useState<"" | DriverViews>("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -50,6 +54,8 @@ const DriverOverview = () => {
 	const handleClose = () => {
 		setVisible(false);
 	};
+
+	console.log("the modal data is ", modalData);
 
 	const handleOpenModal = (data: Trip_interface, flipValue: any) => {
 		setFlip(flipValue);
@@ -69,7 +75,23 @@ const DriverOverview = () => {
 	const [dates, setDates] = useState<string[]>([]);
 	const [disabledDates, setDisabledDates] = useState<string[]>([]);
 
-	React.useEffect(() => {
+	const verifyPassengerArrived = () => {};
+
+	const TotalRating = (trips: Trip_interface[]): number => {
+		let list_of_rating = [];
+		for (let index = 0; index < trips.length; index++) {
+			const each_rating =
+				trips[index]?.ratings.reduce((total, num) => total + num) /
+				trips[index].ratings.length;
+			list_of_rating.push(each_rating);
+		}
+
+		return (
+			list_of_rating.reduce((total, num) => total + num) / list_of_rating.length
+		);
+	};
+
+	useEffect(() => {
 		let dateArray = [];
 		for (let i = 0; i <= 7; i++) {
 			dateArray.push(moment().add(i, "days").format("dddd Do MMMM YYYY"));
@@ -81,6 +103,11 @@ const DriverOverview = () => {
 	useEffect(() => {
 		dispatch(getTripByDriverAction(userInfo?._id));
 	}, [dispatch, userInfo]);
+
+	useEffect(() => {
+		dispatch(resetUpdateTripAction());
+		dispatch(getTripByDriverAction(userInfo?._id));
+	}, [dispatch, trip, userInfo]);
 	return (
 		<>
 			<div className="fixed bottom-0 flex items-center w-full mb-4 lg:hidden place-content-center">
@@ -117,7 +144,6 @@ const DriverOverview = () => {
 						onClick={() => {
 							setSelection("Info");
 						}}>
-						{" "}
 						Info{" "}
 					</div>
 				</div>
@@ -145,9 +171,6 @@ const DriverOverview = () => {
 							<p className="pb-2 text-lg font-medium mb:text-base">
 								Upcoming Trip Schedule
 							</p>
-							{/* <div className="w-fit bg-[#000000] rounded-mdl py-2 px-4 text-[#00FF6A] font-medium">
-              Feb 3rd, 2023
-            </div> */}
 
 							<div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 pt-2 rounded-md">
 								<div className="p-4 bg-black rounded-md lg:p-0 ">
@@ -158,16 +181,16 @@ const DriverOverview = () => {
 										?.filter(
 											(trip: Trip_interface) =>
 												trip?.completed_status !== true &&
-												trip?.trip_type !== "outbound"
+												trip?.trip_type === "outbound"
 										)
 										.map((trip: Trip_interface) => {
 											return (
 												<div className="items-center justify-between lg:flex lg:mt-3">
-													<div className="py-3 rounded-md lg:py-6 lg:py-0">
+													<div className="py-3 rounded-md lg:py-0">
 														<p className="text-xl text-white lg:text-base">
 															{`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
 														</p>
-														<div className="flex mt-2 lg:mt-0 lg:mt-4">
+														<div className="flex mt-2 lg:mt-4">
 															<div className="flex items-center mt-1 mr-4">
 																<FaCalendar className="mr-2" />
 																{trip?.take_off_date}
@@ -197,11 +220,11 @@ const DriverOverview = () => {
 														/>
 														<Button
 															title={
-																startOutBoundTrip ? "End Trip" : "Start Trip"
+																trip?.has_started ? "End Trip" : "Start Trip"
 															}
 															type="submit"
 															className={`w-full h-[48px] lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md ${
-																startOutBoundTrip
+																trip?.has_started
 																	? "bg-[#E71D36] text-white"
 																	: "bg-[#00FF6A] text-black"
 															}`}
@@ -230,16 +253,16 @@ const DriverOverview = () => {
 											?.filter(
 												(trip: Trip_interface) =>
 													trip?.completed_status !== true &&
-													trip?.trip_type !== "return"
+													trip?.trip_type === "return"
 											)
 											.map((trip: Trip_interface) => {
 												return (
 													<div className="items-center justify-between lg:flex lg:mt-3">
-														<div className="py-3 rounded-md lg:py-6 lg:py-0">
+														<div className="py-3 rounded-md lg:py-0">
 															<p className="text-xl text-white lg:text-base">
 																{`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
 															</p>
-															<div className="flex mt-2 lg:mt-0 lg:mt-4">
+															<div className="flex mt-2 lg:mt-4">
 																<div className="flex items-center mt-1 mr-4">
 																	<FaCalendar className="mr-2" />
 																	{trip?.take_off_date}
@@ -410,15 +433,21 @@ const DriverOverview = () => {
 								<p className="text-sm mb-2 font-normal text-[#929292]">
 									Trips Completed
 								</p>
-								<h3 className="text-[18px] font-medium">128,000</h3>
+								<h3 className="text-[18px] font-medium">
+									{
+										trips?.filter(
+											(trip: Trip_interface) => trip.completed_status === true
+										).length
+									}
+								</h3>
 							</div>
 							<div className="mx-auto ">
 								<p className="text-sm mb-2 font-normal text-[#929292]">
 									Rating
 								</p>
 								<h3 className="text-[18px] font-medium flex items-center">
-									{" "}
-									<FaStar className="text-[#FCAB64] h-[16px] mr-1" /> 4.5
+									<FaStar className="text-[#FCAB64] h-[16px] mr-1" />
+									{Number(TotalRating)}
 								</h3>
 							</div>
 						</div>
@@ -536,10 +565,6 @@ const DriverOverview = () => {
 						closable={true}
 						width="240px">
 						<div className="w-full mt-8 text-sm text-center place-items-center">
-							{/* <FaExclamationCircle
-                size={32}
-                className="text-[#E71D36] w-full mt-8 mb-4"
-              /> */}
 							Starting a trip means all users are aboard, <div></div>
 							<div className="mt-4 text-base font-medium">Start the trip?</div>
 						</div>
@@ -549,22 +574,25 @@ const DriverOverview = () => {
 								title="No"
 								type="submit"
 								className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
-								onClick={() => {}}
+								onClick={() => {
+									setModalVisible(!modalVisible);
+								}}
 							/>
 							<Button
 								title={`Yes`}
 								type="submit"
 								className="w-full py-2 text-xs text-white bg-black rounded-md"
 								onClick={() => {
+									dispatch(
+										updateTripAction(modalData?._id, {
+											has_started: true,
+											start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+										})
+									);
 									setstartOutBoundTrip(!startOutBoundTrip);
 									setVisible(true);
 									setAlertMessage("Trip Started, your ETA is 3:00PM");
 									setModalVisible(false);
-									dispatch();
-									updateTripAction(modalData?._id, {
-										has_started: true,
-										start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-									});
 								}}
 							/>
 						</div>
@@ -580,10 +608,6 @@ const DriverOverview = () => {
 						closable={true}
 						width="240px">
 						<div className="w-full mt-8 text-sm text-center place-items-center">
-							{/* <FaExclamationCircle
-                size={32}
-                className="text-[#E71D36] w-full mt-8 mb-4"
-              /> */}
 							Starting a trip means all users are aboard, <div></div>
 							<div className="mt-4 text-base font-medium">Start the trip?</div>
 						</div>
@@ -605,6 +629,12 @@ const DriverOverview = () => {
 									setVisible(true);
 									setAlertMessage("Trip Started, your ETA is 3:00PM");
 									setModalVisible(false);
+									dispatch(
+										updateTripAction(modalData?._id, {
+											has_started: true,
+											start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+										})
+									);
 								}}
 							/>
 						</div>
@@ -622,10 +652,6 @@ const DriverOverview = () => {
 						closable={true}
 						width="240px">
 						<div className="w-full mt-8 text-sm text-center place-items-center">
-							{/* <FaExclamationCircle
-                size={32}
-                className="text-[#E71D36] w-full mt-8 mb-4"
-              /> */}
 							Ending a trip means the trip is completed.
 							<div className="mt-4 text-base font-medium">End the trip?</div>
 						</div>
@@ -646,6 +672,14 @@ const DriverOverview = () => {
 									setVisible(true);
 									setAlertMessage("Great Job! Trip Completed successfully");
 									setModalVisible(false);
+									dispatch(
+										updateTripAction(modalData?._id, {
+											has_started: false,
+											has_ended: true,
+											completed_status: true,
+											end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+										})
+									);
 								}}
 							/>
 						</div>
@@ -661,10 +695,6 @@ const DriverOverview = () => {
 						closable={true}
 						width="240px">
 						<div className="w-full mt-8 text-sm text-center place-items-center">
-							{/* <FaExclamationCircle
-                size={32}
-                className="text-[#E71D36] w-full mt-8 mb-4"
-              /> */}
 							Ending a trip means the trip is completed.
 							<div className="mt-4 text-base font-medium">End the trip?</div>
 						</div>
@@ -681,6 +711,14 @@ const DriverOverview = () => {
 								type="submit"
 								className="w-full py-2 text-xs text-white bg-black rounded-md"
 								onClick={() => {
+									dispatch(
+										updateTripAction(modalData?._id, {
+											has_started: false,
+											has_ended: true,
+											completed_status: true,
+											end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+										})
+									);
 									setstartReturnTrip(!startReturnTrip);
 									setVisible(true);
 									setAlertMessage("Great Job! Trip Completed successfully");
@@ -694,7 +732,7 @@ const DriverOverview = () => {
 					<Modal
 						title={
 							<div className="text-lg font-medium boder-b">
-								Lagos to Ibadan Trip
+								{`${modalData?.travel_destination?.from?.city?.city} to ${modalData?.travel_destination?.to?.city?.city} Trip`}
 							</div>
 						}
 						onOk={handleOk}
@@ -708,7 +746,19 @@ const DriverOverview = () => {
 								Passenger Manifest
 							</p>
 							<div className="my-1 text-sm text-gray-400">
-								15 Passengers, 2 Onboard, 13 Not Onboard
+								{modalData?.no_of_seat} Passengers,{" "}
+								{
+									modalData?.bookings?.filter(
+										(book: Booking_interface) => book?.verify_onboard === false
+									).length
+								}{" "}
+								Onboard,{" "}
+								{
+									modalData?.bookings?.filter(
+										(book: Booking_interface) => book?.verify_onboard === true
+									).length
+								}{" "}
+								Not Onboard
 							</div>
 							<table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
 								<thead className="bg-black">
@@ -728,40 +778,54 @@ const DriverOverview = () => {
 
 								{/* //TABLE ROWS */}
 								<tbody className="mt-4">
-									<tr className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-										<td
-											onClick={() => {}}
-											className="py-4 pl-4 text-sm text-gray-700">
-											Amen Olabode
-										</td>
-										<td
-											onClick={() => {}}
-											className="text-sm text-center text-gray-700">
-											<div className="flex items-center h-full m-auto place-content-end">
-												<div
-													className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
-														onboard
-															? "border-[#00FF6A] bg-[#00FF6A]"
-															: "border-black "
-													} `}
-													onClick={() => setOnboard(!onboard)}>
-													{onboard ? (
-														<FaMinusCircle className="mr-2" />
-													) : (
-														<FaCheck className="mr-2" />
-													)}
-													{onboard ? "Onboarded" : "Onboard"}
-												</div>
-												<div
-													className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
-														onboard ? "hidden" : "block"
-													}`}>
-													{/* INITIATE A CALL TO THE USER'S NUMBER */}
-													Call
-												</div>
-											</div>
-										</td>
-									</tr>
+									{modalData?.bookings?.map((book: Booking_interface) => {
+										return (
+											<tr className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
+												<td
+													onClick={() => {}}
+													className="py-4 pl-4 text-sm text-gray-700">
+													{`${book?.user?.first_name} ${book?.user?.last_name}`}
+												</td>
+												<td
+													onClick={() => {}}
+													className="text-sm text-center text-gray-700">
+													<div className="flex items-center h-full m-auto place-content-end">
+														<div
+															className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
+																onboard
+																	? "border-[#00FF6A] bg-[#00FF6A]"
+																	: "border-black "
+															} `}
+															onClick={() => setOnboard(!onboard)}>
+															{modalData?.verify_passanger_arrival?.find(
+																(passenger: string) => passenger === book?._id
+															) ? (
+																<FaMinusCircle className="mr-2" />
+															) : (
+																<FaCheck
+																	className="mr-2"
+																	onClick={verifyPassengerArrived}
+																/>
+															)}
+															{modalData?.verify_passanger_arrival?.find(
+																(passenger: string) => passenger === book?._id
+															)
+																? "Onboarded"
+																: "Onboard"}
+														</div>
+														<div
+															className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
+																onboard ? "hidden" : "block"
+															}`}>
+															{/* INITIATE A CALL TO THE USER'S NUMBER */}
+															Call
+														</div>
+													</div>
+												</td>
+												r
+											</tr>
+										);
+									})}
 
 									{/* )} */}
 								</tbody>
