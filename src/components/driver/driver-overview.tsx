@@ -55,8 +55,6 @@ const DriverOverview = () => {
 		setVisible(false);
 	};
 
-	console.log("the modal data is ", modalData);
-
 	const handleOpenModal = (data: Trip_interface, flipValue: any) => {
 		setFlip(flipValue);
 		setModalVisible(true);
@@ -79,10 +77,10 @@ const DriverOverview = () => {
 
 	const TotalRating = (trips: Trip_interface[]): number => {
 		let list_of_rating = [];
-		for (let index = 0; index < trips.length; index++) {
+		for (let index = 0; index < trips?.length; index++) {
 			const each_rating =
-				trips[index]?.ratings.reduce((total, num) => total + num) /
-				trips[index].ratings.length;
+				trips[index]?.ratings?.reduce((total, num) => total + num) /
+				trips[index]?.ratings?.length;
 			list_of_rating.push(each_rating);
 		}
 
@@ -180,7 +178,7 @@ const DriverOverview = () => {
 									{trips
 										?.filter(
 											(trip: Trip_interface) =>
-												trip?.completed_status !== true &&
+												trip?.completed_status === false &&
 												trip?.trip_type === "outbound"
 										)
 										.map((trip: Trip_interface) => {
@@ -332,9 +330,9 @@ const DriverOverview = () => {
 							} lg:block`}>
 							<p className="text-base font-medium ">
 								Trip History{" "}
-								{trips?.filter(
-									(trip: Trip_interface) => trip?.completed_status !== false
-								) && (
+								{!trips?.filter(
+									(trip: Trip_interface) => trip?.completed_status === true
+								).length && (
 									<Alert
 										type="info"
 										message="You haven't completed any trip yet"
@@ -400,7 +398,7 @@ const DriverOverview = () => {
 															handleOpenModal(trip, "view");
 														}}
 														className="px-4 py-4 text-sm text-center text-gray-700">
-														{trip?.no_of_seat}
+														{trip?.verified_passengers_onboard?.length}
 													</td>
 													<td
 														onClick={() => {
@@ -416,7 +414,7 @@ const DriverOverview = () => {
 															handleOpenModal(trip, "view");
 														}}
 														className="px-4 py-4 text-sm text-center text-gray-700">
-														{currency_formatter(trip?.price)}
+														{currency_formatter(trip?.amount_earned)}
 													</td>
 												</tr>
 											);
@@ -591,7 +589,9 @@ const DriverOverview = () => {
 									);
 									setstartOutBoundTrip(!startOutBoundTrip);
 									setVisible(true);
-									setAlertMessage("Trip Started, your ETA is 3:00PM");
+									setAlertMessage(
+										`Trip Started, your ETA is ${moment().toNow()}`
+									);
 									setModalVisible(false);
 								}}
 							/>
@@ -627,7 +627,9 @@ const DriverOverview = () => {
 									// setstartOutBoundTrip(!startOutBoundTrip);
 									setstartReturnTrip(!startReturnTrip);
 									setVisible(true);
-									setAlertMessage("Trip Started, your ETA is 3:00PM");
+									setAlertMessage(
+										`Trip Started, your ETA is ${moment(Date.now())}`
+									);
 									setModalVisible(false);
 									dispatch(
 										updateTripAction(modalData?._id, {
@@ -792,7 +794,9 @@ const DriverOverview = () => {
 													<div className="flex items-center h-full m-auto place-content-end">
 														<div
 															className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
-																onboard
+																modalData?.verify_onboard.find(
+																	(pass: string) => pass === book?._id
+																)
 																	? "border-[#00FF6A] bg-[#00FF6A]"
 																	: "border-black "
 															} `}
@@ -847,56 +851,48 @@ const DriverOverview = () => {
 						<div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Start</div>
-								<div className="text-xs">Start City </div>
+								<div className="text-xs">
+									{`${modalData?.travel_destination?.from?.city?.city}`}
+								</div>
 							</div>
 
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Destination</div>
-								<div className="text-xs">Destination City</div>
+								<div className="text-xs">
+									{`${modalData?.travel_destination?.to?.city?.city}`}
+								</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Start Bus Stop</div>
-								<div className="text-xs">Start Bus Stop</div>
+								<div className="text-xs">
+									{modalData?.travel_destination?.from?.start_busstop}
+								</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">
 									Destination Bus Stop
 								</div>
-								<div className="text-xs">Destination Bus Stop</div>
+								<div className="text-xs">
+									{modalData?.travel_destination?.to?.stop_busstop}
+								</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Departure Time</div>
-								<div className="text-xs">Time</div>
+								<div className="text-xs">{modalData?.take_off_time}</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Date</div>
-								<div className="text-xs">Date</div>
+								<div className="text-xs">{modalData?.take_off_date}</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Driver</div>
-								<div className="text-xs">Driver</div>
+								<div className="text-xs">{`${modalData?.driver?.first_name} ${modalData?.driver?.last_name}`}</div>
 							</div>
 							<div>
 								<div className="mb-1 text-sm text-gray-400">Vehicle</div>
-								<div className="text-xs">Vehicle</div>
+								<div className="text-xs">{modalData?.bus?.name}</div>
 							</div>
 						</div>
-						{/* <Button
-              title="Continue"
-              type="submit"
-              className="w-full px-4 py-4 text-sm rounded-md bg-primary-100"
-              onClick={() => {
-                // setFlip(TripOption.SUCCESS);
-              }}
-            />
-            <Button
-              title="Edit"
-              type="submit"
-              className="w-full px-4 py-4 mt-4 mb-6 text-sm text-gray-500 border border-gray-500 rounded-md"
-              onClick={() => {
-                // setFlip(TripOption.CREATE);
-              }}
-            /> */}
 					</Modal>
 				)}
 			</div>

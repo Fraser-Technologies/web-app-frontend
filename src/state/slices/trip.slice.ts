@@ -240,3 +240,30 @@ export const {
 	resetDeleteTripById,
 } = deleteTripByIdSlice.actions;
 export const deleteTripByIdReducer = deleteTripByIdSlice.reducer;
+
+const verifyPassangerOnBoardSlice = createSlice({
+	name: "verify passanger is onboard",
+	initialState: initialState,
+	reducers: {
+		verifyPassangerOnBoardRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		verifyPassangerOnBoardSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trip = payload;
+		},
+		verifyPassangerOnBoardFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const {
+	verifyPassangerOnBoardFailed,
+	verifyPassangerOnBoardSuccess,
+	verifyPassangerOnBoardRequest,
+} = verifyPassangerOnBoardSlice.actions;
+export const verifyPassangerOnBoardReducer =
+	verifyPassangerOnBoardSlice.reducer;
