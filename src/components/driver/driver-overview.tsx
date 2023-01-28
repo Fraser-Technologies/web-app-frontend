@@ -73,6 +73,20 @@ const DriverOverview = () => {
 
 	const verifyPassengerArrived = () => {};
 
+	const TotalRating = (trips: Trip_interface[]): number => {
+		let list_of_rating = [];
+		for (let index = 0; index < trips.length; index++) {
+			const each_rating =
+				trips[index]?.ratings.reduce((total, num) => total + num) /
+				trips[index].ratings.length;
+			list_of_rating.push(each_rating);
+		}
+
+		return (
+			list_of_rating.reduce((total, num) => total + num) / list_of_rating.length
+		);
+	};
+
 	useEffect(() => {
 		let dateArray = [];
 		for (let i = 0; i <= 7; i++) {
@@ -420,15 +434,21 @@ const DriverOverview = () => {
 								<p className="text-sm mb-2 font-normal text-[#929292]">
 									Trips Completed
 								</p>
-								<h3 className="text-[18px] font-medium">128,000</h3>
+								<h3 className="text-[18px] font-medium">
+									{
+										trips?.filter(
+											(trip: Trip_interface) => trip.completed_status === true
+										).length
+									}
+								</h3>
 							</div>
 							<div className="mx-auto ">
 								<p className="text-sm mb-2 font-normal text-[#929292]">
 									Rating
 								</p>
 								<h3 className="text-[18px] font-medium flex items-center">
-									{" "}
-									<FaStar className="text-[#FCAB64] h-[16px] mr-1" /> 4.5
+									<FaStar className="text-[#FCAB64] h-[16px] mr-1" />
+									{Number(TotalRating)}
 								</h3>
 							</div>
 						</div>
@@ -680,10 +700,6 @@ const DriverOverview = () => {
 						closable={true}
 						width="240px">
 						<div className="w-full mt-8 text-sm text-center place-items-center">
-							{/* <FaExclamationCircle
-                size={32}
-                className="text-[#E71D36] w-full mt-8 mb-4"
-              /> */}
 							Ending a trip means the trip is completed.
 							<div className="mt-4 text-base font-medium">End the trip?</div>
 						</div>
@@ -790,10 +806,14 @@ const DriverOverview = () => {
 															) : (
 																<FaCheck
 																	className="mr-2"
-																	// onClick={verifyPassengerArrived}
+																	onClick={verifyPassengerArrived}
 																/>
 															)}
-															{onboard ? "Onboarded" : "Onboard"}
+															{modalData?.verify_passanger_arrival?.find(
+																(passenger: string) => passenger === book?._id
+															)
+																? "Onboarded"
+																: "Onboard"}
 														</div>
 														<div
 															className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
