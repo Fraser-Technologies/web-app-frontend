@@ -19,6 +19,7 @@ import {
 	getTripByDriverAction,
 	resetUpdateTripAction,
 	updateTripAction,
+	verifyPassangerOnboardAction,
 } from "../../state/action/trip.action";
 import { Booking_interface } from "../../interfaces/Booking_interface";
 
@@ -39,7 +40,9 @@ const DriverOverview = () => {
 	const { trip, loading, error } = useAppSelector(
 		(state: RootState) => state.updateTrip
 	);
-
+	const { trip: onBoardedTrip } = useAppSelector(
+		(state: RootState) => state.verifyPassangerOnboard
+	);
 	console.log("the updated trip is ", trip);
 	const [visible, setVisible] = useState(true);
 	const [flip, setFlip] = useState<"" | DriverViews>("");
@@ -97,6 +100,10 @@ const DriverOverview = () => {
 		setDates(dateArray);
 		setDisabledDates(dateArray.slice(3));
 	}, []);
+
+	useEffect(() => {
+		dispatch(getTripByDriverAction(userInfo?._id));
+	}, [dispatch, onBoardedTrip, userInfo]);
 
 	useEffect(() => {
 		dispatch(getTripByDriverAction(userInfo?._id));
@@ -748,18 +755,11 @@ const DriverOverview = () => {
 								Passenger Manifest
 							</p>
 							<div className="my-1 text-sm text-gray-400">
-								{modalData?.no_of_seat} Passengers,{" "}
-								{
-									modalData?.bookings?.filter(
-										(book: Booking_interface) => book?.verify_onboard === false
-									).length
-								}{" "}
+								{modalData?.bookings.length} Passengers,{" "}
+								{modalData?.verified_passengers_onboard?.length}
 								Onboard,{" "}
-								{
-									modalData?.bookings?.filter(
-										(book: Booking_interface) => book?.verify_onboard === true
-									).length
-								}{" "}
+								{modalData?.bookings?.length -
+									modalData?.verified_passengers_onboard?.length}{" "}
 								Not Onboard
 							</div>
 							<table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
@@ -794,14 +794,22 @@ const DriverOverview = () => {
 													<div className="flex items-center h-full m-auto place-content-end">
 														<div
 															className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
-																modalData?.verify_onboard.find(
+																modalData?.verified_passengers_onboard.find(
 																	(pass: string) => pass === book?._id
 																)
 																	? "border-[#00FF6A] bg-[#00FF6A]"
 																	: "border-black "
 															} `}
-															onClick={() => setOnboard(!onboard)}>
-															{modalData?.verify_passanger_arrival?.find(
+															onClick={() => {
+																dispatch(
+																	verifyPassangerOnboardAction(
+																		modalData?._id,
+																		book?._id
+																	)
+																);
+																setOnboard(!onboard);
+															}}>
+															{modalData?.verified_passengers_onboard?.find(
 																(passenger: string) => passenger === book?._id
 															) ? (
 																<FaMinusCircle className="mr-2" />
@@ -811,7 +819,7 @@ const DriverOverview = () => {
 																	onClick={verifyPassengerArrived}
 																/>
 															)}
-															{modalData?.verify_passanger_arrival?.find(
+															{modalData?.verified_passengers_onboard?.find(
 																(passenger: string) => passenger === book?._id
 															)
 																? "Onboarded"
@@ -830,8 +838,6 @@ const DriverOverview = () => {
 											</tr>
 										);
 									})}
-
-									{/* )} */}
 								</tbody>
 							</table>
 						</div>
