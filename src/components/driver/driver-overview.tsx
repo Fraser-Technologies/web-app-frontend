@@ -1,4 +1,4 @@
-import { Modal, Alert, Switch, Space, message } from "antd";
+import { Modal, Alert, Switch, Space } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import {
@@ -39,6 +39,8 @@ const DriverOverview = () => {
 	const { trip, loading, error } = useAppSelector(
 		(state: RootState) => state.updateTrip
 	);
+
+	console.log("the updated trip is ", trip);
 	const [visible, setVisible] = useState(true);
 	const [flip, setFlip] = useState<"" | DriverViews>("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -52,6 +54,8 @@ const DriverOverview = () => {
 	const handleClose = () => {
 		setVisible(false);
 	};
+
+	console.log("the modal data is ", modalData);
 
 	const handleOpenModal = (data: Trip_interface, flipValue: any) => {
 		setFlip(flipValue);
@@ -101,10 +105,8 @@ const DriverOverview = () => {
 	}, [dispatch, userInfo]);
 
 	useEffect(() => {
-		if (trip?._id) {
-			dispatch(resetUpdateTripAction());
-			dispatch(getTripByDriverAction(userInfo?._id));
-		}
+		dispatch(resetUpdateTripAction());
+		dispatch(getTripByDriverAction(userInfo?._id));
 	}, [dispatch, trip, userInfo]);
 	return (
 		<>
@@ -169,9 +171,6 @@ const DriverOverview = () => {
 							<p className="pb-2 text-lg font-medium mb:text-base">
 								Upcoming Trip Schedule
 							</p>
-							{/* <div className="w-fit bg-[#000000] rounded-mdl py-2 px-4 text-[#00FF6A] font-medium">
-              Feb 3rd, 2023
-            </div> */}
 
 							<div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 pt-2 rounded-md">
 								<div className="p-4 bg-black rounded-md lg:p-0 ">
@@ -182,7 +181,7 @@ const DriverOverview = () => {
 										?.filter(
 											(trip: Trip_interface) =>
 												trip?.completed_status !== true &&
-												trip?.trip_type !== "outbound"
+												trip?.trip_type === "outbound"
 										)
 										.map((trip: Trip_interface) => {
 											return (
@@ -221,11 +220,11 @@ const DriverOverview = () => {
 														/>
 														<Button
 															title={
-																startOutBoundTrip ? "End Trip" : "Start Trip"
+																trip?.has_started ? "End Trip" : "Start Trip"
 															}
 															type="submit"
 															className={`w-full h-[48px] lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md ${
-																startOutBoundTrip
+																trip?.has_started
 																	? "bg-[#E71D36] text-white"
 																	: "bg-[#00FF6A] text-black"
 															}`}
@@ -254,7 +253,7 @@ const DriverOverview = () => {
 											?.filter(
 												(trip: Trip_interface) =>
 													trip?.completed_status !== true &&
-													trip?.trip_type !== "return"
+													trip?.trip_type === "return"
 											)
 											.map((trip: Trip_interface) => {
 												return (
@@ -566,10 +565,6 @@ const DriverOverview = () => {
 						closable={true}
 						width="240px">
 						<div className="w-full mt-8 text-sm text-center place-items-center">
-							{/* <FaExclamationCircle
-                size={32}
-                className="text-[#E71D36] w-full mt-8 mb-4"
-              /> */}
 							Starting a trip means all users are aboard, <div></div>
 							<div className="mt-4 text-base font-medium">Start the trip?</div>
 						</div>
@@ -579,22 +574,25 @@ const DriverOverview = () => {
 								title="No"
 								type="submit"
 								className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
-								onClick={() => {}}
+								onClick={() => {
+									setModalVisible(!modalVisible);
+								}}
 							/>
 							<Button
 								title={`Yes`}
 								type="submit"
 								className="w-full py-2 text-xs text-white bg-black rounded-md"
 								onClick={() => {
+									dispatch(
+										updateTripAction(modalData?._id, {
+											has_started: true,
+											start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+										})
+									);
 									setstartOutBoundTrip(!startOutBoundTrip);
 									setVisible(true);
 									setAlertMessage("Trip Started, your ETA is 3:00PM");
 									setModalVisible(false);
-									dispatch();
-									updateTripAction(modalData?._id, {
-										has_started: true,
-										start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-									});
 								}}
 							/>
 						</div>
@@ -610,10 +608,6 @@ const DriverOverview = () => {
 						closable={true}
 						width="240px">
 						<div className="w-full mt-8 text-sm text-center place-items-center">
-							{/* <FaExclamationCircle
-                size={32}
-                className="text-[#E71D36] w-full mt-8 mb-4"
-              /> */}
 							Starting a trip means all users are aboard, <div></div>
 							<div className="mt-4 text-base font-medium">Start the trip?</div>
 						</div>
@@ -635,10 +629,12 @@ const DriverOverview = () => {
 									setVisible(true);
 									setAlertMessage("Trip Started, your ETA is 3:00PM");
 									setModalVisible(false);
-									updateTripAction(modalData?._id, {
-										has_started: true,
-										start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-									});
+									dispatch(
+										updateTripAction(modalData?._id, {
+											has_started: true,
+											start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+										})
+									);
 								}}
 							/>
 						</div>
@@ -656,10 +652,6 @@ const DriverOverview = () => {
 						closable={true}
 						width="240px">
 						<div className="w-full mt-8 text-sm text-center place-items-center">
-							{/* <FaExclamationCircle
-                size={32}
-                className="text-[#E71D36] w-full mt-8 mb-4"
-              /> */}
 							Ending a trip means the trip is completed.
 							<div className="mt-4 text-base font-medium">End the trip?</div>
 						</div>
@@ -680,11 +672,14 @@ const DriverOverview = () => {
 									setVisible(true);
 									setAlertMessage("Great Job! Trip Completed successfully");
 									setModalVisible(false);
-									updateTripAction(modalData?._id, {
-										has_started: false,
-										has_ended: true,
-										end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-									});
+									dispatch(
+										updateTripAction(modalData?._id, {
+											has_started: false,
+											has_ended: true,
+											completed_status: true,
+											end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+										})
+									);
 								}}
 							/>
 						</div>
@@ -716,15 +711,18 @@ const DriverOverview = () => {
 								type="submit"
 								className="w-full py-2 text-xs text-white bg-black rounded-md"
 								onClick={() => {
+									dispatch(
+										updateTripAction(modalData?._id, {
+											has_started: false,
+											has_ended: true,
+											completed_status: true,
+											end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+										})
+									);
 									setstartReturnTrip(!startReturnTrip);
 									setVisible(true);
 									setAlertMessage("Great Job! Trip Completed successfully");
 									setModalVisible(false);
-									updateTripAction(modalData?._id, {
-										has_started: false,
-										has_ended: true,
-										end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-									});
 								}}
 							/>
 						</div>

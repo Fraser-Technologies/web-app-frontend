@@ -92,13 +92,13 @@ export const allTripReducer = getAllTripSlice.reducer;
 type initialStateType = {
 	loading: boolean;
 	error: string;
-	trip: Trip_interface | { _id: "" };
+	trip: Trip_interface | {};
 };
 
 const initialState: initialStateType = {
 	loading: false,
 	error: "",
-	trip: { _id: "" },
+	trip: {},
 };
 
 const createTripSlice = createSlice({
@@ -144,7 +144,6 @@ const updateTripSlice = createSlice({
 		updateTripFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
-			state.trip = { _id: "" };
 		},
 		updateTripReset: () => initialState,
 	},
@@ -229,7 +228,7 @@ const deleteTripByIdSlice = createSlice({
 		resetDeleteTripById: (state) => {
 			state.loading = false;
 			state.error = "";
-			state.trip = { _id: "" };
+			state.trip = {};
 		},
 	},
 });
