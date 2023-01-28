@@ -1,5 +1,5 @@
 import { Trip_interface } from "./../../interfaces/trip_interface";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type initialType = {
 	trips: Trip_interface[] | [];
@@ -92,13 +92,13 @@ export const allTripReducer = getAllTripSlice.reducer;
 type initialStateType = {
 	loading: boolean;
 	error: string;
-	trip: Trip_interface | {};
+	trip: Trip_interface | { _id: "" };
 };
 
 const initialState: initialStateType = {
 	loading: false,
 	error: "",
-	trip: {},
+	trip: { _id: "" },
 };
 
 const createTripSlice = createSlice({
@@ -111,12 +111,11 @@ const createTripSlice = createSlice({
 		},
 		createTripSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.trip = payload;
+			state.trip = payload as unknown as Trip_interface;
 		},
 		createTripFailed: (state, { payload }) => {
 			state.error = payload;
 			state.loading = false;
-			state.trip = {};
 		},
 		resetCreateTrip: () => initialState,
 	},
@@ -140,12 +139,12 @@ const updateTripSlice = createSlice({
 		},
 		updateTripSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.trip = payload;
+			state.trip = payload as unknown as Trip_interface;
 		},
 		updateTripFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
-			state.trip = {};
+			state.trip = { _id: "" };
 		},
 		updateTripReset: () => initialState,
 	},
@@ -230,7 +229,7 @@ const deleteTripByIdSlice = createSlice({
 		resetDeleteTripById: (state) => {
 			state.loading = false;
 			state.error = "";
-			state.trip = {};
+			state.trip = { _id: "" };
 		},
 	},
 });

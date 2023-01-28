@@ -1,4 +1,4 @@
-import { Modal, Alert, Switch, Space } from "antd";
+import { Modal, Alert, Switch, Space, message } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import React, { useEffect, useState } from "react";
 import {
@@ -17,8 +17,10 @@ import { Trip_interface } from "../../interfaces/trip_interface";
 import { currency_formatter } from "../../utils/currency-formatter";
 import {
 	getTripByDriverAction,
+	resetUpdateTripAction,
 	updateTripAction,
 } from "../../state/action/trip.action";
+import { Booking_interface } from "../../interfaces/Booking_interface";
 
 const DriverOverview = () => {
 	enum DriverViews {
@@ -69,7 +71,9 @@ const DriverOverview = () => {
 	const [dates, setDates] = useState<string[]>([]);
 	const [disabledDates, setDisabledDates] = useState<string[]>([]);
 
-	React.useEffect(() => {
+	const verifyPassengerArrived = () => {};
+
+	useEffect(() => {
 		let dateArray = [];
 		for (let i = 0; i <= 7; i++) {
 			dateArray.push(moment().add(i, "days").format("dddd Do MMMM YYYY"));
@@ -81,6 +85,13 @@ const DriverOverview = () => {
 	useEffect(() => {
 		dispatch(getTripByDriverAction(userInfo?._id));
 	}, [dispatch, userInfo]);
+
+	useEffect(() => {
+		if (trip?._id) {
+			dispatch(resetUpdateTripAction());
+			dispatch(getTripByDriverAction(userInfo?._id));
+		}
+	}, [dispatch, trip, userInfo]);
 	return (
 		<>
 			<div className="fixed bottom-0 flex items-center w-full mb-4 lg:hidden place-content-center">
@@ -117,7 +128,6 @@ const DriverOverview = () => {
 						onClick={() => {
 							setSelection("Info");
 						}}>
-						{" "}
 						Info{" "}
 					</div>
 				</div>
@@ -163,11 +173,11 @@ const DriverOverview = () => {
 										.map((trip: Trip_interface) => {
 											return (
 												<div className="items-center justify-between lg:flex lg:mt-3">
-													<div className="py-3 rounded-md lg:py-6 lg:py-0">
+													<div className="py-3 rounded-md lg:py-0">
 														<p className="text-xl text-white lg:text-base">
 															{`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
 														</p>
-														<div className="flex mt-2 lg:mt-0 lg:mt-4">
+														<div className="flex mt-2 lg:mt-4">
 															<div className="flex items-center mt-1 mr-4">
 																<FaCalendar className="mr-2" />
 																{trip?.take_off_date}
@@ -235,11 +245,11 @@ const DriverOverview = () => {
 											.map((trip: Trip_interface) => {
 												return (
 													<div className="items-center justify-between lg:flex lg:mt-3">
-														<div className="py-3 rounded-md lg:py-6 lg:py-0">
+														<div className="py-3 rounded-md lg:py-0">
 															<p className="text-xl text-white lg:text-base">
 																{`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
 															</p>
-															<div className="flex mt-2 lg:mt-0 lg:mt-4">
+															<div className="flex mt-2 lg:mt-4">
 																<div className="flex items-center mt-1 mr-4">
 																	<FaCalendar className="mr-2" />
 																	{trip?.take_off_date}
@@ -605,6 +615,10 @@ const DriverOverview = () => {
 									setVisible(true);
 									setAlertMessage("Trip Started, your ETA is 3:00PM");
 									setModalVisible(false);
+									updateTripAction(modalData?._id, {
+										has_started: true,
+										start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+									});
 								}}
 							/>
 						</div>
@@ -646,6 +660,11 @@ const DriverOverview = () => {
 									setVisible(true);
 									setAlertMessage("Great Job! Trip Completed successfully");
 									setModalVisible(false);
+									updateTripAction(modalData?._id, {
+										has_started: false,
+										has_ended: true,
+										end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+									});
 								}}
 							/>
 						</div>
@@ -685,6 +704,11 @@ const DriverOverview = () => {
 									setVisible(true);
 									setAlertMessage("Great Job! Trip Completed successfully");
 									setModalVisible(false);
+									updateTripAction(modalData?._id, {
+										has_started: false,
+										has_ended: true,
+										end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+									});
 								}}
 							/>
 						</div>
@@ -694,7 +718,7 @@ const DriverOverview = () => {
 					<Modal
 						title={
 							<div className="text-lg font-medium boder-b">
-								Lagos to Ibadan Trip
+								{`${modalData?.travel_destination?.from?.city?.city} to ${modalData?.travel_destination?.to?.city?.city} Trip`}
 							</div>
 						}
 						onOk={handleOk}
@@ -708,7 +732,19 @@ const DriverOverview = () => {
 								Passenger Manifest
 							</p>
 							<div className="my-1 text-sm text-gray-400">
-								15 Passengers, 2 Onboard, 13 Not Onboard
+								{modalData?.no_of_seat} Passengers,{" "}
+								{
+									modalData?.bookings?.filter(
+										(book: Booking_interface) => book?.verify_onboard === false
+									).length
+								}{" "}
+								Onboard,{" "}
+								{
+									modalData?.bookings?.filter(
+										(book: Booking_interface) => book?.verify_onboard === true
+									).length
+								}{" "}
+								Not Onboard
 							</div>
 							<table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
 								<thead className="bg-black">
@@ -728,40 +764,50 @@ const DriverOverview = () => {
 
 								{/* //TABLE ROWS */}
 								<tbody className="mt-4">
-									<tr className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-										<td
-											onClick={() => {}}
-											className="py-4 pl-4 text-sm text-gray-700">
-											Amen Olabode
-										</td>
-										<td
-											onClick={() => {}}
-											className="text-sm text-center text-gray-700">
-											<div className="flex items-center h-full m-auto place-content-end">
-												<div
-													className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
-														onboard
-															? "border-[#00FF6A] bg-[#00FF6A]"
-															: "border-black "
-													} `}
-													onClick={() => setOnboard(!onboard)}>
-													{onboard ? (
-														<FaMinusCircle className="mr-2" />
-													) : (
-														<FaCheck className="mr-2" />
-													)}
-													{onboard ? "Onboarded" : "Onboard"}
-												</div>
-												<div
-													className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
-														onboard ? "hidden" : "block"
-													}`}>
-													{/* INITIATE A CALL TO THE USER'S NUMBER */}
-													Call
-												</div>
-											</div>
-										</td>
-									</tr>
+									{modalData?.bookings?.map((book: Booking_interface) => {
+										return (
+											<tr className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
+												<td
+													onClick={() => {}}
+													className="py-4 pl-4 text-sm text-gray-700">
+													{`${book?.user?.first_name} ${book?.user?.last_name}`}
+												</td>
+												<td
+													onClick={() => {}}
+													className="text-sm text-center text-gray-700">
+													<div className="flex items-center h-full m-auto place-content-end">
+														<div
+															className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
+																onboard
+																	? "border-[#00FF6A] bg-[#00FF6A]"
+																	: "border-black "
+															} `}
+															onClick={() => setOnboard(!onboard)}>
+															{modalData?.verify_passanger_arrival?.find(
+																(passenger: string) => passenger === book?._id
+															) ? (
+																<FaMinusCircle className="mr-2" />
+															) : (
+																<FaCheck
+																	className="mr-2"
+																	// onClick={verifyPassengerArrived}
+																/>
+															)}
+															{onboard ? "Onboarded" : "Onboard"}
+														</div>
+														<div
+															className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
+																onboard ? "hidden" : "block"
+															}`}>
+															{/* INITIATE A CALL TO THE USER'S NUMBER */}
+															Call
+														</div>
+													</div>
+												</td>
+												r
+											</tr>
+										);
+									})}
 
 									{/* )} */}
 								</tbody>

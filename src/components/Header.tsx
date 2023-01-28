@@ -18,6 +18,7 @@ export const Header = () => {
 
 	const logOutUser = () => {
 		dispatch(logoutUserAction());
+		navigate(_paths_.LANDING_PAGE);
 		setOpenNavBar(false);
 	};
 
@@ -56,9 +57,19 @@ export const Header = () => {
 			label: <span onClick={() => logOutUser()}>Logout</span>,
 		},
 		{
+			key: "driver portal",
+			label: userInfo?.user_type === "driver" && (
+				<span onClick={() => navigate(_paths_.DRIVER_PORTAL)}>
+					Driver Portal
+				</span>
+			),
+		},
+		{
 			key: "admin dashboard",
 			label: userInfo?.is_admin && (
-				<span onClick={() => navigate("/admin")}>Admin Dashboard</span>
+				<span onClick={() => navigate(_paths_.ADMIN_DASHBOARD)}>
+					Admin Dashboard
+				</span>
 			),
 		},
 	];
