@@ -29,6 +29,7 @@ import {
 	getAllAvailableTripReducer,
 	getTripByBusReducer,
 	getTripByDriverReducer,
+	unverifyPassangerOnBoardReducer,
 	updateTripReducer,
 	verifyPassangerOnBoardReducer,
 } from "./slices/trip.slice";
@@ -49,6 +50,7 @@ const rootReducer = combineReducers({
 	tripByDriver: getTripByDriverReducer,
 	updateBus: updateBusSliceReducer,
 	verifyPassangerOnboard: verifyPassangerOnBoardReducer,
+	unverifyPassengerOnboard: unverifyPassangerOnBoardReducer,
 
 	//user reducers
 	registerUser: userRegisterReducer,

@@ -18,6 +18,7 @@ import { currency_formatter } from "../../utils/currency-formatter";
 import {
 	getTripByDriverAction,
 	resetUpdateTripAction,
+	unverifyPassangerOnboardAction,
 	updateTripAction,
 	verifyPassangerOnboardAction,
 } from "../../state/action/trip.action";
@@ -37,13 +38,13 @@ const DriverOverview = () => {
 
 	const { trips } = useAppSelector((state: RootState) => state.tripByDriver);
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
-	const { trip, loading, error } = useAppSelector(
-		(state: RootState) => state.updateTrip
-	);
+	const { trip } = useAppSelector((state: RootState) => state.updateTrip);
 	const { trip: onBoardedTrip } = useAppSelector(
 		(state: RootState) => state.verifyPassangerOnboard
 	);
-	console.log("the updated trip is ", trip);
+	const { trip: unBoardedTrip } = useAppSelector(
+		(state: RootState) => state.unverifyPassengerOnboard
+	);
 	const [visible, setVisible] = useState(true);
 	const [flip, setFlip] = useState<"" | DriverViews>("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -103,16 +104,14 @@ const DriverOverview = () => {
 
 	useEffect(() => {
 		dispatch(getTripByDriverAction(userInfo?._id));
-	}, [dispatch, onBoardedTrip, userInfo]);
-
-	useEffect(() => {
-		dispatch(getTripByDriverAction(userInfo?._id));
-	}, [dispatch, userInfo]);
+	}, [dispatch, onBoardedTrip, userInfo, unBoardedTrip]);
 
 	useEffect(() => {
 		dispatch(resetUpdateTripAction());
-		dispatch(getTripByDriverAction(userInfo?._id));
-	}, [dispatch, trip, userInfo]);
+		if (trip || onBoardedTrip || unBoardedTrip) {
+			dispatch(getTripByDriverAction(userInfo?._id));
+		}
+	}, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
 	return (
 		<>
 			<div className="fixed bottom-0 flex items-center w-full mb-4 lg:hidden place-content-center">
@@ -799,35 +798,51 @@ const DriverOverview = () => {
 																)
 																	? "border-[#00FF6A] bg-[#00FF6A]"
 																	: "border-black "
-															} `}
-															onClick={() => {
-																dispatch(
-																	verifyPassangerOnboardAction(
-																		modalData?._id,
-																		book?._id
-																	)
-																);
-																setOnboard(!onboard);
-															}}>
+															} `}>
 															{modalData?.verified_passengers_onboard?.find(
 																(passenger: string) => passenger === book?._id
 															) ? (
-																<FaMinusCircle className="mr-2" />
+																<div
+																	className="flex flex-row items-center"
+																	onClick={() => {
+																		dispatch(
+																			unverifyPassangerOnboardAction(
+																				modalData?._id,
+																				book?._id
+																			)
+																		);
+																		setOnboard(!onboard);
+																	}}>
+																	<FaMinusCircle className="mr-2" />
+																	<span> Onboarded</span>
+																</div>
 															) : (
-																<FaCheck
-																	className="mr-2"
-																	onClick={verifyPassengerArrived}
-																/>
+																<div
+																	className="flex flex-row items-center"
+																	onClick={() => {
+																		dispatch(
+																			verifyPassangerOnboardAction(
+																				modalData?._id,
+																				book?._id
+																			)
+																		);
+																		setOnboard(!onboard);
+																	}}>
+																	<FaCheck
+																		className="mr-2"
+																		onClick={verifyPassengerArrived}
+																	/>
+																	<span>Onboard</span>
+																</div>
 															)}
-															{modalData?.verified_passengers_onboard?.find(
-																(passenger: string) => passenger === book?._id
-															)
-																? "Onboarded"
-																: "Onboard"}
 														</div>
 														<div
 															className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
-																onboard ? "hidden" : "block"
+																modalData?.verified_passengers_onboard?.find(
+																	(passenger: string) => passenger === book?._id
+																)
+																	? "hidden"
+																	: "block"
 															}`}>
 															{/* INITIATE A CALL TO THE USER'S NUMBER */}
 															Call

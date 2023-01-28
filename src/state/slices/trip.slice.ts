@@ -267,3 +267,30 @@ export const {
 } = verifyPassangerOnBoardSlice.actions;
 export const verifyPassangerOnBoardReducer =
 	verifyPassangerOnBoardSlice.reducer;
+
+const unverifyPassangerOnBoardSlice = createSlice({
+	name: "unverify passanger is onboard",
+	initialState: initialState,
+	reducers: {
+		unverifyPassangerOnBoardRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		unverifyPassangerOnBoardSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trip = payload;
+		},
+		unverifyPassangerOnBoardFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const {
+	unverifyPassangerOnBoardFailed,
+	unverifyPassangerOnBoardSuccess,
+	unverifyPassangerOnBoardRequest,
+} = unverifyPassangerOnBoardSlice.actions;
+export const unverifyPassangerOnBoardReducer =
+	unverifyPassangerOnBoardSlice.reducer;

@@ -25,6 +25,9 @@ import {
 	getTripByDriverRequest,
 	getTripByDriverSuccess,
 	resetCreateTrip,
+	unverifyPassangerOnBoardFailed,
+	unverifyPassangerOnBoardRequest,
+	unverifyPassangerOnBoardSuccess,
 	updateTripFailed,
 	updateTripRequest,
 	updateTripReset,
@@ -198,5 +201,31 @@ export const verifyPassangerOnboardAction =
 			dispatch(verifyPassangerOnBoardSuccess(data));
 		} catch (error: any) {
 			dispatch(verifyPassangerOnBoardFailed(RequestError(error)));
+		}
+	};
+
+export const unverifyPassangerOnboardAction =
+	(trip_id: string, booking_id: string): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(unverifyPassangerOnBoardRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.post(
+				`/trip/unverifypassenger/${trip_id}`,
+				{
+					booking_id: booking_id,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+
+			dispatch(unverifyPassangerOnBoardSuccess(data));
+		} catch (error: any) {
+			dispatch(unverifyPassangerOnBoardFailed(RequestError(error)));
 		}
 	};
