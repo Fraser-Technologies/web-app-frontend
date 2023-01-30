@@ -23,6 +23,7 @@ import {
 	verifyPassangerOnboardAction,
 } from "../../state/action/trip.action";
 import { Booking_interface } from "../../interfaces/Booking_interface";
+import { getBalanceByUserAction } from "../../state/action/balance.action";
 
 const DriverOverview = () => {
 	enum DriverViews {
@@ -105,6 +106,10 @@ const DriverOverview = () => {
 	useEffect(() => {
 		dispatch(getTripByDriverAction(userInfo?._id));
 	}, [dispatch, onBoardedTrip, userInfo, unBoardedTrip]);
+
+	useEffect(() => {
+		dispatch(getBalanceByUserAction());
+	}, [dispatch]);
 
 	useEffect(() => {
 		dispatch(resetUpdateTripAction());

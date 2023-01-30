@@ -1,3 +1,4 @@
+import { allUserBalances, balanceByUserReducer } from "./slices/balance.slice";
 import { allBusReducer, updateBusSliceReducer } from "./slices/bus.slice";
 import {
 	createCityReducer,
@@ -90,6 +91,10 @@ const rootReducer = combineReducers({
 
 	//bus
 	allBus: allBusReducer,
+
+	//balance
+	allBalance: allUserBalances,
+	userBalance: balanceByUserReducer,
 });
 
 export default rootReducer;
