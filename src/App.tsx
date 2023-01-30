@@ -13,6 +13,7 @@ import AdminDashBoard from "./pages/admin";
 import SignUp from "./pages/signup";
 import DriverPortal from "./pages/DriverPortal";
 import SignIn from "./pages/signin";
+import DriverSignUp from "./pages/driver-signup";
 
 const App = () => {
 	const { userInfo } = useSelector((state: any) => state.userLogin);
@@ -37,6 +38,7 @@ const App = () => {
 				<Route path={_paths_.DRIVER_PORTAL} element={<DriverPortal />} />
 				<Route path={_paths_.NOTFOUND} element={<NotFound />} />
 				<Route path={_paths_.DRIVER_LOGIN} element={<DriverLogin />} />
+				<Route path={_paths_.DRIVER_SIGNUP} element={<DriverSignUp />} />
 			</Routes>
 		</>
 	);

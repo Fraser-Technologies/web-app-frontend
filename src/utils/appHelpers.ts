@@ -41,4 +41,5 @@ export const _paths_ = {
 	ADMIN_DASHBOARD: "/admin",
 	DRIVER_PORTAL: "/driverportal",
 	DRIVER_LOGIN: "/driverlogin",
+	DRIVER_SIGNUP: "/driversignup",
 };
