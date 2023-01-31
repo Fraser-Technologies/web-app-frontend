@@ -2,10 +2,18 @@ import React, { useState } from "react";
 import { UploadOutlined } from "@ant-design/icons";
 import { Button, Input, Upload, Steps } from "antd";
 import { FaCaretDown, FaChevronLeft } from "react-icons/fa";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { useNavigate } from "react-router-dom";
+import { RootState } from "../state/redux-store";
+import { _paths_ } from "../utils/appHelpers";
+import { registerAsADriverAction } from "../state/action/user.action";
 
 const DriverSignUp = () => {
-  const navigate = useNavigate();
+  const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const { userInfo } = useAppSelector(
+		(state: RootState) => state.registerAsDriver
+	);
   const [currentPage, setCurrentPage] = useState(1);
   const [email, setEmail] = useState<string>("");
   const [fName, setFName] = useState<string>("");
@@ -579,7 +587,7 @@ const DriverSignUp = () => {
               </div>
 
               <button
-                className={`items-center justify-center w-full p-3 mb-4 font-medium rounded-md bg-[#000000] text-white hover:bg-[#353535]
+                className={`items-center justify-center w-full p-3 mb-4 font-medium rounded-md bg-[#000000] text-white hover:bg-[#58FF9E]
               `}
                 onClick={() => {}}
               >
@@ -682,7 +690,7 @@ const DriverSignUp = () => {
             <button
               className={`items-center justify-center flex w-full p-3 font-medium rounded-md ${
                 // signUpValid
-                true ? "bg-[#000000] text-white hover:bg-[#353535]" : "bg-[#f5f5f5]"
+                true ? "bg-[#000000] text-white hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
               } `}
               onClick={() => {
                 currentPage === pages.length ? handleSubmit() : handleNext();

@@ -1,3 +1,4 @@
+import { userInfo } from "os";
 import { User_interface } from "./../../interfaces/user.interface";
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
@@ -132,12 +133,14 @@ export const allUserReducer = allUserSlice.reducer;
 type userType = {
 	loading: boolean;
 	error: string;
-	user: User_interface | {};
+	userInfo: User_interface | { user_type: "user" | "driver" };
 };
 const userState: userType = {
 	loading: false,
 	error: "",
-	user: {},
+	userInfo: {
+		user_type: "user",
+	},
 };
 const blockUserSlice = createSlice({
 	name: "block user",
@@ -147,7 +150,7 @@ const blockUserSlice = createSlice({
 			state.loading = true;
 		},
 		blockUserSuccess: (state, { payload }) => {
-			state.user = payload as unknown as User_interface;
+			state.userInfo = payload;
 			state.loading = false;
 		},
 
@@ -158,7 +161,7 @@ const blockUserSlice = createSlice({
 		clearBlockUser: (state) => {
 			state.loading = false;
 			state.error = "";
-			state.user = {};
+			state.userInfo = { user_type: "user" };
 		},
 	},
 });
@@ -180,16 +183,16 @@ const unBlockUserSlice = createSlice({
 			state.loading = true;
 		},
 		unBlockUserSuccess: (state, { payload }) => {
-			state.user = payload as unknown as User_interface;
+			state.userInfo = payload;
 			state.loading = false;
 		},
 
 		unBlockUserFailed: (state) => {
-			state.user = {};
+			state.userInfo = { user_type: "user" };
 			state.loading = false;
 		},
 		clearUnBlockUser: (state) => {
-			state.user = {};
+			state.userInfo = { user_type: "user" } || {};
 			state.loading = false;
 			state.error = "";
 		},
@@ -248,7 +251,7 @@ const becomeADriverSlice = createSlice({
 		},
 		becomeADriverSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.user = payload;
+			state.userInfo = payload as unknown as User_interface;
 		},
 		becomeADriverFailed: (state, { payload }) => {
 			state.loading = false;
@@ -265,7 +268,7 @@ export const {
 export const becomeADriverReducer = becomeADriverSlice.reducer;
 
 const registerAsDriverSlice = createSlice({
-	name: "become a driver",
+	name: "register a driver",
 	initialState: userState,
 	reducers: {
 		registerAsDriverRequest: (state) => {
@@ -274,7 +277,7 @@ const registerAsDriverSlice = createSlice({
 		},
 		registerAsDriverSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.user = payload;
+			state.userInfo = payload as unknown as User_interface;
 		},
 		registerAsDriverFailed: (state, { payload }) => {
 			state.loading = false;

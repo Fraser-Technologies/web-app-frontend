@@ -1,15 +1,29 @@
 import { Input } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
+import { userLoginAction } from "../state/action/user.action";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { RootState } from "../state/redux-store";
+import { _paths_ } from "../utils/appHelpers";
 
 const DriverLogin = () => {
-  const navigate = useNavigate();
-  const [phone, setPhone] = useState<string>("");
-  const loginValid = phone !== "" && phone.length === 10;
+	const navigate = useNavigate();
+	const dispatch = useAppDispatch();
+	const { userInfo, loading, error } = useAppSelector(
+		(state: RootState) => state.userLogin
+	);
+	const [phone, setPhone] = useState<string>("");
+	const loginValid = phone !== "" && phone.length === 10;
 
-  const logInDriver = () => {
-    navigate("/driverportal");
-  };
+	const logInDriver = () => {
+		dispatch(userLoginAction(phone));
+	};
+
+	useEffect(() => {
+		if (userInfo?.user_type === "driver") {
+			navigate(_paths_.DRIVER_PORTAL);
+		}
+	}, [navigate, userInfo]);
 
   return (
     <div className="items-center text-sm flex h-screen">

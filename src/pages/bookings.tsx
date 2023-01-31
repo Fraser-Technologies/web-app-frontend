@@ -19,13 +19,14 @@ import { FaCaretDown, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import { City_interface } from "../interfaces/city_interface";
 import { getAllCityAction } from "../state/action/city.action";
 import { Trip_interface } from "../interfaces/trip_interface";
+import { RootState } from "../state/redux-store";
 
 const Bookings = () => {
 	enum BookingViews {
 		NOOFTICKETS = "howmanytickets",
 	}
 
-	const { cities } = useAppSelector((state: any) => state.allCity);
+	const { cities } = useAppSelector((state: RootState) => state.allCity);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [from, setFrom] = useState<string>("");

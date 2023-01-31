@@ -15,6 +15,7 @@ import {
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import GeometricPatterns from "../components/GeometricPatterns";
+import { RootState } from "../state/redux-store";
 
 const Checkout = () => {
 	const dispatch = useAppDispatch();
@@ -24,8 +25,8 @@ const Checkout = () => {
 	const [showAlert, setShowAlert] = useState<boolean>(false);
 	const [show, setShow] = React.useState<boolean>(false);
 	const [open, setOpen] = React.useState(false);
-	const { userInfo } = useAppSelector((state: any) => state.userLogin);
-	const { myBooking } = useAppSelector((state: any) => state.booking);
+	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
+	const { myBooking } = useAppSelector((state: RootState) => state.booking);
 
 	const handleClose = () => {
 		setOpen(false);
