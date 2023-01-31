@@ -1,44 +1,179 @@
 import React, { useState } from "react";
-import { Input, Steps } from "antd";
+import { UploadOutlined } from "@ant-design/icons";
+import { Button, Input, Upload, Steps } from "antd";
+import { FaCaretDown, FaChevronLeft } from "react-icons/fa";
 
 const DriverSignUp = () => {
   const [currentPage, setCurrentPage] = useState(1);
+
   const [email, setEmail] = useState<string>("");
   const [fName, setFName] = useState<string>("");
   const [lName, setLName] = useState<string>("");
-  const [licneseNumber, setLicenseNumber] = useState<string>("");
-  const [primaryLocation, setPrimaryLocation] = useState<string>("");
-  
+  const [licenseNumber, setLicenseNumber] = useState<string>("");
+  const [registrationNumber, setRegistrationNumber] = useState<string>("");
+  // const [primaryLocation, setPrimaryLocation] = useState<string>("");
+  const [locationName, setlocationName] = useState("");
+  const [location, setlocation] = useState(false);
+  const [make, setMake] = useState("");
+  const [modelList, setModelList] = useState<string[]>([]);
+  const [makeOpen, setMakeOpen] = useState(false);
+  const [modelOpen, setModelOpen] = useState(false);
+  const [model, setModel] = useState("");
+  const [bankOpen, setBankOpen] = useState(false);
+  const [accountNo, setAccountNo] = useState("");
+  const [bankFilter, setBankFilter] = useState("");
+
+  const pages = [1, 2, 3, 4];
 
   const handleSubmit = () => {
-    // e.preventDefault();
-    if (currentPage < 3) {
+    if (currentPage < pages.length) {
       setCurrentPage(currentPage + 1);
     }
   };
 
   const handleBack = () => {
-    // e.preventDefault();
     if (currentPage > 1) {
       setCurrentPage(currentPage - 1);
     }
   };
+  // const steps = [
+  //   {
+  //     title: "Personal Information",
+  //     subtitle:  "Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine",
+  //   },
+  // ]
 
-  const steps = [
+  const availableCities = [
     {
-      title: "Personal Profile",
+      state: "Lagos",
+      cities: ["Lagos", "Ikeja", "Victoria Island", "Ajah", "Epe"],
     },
     {
-      title: "Contact Information",
+      state: "Oyo",
+      cities: ["Ibadan", "Ogbomosho", "Iseyin", "Oyo", "Kisi"],
     },
     {
-      title: "Submit",
+      state: "Ogun",
+      cities: ["Abeokuta", "Sagamu", "Ijebu Ode", "Ilaro", "Ijebu Igbo"],
     },
+    {
+      state: "Osun",
+      cities: ["Osogbo", "Ile Ife", "Iwo", "Olorunda", "Ila Orangun"],
+    },
+    {
+      state: "Ekiti",
+      cities: [
+        "Ado Ekiti",
+        "Ikere Ekiti",
+        "Ise Ekiti",
+        "Efon Alaye",
+        "Ilawe Ekiti",
+      ],
+    },
+    {
+      state: "Kwara",
+      cities: ["Ilorin", "Offa", "Oke Ero", "Ekiti", "Asa"],
+    },
+  ];
+
+  const busTypes = [
+    {
+      make: "Toyota",
+      models: [
+        "Hiace",
+        "Coaster",
+        "Regius",
+        "Quantum",
+        "Touring Hiace",
+        "Grand Hiace",
+      ],
+    },
+    {
+      make: "Mercedes-Benz",
+      models: [
+        "Sprinter",
+        "Tourismo",
+        "Integro",
+        "CapaCity",
+        "Citaro",
+        "Travego",
+      ],
+    },
+    {
+      make: "Nissan",
+      models: ["Civilian", "Evalia", "NV350", "Urvan", "NT400", "Atlas"],
+    },
+    {
+      make: "Volkswagen",
+      models: [
+        "Amarok",
+        "Crafter",
+        "California",
+        "Caddy",
+        "Multivan",
+        "Transporter",
+      ],
+    },
+    {
+      make: "Iveco",
+      models: [
+        "Daily",
+        "Eurocargo",
+        "Stralis",
+        "Trakker",
+        "TurboDaily",
+        "Stralis X-Way",
+      ],
+    },
+    {
+      make: "MAN",
+      models: [
+        "Lion's Coach",
+        "Lion's Coach L",
+        "Lion's City",
+        "Lion's Intercity",
+        "Lion's Regio",
+        "Lion's Urban",
+      ],
+    },
+  ];
+
+  const banks = [
+    "Access Bank",
+    "Guaranty Trust Bank",
+    "Zenith Bank",
+    "United Bank for Africa",
+    "First Bank of Nigeria",
+    "Union Bank",
+    "Fidelity Bank",
+    "Sterling Bank",
+    "Keystone Bank",
+    "Wema Bank",
+    "Ecobank Nigeria",
+    "FCMB Group",
+    "Heritage Bank",
+    "Stanbic IBTC Bank",
+    "Polaris Bank",
+    "Aliko Dangote Group (African Export-Import Bank)",
+    "Unity Bank",
+    "Providus Bank",
+    "Jaiz Bank",
+    "Rand Merchant Bank Nigeria",
+    "Coronation Merchant Bank",
+    "FBNQuest Merchant Bank",
+    "Standard Chartered Bank Nigeria",
+    "Citibank Nigeria Limited",
+    "Diamond Bank",
+    "Enterprise Bank (Now Heritage Bank)",
+    "Skye Bank (Now Polaris Bank)",
+    "Mainstreet Bank (Now Polaris Bank)",
+    "Oceanic Bank (Now Ecobank Nigeria)",
+    "Afribank (Now Unity Bank)",
   ];
 
   return (
     <div className="w-full h-screen items-center items-center flex flex-col">
-      {/* <div className="items-center flex w-full">
+      <div className="items-center flex w-full mt-6">
         <div className="m-auto flex mb-6">
           <div className="py-1 border-r border-[#000000]">
             <img
@@ -49,43 +184,55 @@ const DriverSignUp = () => {
           </div>
           <span className="ml-[10px]">Driver Portal</span>
         </div>
-      </div> */}
+      </div>
 
-      <div className="bg-white overflow-y-scroll fixed bottom-8 h-[90vh] w-1/3 mx-auto rounded-md text-sm">
+      <div className="bg-white overflow-y-scroll fixed bottom-8 h-[85vh] w-1/3 mx-auto rounded-md text-sm">
         <div className="py-4 rounded-t-md fixed w-1/3 px-8 z-20 bg-white border-b border-[#EFF3EF]">
           <div className="flex justify-between w-2/6 items-center">
-            <div
-              className={`h-3 w-3 rounded-lg ${
-                currentPage === 1 ? "bg-[#00FF6a]" : "bg-[#EFF3EF]"
-              }`}
-            ></div>
-            <div className="border-b h-0.5 w-6 bg-gray-100"></div>
-            <div
-              className={`h-3 w-3 rounded-lg ${
-                currentPage === 2 ? "bg-[#00FF6a]" : "bg-[#EFF3EF]"
-              }`}
-            ></div>
-            <div className="border-b h-0.5 w-6 bg-gray-100"></div>
-            <div
-              className={`h-3 w-3 rounded-lg ${
-                currentPage === 3 ? "bg-[#00FF6a]" : "bg-[#EFF3EF]"
-              }`}
-            ></div>
+            {pages.map((e) => (
+              <React.Fragment key={e}>
+                <div
+                  className={`h-3 w-3 rounded-lg ${
+                    currentPage >= e ? "bg-[#00FF6a]" : "bg-[#EFF3EF]"
+                  }`}
+                />
+                {e !== pages[pages.length - 1] && (
+                  <div
+                    className={`border-b h-0.5 w-6 ${
+                      currentPage >= e + 1 ? "bg-[#00FF6a]" : "bg-gray-100"
+                    }`}
+                  />
+                )}
+              </React.Fragment>
+            ))}
           </div>
 
-          {currentPage === 1 && (
-            <div>
-              <h3 className="text-base font-medium mt-6">Personal Profile</h3>
-              <p className="text-[10px] text-[#929292] mt-1 w-11/12">
-                Join the revolution of earning money on your own terms. Sign up
-                now to start turning your vehicle into a money-making machine
-              </p>
-            </div>
-          )}
+          <div>
+            <h3 className="text-base font-medium mt-6">
+              {currentPage === 1 && "Personal Information"}
+              {currentPage === 2 && "Vehicle Information"}
+              {currentPage === 3 && "Document Upload"}
+              {currentPage === 4 && "Payment Information"}
+            </h3>
+            <p className="text-[10px] text-[#929292] mt-1 w-11/12">
+              {currentPage === 1 &&
+                "Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
+              {currentPage === 2 &&
+                "Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
+              {currentPage === 3 &&
+                "Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
+              {currentPage === 4 &&
+                "Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
+            </p>
+          </div>
         </div>
-        <div className="mt-32">
+
+        {/* PAGES */}
+        <div className="">
+          {/*  */}
+          {/* PAGE 1 */}
           {currentPage === 1 && (
-            <div className="mb-6 px-6 py-8">
+            <div className="mb-6 px-8 py-8 mt-32 mb-32">
               <div className="mb-6">
                 <div className="mb-1">
                   <label className="text-[#929292] text-[10px]">
@@ -125,7 +272,7 @@ const DriverSignUp = () => {
                 <Input
                   className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
                   placeholder="License Number"
-                  value={licneseNumber}
+                  value={licenseNumber}
                   required={true}
                   size="small"
                   onChange={(e) => setLicenseNumber(e.target.value)}
@@ -146,246 +293,262 @@ const DriverSignUp = () => {
                   onChange={(e) => setEmail(e.target.value)}
                 />
               </div>
-              <div className="mb-6">
+
+              <div className="relative mb-6 w-full text-left duration-300 ease-in-out">
                 <div className="mb-1">
                   <label className="text-[#929292] text-[10px]">
                     Primary Location
                   </label>
                 </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Primary Location"
-                  value={primaryLocation}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setPrimaryLocation(e.target.value)}
-                />
+                <button
+                  type="button"
+                  className="inline-flex h-9 items-center w-full px-2 py-2 mb-2 text-sm  leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                  onClick={() => {
+                    setlocation(!location);
+                  }}
+                >
+                  {locationName}
+                  <FaCaretDown className="ml-auto" />
+                </button>
+                {location && (
+                  <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                    {availableCities.map((e) => {
+                      return (
+                        <a
+                          href="#"
+                          className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                          onClick={() => {
+                            setlocationName(e.state);
+                            setlocation(false);
+                          }}
+                        >
+                          {e.state}
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
               </div>
-              {/* <div className="mb-6">
+
+              <div className="flex flex-col pb-4 mb-4 border-b ">
                 <div className="mb-1">
                   <label className="text-[#929292] text-[10px]">
-                    Email Address
+                    Profile Image
                   </label>
                 </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
+
+                <Upload maxCount={1} listType="picture">
+                  <Button className="text-sm bg-[#F9F9F9] rounded-2xl px-6">
+                    {" "}
+                    + Upload File{" "}
+                  </Button>
+                </Upload>
               </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div>
-              <div className="mb-6">
-                <div className="mb-1">
-                  <label className="text-[#929292] text-[10px]">
-                    Email Address
-                  </label>
-                </div>
-                <Input
-                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
-                  placeholder="Email"
-                  value={email}
-                  required={true}
-                  size="small"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-              </div> */}
             </div>
           )}
-          <div>
-            {currentPage === 2 && <div></div>}
-            {currentPage === 3 && <div></div>}
-          </div>
+
+          {/* PAGE 2 */}
+          {currentPage === 2 && (
+            <div className="mb-6 px-8 py-8 mt-32">
+              <div className="relative w-full text-left duration-300 ease-in-out mb-6">
+                <div className="mb-1">
+                  <label className="text-[#929292] text-[10px]">Bus Make</label>
+                </div>
+                <button
+                  type="button"
+                  className="inline-flex h-9 items-center w-full px-2 py-2 mb-2 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-[6px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                  onClick={() => {
+                    setMakeOpen(!makeOpen);
+                  }}
+                >
+                  {make}
+                  <FaCaretDown className="ml-auto" />
+                </button>
+                {makeOpen && (
+                  <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                    {busTypes.map((e) => {
+                      return (
+                        <a
+                          href="#"
+                          className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                          onClick={() => {
+                            setMake(e.make);
+                            setModelList(e.models);
+                            setMakeOpen(false);
+                          }}
+                        >
+                          {e.make}
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+
+              <div
+                className={`relative w-full text-left duration-300 ease-in-out z-10 mb-6 ${
+                  modelList.length === 0 && "hidden"
+                }`}
+              >
+                <div className="mb-1">
+                  <label className="text-[#929292] text-[10px]">
+                    Bus Model
+                  </label>
+                </div>
+                <button
+                  type="button"
+                  className="inline-flex h-9 items-center w-full px-2 py-2 mb-2 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-[6px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                  onClick={() => {
+                    setModelOpen(!modelOpen);
+                  }}
+                >
+                  {model}
+                  <FaCaretDown className="ml-auto" />
+                </button>
+                {modelOpen && (
+                  <div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                    {modelList.map((e) => {
+                      return (
+                        <a
+                          href="#"
+                          className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                          onClick={() => {
+                            setModel(e);
+                            setModelOpen(false);
+                          }}
+                        >
+                          {e}
+                        </a>
+                      );
+                    })}
+                  </div>
+                )}
+              </div>
+              <div className="mb-6">
+                <div className="mb-1">
+                  <label className="text-[#929292] text-[10px]">
+                    Vehicle Registration Number
+                  </label>
+                </div>
+                <Input
+                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
+                  placeholder="Vehicle Registration Number"
+                  value={registrationNumber}
+                  required={true}
+                  size="small"
+                  onChange={(e) => setRegistrationNumber(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
+
+          {/* PAGE 3 */}
+          {currentPage === 3 && (
+            <div className="mb-6 px-8 py-8 mt-32 mb-32  flex flex-col ">
+              <div className="flex flex-col pb-4 mb-4 border-b ">
+                <p className="mb-3 text-[#22B11E]">Driver’s License</p>
+                <Upload maxCount={1} listType="picture">
+                  <Button className="text-sm bg-[#F9F9F9] rounded-2xl px-6">
+                    {" "}
+                    + Upload File{" "}
+                  </Button>
+                </Upload>
+              </div>
+              <div className="flex flex-col pb-4 mb-4 border-b ">
+                <p className="mb-3 text-[#22B11E]">
+                  Proof of Vehicle Insurance
+                </p>
+                <Upload maxCount={1} listType="picture">
+                  <Button className="text-sm bg-[#F9F9F9] rounded-2xl px-6">
+                    {" "}
+                    + Upload File{" "}
+                  </Button>
+                </Upload>
+              </div>
+              <div className="flex flex-col pb-4 mb-4 border-b ">
+                <p className="mb-3 text-[#22B11E]">
+                  Road Worthiness Certificate
+                </p>
+                <Upload maxCount={1} listType="picture">
+                  <Button className="text-sm bg-[#F9F9F9] rounded-2xl px-6">
+                    {" "}
+                    + Upload File{" "}
+                  </Button>
+                </Upload>
+              </div>
+            </div>
+          )}
+
+          {currentPage === 4 && (
+            // banks
+            <div className="mb-6 px-8 py-8 mt-32">
+              <div className="relative mb-6 w-full text-left duration-300 ease-in-out">
+                <div className="mb-1">
+                  <label className="text-[#929292] text-[10px]">Bank</label>
+                </div>
+                <input
+                  type="text"
+                  className="inline-flex h-9 items-center w-full px-2 py-2 mb-2 text-sm  leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                  placeholder="Search Banks"
+                  onClick={() => {
+                    setBankOpen(!bankOpen);
+                  }}
+                  onChange={(e) => {
+                    setBankFilter(e.target.value);
+                  }}
+                  value={bankFilter}
+                />
+                {bankOpen && (
+                  <div className="absolute w-full  mt-2 bg-white h-[240px] overflow-scroll rounded-md shadow-xs shadow-lg">
+                    {banks
+                      .filter((e) =>
+                        e.toLowerCase().includes(bankFilter.toLowerCase())
+                      )
+                      .map((e) => {
+                        return (
+                          <a
+                            href="#"
+                            className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            onClick={() => {
+                              setBankFilter(e);
+                              setBankOpen(false);
+                            }}
+                          >
+                            {e}
+                          </a>
+                        );
+                      })}
+                  </div>
+                )}
+              </div>
+              <div className="mb-6">
+                <div className="mb-1">
+                  <label className="text-[#929292] text-[10px]">
+                    Account Number
+                  </label>
+                </div>
+                <Input
+                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
+                  placeholder="Account Number"
+                  value={accountNo}
+                  required={true}
+                  size="small"
+                  onChange={(e) => setAccountNo(e.target.value)}
+                />
+              </div>
+            </div>
+          )}
         </div>
 
         <div className="fixed bottom-8 bg-white border-t border-[#EFF3EF] rounded-b-md w-1/3 ">
-          <div className="flex w-1/2 items-center m-auto my-8">
+          <div className="flex mx-8 items-center m-auto my-6">
             <button
-              className={`items-center justify-center flex w-full p-3 font-medium rounded-lg mr-6 ${
+              className={`items-center justify-center flex p-3 font-medium rounded-lg mr-4 ${
                 // signUpValid
-                currentPage == 1 ?  "bg-[#f5f5f5] hidden" : "bg-[#00ff6a] hover:bg-[#58FF9E]" 
-              } `}
+                currentPage < 2
+                  ? "bg-[#f5f5f5] hidden"
+                  : "border-black border hover:border-[#929292]"
+              } ${currentPage === pages.length ? "w-1/2" : "w-full "}`}
               onClick={() => true && handleBack()}
             >
               <svg
@@ -409,13 +572,13 @@ const DriverSignUp = () => {
                   stroke-width="5"
                 />
               </svg>
-              Previous
+              {currentPage === pages.length ? <FaChevronLeft /> : "Previous"}
             </button>
 
             <button
               className={`items-center justify-center flex w-full p-3 font-medium rounded-lg ${
                 // signUpValid
-                true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+                true ? "bg-[#00ff6a] hover:bg-[#58FF9E] w-full" : "bg-[#f5f5f5]"
               } `}
               onClick={() => true && handleSubmit()}
             >
@@ -440,9 +603,10 @@ const DriverSignUp = () => {
                   stroke-width="5"
                 />
               </svg>
-              Next
+              {currentPage === pages.length ? "Submit" : "Next "}
             </button>
           </div>
+          <div className="mx-8 my-4 py-4 border-t">I already have an account</div>
         </div>
       </div>
     </div>
