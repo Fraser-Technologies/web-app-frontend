@@ -6,8 +6,10 @@ import MiddleSection from "../components/admin/MiddleSection";
 import { useAppDispatch } from "../state/hooks";
 import { getAllTripAction } from "../state/action/trip.action";
 import { getAllCityAction } from "../state/action/city.action";
-import { getAllUserAction } from "../state/action/user.action";
-import { getAllDriverAction } from "../state/action/driver.action";
+import {
+	getAllDriverAction,
+	getAllUserAction,
+} from "../state/action/user.action";
 import { getAllBusAction } from "../state/action/bus.action";
 import { getAllBookingAction } from "../state/action/booking.action";
 

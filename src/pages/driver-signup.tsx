@@ -541,14 +541,12 @@ const DriverSignUp = () => {
         </div>
 
         <div className="fixed bottom-8 bg-white border-t border-[#EFF3EF] rounded-b-md w-1/3 ">
-          <div className="flex mx-8 items-center m-auto my-6">
+          <div className="flex w-1/2 items-center m-auto my-8">
             <button
-              className={`items-center justify-center flex p-3 font-medium rounded-lg mr-4 ${
+              className={`items-center justify-center flex w-full p-3 font-medium rounded-lg mr-6 ${
                 // signUpValid
-                currentPage < 2
-                  ? "bg-[#f5f5f5] hidden"
-                  : "border-black border hover:border-[#929292]"
-              } ${currentPage === pages.length ? "w-1/2" : "w-full "}`}
+                currentPage == 1 ?  "bg-[#f5f5f5] hidden" : "bg-[#00ff6a] hover:bg-[#58FF9E]" 
+              } `}
               onClick={() => true && handleBack()}
             >
               <svg
@@ -572,13 +570,13 @@ const DriverSignUp = () => {
                   stroke-width="5"
                 />
               </svg>
-              {currentPage === pages.length ? <FaChevronLeft /> : "Previous"}
+              Previous
             </button>
 
             <button
               className={`items-center justify-center flex w-full p-3 font-medium rounded-lg ${
                 // signUpValid
-                true ? "bg-[#00ff6a] hover:bg-[#58FF9E] w-full" : "bg-[#f5f5f5]"
+                true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
               } `}
               onClick={() => true && handleSubmit()}
             >
@@ -603,10 +601,9 @@ const DriverSignUp = () => {
                   stroke-width="5"
                 />
               </svg>
-              {currentPage === pages.length ? "Submit" : "Next "}
+              Next
             </button>
           </div>
-          <div className="mx-8 my-4 py-4 border-t">I already have an account</div>
         </div>
       </div>
     </div>
