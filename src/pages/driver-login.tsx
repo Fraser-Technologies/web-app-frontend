@@ -12,49 +12,52 @@ const DriverLogin = () => {
   };
 
   return (
-    <div className="items-center flex h-screen">
-      <div className="m-auto ml-[140px] z-20 w-6/12">
-        <div className="ml-12">
-          <div className="mb-6 flex items-center">
-            <img
-              className="pr-[10px] h-[18px] border-r border-black"
-              src="/assets/images/fraser-black-logo.svg"
-              alt=""
-            />
-            <span className="ml-[10px]">Driver Portal</span>
-          </div>
-
-          <h3 className="text-[52px] font-medium leading-snug mb-2 w-1/2">
-            Drive with Fraser
-          </h3>
-          <p className="text-[14px] text-[#929292] mb-8 w-7/12">
-            Have a bus? Unlock the earning potential of your vehicle and enjoy
-            financial freedom with a steady stream of income!
-          </p>
+    <div className="items-center text-sm flex h-screen">
+      <div className="m-auto z-20 w-4/12">
+        <div className="mb-6 flex m-auto items-center">
+          <img
+            className="pr-[10px] ml-auto h-[18px] border-r border-black"
+            src="/assets/images/fraser-black-logo.svg"
+            alt=""
+          />
+          <span className="ml-[10px] mr-auto">Driver Portal</span>
         </div>
 
         <div className="bg-white px-12 py-8 pb-8 rounded-md text-[14px]">
-          <p className="mt-6">Enter your mobile number to continue</p>
+          <h3 className="text-base font-medium">Login to continue</h3>
+          <p className="text-[10px] text-[#929292] mt-4">
+            Have a bus? Unlock the earning potential of your vehicle and enjoy
+            financial freedom with a steady stream of income!
+          </p>
 
-          <Input
-            className="w-full mt-8 h-12 hover:border-green-500 active:border-green-600"
-            placeholder="903 123 1234"
-            value={phone}
-            prefix={"+234"}
-            type="number"
-            required={true}
-            onChange={(e) => {
-              setPhone(
-                e.target.value.startsWith("0")
-                  ? e.target.value.slice(1)
-                  : e.target.value
-              );
-            }}
-          />
+          <div className="mt-8">
+            <div className="mb-1">
+              <label className="text-[#929292] text-[10px]">
+                Mobile Number
+              </label>
+            </div>
+            <Input
+              className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
+              placeholder="903 123 1234"
+              value={phone}
+              prefix={"+234"}
+              type="number"
+              required={true}
+              onChange={(e) => {
+                setPhone(
+                  e.target.value.startsWith("0")
+                    ? e.target.value.slice(1)
+                    : e.target.value
+                );
+              }}
+            />
+          </div>
           <button
-            className={`w-full p-3 mt-6 font-medium rounded-md ${
-              true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
-              // loginValid ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+            className={`text-sm w-full p-3 mt-6 font-medium rounded-md ${
+              true
+                ? "bg-[#000000] text-white hover:bg-[#353535]"
+                : "bg-[#f5f5f5]"
+              // loginValid ? "bg-[#000000] text-white hover:bg-[#353535]" : "bg-[#f5f5f5]"
             } `}
             onClick={() => loginValid && logInDriver()}
           >
@@ -83,7 +86,7 @@ const DriverLogin = () => {
           </button>
 
           <button
-            className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
+            className="text-sm flex items-center justify-center w-full cursor-pointer mt-6 text-[#22B11E]  hover:text-[#179713]"
             onClick={() => {
               navigate("/driversignup");
             }}
@@ -92,9 +95,9 @@ const DriverLogin = () => {
           </button>
         </div>
       </div>
-      <div className="overflow-hidden fixed w-full place-content-end flex">
+      {/* <div className="overflow-hidden fixed w-full place-content-end flex">
         <img src="/assets/images/driver-login.png" alt="" className="w-1/2" />
-      </div>
+      </div> */}
     </div>
   );
 };
