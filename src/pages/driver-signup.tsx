@@ -587,7 +587,7 @@ const DriverSignUp = () => {
               </div>
 
               <button
-                className={`items-center justify-center w-full p-3 mb-4 font-medium rounded-md bg-[#000000] text-white hover:bg-[#58FF9E]
+                className={`items-center justify-center w-full p-3 mb-4 font-medium rounded-md bg-[#000000] text-white hover:bg-[#353535]
               `}
                 onClick={() => {}}
               >
@@ -690,7 +690,7 @@ const DriverSignUp = () => {
             <button
               className={`items-center justify-center flex w-full p-3 font-medium rounded-md ${
                 // signUpValid
-                true ? "bg-[#000000] text-white hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+                true ? "bg-[#000000] text-white hover:bg-[#353535]" : "bg-[#f5f5f5]"
               } `}
               onClick={() => {
                 currentPage === pages.length ? handleSubmit() : handleNext();
