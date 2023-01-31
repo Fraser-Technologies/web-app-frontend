@@ -1,7 +1,17 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Input } from "antd";
+import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { useNavigate } from "react-router-dom";
+import { RootState } from "../state/redux-store";
+import { _paths_ } from "../utils/appHelpers";
+import { registerAsADriverAction } from "../state/action/user.action";
 
 const DriverSignUp = () => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const { userInfo } = useAppSelector(
+		(state: RootState) => state.registerAsDriver
+	);
 	const [currentPage, setCurrentPage] = useState(1);
 	const [email, setEmail] = useState<string>("");
 	const [fName, setFName] = useState<string>("");
@@ -14,6 +24,8 @@ const DriverSignUp = () => {
 		if (currentPage < 3) {
 			setCurrentPage(currentPage + 1);
 		}
+
+		// dispatch(registerAsADriverAction());
 	};
 
 	const handleBack = () => {
@@ -34,6 +46,12 @@ const DriverSignUp = () => {
 			title: "Submit",
 		},
 	];
+
+	useEffect(() => {
+		if (userInfo?.user_type === "driver") {
+			navigate(_paths_.DRIVER_PORTAL);
+		}
+	}, [navigate, userInfo]);
 
 	return (
 		<div className="w-full h-screen items-center flex flex-col">
