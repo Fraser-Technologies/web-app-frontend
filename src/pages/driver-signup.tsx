@@ -22,6 +22,7 @@ const DriverSignUp = () => {
   const [bankOpen, setBankOpen] = useState(false);
   const [accountNo, setAccountNo] = useState("");
   const [bankFilter, setBankFilter] = useState("");
+  const [vehicleCapacity, setVehicleCapacity] = useState(0)
 
   const pages = [1, 2, 3, 4];
 
@@ -427,6 +428,22 @@ const DriverSignUp = () => {
               <div className="mb-6">
                 <div className="mb-1">
                   <label className="text-[#929292] text-[10px]">
+                    Vehicle Capacity
+                  </label>
+                </div>
+                <Input
+                  className="w-full h-9 text-sm hover:border-green-500 focus:border-green-500 active:border-green-600"
+                  placeholder="Vehicle Capacity"
+                  type="number"
+                  value={vehicleCapacity}
+                  required={true}
+                  size="small"
+                  onChange={(e) => setVehicleCapacity(Number(e.target.value))}
+                />
+              </div>
+              <div className="mb-6">
+                <div className="mb-1">
+                  <label className="text-[#929292] text-[10px]">
                     Vehicle Registration Number
                   </label>
                 </div>
@@ -499,7 +516,7 @@ const DriverSignUp = () => {
                   value={bankFilter}
                 />
                 {bankOpen && (
-                  <div className="absolute w-full  mt-2 bg-white h-[240px] overflow-scroll rounded-md shadow-xs shadow-lg">
+                  <div className="absolute w-full z-10 mt-2 bg-white h-[240px] overflow-scroll rounded-md shadow-xs shadow-lg">
                     {banks
                       .filter((e) =>
                         e.toLowerCase().includes(bankFilter.toLowerCase())
