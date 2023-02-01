@@ -19,11 +19,11 @@ const App = () => {
 	const { userInfo } = useSelector((state: any) => state.userLogin);
 	const navigate = useNavigate();
 
-	useEffect(() => {
-		if (!userInfo?.is_admin) {
-			navigate(_paths_.BOOKRIDE);
-		}
-	}, [navigate, userInfo]);
+	// useEffect(() => {
+	// 	if (!userInfo?.is_admin) {
+	// 		navigate(_paths_.BOOKRIDE);
+	// 	}
+	// }, [navigate, userInfo]);
 	return (
 		<>
 			<Routes>

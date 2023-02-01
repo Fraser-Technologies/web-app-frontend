@@ -5,6 +5,6 @@ export interface Bus_interface extends Mongo_extra {
 	plate_number: string;
 	type: string;
 	image: string;
-	number_of_seat: number;
+	capacity: number;
 	status: "available" | "unavailable" | "in use";
 }

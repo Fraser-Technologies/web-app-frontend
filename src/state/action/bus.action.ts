@@ -2,6 +2,9 @@ import { api } from "../../utils/api";
 import { RequestError } from "../../utils/requestError";
 import { AppThunk } from "../redux-store";
 import {
+	createBusFailed,
+	createBusRequest,
+	createBusSuccess,
 	getAllBusFailed,
 	getAllBusRequest,
 	getAllBusSuccess,
@@ -20,6 +23,26 @@ export const getAllBusAction = (): AppThunk => async (dispatch) => {
 		dispatch(getAllBusFailed(RequestError(error)));
 	}
 };
+
+export const createBusAction =
+	(input: any): AppThunk =>
+	async (dispatch) => {
+		try {
+			dispatch(createBusRequest());
+			const { data } = await api.post(
+				"/bus",
+				{ ...input },
+				{
+					headers: {
+						"Content-Type": "application/json",
+					},
+				}
+			);
+			dispatch(createBusSuccess(data));
+		} catch (error: any) {
+			dispatch(createBusFailed(RequestError(error)));
+		}
+	};
 
 export const updateBusAction =
 	(bus_id: string, update: any): AppThunk =>

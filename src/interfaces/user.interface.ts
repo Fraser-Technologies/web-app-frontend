@@ -14,4 +14,5 @@ export interface User_interface extends Mongo_extra {
 	is_blocked: boolean;
 	user_type: "user" | "driver";
 	location: string;
+	user_token: string;
 }

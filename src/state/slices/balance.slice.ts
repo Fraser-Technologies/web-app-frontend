@@ -1,4 +1,3 @@
-import { getAllAvailableTripAction } from "../action/trip.action";
 import { createSlice } from "@reduxjs/toolkit";
 import { Balance_interface } from "../../interfaces/balance_interface";
 
@@ -77,3 +76,26 @@ export const {
 	getBalanceByUserSuccess,
 } = getUserBalanceSlice.actions;
 export const balanceByUserReducer = getUserBalanceSlice.reducer;
+
+const addAccountSlice = createSlice({
+	name: "get user balance",
+	initialState: oneBalance,
+	reducers: {
+		addAccountRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		addAcccountSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.balance = payload;
+		},
+		addAccountFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const { addAcccountSuccess, addAccountFailed, addAccountRequest } =
+	addAccountSlice.actions;
+export const addAccountReducer = addAccountSlice.reducer;

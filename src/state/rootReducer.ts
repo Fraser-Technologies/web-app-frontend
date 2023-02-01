@@ -1,5 +1,14 @@
-import { allUserBalances, balanceByUserReducer } from "./slices/balance.slice";
-import { allBusReducer, updateBusSliceReducer } from "./slices/bus.slice";
+import { deleteFileReducer, uploadFileReducer } from "./slices/image.slice";
+import {
+	addAccountReducer,
+	allUserBalances,
+	balanceByUserReducer,
+} from "./slices/balance.slice";
+import {
+	allBusReducer,
+	createBusReducer,
+	updateBusSliceReducer,
+} from "./slices/bus.slice";
 import {
 	createCityReducer,
 	deleteCityReducer,
@@ -95,10 +104,16 @@ const rootReducer = combineReducers({
 
 	//bus
 	allBus: allBusReducer,
+	createBus: createBusReducer,
 
 	//balance
 	allBalance: allUserBalances,
 	userBalance: balanceByUserReducer,
+	createAccount: addAccountReducer,
+
+	// image reducer
+	uploadFile: uploadFileReducer,
+	deleteFile: deleteFileReducer,
 });
 
 export default rootReducer;

@@ -2,6 +2,9 @@ import { api } from "../../utils/api";
 import { RequestError } from "../../utils/requestError";
 import { requestHeader } from "../../utils/requestHeader";
 import {
+	addAcccountSuccess,
+	addAccountFailed,
+	addAccountRequest,
 	getAllUserBalanceFailed,
 	getAllUserBalanceRequest,
 	getAllUserBalanceSuccess,
@@ -39,5 +42,27 @@ export const getBalanceByUserAction =
 			dispatch(getBalanceByUserSuccess(data));
 		} catch (error: any) {
 			dispatch(getBalanceByUserFailed(RequestError(error)));
+		}
+	};
+
+export const addAccountAction =
+	(token: string, accountDetails: any): AppThunk =>
+	async (dispatch) => {
+		try {
+			dispatch(addAccountRequest());
+
+			const { data } = await api.post(
+				`/balance/addbank`,
+				{ ...accountDetails },
+				{
+					headers: {
+						Authorization: `Bearer ${token}`,
+					},
+				}
+			);
+
+			dispatch(addAcccountSuccess(data));
+		} catch (error: any) {
+			dispatch(addAccountFailed(RequestError(error)));
 		}
 	};

@@ -1,4 +1,3 @@
-import { getAllTripAction } from "./trip.action";
 import { api } from "../../utils/api";
 import { RequestError } from "../../utils/requestError";
 import {

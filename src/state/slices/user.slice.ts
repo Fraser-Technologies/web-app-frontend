@@ -267,9 +267,21 @@ export const {
 } = becomeADriverSlice.actions;
 export const becomeADriverReducer = becomeADriverSlice.reducer;
 
+type driverType = {
+	loading: boolean;
+	error: string;
+	driver: User_interface | { _id: string; user_token: string; phone: string };
+};
+
+const driverInitialState: driverType = {
+	loading: false,
+	error: "",
+	driver: { _id: "", user_token: "", phone: "" },
+};
+
 const registerAsDriverSlice = createSlice({
 	name: "register a driver",
-	initialState: userState,
+	initialState: driverInitialState,
 	reducers: {
 		registerAsDriverRequest: (state) => {
 			state.loading = true;
@@ -277,7 +289,7 @@ const registerAsDriverSlice = createSlice({
 		},
 		registerAsDriverSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.userInfo = payload as unknown as User_interface;
+			state.driver = payload;
 		},
 		registerAsDriverFailed: (state, { payload }) => {
 			state.loading = false;
