@@ -39,8 +39,8 @@ export const {
 } = verifyPaymentSlice.actions;
 export const verifyPaymentReducer = verifyPaymentSlice.reducer;
 
-const myBooking = localStorage.getItem("myBookings")
-	? JSON.parse(localStorage.getItem("myBookings") as string)
+const myBooking = Cookie.get("myBookings")
+	? JSON.parse(Cookie.get("myBookings") as string)
 	: {};
 
 export const BookingSlice = createSlice({
@@ -48,7 +48,7 @@ export const BookingSlice = createSlice({
 	initialState: { myBooking },
 	reducers: {
 		addToBooking: (state, { payload }) => {
-			localStorage.setItem("myBookings", JSON.stringify(payload));
+			Cookie.set("myBookings", JSON.stringify(payload));
 			state.myBooking = payload;
 		},
 
