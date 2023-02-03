@@ -9,7 +9,7 @@ import { _paths_ } from "../utils/appHelpers";
 const DriverApp: FC = () => {
 	return (
 		<Routes>
-			<Route path={"/"} element={<DriverPortal />} />
+			<Route path={_paths_.DRIVER_PORTAL} element={<DriverPortal />} />
 			<Route path={_paths_.DRIVER_LOGIN} element={<DriverLogin />} />
 			<Route path={_paths_.DRIVER_SIGNUP} element={<DriverSignUp />} />
 			<Route path={_paths_.NOTFOUND} element={<NotFound />} />
