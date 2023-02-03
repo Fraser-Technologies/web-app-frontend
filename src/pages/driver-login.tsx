@@ -16,7 +16,7 @@ const DriverLogin = () => {
 	const loginValid = phone !== "" && phone.length === 10;
 
 	const logInDriver = () => {
-		dispatch(userLoginAction(phone));
+		dispatch(userLoginAction("+234" + phone));
 	};
 
 	useEffect(() => {
