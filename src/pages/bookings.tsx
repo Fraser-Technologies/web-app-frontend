@@ -33,7 +33,7 @@ const Bookings = () => {
 	const [to, setTo] = useState<string>("");
 	const [flip, setFlip] = useState<"" | BookingViews>("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
-	const [value, setValue] = useState(1);
+	const [value, setValue] = useState<number>(1);
 	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 	const [useDrawer, setUseDrawer] = useState(false);
 
@@ -65,7 +65,6 @@ const Bookings = () => {
 	const [desinationBusStopList, setDestinationBusStopList] = useState<string[]>(
 		[]
 	);
-	const timeRegex = /^(\d{1,2}):(\d{2})(am|pm)$/;
 
 	//RESPONSIVENESS
 	//WHERE TO||LEFT COLUMN
@@ -91,7 +90,7 @@ const Bookings = () => {
 	};
 
 	const [modalData, setModalData] = useState<Trip_interface>(availableTripData);
-	const handleOpenModal = (data: any, flipValue: any) => {
+	const handleOpenModal = (data: Trip_interface, flipValue: any) => {
 		setFlip(flipValue);
 		setModalData(data);
 		setModalVisible(true);
@@ -108,18 +107,25 @@ const Bookings = () => {
 
 	const handleChange = (e: any) => {
 		const inputValue = e.target.value;
-		setValue(inputValue);
+		if (modalData?.bus?.capacity - modalData?.bookings?.length >= inputValue) {
+			setValue(inputValue);
+		} else {
+			setValue(modalData?.bus?.capacity - modalData?.bookings?.length);
+		}
 		// const formattedValue = inputValue.replace(regex, ",");
 		// setValue(formattedValue);
 	};
 
-	const addItem = (noOfSeats: number) => {
-		if (value < noOfSeats) {
-			setValue(Number(value) + 1);
+	const addItem = () => {
+		if (modalData?.bus?.capacity - modalData?.bookings?.length > value) {
+			setValue(value + 1);
+		} else {
+			setValue(modalData?.bus?.capacity - modalData?.bookings?.length);
 		}
 	};
+
 	const minusItem = () => {
-		if (value > 1) setValue(Number(value) - 1);
+		if (value > 1) setValue(value - 1);
 	};
 
 	//Check ScreenWidth to check what element to render
@@ -158,6 +164,8 @@ const Bookings = () => {
 			dispatch(getAllCityAction());
 		}
 	}, [cities, dispatch]);
+
+	console.log("modelDAta", modalData);
 
 	return (
 		<Layout title="Fraser - Book a ride">
@@ -505,7 +513,8 @@ const Bookings = () => {
 							</div>
 							<div className="text-[#929292] font-light text-xs mt-1">
 								{" "}
-								Available Seats: {modalData?.no_of_seat}
+								Available Seats:
+								{modalData?.bus?.capacity - modalData?.bookings?.length}
 							</div>
 							<div className="flex-row justify-between px-6 py-4 mt-6 bg-black rounded-lg lg:flex lg:px-8">
 								<div className="flex lg:w-4/5">
@@ -515,7 +524,7 @@ const Bookings = () => {
 										</h3>
 									</div>
 
-									<BsArrowRight className="top-0 mt-1 mr-8 lg:w-4 lg:mr-14 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
+									<BsArrowRight className="top-0 mt-1 mr-8 lg:w-4  lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
 									<div className="w-1/2 lg:w-1/3 ">
 										<h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
 											{modalData?.travel_destination?.to?.stop_busstop}
@@ -549,9 +558,7 @@ const Bookings = () => {
 						</div>
 						<FaPlusCircle
 							size={32}
-							onClick={() => {
-								addItem(modalData?.no_of_seat);
-							}}
+							onClick={addItem}
 							className="cursor-pointer"
 						/>
 					</div>
@@ -559,7 +566,9 @@ const Bookings = () => {
 						title="Continue"
 						className="w-full h-[48px] mb-8 lg:h-[40px] p-3 mt-4 lg:text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E] hover:bg-[#58FF9E] rounded-lg "
 						onClick={() => {
-							dispatch(addToMyBookinAction(modalData));
+							dispatch(
+								addToMyBookinAction({ ...modalData, no_of_ticket: value })
+							);
 							navigate("/checkout");
 						}}
 					/>
@@ -575,7 +584,7 @@ const Bookings = () => {
 							</div>
 							<div className="text-[#929292] font-light text-xs mt-1">
 								{" "}
-								Available Seats: {modalData?.no_of_seat}
+								Available Seats: {modalData?.bus?.capacity}
 							</div>
 							<div className="flex-row px-6 py-4 mt-6 text-center bg-black rounded-lg justify-evenly lg:flex lg:px-8">
 								<div className="flex lg:w-4/5">
@@ -620,9 +629,7 @@ const Bookings = () => {
 						</div>
 						<FaPlusCircle
 							size={32}
-							onClick={() => {
-								addItem(modalData?.no_of_seat);
-							}}
+							onClick={addItem}
 							className="cursor-pointer"
 						/>
 					</div>

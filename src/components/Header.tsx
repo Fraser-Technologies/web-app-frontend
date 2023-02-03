@@ -98,7 +98,7 @@ export const Header = () => {
 
 	return (
 		<div className="fixed w-full top-0 h-auto flex flex-col z-10 ">
-			<div className="px-4 w-full flex flex-row justify-end py-3 md:px-16">
+			<div className="px-4 w-full flex flex-row justify-end py-3 md:px-16  md:text-[10px] text-[8px]">
 				<p className="text-gray-300">Partner with Fraser as</p>
 				<p className="text-[#1ada6a] ml-3 mr-3 cursor-pointer">Driver</p>
 				<p className="text-[#1ada6a] ml-3 mr-3 cursor-pointer">Bus Owner</p>

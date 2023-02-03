@@ -45,6 +45,7 @@ export const verifyPaymentAction =
 				`/booking`,
 				{
 					trip: trip?._id,
+					no_of_booking: trip?.no_of_booking,
 					comfirmed_payment: true,
 				},
 				requestHeader(userInfo)

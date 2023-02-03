@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp, BsFillPersonFill } from "react-icons/bs";
 import { MdPhoneInTalk } from "react-icons/md";
 import { usePaystackPayment } from "react-paystack";
@@ -16,6 +16,7 @@ import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import GeometricPatterns from "../components/GeometricPatterns";
 import { RootState } from "../state/redux-store";
+import { currency_formatter } from "../utils/currency-formatter";
 
 const Checkout = () => {
 	const dispatch = useAppDispatch();
@@ -39,7 +40,7 @@ const Checkout = () => {
 	const config = {
 		reference: new Date().getTime().toString(),
 		email: userInfo?.email || "contact@ridefrser.com",
-		amount: Number(myBooking?.price) * 100,
+		amount: Number(myBooking?.no_of_ticket * myBooking?.price) * 100,
 		publicKey: process.env.REACT_APP_PAYSTACK_KEY,
 	};
 
@@ -66,8 +67,6 @@ const Checkout = () => {
 
 		initializePayment(onSuccess, onClose);
 	};
-
-	const Total = myBooking?.price;
 
 	//DATE FORMATTING
 	const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
@@ -124,11 +123,12 @@ const Checkout = () => {
 			monthName = "Dec.";
 			break;
 	}
-	const formattedDate = `${ordinalDay} ${monthName}, ${year}`;
 
-	//TIME FORMATTING
-	// const timeRegex = /^(\d{1,2}):(\d{2})(am|pm)$/;
-
+	useEffect(() => {
+		if (!myBooking) {
+			navigate(-1);
+		}
+	}, [myBooking, navigate]);
 	return (
 		<Layout title="Checkout - Fraser">
 			{contextHolder}
@@ -240,7 +240,7 @@ const Checkout = () => {
 						</div>
 						<div className="border-b border-[#EFF3EF] pb-3 mt-4 flex space-x-5 font-semibold text-base md:text-base">
 							{/* LEKAN, THIS WOULD BE DYNAMIC NOW */}
-							<p> {myBooking.bookings.length + 1} Bus Ticket</p>
+							<p> {myBooking?.no_of_ticket} Bus Ticket</p>
 							<p>{myBooking?.take_off_date}.</p>
 						</div>
 						{/* {location and time} */}
@@ -265,7 +265,11 @@ const Checkout = () => {
 							</div> */}
 							<div className="flex justify-between mt-4 mr-8">
 								<p className="text-base ">Subtotal</p>
-								<p className="text-base">NGN {myBooking?.price}</p>
+								<p className="text-base">
+									{currency_formatter(
+										myBooking?.no_of_ticket * myBooking?.price
+									)}
+								</p>
 							</div>
 							{/* <div className="flex justify-between mt-4 mr-8 text-[#949292]">
                 <p className="text-sm md:text-xs ">VAT(7.5%)</p>
@@ -279,8 +283,7 @@ const Checkout = () => {
 						<div className="flex justify-between mt-4 border-b border-[#EFF3EF] pb-8 mr-8">
 							<p className="text-lg font-bold md:text-lg">Total</p>
 							<p className="text-lg font-bold md:text-lg">
-								NGN{" "}
-								{Total.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,") + ".00"}
+								{currency_formatter(myBooking?.no_of_ticket * myBooking?.price)}
 							</p>
 						</div>
 					</div>

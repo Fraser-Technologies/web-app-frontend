@@ -20,7 +20,6 @@ export interface Trip_interface extends Mongo_extra {
 	price: number;
 	currency?: string;
 	completed_status: boolean;
-	no_of_seat: number;
 	amount_earned: number;
 	ratings: number[];
 	has_started: boolean;
