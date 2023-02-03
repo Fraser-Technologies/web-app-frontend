@@ -38,8 +38,13 @@ export const _paths_ = {
 	CHECKOUT: "/checkout",
 	NOTFOUND: "*",
 	TERMS_OF_SERVICE: "/termsofservice",
-	ADMIN_DASHBOARD: "/admin",
+
+	// DRIVER ROUTES
 	DRIVER_PORTAL: "/",
 	DRIVER_LOGIN: "/driverlogin",
 	DRIVER_SIGNUP: "/driversignup",
+
+	// ADMIN ROUTES
+	ADMIN_DASHBOARD: "/",
+	ADMIN_LOGIN: "/login",
 };
