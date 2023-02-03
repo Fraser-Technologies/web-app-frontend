@@ -10,7 +10,7 @@ import SignUp from "../pages/signup";
 import TermsOfService from "../pages/terms-of-service";
 import { _paths_ } from "../utils/appHelpers";
 
-const UserRouteList: FC = () => {
+const UserApp: FC = () => {
 	return (
 		<Routes>
 			<Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
@@ -25,4 +25,4 @@ const UserRouteList: FC = () => {
 	);
 };
 
-export default UserRouteList;
+export default UserApp;

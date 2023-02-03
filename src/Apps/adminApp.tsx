@@ -7,7 +7,7 @@ import { useAppSelector } from "../state/hooks";
 import { RootState } from "../state/redux-store";
 import { _paths_ } from "../utils/appHelpers";
 
-const AdminRouteList: FC = () => {
+const AdminApp: FC = () => {
 	const navigate = useNavigate();
 	const [messageApi, contextHolder] = message.useMessage();
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
@@ -31,4 +31,4 @@ const AdminRouteList: FC = () => {
 	);
 };
 
-export default AdminRouteList;
+export default AdminApp;

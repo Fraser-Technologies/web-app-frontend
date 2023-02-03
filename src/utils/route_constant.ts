@@ -1,23 +1,23 @@
-import AdminRouteList from "../routers/adminRouteList";
-import DriverRouteList from "../routers/driverRouteList";
-import UserRouteList from "../routers/userRouteList";
+import AdminApp from "../Apps/adminApp";
+import DriverApp from "../Apps/driverApp";
+import UserApp from "../Apps/userApp";
 
 export const APPS = [
 	{
 		subdomain: "www",
-		app: UserRouteList,
+		app: UserApp,
 		main: true,
 	},
 
 	{
 		subdomain: "driver",
-		app: DriverRouteList,
+		app: DriverApp,
 		main: false,
 	},
 
 	{
 		subdomain: "admin",
-		app: AdminRouteList,
+		app: AdminApp,
 		main: false,
 	},
 ];

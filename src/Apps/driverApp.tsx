@@ -6,7 +6,7 @@ import DriverSignUp from "../pages/driver-signup";
 import DriverPortal from "../pages/DriverPortal";
 import { _paths_ } from "../utils/appHelpers";
 
-const DriverRouteList: FC = () => {
+const DriverApp: FC = () => {
 	return (
 		<Routes>
 			<Route path={"/"} element={<DriverPortal />} />
@@ -17,4 +17,4 @@ const DriverRouteList: FC = () => {
 	);
 };
 
-export default DriverRouteList;
+export default DriverApp;
