@@ -20,6 +20,7 @@ const DriverPortal = () => {
 			navigate(_paths_.DRIVER_LOGIN);
 		}
 	}, [navigate, userInfo]);
+
 	return (
 		<div className="w-full h-full bg-white">
 			<DriverHeader onViewChange={handleViewChange} />

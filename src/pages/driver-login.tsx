@@ -1,5 +1,5 @@
 import { Input } from "antd";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { userLoginAction } from "../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
@@ -22,8 +22,6 @@ const DriverLogin = () => {
 	useEffect(() => {
 		if (userInfo?.user_type === "driver") {
 			return navigate(_paths_.DRIVER_PORTAL);
-		} else {
-			return navigate(_paths_.BOOKRIDE);
 		}
 	}, [navigate, userInfo]);
 
