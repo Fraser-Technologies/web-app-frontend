@@ -8,7 +8,6 @@ import {
 	FaExclamationCircle,
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
-import { Driver_interface } from "../../../interfaces/driver_interface";
 import { Trip_interface } from "../../../interfaces/trip_interface";
 import { User_interface } from "../../../interfaces/user.interface";
 import { getTripByDriverAction } from "../../../state/action/trip.action";
@@ -81,7 +80,7 @@ const AdminDriverOverview: React.FC = () => {
 
 			{/* BUSSTOPS HEADER */}
 
-			<h2 className="mb-4 pl-4 bg-white fixed border-b top-16 py-6 mt-4 w-full text-xs font-medium">
+			<h2 className="fixed w-full py-6 pl-4 mt-4 mb-4 text-xs font-medium bg-white border-b top-16">
 				Drivers{" "}
 				{/* <span>
 							{loading && <CircularProgress />}
@@ -112,12 +111,12 @@ const AdminDriverOverview: React.FC = () => {
 
 				{/* BUSSTOPS LIST - TABLE */}
 				<table className="w-full text-sm font-normal text-left text-white">
-					<thead className=" bg-black">
+					<thead className="bg-black ">
 						<tr className="w-full ">
 							<th scope="col" className="px-4 py-4 font-normal rounded-l-md">
 								First Name
 							</th>
-							<th scope="col" className="px-2 py-4  text-center font-normal ">
+							<th scope="col" className="px-2 py-4 font-normal text-center ">
 								Last Name
 							</th>
 							<th scope="col" className="px-2 py-4 font-normal text-center">
@@ -137,7 +136,7 @@ const AdminDriverOverview: React.FC = () => {
 							<th scope="col" className="px-2 py-4 font-normal text-center">
 								Verified
 							</th>
-							<th scope="col" className="px-2 pl-16 py-4 font-normal">
+							<th scope="col" className="px-2 py-4 pl-16 font-normal">
 								Availability
 							</th>
 							<th
@@ -167,21 +166,21 @@ const AdminDriverOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(driver);
 										}}
-										className="px-4 py-4 text-xs text-center font-normal text-gray-700">
+										className="px-4 py-4 text-xs font-normal text-center text-gray-700">
 										{driver?.phone}
 									</td>
 									<td
 										onClick={() => {
 											handleOpenModal(driver);
 										}}
-										className="px-4 py-4 text-xs text-center font-normal text-gray-700">
+										className="px-4 py-4 text-xs font-normal text-center text-gray-700">
 										{driver?.email}
 									</td>
 									<td
 										onClick={() => {
 											handleOpenModal(driver);
 										}}
-										className="px-4 py-4 text-xs text-center font-normal text-gray-700">
+										className="px-4 py-4 text-xs font-normal text-center text-gray-700">
 										{driver?.location}
 									</td>
 
@@ -189,7 +188,7 @@ const AdminDriverOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(driver);
 										}}
-										className="px-4 py-4 text-xs text-center font-normal text-gray-700">
+										className="px-4 py-4 text-xs font-normal text-center text-gray-700">
 										{driver?.bus?.make}
 									</td>
 
@@ -197,7 +196,7 @@ const AdminDriverOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(driver);
 										}}
-										className="px-4 py-4 text-xs text-center font-normal text-gray-700">
+										className="px-4 py-4 text-xs font-normal text-center text-gray-700">
 										{`${driver?.driver_verification_status}`.toUpperCase()}
 									</td>
 
@@ -267,8 +266,8 @@ const AdminDriverOverview: React.FC = () => {
 					footer={false}
 					closable={true}>
 					<div className="h-5/6">
-						<div className="text-center py-8">
-							<div className="text-lg font-medium mb-2">
+						<div className="py-8 text-center">
+							<div className="mb-2 text-lg font-medium">
 								{modalData?.first_name} {modalData?.last_name}
 							</div>
 							<div className="text-[#949292]">{modalData?.email}</div>
@@ -285,14 +284,14 @@ const AdminDriverOverview: React.FC = () => {
 							{byDriverTrip?.map((trip: Trip_interface) => {
 								return (
 									<div
-										className="flex overflow-hidden justify-between border-b py-2 my-4 text-gray-800"
+										className="flex justify-between py-2 my-4 overflow-hidden text-gray-800 border-b"
 										key={trip?._id}>
 										<div className="flex">
 											<div className="mt-2 mr-4">
 												<FaBus />
 											</div>
 											<div>
-												<div className="truncate text-base">
+												<div className="text-base truncate">
 													{trip?.travel_destination?.from?.city?.city} to{" "}
 													{trip?.travel_destination?.to?.city?.city}
 												</div>

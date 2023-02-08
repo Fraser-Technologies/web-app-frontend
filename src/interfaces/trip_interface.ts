@@ -2,11 +2,11 @@ import { City_interface } from "./city_interface";
 import { Mongo_extra } from "./mongo_extra";
 import { Booking_interface } from "./Booking_interface";
 import { Bus_interface } from "./bus_interface";
-import { Driver_interface } from "./driver_interface";
+import { User_interface } from "./user.interface";
 
 export interface Trip_interface extends Mongo_extra {
 	bus: Bus_interface;
-	driver: Driver_interface;
+	driver: User_interface;
 	take_off_time: string;
 	take_off_date: string;
 	arrival_time: string;
