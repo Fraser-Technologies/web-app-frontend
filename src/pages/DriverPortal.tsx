@@ -7,6 +7,7 @@ import { RootState } from "../state/redux-store";
 import { useNavigate } from "react-router-dom";
 import { _paths_ } from "../utils/appHelpers";
 import { Alert } from "antd";
+import { userLoginAction } from "../state/action/user.action";
 
 const DriverPortal = () => {
 	const navigate = useNavigate();
@@ -21,6 +22,12 @@ const DriverPortal = () => {
 			navigate(_paths_.DRIVER_LOGIN);
 		}
 	}, [navigate, userInfo]);
+
+	useEffect(() => {
+		if (!userInfo?.driver_verification_status) {
+			userLoginAction(userInfo?.phone);
+		}
+	}, [userInfo]);
 
 	return (
 		<div className="w-full h-full bg-white">

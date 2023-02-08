@@ -131,6 +131,10 @@ const AdminDriverOverview: React.FC = () => {
 							</th>
 
 							<th scope="col" className="px-2 py-4 font-normal text-center">
+								Vehicle
+							</th>
+
+							<th scope="col" className="px-2 py-4 font-normal text-center">
 								Verified
 							</th>
 							<th scope="col" className="px-2 pl-16 py-4 font-normal">
@@ -179,6 +183,14 @@ const AdminDriverOverview: React.FC = () => {
 										}}
 										className="px-4 py-4 text-xs text-center font-normal text-gray-700">
 										{driver?.location}
+									</td>
+
+									<td
+										onClick={() => {
+											handleOpenModal(driver);
+										}}
+										className="px-4 py-4 text-xs text-center font-normal text-gray-700">
+										{driver?.bus?.make}
 									</td>
 
 									<td
