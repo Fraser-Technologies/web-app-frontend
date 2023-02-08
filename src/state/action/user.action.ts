@@ -83,7 +83,7 @@ export const userLoginAction =
 	};
 
 export const updateUserAction =
-	({ id, update }: { id: string; update: any }): AppThunk =>
+	(id: string, update: any): AppThunk =>
 	async (dispatch, getState) => {
 		dispatch(updateUserRequest());
 		try {
@@ -91,8 +91,8 @@ export const updateUserAction =
 				userLogin: { userInfo },
 			} = getState();
 			const { data } = await api.put(
-				`/user/${id}`,
-				{ update },
+				`/user/update/${id}`,
+				{ ...update },
 				requestHeader(userInfo)
 			);
 			Cookie.set("userInfo", JSON.stringify(data));

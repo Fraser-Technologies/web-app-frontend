@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useRef, useState } from "react";
-import { Alert, Input } from "antd";
+import { Input } from "antd";
 import { FaCaretDown, FaChevronLeft } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { useNavigate } from "react-router-dom";
@@ -8,7 +8,7 @@ import { RootState } from "../state/redux-store";
 import { _paths_ } from "../utils/appHelpers";
 import {
 	registerAsADriverAction,
-	userLoginAction,
+	updateUserAction,
 } from "../state/action/user.action";
 import { api } from "../utils/api";
 import { deleteFileAction } from "../state/action/image.action";
@@ -273,20 +273,12 @@ const DriverSignUp = () => {
 			})
 			.then(async ({ data }: any) => {
 				setDriverLisense(data?.image);
-				await api.put(
-					`/user/${userInfo?._id}`,
-					{
-						driver_license: data?.image,
-					},
-					{
-						headers: {
-							"Content-Type": "multipart/form-data",
-							Authorization: `Bearer ${userInfo?.user_token}`,
-						},
-					}
+				dispatch(
+					updateUserAction(userInfo?._id, { driver_license: data?.image })
 				);
 			})
 			.catch((error) => {});
+
 		setDriverLisenseImageLoading(false);
 	};
 
@@ -308,17 +300,10 @@ const DriverSignUp = () => {
 			})
 			.then(async ({ data }: any) => {
 				setRoadWorthiness(data?.image);
-				await api.put(
-					`/user/${userInfo?._id}`,
-					{
+				dispatch(
+					updateBusAction(bus?._id, {
 						road_worthiness_cert: data?.image,
-					},
-					{
-						headers: {
-							"Content-Type": "multipart/form-data",
-							Authorization: `Bearer ${userInfo?.user_token}`,
-						},
-					}
+					})
 				);
 			})
 			.catch((error) => {});
@@ -346,12 +331,10 @@ const DriverSignUp = () => {
 			})
 			.then(async ({ data }: any) => {
 				setProofOfInsurance(data?.image);
-				await api.put(
-					`/bus/${bus?._id}`,
-					{ bus_insurance: data?.image },
-					{
-						headers: { Authorization: `Bearer ${userInfo?.user_token}` },
-					}
+				dispatch(
+					updateBusAction(bus?._id, {
+						bus_insurance: data?.image,
+					})
 				);
 			});
 
@@ -384,7 +367,7 @@ const DriverSignUp = () => {
 				!email ||
 				!licenseNumber ||
 				!locationName ||
-				// !profile ||
+				!profile ||
 				!phone
 			) {
 				setShowError(true);
@@ -791,7 +774,7 @@ const DriverSignUp = () => {
 
 					{/* PAGE 3 */}
 					{currentPage === 3 && (
-						<div className="flex flex-col px-8 py-8 mt-32  mb-32 ">
+						<div className="flex flex-col px-8 py-8 mt-32 mb-32 ">
 							<div className="flex flex-col pb-4 mb-4 border-b ">
 								{showError && currentPage === 3 && (
 									<p className="text-red-600">{errorMessage}</p>
@@ -997,8 +980,7 @@ const DriverSignUp = () => {
 							</div>
 
 							<button
-								className={`items-center justify-center w-full p-3 mb-4 font-medium rounded-md bg-[#000000] text-white hover:bg-[#353535]
-              `}
+								className={`items-center justify-center w-full p-3 mb-4 font-medium rounded-md bg-[#000000] text-white hover:bg-[#353535]`}
 								onClick={() => {}}>
 								<svg
 									className={`${
