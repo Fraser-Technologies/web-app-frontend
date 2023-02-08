@@ -18,5 +18,5 @@ export interface User_interface extends Mongo_extra {
 	user_token?: string;
 	available: boolean;
 	driver_verification_status?: boolean;
-	bus?: Bus_interface;
+	bus: Bus_interface;
 }
