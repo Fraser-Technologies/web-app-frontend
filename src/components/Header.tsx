@@ -20,7 +20,7 @@ export const Header = () => {
 
 	const logOutUser = () => {
 		dispatch(logoutUserAction());
-		navigate(_paths_.LANDING_PAGE);
+		navigate(_paths_.BOOKRIDE);
 		setOpenNavBar(false);
 	};
 
