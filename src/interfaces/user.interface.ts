@@ -7,12 +7,14 @@ export interface User_interface extends Mongo_extra {
 	email: string;
 	referrals: User_interface[];
 	referral_code: string;
-	phone: string;
+	phone?: string;
 	bookings: Booking_interface[];
 	is_admin: boolean;
 	password?: string;
 	is_blocked: boolean;
 	user_type: "user" | "driver";
 	location: string;
-	user_token: string;
+	user_token?: string;
+	available: boolean;
+	driver_verification_status?: boolean;
 }

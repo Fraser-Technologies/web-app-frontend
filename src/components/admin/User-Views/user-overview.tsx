@@ -93,11 +93,6 @@ const UserOverview: React.FC = () => {
 		<div>
 			<h2 className="mb-4 pl-4 bg-white fixed border-b top-16 py-6 mt-4 w-full text-xs font-medium">
 				Users{" "}
-				{/* {loading && (
-					<span className="ml-2">
-						<CircularProgress />
-					</span>
-				)} */}
 				{error && (
 					<span className="ml-2">
 						<Alert type="error" message={error} />

@@ -270,13 +270,13 @@ export const becomeADriverReducer = becomeADriverSlice.reducer;
 type driverType = {
 	loading: boolean;
 	error: string;
-	driver: User_interface | { _id: string; user_token: string; phone: string };
+	userInfo: User_interface | {};
 };
 
 const driverInitialState: driverType = {
 	loading: false,
 	error: "",
-	driver: { _id: "", user_token: "", phone: "" },
+	userInfo: {},
 };
 
 const registerAsDriverSlice = createSlice({
@@ -289,7 +289,7 @@ const registerAsDriverSlice = createSlice({
 		},
 		registerAsDriverSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.driver = payload;
+			state.userInfo = payload;
 		},
 		registerAsDriverFailed: (state, { payload }) => {
 			state.loading = false;

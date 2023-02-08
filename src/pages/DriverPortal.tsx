@@ -6,6 +6,7 @@ import { useAppSelector } from "../state/hooks";
 import { RootState } from "../state/redux-store";
 import { useNavigate } from "react-router-dom";
 import { _paths_ } from "../utils/appHelpers";
+import { Alert } from "antd";
 
 const DriverPortal = () => {
 	const navigate = useNavigate();
@@ -25,6 +26,12 @@ const DriverPortal = () => {
 		<div className="w-full h-full bg-white">
 			<DriverHeader onViewChange={handleViewChange} />
 
+			{!userInfo?.driver_verification_status && (
+				<Alert
+					type="info"
+					message="Your account is been review and will be verified shortly"
+				/>
+			)}
 			{selectedView === "overview" && <DriverOverview />}
 			{selectedView === "revenue" && <DriverRevenueOverview />}
 		</div>

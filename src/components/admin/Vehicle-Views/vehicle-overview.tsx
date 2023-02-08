@@ -171,7 +171,7 @@ const VehicleOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(bus);
 										}}>
-										{bus?.name}
+										{bus?.make}
 									</td>
 									<td
 										onClick={() => {
@@ -185,14 +185,14 @@ const VehicleOverview: React.FC = () => {
 											handleOpenModal(bus);
 										}}
 										className="px-4 py-4 text-sm font-normal text-center text-gray-700">
-										driver name
+										{`${bus?.driver?.first_name} ${bus?.driver?.last_name}`}
 									</td>
 									<td
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
 										className="px-4 py-4 text-sm font-normal text-center text-gray-700">
-										Ibadan
+										{bus?.driver?.location}
 									</td>
 
 									<td
@@ -259,7 +259,7 @@ const VehicleOverview: React.FC = () => {
 					<div className="h-5/6">
 						<div className="py-8 text-center">
 							<div className="mb-2 text-lg font-medium">
-								{busModalData?.name}
+								{busModalData?.make}
 							</div>
 							<div className="text-[#949292]">{busModalData?.plate_number}</div>
 							<div className="bg-[#FAD0D0] text-[#E71D36] mt-2 py-2 text-center rounded-md">

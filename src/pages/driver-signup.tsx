@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { RefObject, useEffect, useRef, useState } from "react";
-import { Button, Input, Upload, Steps, UploadProps } from "antd";
+import React, { useEffect, useRef, useState } from "react";
+import { Alert, Input } from "antd";
 import { FaCaretDown, FaChevronLeft } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { useNavigate } from "react-router-dom";
@@ -8,15 +8,10 @@ import { RootState } from "../state/redux-store";
 import { _paths_ } from "../utils/appHelpers";
 import {
 	registerAsADriverAction,
-	updateUserAction,
 	userLoginAction,
 } from "../state/action/user.action";
 import { api } from "../utils/api";
-import {
-	deleteFileAction,
-	resetUploadFileAction,
-	uploadFileAction,
-} from "../state/action/image.action";
+import { deleteFileAction } from "../state/action/image.action";
 import { MdCancel } from "react-icons/md";
 import { RequestError } from "../utils/requestError";
 import { createBusAction, updateBusAction } from "../state/action/bus.action";
@@ -25,13 +20,12 @@ import { addAccountAction } from "../state/action/balance.action";
 const DriverSignUp = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
-	const { driver } = useAppSelector(
+	const { userInfo: newDriver } = useAppSelector(
 		(state: RootState) => state.registerAsDriver
 	);
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
 	const { bus } = useAppSelector((state: RootState) => state.createBus);
 
-	console.log("the userInfo is ", driver);
 	const { loading, error, image } = useAppSelector(
 		(state: RootState) => state.uploadFile
 	);
@@ -68,12 +62,26 @@ const DriverSignUp = () => {
 	const [driverLisense, setDriverLisense] = useState<string>("");
 	const [proofOfInsurance, setProofOfInsurance] = useState<string>("");
 	const [roadWorthiness, setRoadWorthiness] = useState<string>("");
+	const [showError, setShowError] = useState<boolean>(false);
+	const [errorMessage, setErrorMessage] = useState<string>("");
+	const [uploadingProfile, setUploadingProfile] = useState<boolean>(false);
+	const [driverLisenseImageLoading, setDriverLisenseImageLoading] =
+		useState<boolean>(false);
+	const [vehicleInsuranceImageLoading, setVehicleInsuranceImageLoading] =
+		useState<boolean>(false);
+	const [roadWorthinessLoading, setRoadWorthinessLoading] =
+		useState<boolean>(false);
 
 	const pages = [1, 2, 3, 4];
 
 	const handleSubmit = () => {
+		if (!bankFilter || !accountName || !accountNo) {
+			setShowError(true);
+			setErrorMessage("Adding all payment information if required");
+			return;
+		}
 		dispatch(
-			addAccountAction(driver?.user_token, {
+			addAccountAction(userInfo?.user_token, {
 				bank_name: bankFilter,
 				account_number: accountNo,
 				account_name: accountName,
@@ -226,7 +234,7 @@ const DriverSignUp = () => {
 
 		let formData = new FormData();
 		formData.append("image", fileObj);
-
+		setUploadingProfile(true);
 		await api
 			.post("/image", formData, {
 				headers: {
@@ -236,10 +244,12 @@ const DriverSignUp = () => {
 			.then(({ data }: any) => {
 				console.log("the res ", data);
 				setProfile(data?.image);
+				setUploadingProfile(false);
 			})
 			.catch((error) => {
 				setUploadProfilePicError(RequestError(error));
 				setProfile("");
+				setUploadingProfile(false);
 			});
 	};
 
@@ -252,8 +262,9 @@ const DriverSignUp = () => {
 		}
 
 		let formData = new FormData();
-		formData.append("file", fileObj);
+		formData.append("image", fileObj);
 
+		setDriverLisenseImageLoading(true);
 		await api
 			.post("/image", formData, {
 				headers: {
@@ -263,19 +274,20 @@ const DriverSignUp = () => {
 			.then(async ({ data }: any) => {
 				setDriverLisense(data?.image);
 				await api.put(
-					`/user/${driver?._id}`,
+					`/user/${userInfo?._id}`,
 					{
 						driver_license: data?.image,
 					},
 					{
 						headers: {
 							"Content-Type": "multipart/form-data",
-							Authorization: `Bearer ${driver?.user_token}`,
+							Authorization: `Bearer ${userInfo?.user_token}`,
 						},
 					}
 				);
 			})
 			.catch((error) => {});
+		setDriverLisenseImageLoading(false);
 	};
 
 	const uploadRoadWorthiness = async (
@@ -286,8 +298,8 @@ const DriverSignUp = () => {
 			return;
 		}
 		let formData = new FormData();
-		formData.append("file", fileObj);
-
+		formData.append("image", fileObj);
+		setRoadWorthinessLoading(true);
 		await api
 			.post("/image", formData, {
 				headers: {
@@ -297,19 +309,21 @@ const DriverSignUp = () => {
 			.then(async ({ data }: any) => {
 				setRoadWorthiness(data?.image);
 				await api.put(
-					`/user/${driver?._id}`,
+					`/user/${userInfo?._id}`,
 					{
 						road_worthiness_cert: data?.image,
 					},
 					{
 						headers: {
 							"Content-Type": "multipart/form-data",
-							Authorization: `Bearer ${driver?.user_token}`,
+							Authorization: `Bearer ${userInfo?.user_token}`,
 						},
 					}
 				);
 			})
 			.catch((error) => {});
+
+		setRoadWorthinessLoading(false);
 	};
 
 	const uploadVehicleInsurance = async (
@@ -321,7 +335,8 @@ const DriverSignUp = () => {
 		}
 
 		let formData = new FormData();
-		formData.append("file", fileObj);
+		formData.append("image", fileObj);
+		setVehicleInsuranceImageLoading(true);
 
 		await api
 			.post("/image", formData, {
@@ -331,50 +346,92 @@ const DriverSignUp = () => {
 			})
 			.then(async ({ data }: any) => {
 				setProofOfInsurance(data?.image);
-				// dispatch(updateBusAction(bus?._id, {}));
-
 				await api.put(
 					`/bus/${bus?._id}`,
 					{ bus_insurance: data?.image },
 					{
-						headers: { Authorization: `Bearer ${driver?.user_token}` },
+						headers: { Authorization: `Bearer ${userInfo?.user_token}` },
 					}
 				);
 			});
+
+		setVehicleInsuranceImageLoading(false);
 	};
 
 	let DriverData = {
 		first_name: fName,
 		last_name: lName,
+		email: email,
 		driver_license_number: licenseNumber,
 		location: locationName,
 		image: profile,
 		phone: "+234" + phone,
 	};
 
-	const handleNext = () => {
-		setUploadProfilePicError("");
+	const goToNextPage = () => {
 		if (currentPage < pages.length) {
 			setCurrentPage(currentPage + 1);
 		}
+	};
+
+	const handleNext = () => {
+		setUploadProfilePicError("");
 
 		if (currentPage === 1) {
+			if (
+				!fName ||
+				!lName ||
+				!email ||
+				!licenseNumber ||
+				!locationName ||
+				// !profile ||
+				!phone
+			) {
+				setShowError(true);
+				setErrorMessage("All field are required");
+				return;
+			}
 			dispatch(registerAsADriverAction(DriverData));
+			setShowError(false);
+			goToNextPage();
 		}
 
 		if (currentPage === 2) {
-			if (!bus?._id) {
-				dispatch(
-					createBusAction({
-						make,
-						model,
-						driver: driver?._id || userInfo?._id,
-						capacity: vehicleCapacity,
-						plate_number,
-						registration_number: registrationNumber,
-					})
-				);
+			if (
+				!make ||
+				!model ||
+				!vehicleCapacity ||
+				!plate_number ||
+				!registrationNumber
+			) {
+				setShowError(true);
+				setErrorMessage("All field are required");
+				return;
 			}
+			dispatch(
+				createBusAction({
+					make,
+					model,
+					driver: userInfo?._id,
+					capacity: vehicleCapacity,
+					plate_number,
+					registration_number: registrationNumber,
+				})
+			);
+
+			setShowError(false);
+			goToNextPage();
+		}
+
+		if (currentPage === 3) {
+			if (!driverLisense || !roadWorthiness || !roadWorthiness) {
+				setShowError(true);
+				setErrorMessage("Upload all relevant document");
+				return;
+			}
+
+			setShowError(false);
+			goToNextPage();
 		}
 	};
 
@@ -448,7 +505,10 @@ const DriverSignUp = () => {
 					{/*  */}
 					{/* PAGE 1 */}
 					{currentPage === 1 && (
-						<div className="px-8 py-8 mt-32 mb-6 mb-32">
+						<div className="px-8 py-8 mt-32 mb-32">
+							{showError && currentPage === 1 && (
+								<p className="text-red-600">{errorMessage}</p>
+							)}
 							<div className="mb-6">
 								<div className="mb-1">
 									<label className="text-[#929292] text-[10px]">
@@ -581,6 +641,9 @@ const DriverSignUp = () => {
 									onChange={uploadProfilePics}
 								/>
 							</div>
+							{uploadingProfile && (
+								<p className="text-blue-500">Uploading Please wait...</p>
+							)}
 							{profile && (
 								<div className="flex justify-between w-full bg-green-200 align-center rounded-md p-[2px]">
 									<img alt="" src={profile} className="w-[30px] h-[30px]" />
@@ -603,6 +666,10 @@ const DriverSignUp = () => {
 					{/* PAGE 2 */}
 					{currentPage === 2 && (
 						<div className="px-8 py-8 mt-32 mb-6">
+							{showError && currentPage === 2 && (
+								<p className="text-red-600">{errorMessage}</p>
+							)}
+
 							<div className="relative w-full mb-6 text-left duration-300 ease-in-out">
 								<div className="mb-1">
 									<label className="text-[#929292] text-[10px]">Bus Make</label>
@@ -724,18 +791,29 @@ const DriverSignUp = () => {
 
 					{/* PAGE 3 */}
 					{currentPage === 3 && (
-						<div className="flex flex-col px-8 py-8 mt-32 mb-6 mb-32 ">
+						<div className="flex flex-col px-8 py-8 mt-32  mb-32 ">
 							<div className="flex flex-col pb-4 mb-4 border-b ">
-								<p className="mb-3 text-[#22B11E]">Driver’s License</p>
+								{showError && currentPage === 3 && (
+									<p className="text-red-600">{errorMessage}</p>
+								)}
+								<p className="mb-3 text-[#22B11E]">
+									Driver’s License (as image)
+								</p>
+
 								<input
 									type="file"
 									accept="image/**"
 									ref={driverLicenseRef}
 									onChange={uploadDriverLicense}
 								/>
+								{driverLisenseImageLoading && (
+									<p className="text-blue-500 mt-[3px]">
+										uploading driver license ...
+									</p>
+								)}
 
 								{driverLisense && (
-									<div className="flex justify-between w-full bg-green-200 align-center rounded-md p-[2px]">
+									<div className="flex justify-between w-full bg-green-200 align-center rounded-md p-[2px] mt-[3px]">
 										<img
 											alt=""
 											src={driverLisense}
@@ -754,14 +832,8 @@ const DriverSignUp = () => {
 							</div>
 							<div className="flex flex-col pb-4 mb-4 border-b ">
 								<p className="mb-3 text-[#22B11E]">
-									Proof of Vehicle Insurance
+									Proof of Vehicle Insurance (as image)
 								</p>
-								{/* <Upload maxCount={1} listType="picture">
-									<Button className="text-sm bg-[#F9F9F9] rounded-2xl px-6">
-										{" "}
-										+ Upload File{" "}
-									</Button>
-								</Upload> */}
 
 								<input
 									type="file"
@@ -770,8 +842,14 @@ const DriverSignUp = () => {
 									onChange={uploadVehicleInsurance}
 								/>
 
+								{vehicleInsuranceImageLoading && (
+									<p className="text-blue-500 mt-[3px]">
+										uploading vehicle insurance ...
+									</p>
+								)}
+
 								{proofOfInsurance && (
-									<div className="flex justify-between w-full bg-green-200 align-center rounded-md p-[2px]">
+									<div className="flex justify-between w-full bg-green-200 align-center rounded-md p-[2px] mt-[3px]">
 										<img
 											alt=""
 											src={proofOfInsurance}
@@ -792,12 +870,6 @@ const DriverSignUp = () => {
 								<p className="mb-3 text-[#22B11E]">
 									Road Worthiness Certificate
 								</p>
-								{/* <Upload maxCount={1} listType="picture">
-									<Button className="text-sm bg-[#F9F9F9] rounded-2xl px-6">
-										{" "}
-										+ Upload File{" "}
-									</Button>
-								</Upload> */}
 
 								<input
 									type="file"
@@ -805,6 +877,12 @@ const DriverSignUp = () => {
 									ref={roadWorthinessRef}
 									onChange={uploadRoadWorthiness}
 								/>
+
+								{roadWorthinessLoading && (
+									<p className="text-blue-500 mt-[3px]">
+										uploading road worthiness cert ...
+									</p>
+								)}
 
 								{roadWorthiness && (
 									<div className="flex justify-between w-full bg-green-200 align-center rounded-md p-[2px]">
@@ -831,6 +909,9 @@ const DriverSignUp = () => {
 						// banks
 						<div className="px-8 py-8 mt-32 mb-6">
 							<div className="relative w-full mb-6 text-left duration-300 ease-in-out">
+								{showError && currentPage === 4 && (
+									<p className="text-red-600">{errorMessage}</p>
+								)}
 								<div className="mb-6">
 									<div className="mb-1">
 										<label className="text-[#929292] text-[10px]">
@@ -942,11 +1023,9 @@ const DriverSignUp = () => {
 								Invite a friend
 							</button>
 							<button
-								className={`items-center justify-center w-full p-3 font-medium rounded-md border border-[#000000] hover:border-[#929292]
-              `}
+								className={`items-center justify-center w-full p-3 font-medium rounded-md border border-[#000000] hover:border-[#929292]`}
 								onClick={() => {
-									dispatch(userLoginAction(driver?.phone));
-									navigate("/driverportal");
+									navigate(_paths_.DRIVER_PORTAL);
 								}}>
 								<svg
 									className={`${
@@ -984,7 +1063,7 @@ const DriverSignUp = () => {
 						<button
 							className={`items-center justify-center flex  p-3 px-6 font-medium rounded-md mr-3 ${
 								// signUpValid
-								currentPage == 1
+								currentPage === 1
 									? "hidden"
 									: "border-[#000000] text-[#000000] border hover:border-[#929292]"
 							} `}

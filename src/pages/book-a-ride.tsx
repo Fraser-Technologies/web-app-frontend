@@ -142,11 +142,6 @@ const BookRide = () => {
 	};
 
 	useEffect(() => {
-		if (userInfo?.user_type === "driver") {
-			setIsModalOpen(false);
-			return navigate(_paths_.DRIVER_PORTAL);
-		}
-
 		if (!userInfo?._id) {
 			setIsModalOpen(true);
 		} else {

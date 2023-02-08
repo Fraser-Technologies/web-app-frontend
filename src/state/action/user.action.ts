@@ -166,6 +166,7 @@ export const getAllDriverAction = (): AppThunk => async (dispatch) => {
 	try {
 		dispatch(allDriverRequest());
 		const { data } = await api.get("/user/drivers");
+		console.log("all the driver are ", data);
 		dispatch(allDriverSuccess(data));
 	} catch (error: any) {
 		dispatch(allDriverFailed(RequestError(error)));

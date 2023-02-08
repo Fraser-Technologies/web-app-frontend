@@ -26,15 +26,18 @@ export const getAllBusAction = (): AppThunk => async (dispatch) => {
 
 export const createBusAction =
 	(input: any): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		try {
 			dispatch(createBusRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
 			const { data } = await api.post(
 				"/bus",
 				{ ...input },
 				{
 					headers: {
-						"Content-Type": "application/json",
+						Authorization: `Bearer ${userInfo?.user_token}`,
 					},
 				}
 			);

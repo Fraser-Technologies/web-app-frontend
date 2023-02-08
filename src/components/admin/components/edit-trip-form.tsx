@@ -25,7 +25,7 @@ const EditTripFormComponent = ({
 	const { loading, error } = useAppSelector((state: any) => state.updateTrip);
 
 	// the trip variable
-	const [bus, setBus] = useState<string>(trip?.bus?.name || "");
+	const [bus, setBus] = useState<string>(trip?.bus?.make || "");
 	const [driver, setDriver] = useState<string>(trip?.driver?._id || "");
 	const [take_off_date, setTake_off_date] = useState<string>(
 		trip?.take_off_date || ""
@@ -89,7 +89,7 @@ const EditTripFormComponent = ({
 	//   VEHICLE CONTROLLERS
 	const [vehicleOpen, setVehicleIsOpen] = useState(false);
 	const [vehicleDisplayText, setVehicleDisplayText] = useState(
-		trip?.bus?.name || "Select Vehicle"
+		trip?.bus?.make || "Select Vehicle"
 	);
 
 	//   DRIVER  CONTROLLERS
@@ -117,8 +117,6 @@ const EditTripFormComponent = ({
 			},
 		},
 	};
-
-
 
 	const updateTripData = () => {
 		if (
@@ -437,11 +435,11 @@ const EditTripFormComponent = ({
 												href="#"
 												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
-													setVehicleDisplayText(bus?.name);
+													setVehicleDisplayText(bus?.make);
 													setBus(bus?._id);
 													setVehicleIsOpen(!vehicleOpen);
 												}}>
-												{bus?.name}
+												{bus?.make}
 											</a>
 										);
 									})}
