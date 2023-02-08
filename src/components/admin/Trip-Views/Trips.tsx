@@ -9,7 +9,7 @@ const Trips: React.FC = () => {
   };
 
   return (
-    <div className="h-full col-start-2 col-end-6 bg-white px-4">
+    <div className="h-full col-start-2 col-end-6 bg-white px-4 mt-12">
       {/* <div className="h-full px-6 bg-white"> */}
         {/* GROUP BUTTON - NAVIGATION */}
         <div className="w-full fixed bg-white py-4 pt-8 border-b">
