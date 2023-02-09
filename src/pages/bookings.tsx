@@ -584,7 +584,8 @@ const Bookings = () => {
 							</div>
 							<div className="text-[#929292] font-light text-xs mt-1">
 								{" "}
-								Available Seats: {modalData?.bus?.capacity}
+								Available Seats:{" "}
+								{modalData?.bus?.capacity - modalData?.bookings?.length}
 							</div>
 							<div className="flex-row px-6 py-4 mt-6 text-center bg-black rounded-lg justify-evenly lg:flex lg:px-8">
 								<div className="flex lg:w-4/5">
