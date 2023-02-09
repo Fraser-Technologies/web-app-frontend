@@ -172,7 +172,7 @@ const DriverOverview = () => {
 
 			<div className=" lg:mx-[120px] pb-24 lg:pb-0 ">
 				<div className="lg:grid lg:grid-cols-8 lg:gap-8">
-					<div className={`col-start-1 text-black col-end-6`}>
+					<div className={`col-start-1 text-black col-end-8`}>
 						<div
 							className={`${
 								selection === "Schedule" ? "block  mx-[18px]" : "hidden"

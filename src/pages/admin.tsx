@@ -46,7 +46,7 @@ const AdminDashBoard = () => {
 				{contextHolder}
 				<LeftSidebar />
 				<MiddleSection />
-				<RightSidebar />
+				{/* <RightSidebar /> */}
 			</div>
 		</Layout>
 	);
