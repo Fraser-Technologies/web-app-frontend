@@ -93,7 +93,7 @@ const VehicleOverview: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<h2 className="fixed w-full py-6 pl-4 mt-4 mb-4 text-xs font-medium bg-white border-b top-16">
+			<h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xs font-medium">
 				Vehicles
 			</h2>{" "}
 			{/* PAGINATION */}
@@ -122,35 +122,35 @@ const VehicleOverview: React.FC = () => {
 						<tr className="w-full ">
 							<th
 								scope="col"
-								className="px-4 py-4 text-sm font-normal rounded-l-md">
+								className="px-4 text-sm font-normal rounded-l-md">
 								Number
 							</th>
 							<th
 								scope="col"
-								className="px-2 py-4 text-sm font-normal text-center ">
+								className="px-2 text-sm font-normal text-center ">
 								Make
 							</th>
 							<th
 								scope="col"
-								className="px-2 py-4 text-sm font-normal text-center">
+								className="px-2 text-sm font-normal text-center">
 								Capacity
 							</th>
 							<th
 								scope="col"
-								className="px-2 py-4 text-sm font-normal text-center">
+								className="px-2 text-sm font-normal text-center">
 								Driver
 							</th>
 							<th
 								scope="col"
-								className="px-2 py-4 text-sm font-normal text-center">
+								className="px-2 text-sm font-normal text-center">
 								Location
 							</th>
-							<th scope="col" className="px-2 py-4 pl-16 font-normal">
+							<th scope="col" className="px-2 pl-16 font-normal">
 								Availability
 							</th>
 							<th
 								scope="col"
-								className="px-2 py-4 text-sm font-normal rounded-r-md"></th>
+								className="px-2 py-6 text-sm font-normal rounded-r-md"></th>
 						</tr>
 					</thead>
 
@@ -163,7 +163,7 @@ const VehicleOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 py-4 text-sm font-normal text-gray-700">
+										className="px-4 text-sm font-normal text-gray-700">
 										{bus?.plate_number}
 									</td>
 									<td
@@ -177,21 +177,21 @@ const VehicleOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 py-4 text-sm font-normal text-center text-gray-700">
+										className="px-4 text-sm font-normal text-center text-gray-700">
 										{bus?.capacity}
 									</td>
 									<td
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 py-4 text-sm font-normal text-center text-gray-700">
+										className="px-4 text-sm font-normal text-center text-gray-700">
 										{`${bus?.driver?.first_name} ${bus?.driver?.last_name}`}
 									</td>
 									<td
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 py-4 text-sm font-normal text-center text-gray-700">
+										className="px-4 text-sm font-normal text-center text-gray-700">
 										{bus?.driver?.location}
 									</td>
 
@@ -199,13 +199,13 @@ const VehicleOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 py-4 pl-16 text-sm font-normal text-gray-700">
-										<div className="bg-[#D1FAD0] text-[#22B11E] py-2 text-center rounded-md">
+										className="px-4 pl-16 text-sm font-normal text-gray-700">
+										<div className={` py-2 text-center rounded-md ${bus?.status?.toUpperCase() === 'UNAVAILABLE' ? "bg-[#FAD0D0] text-[#E71D36]" : "bg-[#D1FAD0] text-[#22B11E]"}`}>
 											{bus?.status?.toUpperCase()}
 										</div>
 									</td>
 									<td
-										className="px-4 py-6 text-sm font-normal text-gray-700"
+										className="px-4 py-4 text-sm font-normal text-gray-700"
 										onClick={() => {
 											handleSetMenuToggle();
 										}}>

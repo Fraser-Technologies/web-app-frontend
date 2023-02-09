@@ -91,7 +91,7 @@ const UserOverview: React.FC = () => {
 
 	return (
 		<div>
-			<h2 className="mb-4 pl-4 bg-white fixed border-b top-16 py-6 mt-4 w-full text-xs font-medium">
+			<h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xs font-medium">
 				Users{" "}
 				{error && (
 					<span className="ml-2">
