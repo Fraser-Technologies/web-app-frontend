@@ -638,7 +638,9 @@ const Bookings = () => {
 						title="Continue"
 						className="w-full h-[48px] mb-8 lg:h-[40px] p-3 mt-4 lg:text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E] hover:bg-[#58FF9E] rounded-lg "
 						onClick={() => {
-							dispatch(addToMyBookinAction(modalData));
+							dispatch(
+								addToMyBookinAction({ ...modalData, no_of_ticket: value })
+							);
 							navigate("/checkout");
 						}}
 					/>
