@@ -53,7 +53,7 @@ const LeftSidebar: React.FC = () => {
 									handleClick(item.id, i)
 
 								}}
-								className={`flex text-sm items-center my-4 py-4 px-6 cursor-pointer ${
+								className={`flex items-center my-4 py-4 px-6 cursor-pointer ${
 									active === item.id
 										? "bg-black text-white rounded-md font-medium"
 										: "text-gray-500 font-normal"

@@ -160,7 +160,7 @@ const DriverOverview = () => {
 			<Space direction="vertical" className="items-center w-full mt-4">
 				{visible && (
 					<Alert
-						className="text-sm"
+						className=""
 						message={alertmessage}
 						//ALERT MESSAGES INCLUDE - UPCOMING TRIP, TRIP START, TRIP END, NEW TRIP SCHEDULED
 						type="success"
@@ -170,7 +170,7 @@ const DriverOverview = () => {
 				)}
 			</Space>
 
-			<div className=" lg:mx-[120px] pb-24 lg:pb-0 text-sm">
+			<div className=" lg:mx-[120px] pb-24 lg:pb-0 ">
 				<div className="lg:grid lg:grid-cols-8 lg:gap-8">
 					<div className={`col-start-1 text-black col-end-6`}>
 						<div
@@ -183,7 +183,7 @@ const DriverOverview = () => {
 
 							<div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 pt-2 rounded-md">
 								<div className="p-4 bg-black rounded-md lg:p-0 ">
-									<p className="border-b text-[14px] lg:text-sm border-[#353535] py-2">
+									<p className="border-b text-[14px] lg: border-[#353535] py-2">
 										Outbound Schedule
 									</p>
 									{trips
@@ -255,7 +255,7 @@ const DriverOverview = () => {
 								{/* RETURN */}
 								<div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black pb-4 pt-2 rounded-md">
 									<div className="p-4 bg-black rounded-md lg:p-0 ">
-										<p className="border-b text-[14px] lg:text-sm border-[#353535] py-2">
+										<p className="border-b text-[14px] lg: border-[#353535] py-2">
 											Return Schedule
 										</p>
 										{trips
@@ -355,21 +355,21 @@ const DriverOverview = () => {
 									<tr>
 										<th
 											scope="col"
-											className="px-2 py-4 pl-4 text-sm font-normal rounded-mdlg">
+											className="px-2 py-4 pl-4  font-normal rounded-mdlg">
 											Trips
 										</th>
-										<th scope="col" className="py-4 text-sm font-normal">
+										<th scope="col" className="py-4  font-normal">
 											Date
 										</th>
 										<th
 											scope="col"
-											className="px-4 py-4 text-sm font-normal text-center">
+											className="px-4 py-4  font-normal text-center">
 											Passengers
 										</th>
 
 										<th
 											scope="col"
-											className="px-2 py-4 text-sm font-normal text-center">
+											className="px-2 py-4  font-normal text-center">
 											Rating
 										</th>
 										<th
@@ -394,28 +394,28 @@ const DriverOverview = () => {
 														onClick={() => {
 															handleOpenModal(trip, "view");
 														}}
-														className="py-4 pl-4 text-sm text-gray-700">
+														className="py-4 pl-4  text-gray-700">
 														{`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
 													</td>
 													<td
 														onClick={() => {
 															handleOpenModal(trip, "view");
 														}}
-														className="py-4 text-sm text-gray-700 ">
+														className="py-4  text-gray-700 ">
 														{trip?.arrival_date}
 													</td>
 													<td
 														onClick={() => {
 															handleOpenModal(trip, "view");
 														}}
-														className="px-4 py-4 text-sm text-center text-gray-700">
+														className="px-4 py-4  text-center text-gray-700">
 														{trip?.verified_passengers_onboard?.length}
 													</td>
 													<td
 														onClick={() => {
 															handleOpenModal(trip, "view");
 														}}
-														className="text-sm text-center text-gray-700">
+														className=" text-center text-gray-700">
 														{trip?.ratings?.reduce(
 															(total, num) => total + num
 														) / trip?.ratings?.length}
@@ -424,7 +424,7 @@ const DriverOverview = () => {
 														onClick={() => {
 															handleOpenModal(trip, "view");
 														}}
-														className="px-4 py-4 text-sm text-center text-gray-700">
+														className="px-4 py-4  text-center text-gray-700">
 														{currency_formatter(trip?.amount_earned)}
 													</td>
 												</tr>
@@ -439,7 +439,7 @@ const DriverOverview = () => {
 					<div className="hidden col-start-6 col-end-9 text-black border rounded-md lg:block">
 						<div className="flex px-4 pt-4 pb-6 text-white bg-black border-b rounded-mdlg">
 							<div className="">
-								<p className="text-sm mb-2 font-normal text-[#929292]">
+								<p className=" mb-2 font-normal text-[#929292]">
 									Trips Completed
 								</p>
 								<h3 className="text-[18px] font-medium">
@@ -451,7 +451,7 @@ const DriverOverview = () => {
 								</h3>
 							</div>
 							<div className="mx-auto ">
-								<p className="text-sm mb-2 font-normal text-[#929292]">
+								<p className=" mb-2 font-normal text-[#929292]">
 									Rating
 								</p>
 								<h3 className="text-[18px] font-medium flex items-center">
@@ -505,26 +505,26 @@ const DriverOverview = () => {
 						closable={true}>
 						<div className="grid w-full grid-cols-2 gap-8 pb-12 mt-8">
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Start</div>
+								<div className="mb-1  text-gray-400">Start</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.from?.city?.city}
 								</div>
 							</div>
 
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Destination</div>
+								<div className="mb-1  text-gray-400">Destination</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.to?.city?.city}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Start Bus Stop</div>
+								<div className="mb-1  text-gray-400">Start Bus Stop</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.from?.start_busstop}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">
+								<div className="mb-1  text-gray-400">
 									Destination Bus Stop
 								</div>
 								<div className="text-xs">
@@ -532,23 +532,23 @@ const DriverOverview = () => {
 								</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Departure Time</div>
+								<div className="mb-1  text-gray-400">Departure Time</div>
 								<div className="text-xs">{modalData?.take_off_time}</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Departure Date</div>
+								<div className="mb-1  text-gray-400">Departure Date</div>
 								<div className="text-xs">{modalData?.take_off_date}</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Arrival Time</div>
+								<div className="mb-1  text-gray-400">Arrival Time</div>
 								<div className="text-xs">{modalData?.arrival_time}</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Arrival Date</div>
+								<div className="mb-1  text-gray-400">Arrival Date</div>
 								<div className="text-xs">{modalData?.arrival_date}</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Rating</div>
+								<div className="mb-1  text-gray-400">Rating</div>
 								<div className="text-xs">
 									{modalData?.ratings?.reduce(
 										(total: number, num: number) => total + num
@@ -556,7 +556,7 @@ const DriverOverview = () => {
 								</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Amount Earned</div>
+								<div className="mb-1  text-gray-400">Amount Earned</div>
 								<div className="text-xs">
 									{currency_formatter(modalData?.amount_earn)}
 								</div>
@@ -573,7 +573,7 @@ const DriverOverview = () => {
 						footer={false}
 						closable={true}
 						width="240px">
-						<div className="w-full mt-8 text-sm text-center place-items-center">
+						<div className="w-full mt-8  text-center place-items-center">
 							Starting a trip means all users are aboard, <div></div>
 							<div className="mt-4 text-base font-medium">Start the trip?</div>
 						</div>
@@ -618,7 +618,7 @@ const DriverOverview = () => {
 						footer={false}
 						closable={true}
 						width="240px">
-						<div className="w-full mt-8 text-sm text-center place-items-center">
+						<div className="w-full mt-8  text-center place-items-center">
 							Starting a trip means all users are aboard, <div></div>
 							<div className="mt-4 text-base font-medium">Start the trip?</div>
 						</div>
@@ -664,7 +664,7 @@ const DriverOverview = () => {
 						footer={false}
 						closable={true}
 						width="240px">
-						<div className="w-full mt-8 text-sm text-center place-items-center">
+						<div className="w-full mt-8  text-center place-items-center">
 							Ending a trip means the trip is completed.
 							<div className="mt-4 text-base font-medium">End the trip?</div>
 						</div>
@@ -707,7 +707,7 @@ const DriverOverview = () => {
 						footer={false}
 						closable={true}
 						width="240px">
-						<div className="w-full mt-8 text-sm text-center place-items-center">
+						<div className="w-full mt-8  text-center place-items-center">
 							Ending a trip means the trip is completed.
 							<div className="mt-4 text-base font-medium">End the trip?</div>
 						</div>
@@ -758,7 +758,7 @@ const DriverOverview = () => {
 							<p className="mt-6 mb-4 text-base font-medium">
 								Passenger Manifest
 							</p>
-							<div className="my-1 text-sm text-gray-400">
+							<div className="my-1  text-gray-400">
 								{modalData?.bookings.length} Passengers,{" "}
 								{modalData?.verified_passengers_onboard?.length}
 								Onboard,{" "}
@@ -771,12 +771,12 @@ const DriverOverview = () => {
 									<tr>
 										<th
 											scope="col"
-											className="px-2 py-2 pl-4 text-sm font-normal rounded-mdlg">
+											className="px-2 py-2 pl-4  font-normal rounded-mdlg">
 											Name
 										</th>
 										<th
 											scope="col"
-											className="px-2 py-2 text-sm font-normal text-center rounded-mdlg">
+											className="px-2 py-2  font-normal text-center rounded-mdlg">
 											Action
 										</th>
 									</tr>
@@ -789,12 +789,12 @@ const DriverOverview = () => {
 											<tr className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
 												<td
 													onClick={() => {}}
-													className="py-4 pl-4 text-sm text-gray-700">
+													className="py-4 pl-4  text-gray-700">
 													{`${book?.user?.first_name} ${book?.user?.last_name}`}
 												</td>
 												<td
 													onClick={() => {}}
-													className="text-sm text-center text-gray-700">
+													className=" text-center text-gray-700">
 													<div className="flex items-center h-full m-auto place-content-end">
 														<div
 															className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
@@ -876,26 +876,26 @@ const DriverOverview = () => {
 						closable={true}>
 						<div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Start</div>
+								<div className="mb-1  text-gray-400">Start</div>
 								<div className="text-xs">
 									{`${modalData?.travel_destination?.from?.city?.city}`}
 								</div>
 							</div>
 
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Destination</div>
+								<div className="mb-1  text-gray-400">Destination</div>
 								<div className="text-xs">
 									{`${modalData?.travel_destination?.to?.city?.city}`}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Start Bus Stop</div>
+								<div className="mb-1  text-gray-400">Start Bus Stop</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.from?.start_busstop}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">
+								<div className="mb-1  text-gray-400">
 									Destination Bus Stop
 								</div>
 								<div className="text-xs">
@@ -903,19 +903,19 @@ const DriverOverview = () => {
 								</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Departure Time</div>
+								<div className="mb-1  text-gray-400">Departure Time</div>
 								<div className="text-xs">{modalData?.take_off_time}</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Date</div>
+								<div className="mb-1  text-gray-400">Date</div>
 								<div className="text-xs">{modalData?.take_off_date}</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Driver</div>
+								<div className="mb-1  text-gray-400">Driver</div>
 								<div className="text-xs">{`${modalData?.driver?.first_name} ${modalData?.driver?.last_name}`}</div>
 							</div>
 							<div>
-								<div className="mb-1 text-sm text-gray-400">Vehicle</div>
+								<div className="mb-1  text-gray-400">Vehicle</div>
 								<div className="text-xs">{modalData?.bus?.name}</div>
 							</div>
 						</div>

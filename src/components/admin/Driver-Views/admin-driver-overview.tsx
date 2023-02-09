@@ -44,7 +44,7 @@ const AdminDriverOverview: React.FC = () => {
   // calculate the start and end index of the items to display on the current page
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  //   const items = trips.slice(startIndex, endIndex); // items to display on the current page
+    const items = drivers.slice(startIndex, endIndex); // items to display on the current page
 
   // ROW ACTION MENU
   const [menuVisible, setMenuVisible] = useState(false);
@@ -75,40 +75,40 @@ const AdminDriverOverview: React.FC = () => {
   };
 
   return (
-    <>
+    <div className="pt-12">
       {/* TRIPS OVERVIEW VIEW*/}
 
       {/* BUSSTOPS HEADER */}
-      <h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xs font-medium">
+      <h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xl font-medium">
         Drivers{" "}
       </h2>
 
       {/* PAGINATION */}
-      <div className="px-4 mt-24">
+      <div className="px-4 mt-20">
         <div className="px-6 mb-4 bg-gray-200 rounded-md">
           <ReactPaginate
-            className="inline-flex items-center w-full py-2"
+            className="inline-flex items-center w-full py-3"
             pageCount={pageCount}
             pageRangeDisplayed={pageRangeDisplayed}
             marginPagesDisplayed={marginPagesDisplayed}
             onPageChange={handlePageClick}
             containerClassName={"pagination"}
             pageLinkClassName={
-              "page-link px-3 py-2 mx-2 text-sm leading-tight text-gray-800 rounded-md"
+              "page-link px-3 py-2 mx-2 leading-tight text-gray-800 rounded-md"
             }
             activeClassName={" bg-gray-300 rounded-md"}
-            previousClassName={"previous text-sm  mr-6"}
-            nextClassName={"next text-sm ml-6"}
+            previousClassName={"previous  mr-6"}
+            nextClassName={"next ml-6"}
             previousLabel={"<"}
             nextLabel={">"}
           />
         </div>
 
         {/* BUSSTOPS LIST - TABLE */}
-        <table className="text-sm font-normal text-left text-white">
+        <table className=" w-full font-normal text-left text-white">
           <thead className="bg-black ">
             <tr className="">
-              <th scope="col" className="px-4 py-4 font-normal rounded-l-md">
+              <th scope="col" className="px-4 py-3 font-normal rounded-l-md">
                 First Name
               </th>
               <th scope="col" className="px-2 font-normal text-center ">
@@ -207,7 +207,7 @@ const AdminDriverOverview: React.FC = () => {
                     onClick={() => {
                       handleOpenModal(driver);
                     }}
-                    className="px-4 py-2 pl-16 text-xs font-normal text-gray-700"
+                    className="px-4 py-4 pl-16 text-xs font-normal text-gray-700"
                   >
                     <div className="bg-[#D1FAD0] text-[#22B11E] py-2 text-center rounded-md">
                       {`${driver?.available}`}
@@ -228,7 +228,7 @@ const AdminDriverOverview: React.FC = () => {
                           onClick={() => {
                             handleOpenModal(driver);
                           }}
-                          className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100"
+                          className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100"
                         >
                           View
                         </li>
@@ -238,7 +238,7 @@ const AdminDriverOverview: React.FC = () => {
                             setModalData(driver);
                             setFlip(flipType.DEACTIVATE);
                           }}
-                          className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100"
+                          className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100"
                         >
                           Deactivate
                         </li>
@@ -387,7 +387,7 @@ const AdminDriverOverview: React.FC = () => {
           />
         </Modal>
       )}
-    </>
+    </div>
   );
 };
 

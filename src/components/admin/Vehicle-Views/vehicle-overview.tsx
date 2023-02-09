@@ -93,7 +93,7 @@ const VehicleOverview: React.FC = () => {
 	return (
 		<>
 			{contextHolder}
-			<h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xs font-medium">
+			<h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xl font-medium">
 				Vehicles
 			</h2>{" "}
 			{/* PAGINATION */}
@@ -107,42 +107,42 @@ const VehicleOverview: React.FC = () => {
 						onPageChange={handlePageClick}
 						containerClassName={"pagination"}
 						pageLinkClassName={
-							"page-link px-3 py-2 mx-2 text-sm leading-tight text-gray-800 rounded-md"
+							"page-link px-3 py-2 mx-2 leading-tight text-gray-800 rounded-md"
 						}
 						activeClassName={" bg-gray-300 rounded-md"}
-						previousClassName={"previous text-sm  mr-6"}
-						nextClassName={"next text-sm ml-6"}
+						previousClassName={"previous   mr-6"}
+						nextClassName={"next  ml-6"}
 						previousLabel={"<"}
 						nextLabel={">"}
 					/>
 				</div>
 				{/* BUSSTOPS LIST - TABLE */}
-				<table className="w-full text-sm font-normal text-left text-white">
+				<table className="w-full  font-normal text-left text-white">
 					<thead className="bg-black ">
 						<tr className="w-full ">
 							<th
 								scope="col"
-								className="px-4 text-sm font-normal rounded-l-md">
+								className="px-4 font-normal rounded-l-md">
 								Number
 							</th>
 							<th
 								scope="col"
-								className="px-2 text-sm font-normal text-center ">
+								className="px-2  font-normal text-center ">
 								Make
 							</th>
 							<th
 								scope="col"
-								className="px-2 text-sm font-normal text-center">
+								className="px-2  font-normal text-center">
 								Capacity
 							</th>
 							<th
 								scope="col"
-								className="px-2 text-sm font-normal text-center">
+								className="px-2  font-normal text-center">
 								Driver
 							</th>
 							<th
 								scope="col"
-								className="px-2 text-sm font-normal text-center">
+								className="px-2  font-normal text-center">
 								Location
 							</th>
 							<th scope="col" className="px-2 pl-16 font-normal">
@@ -150,7 +150,7 @@ const VehicleOverview: React.FC = () => {
 							</th>
 							<th
 								scope="col"
-								className="px-2 py-6 text-sm font-normal rounded-r-md"></th>
+								className="px-2 py-6  font-normal rounded-r-md"></th>
 						</tr>
 					</thead>
 
@@ -163,11 +163,11 @@ const VehicleOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 text-sm font-normal text-gray-700">
+										className="px-4  font-normal text-gray-700">
 										{bus?.plate_number}
 									</td>
 									<td
-										className="text-sm font-normal text-center text-gray-700 "
+										className=" font-normal text-center text-gray-700 "
 										onClick={() => {
 											handleOpenModal(bus);
 										}}>
@@ -177,21 +177,21 @@ const VehicleOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 text-sm font-normal text-center text-gray-700">
+										className="px-4  font-normal text-center text-gray-700">
 										{bus?.capacity}
 									</td>
 									<td
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 text-sm font-normal text-center text-gray-700">
+										className="px-4  font-normal text-center text-gray-700">
 										{`${bus?.driver?.first_name} ${bus?.driver?.last_name}`}
 									</td>
 									<td
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 text-sm font-normal text-center text-gray-700">
+										className="px-4  font-normal text-center text-gray-700">
 										{bus?.driver?.location}
 									</td>
 
@@ -199,13 +199,13 @@ const VehicleOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(bus);
 										}}
-										className="px-4 pl-16 text-sm font-normal text-gray-700">
+										className="px-4 pl-16  font-normal text-gray-700">
 										<div className={` py-2 text-center rounded-md ${bus?.status?.toUpperCase() === 'UNAVAILABLE' ? "bg-[#FAD0D0] text-[#E71D36]" : "bg-[#D1FAD0] text-[#22B11E]"}`}>
 											{bus?.status?.toUpperCase()}
 										</div>
 									</td>
 									<td
-										className="px-4 py-4 text-sm font-normal text-gray-700"
+										className="px-4 py-6  font-normal text-gray-700"
 										onClick={() => {
 											handleSetMenuToggle();
 										}}>
@@ -218,7 +218,7 @@ const VehicleOverview: React.FC = () => {
 													onClick={() => {
 														handleOpenModal(bus);
 													}}
-													className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
+													className="px-4 py-2  font-medium text-gray-700 border-b hover:bg-gray-100">
 													View
 												</li>
 
@@ -232,7 +232,7 @@ const VehicleOverview: React.FC = () => {
 															})
 														);
 													}}
-													className="px-4 py-2 text-sm font-medium text-gray-700 border-b hover:bg-gray-100">
+													className="px-4 py-2  font-medium text-gray-700 border-b hover:bg-gray-100">
 													Deactivate
 												</li>
 											</ul>
@@ -285,7 +285,7 @@ const VehicleOverview: React.FC = () => {
 													{trip?.travel_destination?.from?.city?.city} to{" "}
 													{trip?.travel_destination?.to?.city?.city}
 												</div>
-												<div className="text-[#949292] text-sm">
+												<div className="text-[#949292] ">
 													{trip?.take_off_date}
 												</div>
 											</div>
@@ -305,7 +305,7 @@ const VehicleOverview: React.FC = () => {
 								</div>
 								<div>
 									<div className="text-base truncate">Lagos to Ibadan</div>
-									<div className="text-[#949292] text-sm">3rd Sept.</div>
+									<div className="text-[#949292] ">3rd Sept.</div>
 								</div>
 							</div>
 							<div className="text-base font-medium">Josiah</div>
@@ -335,7 +335,7 @@ const VehicleOverview: React.FC = () => {
 					<Button
 						title="Deactivate"
 						type="submit"
-						className="w-full py-2 mt-8 text-sm rounded-md bg-[#E71D36] text-white"
+						className="w-full py-2 mt-8  rounded-md bg-[#E71D36] text-white"
 						onClick={() => {
 							setFlip("success");
 						}}
@@ -343,7 +343,7 @@ const VehicleOverview: React.FC = () => {
 					<Button
 						title="Cancel"
 						type="submit"
-						className="w-full py-2 mt-4 mb-4 text-sm text-gray-600 border border-gray-500 rounded-md"
+						className="w-full py-2 mt-4 mb-4  text-gray-600 border border-gray-500 rounded-md"
 						onClick={() => {
 							setFlip("info");
 						}}
@@ -370,7 +370,7 @@ const VehicleOverview: React.FC = () => {
 					<Button
 						title="Close"
 						type="submit"
-						className="w-full py-2 mt-8 text-sm rounded-md bg-[#00FF6A] text-black"
+						className="w-full py-2 mt-8  rounded-md bg-[#00FF6A] text-black"
 						onClick={() => {
 							setModalVisible(false);
 							setStateModalVisible(false);
