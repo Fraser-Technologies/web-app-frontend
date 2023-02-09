@@ -19,6 +19,7 @@ import { adminPageReducer } from "./slices/adminPageSlice";
 import { verifyOtpReducer, getOtpReducer } from "./slices/otp.Slice";
 import { combineReducers } from "@reduxjs/toolkit";
 import {
+	adminUpdateUserReducer,
 	allDriverReducer,
 	allUserReducer,
 	becomeADriverReducer,
@@ -75,6 +76,7 @@ const rootReducer = combineReducers({
 	unblockUser: unblockUserReducer,
 	becomeADriver: becomeADriverReducer,
 	registerAsDriver: registerAsDriverReducer,
+	adminUpdateUser: adminUpdateUserReducer,
 
 	// booking reducer
 	booking: bookingReducer,

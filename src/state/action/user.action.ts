@@ -1,3 +1,10 @@
+import {
+	adminUpdateUserFailed,
+	adminUpdateUserReducer,
+	adminUpdateUserRequest,
+	adminUpdateUserReset,
+	adminUpdateUserSuccess,
+} from "./../slices/user.slice";
 import { requestHeader } from "./../../utils/requestHeader";
 import { RequestError } from "../../utils/requestError";
 import Cookie from "js-cookie";
@@ -74,7 +81,6 @@ export const userLoginAction =
 		try {
 			dispatch(loginRequest());
 			const { data } = await api.post("/user/login", { phone });
-
 			Cookie.set("userInfo", JSON.stringify(data));
 			dispatch(loginSuccess(data));
 		} catch (error: any) {
@@ -212,3 +218,32 @@ export const registerAsADriverAction =
 			dispatch(registerAsDriverFailed(RequestError(error)));
 		}
 	};
+
+export const AdminUpdateUserAction =
+	(id: string, update: any): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(adminUpdateUserRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.put(
+				`/user/admin/update/${id}`,
+				{
+					...update,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+			dispatch(adminUpdateUserSuccess(data));
+		} catch (error: any) {
+			dispatch(adminUpdateUserFailed(RequestError(error)));
+		}
+	};
+
+export const ResetAdminUpdateUserAction = (): AppThunk => (dispatch) => {
+	dispatch(adminUpdateUserReset());
+};

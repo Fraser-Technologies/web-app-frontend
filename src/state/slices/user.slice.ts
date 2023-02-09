@@ -1,11 +1,6 @@
-import { userInfo } from "os";
 import { User_interface } from "./../../interfaces/user.interface";
 import { createSlice } from "@reduxjs/toolkit";
 import Cookies from "js-cookie";
-
-// const user = Cookie.get("userInfo")
-// 	? JSON?.parse(Cookie.get("userInfo") as string)
-// 	: {};
 
 const user = Cookies.get("userInfo")
 	? JSON.parse(Cookies.get("userInfo") as string)
@@ -270,13 +265,13 @@ export const becomeADriverReducer = becomeADriverSlice.reducer;
 type driverType = {
 	loading: boolean;
 	error: string;
-	userInfo: User_interface | {};
+	userInfo: User_interface | { _id: string };
 };
 
 const driverInitialState: driverType = {
 	loading: false,
 	error: "",
-	userInfo: {},
+	userInfo: { _id: "" },
 };
 
 const registerAsDriverSlice = createSlice({
@@ -304,3 +299,32 @@ export const {
 	registerAsDriverSuccess,
 } = registerAsDriverSlice.actions;
 export const registerAsDriverReducer = registerAsDriverSlice.reducer;
+
+const AdminUpdateUserSlice = createSlice({
+	name: "admin update user",
+	initialState: driverInitialState,
+	reducers: {
+		adminUpdateUserRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		adminUpdateUserSuccess: (state, { payload }) => {
+			state.userInfo = payload;
+			state.loading = false;
+			state.error = "";
+		},
+		adminUpdateUserFailed: (state, { payload }) => {
+			state.error = payload;
+			state.loading = false;
+		},
+		adminUpdateUserReset: () => driverInitialState,
+	},
+});
+
+export const {
+	adminUpdateUserFailed,
+	adminUpdateUserRequest,
+	adminUpdateUserReset,
+	adminUpdateUserSuccess,
+} = AdminUpdateUserSlice.actions;
+export const adminUpdateUserReducer = AdminUpdateUserSlice.reducer;
