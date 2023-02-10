@@ -1,3 +1,4 @@
+import { Balance_interface } from "./balance_interface";
 import { Bus_interface } from "./bus_interface";
 import { Booking_interface } from "./Booking_interface";
 import { Mongo_extra } from "./mongo_extra";
@@ -17,6 +18,8 @@ export interface User_interface extends Mongo_extra {
 	location: string;
 	user_token?: string;
 	available: boolean;
+	driver_license: string;
 	driver_verification_status?: boolean;
 	bus: Bus_interface;
+	balance: Balance_interface;
 }

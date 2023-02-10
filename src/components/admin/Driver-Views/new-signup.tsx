@@ -59,8 +59,6 @@ const NewSignUps: React.FC = () => {
 		dispatch(getTripByDriverAction(driver?._id));
 	};
 
-	const [visible, setStateModalVisible] = useState<boolean>(false);
-
 	const handleOk = () => {
 		setModalVisible(false);
 	};
@@ -74,6 +72,7 @@ const NewSignUps: React.FC = () => {
 		if (userInfo?._id) {
 			dispatch(getAllDriverAction());
 			dispatch(ResetAdminUpdateUserAction());
+			setModalVisible(false);
 		}
 	}, [dispatch, userInfo]);
 
@@ -82,7 +81,7 @@ const NewSignUps: React.FC = () => {
 			{/* TRIPS OVERVIEW VIEW*/}
 
 			{/* BUSSTOPS HEADER */}
-			<h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xl font-medium">
+			<h2 className="fixed w-full py-8 pl-4 mb-4 text-xl font-medium bg-white border-b top-24">
 				New Signups{" "}
 			</h2>
 
@@ -108,7 +107,7 @@ const NewSignUps: React.FC = () => {
 				</div>
 
 				{/* BUSSTOPS LIST - TABLE */}
-				<table className=" w-full font-normal text-left text-white">
+				<table className="w-full font-normal text-left text-white ">
 					<thead className="bg-black ">
 						<tr className="">
 							<th scope="col" className="px-4 py-3 font-normal rounded-l-md">
@@ -128,7 +127,7 @@ const NewSignUps: React.FC = () => {
 								Vehicle
 							</th>
 
-							<th scope="col" className=" text-center font-normal rounded-r-md">
+							<th scope="col" className="font-normal text-center rounded-r-md">
 								Availability
 							</th>
 						</tr>
@@ -214,13 +213,22 @@ const NewSignUps: React.FC = () => {
 					closable={true}>
 					<div>
 						<div className="flex mt-8">
-							<img src="" alt="" className=" w-[72px] h-[72px]" />
+							<img
+								src={modalData?.image}
+								alt=""
+								className=" w-[72px] h-[72px]"
+							/>
 
 							<div className="ml-4">
-								<div className="text-base font-medium">Amen Olabode</div>
-								<div className="text-xs">oloaoaoaoa@tyath.co</div>
+								<div className="text-base font-medium">
+									{`${modalData?.first_name} ${modalData?.last_name}`}
+								</div>
+								<div className="text-xs">{modalData?.email}</div>
 								{/* //LICENSE NUMBER */}
-								<div className="text-xs">dSHJHD 6767</div>
+								<div className="text-xs">
+									WE didn't collect the driver license number when they are
+									registering
+								</div>
 							</div>
 						</div>
 
@@ -229,47 +237,70 @@ const NewSignUps: React.FC = () => {
 							type="submit"
 							className="w-full px-4 py-3 my-4 rounded-md bg-primary-100"
 							onClick={() => {
-								// setFlip(TripOption.EDIT);
-								// When approved, user is removed from list
+								dispatch(
+									AdminUpdateUserAction(modalData?._id || "", {
+										driver_verification_status: true,
+									})
+								);
 							}}
 						/>
 						<div className="grid grid-cols-2 gap-2 pb-8 mt-2">
 							<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-								<div className="mb-1  text-gray-400">Mobile Number</div>
-								<div className="text-xs">009090909</div>
+								<div className="mb-1 text-gray-400">Mobile Number</div>
+								<div className="text-xs">{modalData?.phone}</div>
 							</div>
 							<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-								<div className="mb-1  text-gray-400">Primary Location</div>
-								<div className="text-xs">Yaba</div>
+								<div className="mb-1 text-gray-400">Primary Location</div>
+								<div className="text-xs">{modalData?.location}</div>
 							</div>
 							<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-								<div className="mb-1  text-gray-400">Bus Make and Model</div>
-								<div className="text-xs">Toyota Hiace</div>
+								<div className="mb-1 text-gray-400">Bus Make and Model</div>
+								<div className="text-xs">
+									{` ${modalData?.bus?.make} ${modalData?.bus?.model}								`}
+								</div>
 							</div>
 							<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-								<div className="mb-1  text-gray-400">Vehicle Registration</div>
-								<div className="text-xs">gahgsha676</div>
+								<div className="mb-1 text-gray-400">Vehicle Registration</div>
+								<div className="text-xs">
+									{modalData?.bus?.registration_number}
+								</div>
 							</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4 pb-8">
-							<div className="mb-1  text-gray-400">Banking Information</div>
-							<div className="text-xs">Access Bank Nigeria</div>
-							<div className="text-xs">000009090897978</div>
+							<div className="mb-1 text-gray-400">Banking Information</div>
+							<div className="text-xs">
+								{modalData?.balance?.user_banks_details?.bank_name}
+							</div>
+							<div className="text-xs">
+								{modalData?.balance?.user_banks_details?.account_number}
+							</div>
 						</div>
 
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4 mt-4">
-							<div className="mb-1  text-gray-400">Drivers License</div>
-							<img src="" alt="" className="ml-4 w-[48px] h-[48px]" />
+							<div className="mb-1 text-gray-400">Drivers License</div>
+							<img
+								src={modalData?.driver_license}
+								alt=""
+								className="ml-4 w-[48px] h-[48px]"
+							/>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4 mt-4">
-							<div className="mb-1  text-gray-400">Proof of Insurance</div>
-							<img src="" alt="" className="ml-4 w-[48px] h-[48px]" />
+							<div className="mb-1 text-gray-400">Proof of Insurance</div>
+							<img
+								src={modalData?.bus?.bus_insurance}
+								alt=""
+								className="ml-4 w-[48px] h-[48px]"
+							/>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4 mt-4">
-							<div className="mb-1  text-gray-400">
+							<div className="mb-1 text-gray-400">
 								Road Worthiness Certificate
 							</div>
-							<img src="" alt="" className="ml-4 w-[48px] h-[48px]" />
+							<img
+								src={modalData?.bus?.road_worthiness_cert}
+								alt=""
+								className="ml-4 w-[48px] h-[48px]"
+							/>
 						</div>
 					</div>
 				</Modal>
