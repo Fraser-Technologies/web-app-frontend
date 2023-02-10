@@ -56,7 +56,7 @@ const NewSignUps: React.FC = () => {
 		setModalData(driver);
 		setFlip(flipType.OPEN);
 		setModalVisible(true);
-		dispatch(getTripByDriverAction(driver?._id));
+		// dispatch(getTripByDriverAction());
 	};
 
 	const handleOk = () => {
