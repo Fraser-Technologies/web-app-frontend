@@ -76,6 +76,8 @@ const NewSignUps: React.FC = () => {
 		}
 	}, [dispatch, userInfo]);
 
+	console.log("modal data is ", modalData);
+
 	return (
 		<div className="pt-12">
 			{/* TRIPS OVERVIEW VIEW*/}
