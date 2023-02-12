@@ -74,7 +74,10 @@ const DriverLogin = () => {
 								: "bg-[#f5f5f5]"
 							// loginValid ? "bg-[#000000] text-white hover:bg-[#353535]" : "bg-[#f5f5f5]"
 						} `}
-						onClick={() => loginValid && logInDriver()}>
+						onClick={() =>
+							// loginValid &&
+							logInDriver()
+						}>
 						<svg
 							className={`${
 								loading ? "animate-spin" : "hidden"
@@ -107,9 +110,6 @@ const DriverLogin = () => {
 					</button>
 				</div>
 			</div>
-			{/* <div className="fixed flex w-full overflow-hidden place-content-end">
-        <img src="/assets/images/driver-login.png" alt="" className="w-1/2" />
-      </div> */}
 		</div>
 	);
 };

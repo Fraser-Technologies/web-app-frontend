@@ -122,29 +122,19 @@ const VehicleOverview: React.FC = () => {
 				<table className="w-full  font-normal text-left text-white">
 					<thead className="bg-black ">
 						<tr className="w-full ">
-							<th
-								scope="col"
-								className="px-4 font-normal rounded-l-md">
+							<th scope="col" className="px-4 font-normal rounded-l-md">
 								Number
 							</th>
-							<th
-								scope="col"
-								className="px-2  font-normal text-center ">
+							<th scope="col" className="px-2  font-normal text-center ">
 								Make
 							</th>
-							<th
-								scope="col"
-								className="px-2  font-normal text-center">
+							<th scope="col" className="px-2  font-normal text-center">
 								Capacity
 							</th>
-							<th
-								scope="col"
-								className="px-2  font-normal text-center">
+							<th scope="col" className="px-2  font-normal text-center">
 								Driver
 							</th>
-							<th
-								scope="col"
-								className="px-2  font-normal text-center">
+							<th scope="col" className="px-2  font-normal text-center">
 								Location
 							</th>
 							<th scope="col" className="px-2 pl-16 font-normal">
@@ -161,13 +151,6 @@ const VehicleOverview: React.FC = () => {
 						{items?.map((bus: Bus_interface) => {
 							return (
 								<tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-									<td
-										onClick={() => {
-											handleOpenModal(bus);
-										}}
-										className="px-4  font-normal text-gray-700">
-										{bus?.plate_number}
-									</td>
 									<td
 										className=" font-normal text-center text-gray-700 "
 										onClick={() => {
@@ -202,7 +185,12 @@ const VehicleOverview: React.FC = () => {
 											handleOpenModal(bus);
 										}}
 										className="px-4 pl-16  font-normal text-gray-700">
-										<div className={` py-2 text-center rounded-md ${bus?.status?.toUpperCase() === 'UNAVAILABLE' ? "bg-[#FAD0D0] text-[#E71D36]" : "bg-[#D1FAD0] text-[#22B11E]"}`}>
+										<div
+											className={` py-2 text-center rounded-md ${
+												bus?.status?.toUpperCase() === "UNAVAILABLE"
+													? "bg-[#FAD0D0] text-[#E71D36]"
+													: "bg-[#D1FAD0] text-[#22B11E]"
+											}`}>
 											{bus?.status?.toUpperCase()}
 										</div>
 									</td>
@@ -263,7 +251,9 @@ const VehicleOverview: React.FC = () => {
 							<div className="mb-2 text-lg font-medium">
 								{busModalData?.make}
 							</div>
-							<div className="text-[#949292]">{busModalData?.plate_number}</div>
+							<div className="text-[#949292]">
+								{busModalData?.registration_number}
+							</div>
 							<div className="bg-[#FAD0D0] text-[#E71D36] mt-2 py-2 text-center rounded-md">
 								{busModalData?.status}
 							</div>

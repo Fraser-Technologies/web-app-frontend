@@ -4,7 +4,6 @@ import { User_interface } from "./user.interface";
 export interface Bus_interface extends Mongo_extra {
 	make: string;
 	model: string;
-	plate_number: string;
 	image: string;
 	capacity: number;
 	status: "available" | "unavailable" | "in use";

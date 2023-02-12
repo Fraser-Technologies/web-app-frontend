@@ -24,7 +24,9 @@ const DriverSignUp = () => {
 		(state: RootState) => state.registerAsDriver
 	);
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
-	const { bus } = useAppSelector((state: RootState) => state.createBus);
+	const { bus, error: createBusError } = useAppSelector(
+		(state: RootState) => state.createBus
+	);
 
 	const { loading, error, image } = useAppSelector(
 		(state: RootState) => state.uploadFile
@@ -38,8 +40,6 @@ const DriverSignUp = () => {
 	const [profile, setProfile] = useState<string>("");
 	const [licenseNumber, setLicenseNumber] = useState<string>("");
 	const [registrationNumber, setRegistrationNumber] = useState<string>("");
-	const [plate_number, setPlate_number] = useState<string>("");
-	// const [primaryLocation, setPrimaryLocation] = useState<string>("");
 	const [locationName, setlocationName] = useState("");
 	const [location, setlocation] = useState(false);
 	const [make, setMake] = useState("");
@@ -366,13 +366,7 @@ const DriverSignUp = () => {
 		}
 
 		if (currentPage === 2) {
-			if (
-				!make ||
-				!model ||
-				!vehicleCapacity ||
-				!plate_number ||
-				!registrationNumber
-			) {
+			if (!make || !model || !vehicleCapacity || !registrationNumber) {
 				setShowError(true);
 				setErrorMessage("All field are required");
 				return;
@@ -383,7 +377,6 @@ const DriverSignUp = () => {
 					model,
 					driver: userInfo?._id,
 					capacity: vehicleCapacity,
-					plate_number,
 					registration_number: registrationNumber,
 				})
 			);
@@ -652,8 +645,8 @@ const DriverSignUp = () => {
 					{/* PAGE 2 */}
 					{currentPage === 2 && (
 						<div className="px-8 py-8 mt-32 mb-6">
-							{showError && currentPage === 2 && (
-								<p className="text-red-600">{errorMessage}</p>
+							{(showError || errorMessage) && currentPage === 2 && (
+								<p className="text-red-600">{errorMessage || createBusError}</p>
 							)}
 
 							<div className="relative w-full mb-6 text-left duration-300 ease-in-out">
@@ -741,22 +734,7 @@ const DriverSignUp = () => {
 									onChange={(e) => setVehicleCapacity(Number(e.target.value))}
 								/>
 							</div>
-							<div className="mb-6">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
-										Plate Number
-									</label>
-								</div>
-								<Input
-									className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
-									placeholder="Vehicle Capacity"
-									type="text"
-									value={plate_number}
-									required={true}
-									size="small"
-									onChange={(e) => setPlate_number(e.target.value)}
-								/>
-							</div>
+
 							<div className="mb-6">
 								<div className="mb-1">
 									<label className="text-[#929292] text-[10px]">
