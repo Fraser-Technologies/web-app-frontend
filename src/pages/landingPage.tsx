@@ -17,7 +17,7 @@ const LandingPage = () => {
 		if (!busStops?.length) {
 			dispatch(getAllBusStopAction());
 		}
-	}, [busStops?.length, dispatch]);
+	}, [busStops, dispatch]);
 	return (
 		<div className="flex flex-col min-w-full">
 			{/* The nav bar session */}

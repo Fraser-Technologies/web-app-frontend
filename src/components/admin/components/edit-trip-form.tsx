@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
 import { Bus_interface } from "../../../interfaces/bus_interface";
 import { City_interface } from "../../../interfaces/city_interface";
-import { Driver_interface } from "../../../interfaces/driver_interface";
 import { Trip_interface } from "../../../interfaces/trip_interface";
+import { User_interface } from "../../../interfaces/user.interface";
 import { updateTripAction } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import DateField from "./datefield";
@@ -25,7 +25,7 @@ const EditTripFormComponent = ({
 	const { loading, error } = useAppSelector((state: any) => state.updateTrip);
 
 	// the trip variable
-	const [bus, setBus] = useState<string>(trip?.bus?.name || "");
+	const [bus, setBus] = useState<string>(trip?.bus?.make || "");
 	const [driver, setDriver] = useState<string>(trip?.driver?._id || "");
 	const [take_off_date, setTake_off_date] = useState<string>(
 		trip?.take_off_date || ""
@@ -89,7 +89,7 @@ const EditTripFormComponent = ({
 	//   VEHICLE CONTROLLERS
 	const [vehicleOpen, setVehicleIsOpen] = useState(false);
 	const [vehicleDisplayText, setVehicleDisplayText] = useState(
-		trip?.bus?.name || "Select Vehicle"
+		trip?.bus?.make || "Select Vehicle"
 	);
 
 	//   DRIVER  CONTROLLERS
@@ -117,8 +117,6 @@ const EditTripFormComponent = ({
 			},
 		},
 	};
-
-	console.log("the start city is ", startCity, startBusStop);
 
 	const updateTripData = () => {
 		if (
@@ -205,7 +203,7 @@ const EditTripFormComponent = ({
 												<a
 													key={city?._id}
 													href="#"
-													className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+													className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
 														setStartBusStopDisplayText(city?.city);
 														setStartCityIsOpen(!startCityOpen);
@@ -235,7 +233,7 @@ const EditTripFormComponent = ({
 
 				{/* BUSSTOPS FROM THE SELECTED CITY ABOVE */}
 				<div className="flex items-center w-full mt-2">
-					<div className="w-1/4  px-4 py-2 mr-2 text-white bg-black rounded-md">
+					<div className="w-1/4 px-4 py-2 mr-2 text-white bg-black rounded-md">
 						Busstops
 					</div>
 					<div className="relative z-40 inline w-full text-left">
@@ -249,14 +247,14 @@ const EditTripFormComponent = ({
 						</button>
 
 						{startBusStopOpen && (
-							<div className="w-full absolute mt-2 rounded-md shadow-lg">
-								<div className="w-full pb-12 overflow-y-scroll rounded-md bg-white shadow-xs  py-4 ">
+							<div className="absolute w-full mt-2 rounded-md shadow-lg">
+								<div className="w-full py-4 pb-12 overflow-y-scroll bg-white rounded-md shadow-xs ">
 									{startCityBusStopList?.map((busstop: string) => {
 										return (
 											<a
 												key={busstop}
 												href="#"
-												className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
 													setStartBusStop(busstop);
 													setStartBusStopDisplayText(busstop);
@@ -283,12 +281,12 @@ const EditTripFormComponent = ({
 			<div className="mt-6">
 				<p className="w-full text-gray-500">Destination</p>
 				<div className="flex items-center w-full mt-2">
-					<div className="w-1/4  px-4 py-2 mr-2 text-white bg-black rounded-md">
+					<div className="w-1/4 px-4 py-2 mr-2 text-white bg-black rounded-md">
 						City
 					</div>
 					<div className="relative z-30 inline w-full text-left">
 						<button
-							className=" shadow-sm inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white  leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+							className="inline-flex w-full px-4 py-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 							onClick={() => {
 								setDestinationCityIsOpen(!destinationCityOpen);
 							}}>
@@ -297,8 +295,8 @@ const EditTripFormComponent = ({
 						</button>
 
 						{destinationCityOpen && (
-							<div className="absolute w-full mt-2 rounded-md shadow-lg z-10">
-								<div className="w-full pb-12 overflow-y-scroll rounded-md bg-white shadow-xs  py-4 ">
+							<div className="absolute z-10 w-full mt-2 rounded-md shadow-lg">
+								<div className="w-full py-4 pb-12 overflow-y-scroll bg-white rounded-md shadow-xs ">
 									{cities
 										.filter(
 											(city: City_interface) =>
@@ -309,7 +307,7 @@ const EditTripFormComponent = ({
 												<a
 													key={city?._id}
 													href="#"
-													className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+													className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
 														setDestinationCityDisplayText(city.city);
 														setEndCity(city?._id);
@@ -339,12 +337,12 @@ const EditTripFormComponent = ({
 
 				{/* BUSSTOPS FROM THE SELECTED CITY ABOVE */}
 				<div className="flex items-center w-full mt-2">
-					<div className=" bg-black w-1/4 text-white py-2 px-4 rounded-md mr-2">
+					<div className="w-1/4 px-4 py-2 mr-2 text-white bg-black rounded-md ">
 						Busstops
 					</div>
-					<div className="relative inline text-left z-20 w-full">
+					<div className="relative z-20 inline w-full text-left">
 						<button
-							className=" shadow-sm inline-flex justify-left w-full rounded-md border border-gray-300 px-4 py-2 bg-white  leading-5 font-medium text-gray-700 focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+							className="inline-flex w-full px-4 py-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 							onClick={() =>
 								setDestinationBusStopIsOpen(!destinationBusStopOpen)
 							}>
@@ -353,14 +351,14 @@ const EditTripFormComponent = ({
 						</button>
 
 						{destinationBusStopOpen && (
-							<div className="w-full absolute mt-2 rounded-md shadow-lg">
-								<div className="w-full pb-12 overflow-y-scroll rounded-md bg-white shadow-xs  py-4 ">
+							<div className="absolute w-full mt-2 rounded-md shadow-lg">
+								<div className="w-full py-4 pb-12 overflow-y-scroll bg-white rounded-md shadow-xs ">
 									{stopCityBusStopList?.map((busstop: string) => {
 										return (
 											<a
 												key={busstop}
 												href="#"
-												className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
 													setDestinationBusStopIsOpen(!destinationBusStopOpen);
 													setDestinationBusStopDisplayText(busstop);
@@ -385,7 +383,7 @@ const EditTripFormComponent = ({
 			</div>
 
 			{/*TAKE OFF DATE AND TIME */}
-			<div className="w-full text-gray-500 mt-6 pb-2">
+			<div className="w-full pb-2 mt-6 text-gray-500">
 				Takeoff Date and time
 			</div>
 			<DateField
@@ -398,7 +396,7 @@ const EditTripFormComponent = ({
 			/>
 
 			{/*ARRIVAL DATE AND TIME */}
-			<div className="w-full text-gray-500 mt-6 pb-2">
+			<div className="w-full pb-2 mt-6 text-gray-500">
 				Arrival Date and time
 			</div>
 			<EndDateField
@@ -437,11 +435,11 @@ const EditTripFormComponent = ({
 												href="#"
 												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
-													setVehicleDisplayText(bus?.name);
+													setVehicleDisplayText(bus?.make);
 													setBus(bus?._id);
 													setVehicleIsOpen(!vehicleOpen);
 												}}>
-												{bus?.name}
+												{bus?.make}
 											</a>
 										);
 									})}
@@ -459,7 +457,7 @@ const EditTripFormComponent = ({
 
 				{/* DRIVERS FROM BACKEND */}
 				<div className="flex items-center w-full mt-2">
-					<div className="w-1/4  px-4 py-2 mr-2 text-white bg-black rounded-md">
+					<div className="w-1/4 px-4 py-2 mr-2 text-white bg-black rounded-md">
 						Driver
 					</div>
 					<div className="relative z-40 inline w-full text-left">
@@ -475,12 +473,12 @@ const EditTripFormComponent = ({
 						{driverOpen && (
 							<div className="absolute w-full mt-2 rounded-md shadow-lg">
 								<div className="w-full py-4 pb-12 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{drivers.map((driver: Driver_interface) => {
+									{drivers.map((driver: User_interface) => {
 										return (
 											<a
 												key={driver?._id}
 												href="#"
-												className="w-full inline-block px-4 py-4  text-gray-700 hover:bg-gray-100  focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+												className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
 													setDriver(driver?._id);
 													setDriverDisplayText(
@@ -507,11 +505,11 @@ const EditTripFormComponent = ({
 				{/* PRICE */}
 				<div className="mt-6">
 					<p className="w-full text-gray-500">Price</p>
-					<div className="w-full flex items-center mt-2 ">
-						<div className=" bg-black w-1/4 text-white py-2 px-4 rounded-md mr-2">
+					<div className="flex items-center w-full mt-2 ">
+						<div className="w-1/4 px-4 py-2 mr-2 text-white bg-black rounded-md ">
 							Price
 						</div>
-						<div className="relative inline text-left z-50 w-full">
+						<div className="relative z-50 inline w-full text-left">
 							<Input value={price} onChange={(e) => setPrice(e.target.value)} />
 						</div>
 					</div>

@@ -1,7 +1,7 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
-import { BsChevronDown, BsChevronUp } from "react-icons/bs";
+import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../components/bookingCard";
 import Layout from "../components/layouts/SignInLayout";
 import { Button } from "../components/Button";
@@ -12,20 +12,30 @@ import {
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { Alert } from "antd";
+import { Alert, Drawer, Modal } from "antd";
 import { addToMyBookinAction } from "../state/action/booking.action";
 import GeometricPatterns from "../components/GeometricPatterns";
-import { FaCaretDown } from "react-icons/fa";
+import { FaCaretDown, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import { City_interface } from "../interfaces/city_interface";
 import { getAllCityAction } from "../state/action/city.action";
 import { Trip_interface } from "../interfaces/trip_interface";
+import { RootState } from "../state/redux-store";
 
 const Bookings = () => {
-	const { cities } = useAppSelector((state: any) => state.allCity);
+	enum BookingViews {
+		NOOFTICKETS = "howmanytickets",
+	}
+
+	const { cities } = useAppSelector((state: RootState) => state.allCity);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [from, setFrom] = useState<string>("");
 	const [to, setTo] = useState<string>("");
+	const [flip, setFlip] = useState<"" | BookingViews>("");
+	const [modalVisible, setModalVisible] = useState<boolean>(false);
+	const [value, setValue] = useState<number>(1);
+	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+	const [useDrawer, setUseDrawer] = useState(false);
 
 	//PASSING DATA USING STATE
 	const location = useLocation();
@@ -79,6 +89,63 @@ const Bookings = () => {
 		}
 	};
 
+	const [modalData, setModalData] = useState<Trip_interface>(availableTripData);
+	const handleOpenModal = (data: Trip_interface, flipValue: any) => {
+		setFlip(flipValue);
+		setModalData(data);
+		setModalVisible(true);
+	};
+
+	const handleOk = () => {
+		setModalVisible(false);
+	};
+
+	const handleCancel = () => {
+		setModalVisible(false);
+		setFlip("");
+	};
+
+	const handleChange = (e: any) => {
+		const inputValue = e.target.value;
+		if (modalData?.bus?.capacity - modalData?.bookings?.length >= inputValue) {
+			setValue(inputValue);
+		} else {
+			setValue(modalData?.bus?.capacity - modalData?.bookings?.length);
+		}
+		// const formattedValue = inputValue.replace(regex, ",");
+		// setValue(formattedValue);
+	};
+
+	const addItem = () => {
+		if (modalData?.bus?.capacity - modalData?.bookings?.length > value) {
+			setValue(value + 1);
+		} else {
+			setValue(modalData?.bus?.capacity - modalData?.bookings?.length);
+		}
+	};
+
+	const minusItem = () => {
+		if (value > 1) setValue(value - 1);
+	};
+
+	//Check ScreenWidth to check what element to render
+	useEffect(() => {
+		function handleResize() {
+			setScreenWidth(window.innerWidth);
+		}
+
+		if (screenWidth < 640) {
+			setUseDrawer(true);
+		} else {
+			setUseDrawer(false);
+		}
+
+		window.addEventListener("resize", handleResize);
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, [screenWidth]);
+
 	//VALIDATE BUTTON BEFORE CLICK
 	const isValid =
 		fromCity !== "Set your current city" &&
@@ -97,6 +164,8 @@ const Bookings = () => {
 			dispatch(getAllCityAction());
 		}
 	}, [cities, dispatch]);
+
+	console.log("modelDAta", modalData);
 
 	return (
 		<Layout title="Fraser - Book a ride">
@@ -365,7 +434,7 @@ const Bookings = () => {
 							<div className="mx-4 lg:mx-0 ">
 								{/* HEADER */}
 
-								<div className="w-full px-8 py-4 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
+								<div className="w-full px-8 py-4 pb-24 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
 									{availableTripLoading ? (
 										<div className="flex px-6 py-2 mb-8 space-x-4 animate-pulse">
 											<div className="flex-1 py-1 space-y-6">
@@ -404,8 +473,10 @@ const Bookings = () => {
 													arrivalTime={trip?.arrival_time}
 													arrivalDate={trip?.arrival_date}
 													onClick={() => {
-														dispatch(addToMyBookinAction(trip));
-														navigate("/checkout");
+														// console.log(trip?.no_of_seat);
+														handleOpenModal(trip, "howmanytickets");
+														// dispatch(addToMyBookinAction(trip));
+														// navigate("/checkout");
 													}}
 												/>
 											);
@@ -432,6 +503,149 @@ const Bookings = () => {
 					</div>
 				</div>
 			</div>
+
+			{useDrawer && flip === BookingViews.NOOFTICKETS && modalVisible && (
+				<Drawer
+					title={
+						<div>
+							<div className="mt-8 text-lg font-medium boder-b">
+								Number of Tickets
+							</div>
+							<div className="text-[#929292] font-light text-xs mt-1">
+								{" "}
+								Available Seats:
+								{modalData?.bus?.capacity - modalData?.bookings?.length}
+							</div>
+							<div className="flex-row justify-between px-6 py-4 mt-6 bg-black rounded-lg lg:flex lg:px-8">
+								<div className="flex lg:w-4/5">
+									<div className="w-1/2 lg:w-1/3">
+										<h3 className="mr-8 text-lg md:text-base lg:h-20 lg:mr-0 text-primary-100">
+											{modalData?.travel_destination?.from?.start_busstop}
+										</h3>
+									</div>
+
+									<BsArrowRight className="top-0 mt-1 mr-8 lg:w-4  lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
+									<div className="w-1/2 lg:w-1/3 ">
+										<h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
+											{modalData?.travel_destination?.to?.stop_busstop}
+										</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+					placement="bottom"
+					closable={false}
+					onClose={handleCancel}
+					open={modalVisible}
+					key="bottom"
+					className="rounded-t-xl"
+					height="60vh">
+					<div className="flex items-center mx-6 justify-evenly">
+						<FaMinusCircle
+							size={32}
+							onClick={minusItem}
+							className="cursor-pointer"
+						/>
+						<div className="w-full my-12 place-content-center">
+							<input
+								type="number"
+								value={value}
+								onChange={handleChange}
+								placeholder="0"
+								className=" w-full text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
+							/>
+						</div>
+						<FaPlusCircle
+							size={32}
+							onClick={addItem}
+							className="cursor-pointer"
+						/>
+					</div>
+					<Button
+						title="Continue"
+						className="w-full h-[48px] mb-8 lg:h-[40px] p-3 mt-4 lg:text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E] hover:bg-[#58FF9E] rounded-lg "
+						onClick={() => {
+							dispatch(
+								addToMyBookinAction({ ...modalData, no_of_ticket: value })
+							);
+							navigate("/checkout");
+						}}
+					/>
+				</Drawer>
+			)}
+
+			{!useDrawer && flip === BookingViews.NOOFTICKETS && modalVisible && (
+				<Modal
+					title={
+						<div>
+							<div className="mt-8 text-lg font-medium boder-b">
+								Number of Tickets
+							</div>
+							<div className="text-[#929292] font-light text-xs mt-1">
+								{" "}
+								Available Seats:{" "}
+								{modalData?.bus?.capacity - modalData?.bookings?.length}
+							</div>
+							<div className="flex-row px-6 py-4 mt-6 text-center bg-black rounded-lg justify-evenly lg:flex lg:px-8">
+								<div className="flex lg:w-4/5">
+									<div className="w-1/2 lg:w-1/3">
+										<h3 className="mr-8 text-lg md:text-base lg:mr-0 text-primary-100">
+											{modalData?.travel_destination?.from?.start_busstop}
+										</h3>
+									</div>
+
+									<BsArrowRight className="top-0 mt-1 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
+									<div className="w-1/2 lg:w-1/3 ">
+										<h3 className="text-lg md:text-base text-primary-100 ">
+											{modalData?.travel_destination?.to?.stop_busstop}
+										</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+					onOk={handleOk}
+					onCancel={handleCancel}
+					open={modalVisible}
+					centered={true}
+					footer={false}
+					closable={true}
+					//   width="240px"
+				>
+					<div className="flex items-center mt-6 justify-evenly">
+						<FaMinusCircle
+							size={32}
+							onClick={minusItem}
+							className="cursor-pointer"
+						/>
+						<div className="w-full my-8 place-content-center">
+							<input
+								type="number"
+								value={value}
+								onChange={handleChange}
+								placeholder="0"
+								className=" w-full text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
+							/>
+						</div>
+						<FaPlusCircle
+							size={32}
+							onClick={addItem}
+							className="cursor-pointer"
+						/>
+					</div>
+					<Button
+						title="Continue"
+						className="w-full h-[48px] mb-8 lg:h-[40px] p-3 mt-4 lg:text-sm font-medium bg-[#00ff6a] hover:bg-[#58FF9E] hover:bg-[#58FF9E] rounded-lg "
+						onClick={() => {
+							dispatch(
+								addToMyBookinAction({ ...modalData, no_of_ticket: value })
+							);
+							navigate("/checkout");
+						}}
+					/>
+				</Modal>
+			)}
 		</Layout>
 	);
 };

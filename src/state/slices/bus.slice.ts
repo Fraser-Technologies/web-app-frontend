@@ -38,13 +38,13 @@ export const allBusReducer = getAllBusSlice.reducer;
 type busInitialState = {
 	loading: boolean;
 	error: string;
-	bus: Bus_interface | {};
+	bus: Bus_interface | { _id: string };
 };
 
 const intiBusState: busInitialState = {
 	loading: false,
 	error: "",
-	bus: {},
+	bus: { _id: "" },
 };
 
 const updateBusSlice = createSlice({
@@ -73,3 +73,31 @@ export const {
 	resetUpdateBus,
 } = updateBusSlice.actions;
 export const updateBusSliceReducer = updateBusSlice.reducer;
+
+const createBusSlice = createSlice({
+	name: "update slice",
+	initialState: intiBusState,
+	reducers: {
+		createBusRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		createBusSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.bus = payload;
+		},
+		createBusFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+		resetCreateBus: () => intiBusState,
+	},
+});
+
+export const {
+	createBusFailed,
+	createBusRequest,
+	createBusSuccess,
+	resetCreateBus,
+} = createBusSlice.actions;
+export const createBusReducer = createBusSlice.reducer;

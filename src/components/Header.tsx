@@ -1,58 +1,73 @@
-import React from "react";
+import React, { useState } from "react";
 import { HiMenu } from "react-icons/hi";
-import { AiOutlineClose } from "react-icons/ai";
+import { AiOutlineClose, AiOutlinePoweroff } from "react-icons/ai";
 import { Drawer } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { Button } from "./Button";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { Dropdown } from "antd";
 import type { MenuProps } from "antd";
-import { logOut } from "../state/slices/user.slice";
 import { _paths_ } from "../utils/appHelpers";
-import Cookie from "js-cookie";
+import { logoutUserAction } from "../state/action/user.action";
+import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 
-interface Props {
-	user?: string;
-}
-
-export const Header = ({ user }: Props) => {
+export const Header = () => {
 	const { userInfo } = useAppSelector((state: any) => state.userLogin);
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const [openNavBar, setOpenNavBar] = React.useState(false);
+	const [openNavBar, setOpenNavBar] = useState(false);
+	const [openOptions, setOpenOptions] = useState(false);
 
 	const logOutUser = () => {
-		dispatch(logOut());
-		localStorage.removeItem("userInfo");
-		Cookie.remove("userInfo");
+		dispatch(logoutUserAction());
+		navigate(_paths_.BOOKRIDE);
 		setOpenNavBar(false);
-		return;
 	};
 
 	const getList = () => {
 		return (
-			<div className="fixed flex-col items-center w-3/4 h-full px-4 py-8 bg-black ">
+			<div className="flex justify-start  w-full h-full pl-[20px] pr-[100px] py-8 bg-black ">
 				<div className="flex justify-end">
 					<AiOutlineClose
-						className="text-2xl text-white"
+						className="text-2xl text-white font-bold"
 						onClick={() => setOpenNavBar(false)}
 					/>
 				</div>
-				<div
-					className="flex-col items-center justify-center w-full mt-24 space-y-8 text-white"
-					onClick={() => setOpenNavBar(false)}>
+				<div className="flex-col items-center justify-center w-full mt-24 space-y-8 text-white">
 					<Link to="/">
-						<h1 className="mb-4 text-xl font-bold text-center">Home</h1>
+						<h1 className="mb-4 text-[20px] font-semibold ">Home</h1>
 					</Link>
-					<h1 className="text-xl font-bold text-center">
-						{`${userInfo?.first_name}`}
+					<h1
+						className="flex flex-row items-center text-[20px] font-semibold hover:cursor-pointer"
+						onClick={() => setOpenOptions(!openOptions)}>
+						Partner With Fraser
+						<span className="ml-[10px]">
+							{openOptions ? <IoMdArrowDropdown /> : <IoMdArrowDropup />}
+						</span>
+					</h1>
+
+					{openOptions && (
+						<div className="mt-[10px] flex flex-col pl-[30px] text-white">
+							<p className="hover:cursor-pointer">Driver</p>
+							<p className="mt-[30px] mb-[30px] hover:cursor-pointer">
+								Bus Owner
+							</p>
+							<p className="hover:cursor-pointer">Ticket Outlet</p>
+						</div>
+					)}
+
+					<h1 className="mb-4 text-[20px] font-semibold ">
+						{userInfo?.first_name}
 					</h1>
 				</div>
 
 				<div
-					className="absolute w-full text-xl font-bold text-center text-white bottom-5 hover:text-gray-200"
+					className="absolute bottom-3   text-[20px] font-semibold flex flex-row items-center text-white hover:cursor-pointer"
 					onClick={() => logOutUser()}>
-					LogOut
+					Logout
+					<span className="ml-[10px]">
+						<AiOutlinePoweroff />
+					</span>
 				</div>
 			</div>
 		);
@@ -64,56 +79,76 @@ export const Header = ({ user }: Props) => {
 			label: <span onClick={() => logOutUser()}>Logout</span>,
 		},
 		{
+			key: "driver portal",
+			label: userInfo?.user_type === "driver" && (
+				<span onClick={() => navigate(_paths_.DRIVER_PORTAL)}>
+					Driver Portal
+				</span>
+			),
+		},
+		{
 			key: "admin dashboard",
 			label: userInfo?.is_admin && (
-				<span onClick={() => navigate("/admin")}>Admin Dashboard</span>
+				<span onClick={() => navigate(_paths_.ADMIN_DASHBOARD)}>
+					Admin Dashboard
+				</span>
 			),
 		},
 	];
 
 	return (
-		<div className="fixed top-0 z-10 flex items-center justify-between w-full px-4 py-6 bg-black md:px-16">
-			<div className="flex items-center space-x-2 md:block md:space-x-0 md:items-start">
-				<HiMenu
-					className="block text-xl text-white md:hidden"
-					onClick={() => setOpenNavBar(true)}
-				/>
-				<Drawer
-					open={openNavBar}
-					anchor={"left"}
-					className="w-full"
-					onClose={() => setOpenNavBar(false)}>
-					{getList()}
-				</Drawer>
-				<div>
-					<img
-						src="/assets/images/fraser-white-logo.svg"
-						alt="Fraser Logo"
-						className="w-14 lg:w-20"
+		<div className="fixed w-full top-0 h-auto flex flex-col z-50 ">
+			<div className="px-4 w-full bg-white flex flex-row justify-end py-3 md:px-16 z-50  md:text-[12px] text-[10px]">
+				<p className="text-gray-500 mr-4">Partner with Fraser as</p>
+				<p className="text-[#22B11E] ml-3 mr-3 cursor-pointer">Driver</p>
+				<p className="text-[#22B11E] ml-3 mr-3 cursor-pointer">Bus Owner</p>
+				<p className="text-[#22B11E] cursor-pointer">Ticket Outlet</p>
+			</div>
+			<div className="px-4 flex w-full py-3 items-center justify-between bg-black md:px-16">
+				<div className="flex items-center space-x-2 md:block md:space-x-0 md:items-start">
+					<HiMenu
+						className="block text-xl text-white md:hidden"
+						onClick={() => setOpenNavBar(true)}
+					/>
+					<Drawer
+						open={openNavBar}
+						anchor={"left"}
+						className="w-[200px]"
+						onClose={() => setOpenNavBar(false)}>
+						{getList()}
+					</Drawer>
+					<div>
+						<Link to="/" className="text-white ">
+							<img
+								src="/assets/images/fraser-white-logo.svg"
+								alt="Fraser Logo"
+								className="w-14 lg:w-20"
+							/>
+						</Link>
+					</div>
+				</div>
+				<div className="items-center justify-between hidden space-x-12 md:flex">
+					<Link to="/" className="text-white ">
+						Home
+					</Link>
+					{userInfo && (
+						<>
+							<Dropdown menu={{ items }} trigger={["click"]}>
+								<div className="text-white cursor-pointer">
+									{userInfo?.first_name}
+								</div>
+							</Dropdown>
+						</>
+					)}
+					<Button
+						title="Book a ride"
+						type="submit"
+						className="px-4 py-2 text-xs rounded-md bg-primary-100"
+						onClick={() => {
+							navigate(_paths_.AVAILABLE_TRIP);
+						}}
 					/>
 				</div>
-			</div>
-			<div className="items-center justify-between hidden space-x-12 md:flex">
-				<Link to="/" className="text-white ">
-					Home
-				</Link>
-				{userInfo && (
-					<>
-						<Dropdown menu={{ items }} trigger={["click"]}>
-							<div className="text-white cursor-pointer">
-								{userInfo?.first_name}
-							</div>
-						</Dropdown>
-					</>
-				)}
-				<Button
-					title="Book a ride"
-					type="submit"
-					className="px-4 py-2 text-xs rounded-md bg-primary-100"
-					onClick={() => {
-						navigate(_paths_.AVAILABLE_TRIP);
-					}}
-				/>
 			</div>
 		</div>
 	);

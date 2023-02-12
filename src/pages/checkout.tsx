@@ -1,13 +1,12 @@
-import React, { useState } from "react";
-import { BsChevronDown, BsChevronUp, BsFillPersonFill } from "react-icons/bs";
-import { MdPhoneInTalk } from "react-icons/md";
+import React, { useEffect, useState } from "react";
+import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { usePaystackPayment } from "react-paystack";
 import Layout from "../components/layouts/SignInLayout";
 import { Modal, Box } from "@mui/material";
 import { ModalStyle } from "../constants/styling";
 import SeatReservation from "../components/SeatReservation";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { Alert, message } from "antd";
+import { Alert, Form, Input, message } from "antd";
 import {
 	emptyMyBooking,
 	verifyPaymentAction,
@@ -15,6 +14,13 @@ import {
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
 import GeometricPatterns from "../components/GeometricPatterns";
+import { RootState } from "../state/redux-store";
+import { currency_formatter } from "../utils/currency-formatter";
+
+interface FormData {
+	name: string;
+	phoneNumber: string;
+}
 
 const Checkout = () => {
 	const dispatch = useAppDispatch();
@@ -24,10 +30,8 @@ const Checkout = () => {
 	const [showAlert, setShowAlert] = useState<boolean>(false);
 	const [show, setShow] = React.useState<boolean>(false);
 	const [open, setOpen] = React.useState(false);
-	const { userInfo } = useAppSelector((state: any) => state.userLogin);
-	const { myBooking } = useAppSelector((state: any) => state.booking);
-
-	console.log("my bookings", myBooking);
+	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
+	const { myBooking } = useAppSelector((state: RootState) => state.booking);
 
 	const handleClose = () => {
 		setOpen(false);
@@ -40,7 +44,7 @@ const Checkout = () => {
 	const config = {
 		reference: new Date().getTime().toString(),
 		email: userInfo?.email || "contact@ridefrser.com",
-		amount: Number(myBooking?.price) * 100,
+		amount: Number(myBooking?.no_of_ticket * myBooking?.price) * 100,
 		publicKey: process.env.REACT_APP_PAYSTACK_KEY,
 	};
 
@@ -67,8 +71,6 @@ const Checkout = () => {
 
 		initializePayment(onSuccess, onClose);
 	};
-
-	const Total = myBooking?.price;
 
 	//DATE FORMATTING
 	const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
@@ -125,10 +127,95 @@ const Checkout = () => {
 			monthName = "Dec.";
 			break;
 	}
-	const formattedDate = `${ordinalDay} ${monthName}, ${year}`;
 
-	//TIME FORMATTING
-	// const timeRegex = /^(\d{1,2}):(\d{2})(am|pm)$/;
+	useEffect(() => {
+		if (!myBooking) {
+			navigate(-1);
+		}
+	}, [myBooking, navigate]);
+
+	const [formData, setFormData] = useState<FormData[]>([]);
+
+	const handleInputChange = (
+		e: React.ChangeEvent<HTMLInputElement>,
+		index: number
+	) => {
+		const data = [...formData];
+		data[index] = {
+			...data[index],
+			[e.target.name]: e.target.value,
+		};
+		setFormData(data);
+	};
+
+	const inputFields = [];
+
+	for (let i = 0; i < myBooking?.no_of_ticket; i++) {
+		inputFields.push(
+			<Form.Item key={i}>
+				<div className="w-full flex lg:space-x-3">
+					<div className="w-full">
+						<div className="mb-1">
+							<label className="text-gray-500">Name</label>
+						</div>
+						<Input
+							className="w-full h-10 hover:border-green-500 active:border-green-600 focus:border-green-600"
+							placeholder="Name"
+							name="name"
+							value={formData[i]?.name || ""}
+							onChange={(e) => handleInputChange(e, i)}
+						/>
+					</div>
+					<div className="w-full">
+						<div className="mb-1">
+							<label className="text-gray-500">Phone Number</label>
+						</div>
+						<Input
+							className="w-full h-10 hover:border-green-500 active:border-green-600 focus:border-green-600"
+							placeholder="Phone"
+							name="phoneNumber"
+							value={formData[i]?.phoneNumber || ""}
+							onChange={(e) => handleInputChange(e, i)}
+						/>
+					</div>
+				</div>
+			</Form.Item>
+			//   <div key={i}>
+			//     <label htmlFor={`name-${i}`}>Name {i + 1}:</label>
+			//     <input
+			//       id={`name-${i}`}
+			//       type="text"
+			//       name="name"
+			//       value={formData[i]?.name || ""}
+			//       onChange={(e) => handleInputChange(e, i)}
+			//     />
+			//     <label htmlFor={`phone-${i}`}>Phone {i + 1}:</label>
+			//     <input
+			//       id={`phone-${i}`}
+			//       type="text"
+			//       name="phoneNumber"
+			//       value={formData[i]?.phoneNumber || ""}
+			//       onChange={(e) => handleInputChange(e, i)}
+			//     />
+			//     <Input
+			//       id={`name-${i}`}
+			//       className="w-full h-10 hover:border-green-500 active:border-green-600 focus:border-green-600"
+			//       placeholder="Passenger Name"
+			//       type="text"
+			//       value={formData[i]?.name || ""}
+			//       required={true}
+			//       onChange={(e) => {
+			//         handleInputChange(e, i);
+			//       }}
+			//     />
+			//   </div>
+		);
+	}
+
+	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
+		e.preventDefault();
+		console.log(formData);
+	};
 
 	return (
 		<Layout title="Checkout - Fraser">
@@ -158,7 +245,7 @@ const Checkout = () => {
 					<div className={`${!show ? "hidden" : "block"} lg:block`}>
 						{/* {passenger details} */}
 						<div className="w-full p-8 mb-6 -mt-3 bg-white rounded-md lg:mt-0 lg:pb-12 lg:pt-6">
-							<div className="border-b border-[#EFF3EF]">
+							<div className="pb-4 border-b border-[#EFF3EF]">
 								<h2 className="hidden mb-4 text-base font-semibold md:block md:text-base">
 									Your Details
 								</h2>
@@ -168,21 +255,8 @@ const Checkout = () => {
 									your bags!
 								</p>
 							</div>
-							<div className="flex-col lg:flex lg:flex-row mt-6 lg:mt-8 lg:space-x-3 border-b border-[#EFF3EF] pb-6">
-								<div className="flex items-center h-12 px-4 py-3 space-x-2 border rounded-md lg:w-3/6">
-									<BsFillPersonFill />
-									<p className="text-sm truncate md:text-sm">{`${userInfo?.first_name} ${userInfo?.last_name}`}</p>
-								</div>
-								<div className="flex items-center h-12 px-4 py-3 mt-4 space-x-2 border rounded-md lg:mt-0 lg:w-3/6">
-									<MdPhoneInTalk />
-									<p className="text-sm truncate md:text-sm ">
-										{userInfo?.phone.replace(
-											/^(\+\d{3})(\d{3})(\d{3})(\d{4})/,
-											"$1 $2 $3 $4"
-										)}
-									</p>
-								</div>
-							</div>
+
+							<div className="mt-8">{inputFields}</div>
 						</div>
 						{/* {seat reservation} */}
 						{/* <div className="w-full p-8 mt-4 bg-white rounded-md lg:py-12">
@@ -193,7 +267,7 @@ const Checkout = () => {
 							</div>
 							<div className="flex items-center justify-between border border-[#E0E0E0] px-3 py-2">
 								<div className="flex items-center space-x-2">
-									<p className="text-sm md:text-base">Select preferred seat</p>
+							     		<p className="text-sm md:text-base">Select preferred seat</p>
 									<span className="p-2 text-xs rounded-md text-primary-200 bg-primary-50 md:text-sm">
 										+NGN250
 									</span>
@@ -240,7 +314,8 @@ const Checkout = () => {
 							</h2>
 						</div>
 						<div className="border-b border-[#EFF3EF] pb-3 mt-4 flex space-x-5 font-semibold text-base md:text-base">
-							<p>1 Bus Ticket</p>
+							{/* LEKAN, THIS WOULD BE DYNAMIC NOW */}
+							<p> {myBooking?.no_of_ticket} Bus Ticket</p>
 							<p>{myBooking?.take_off_date}.</p>
 						</div>
 						{/* {location and time} */}
@@ -265,7 +340,11 @@ const Checkout = () => {
 							</div> */}
 							<div className="flex justify-between mt-4 mr-8">
 								<p className="text-base ">Subtotal</p>
-								<p className="text-base">NGN {myBooking?.price}</p>
+								<p className="text-base">
+									{currency_formatter(
+										myBooking?.no_of_ticket * myBooking?.price
+									)}
+								</p>
 							</div>
 							{/* <div className="flex justify-between mt-4 mr-8 text-[#949292]">
                 <p className="text-sm md:text-xs ">VAT(7.5%)</p>
@@ -279,8 +358,7 @@ const Checkout = () => {
 						<div className="flex justify-between mt-4 border-b border-[#EFF3EF] pb-8 mr-8">
 							<p className="text-lg font-bold md:text-lg">Total</p>
 							<p className="text-lg font-bold md:text-lg">
-								NGN{" "}
-								{Total.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,") + ".00"}
+								{currency_formatter(myBooking?.no_of_ticket * myBooking?.price)}
 							</p>
 						</div>
 					</div>

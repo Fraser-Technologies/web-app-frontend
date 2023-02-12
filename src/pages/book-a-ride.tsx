@@ -19,6 +19,9 @@ import GeometricPatterns from "../components/GeometricPatterns";
 import { FaCaretDown } from "react-icons/fa";
 import { City_interface } from "../interfaces/city_interface";
 import { getAllCityAction } from "../state/action/city.action";
+import { RootState } from "../state/redux-store";
+import { _paths_ } from "../utils/appHelpers";
+import { faBedPulse } from "@fortawesome/free-solid-svg-icons";
 
 const BookRide = () => {
 	enum TripValidOption {
@@ -29,10 +32,10 @@ const BookRide = () => {
 	}
 
 	const { userInfo, error: loginError } = useAppSelector(
-		(state: any) => state.userLogin
+		(state: RootState) => state.userLogin
 	);
 	const { error: registerUserError } = useAppSelector(
-		(state: any) => state.registerUser
+		(state: RootState) => state.registerUser
 	);
 	const { cities } = useAppSelector((state: any) => state.allCity);
 
@@ -144,7 +147,7 @@ const BookRide = () => {
 		} else {
 			setIsModalOpen(false);
 		}
-	}, [dispatch, userInfo]);
+	}, [dispatch, navigate, userInfo]);
 
 	useEffect(() => {
 		if (!userInfo && loginError) {
@@ -232,6 +235,7 @@ const BookRide = () => {
 										type="button"
 										className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 										onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
+										// onClick={() => console.log(startBusStopList)}
 										onChange={handleStartBusStop}>
 										{startBusStop}
 										<FaCaretDown className="ml-auto" />
@@ -251,6 +255,11 @@ const BookRide = () => {
 															<div className="h-2 rounded bg-slate-200"></div>
 														</div>
 													</div>
+												</div>
+											) : startBusStopList.length === 0 ? (
+												<div className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
+													Sorry, we currently do not have a stop at this
+													location.
 												</div>
 											) : (
 												startBusStopList?.map((stops: any) => {
@@ -349,6 +358,10 @@ const BookRide = () => {
 														<div className="h-2 rounded bg-slate-200"></div>
 													</div>
 												</div>
+											</div>
+										) : desinationBusStopList.length === 0 ? (
+											<div className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
+												Sorry, we currently do not have a stop at this location.
 											</div>
 										) : (
 											desinationBusStopList?.map((stops: any) => {

@@ -1,12 +1,9 @@
 import { User_interface } from "./../../interfaces/user.interface";
 import { createSlice } from "@reduxjs/toolkit";
+import Cookies from "js-cookie";
 
-// const user = Cookie.get("userInfo")
-// 	? JSON?.parse(Cookie.get("userInfo") as string)
-// 	: {};
-
-const user = localStorage.getItem("userInfo")
-	? JSON.parse(localStorage.getItem("userInfo") as string)
+const user = Cookies.get("userInfo")
+	? JSON.parse(Cookies.get("userInfo") as string)
 	: {};
 
 const initialState = {
@@ -131,12 +128,14 @@ export const allUserReducer = allUserSlice.reducer;
 type userType = {
 	loading: boolean;
 	error: string;
-	user: User_interface | {};
+	userInfo: User_interface | { user_type: "user" | "driver" };
 };
 const userState: userType = {
 	loading: false,
 	error: "",
-	user: {},
+	userInfo: {
+		user_type: "user",
+	},
 };
 const blockUserSlice = createSlice({
 	name: "block user",
@@ -146,7 +145,7 @@ const blockUserSlice = createSlice({
 			state.loading = true;
 		},
 		blockUserSuccess: (state, { payload }) => {
-			state.user = payload as unknown as User_interface;
+			state.userInfo = payload;
 			state.loading = false;
 		},
 
@@ -157,7 +156,7 @@ const blockUserSlice = createSlice({
 		clearBlockUser: (state) => {
 			state.loading = false;
 			state.error = "";
-			state.user = {};
+			state.userInfo = { user_type: "user" };
 		},
 	},
 });
@@ -179,16 +178,16 @@ const unBlockUserSlice = createSlice({
 			state.loading = true;
 		},
 		unBlockUserSuccess: (state, { payload }) => {
-			state.user = payload as unknown as User_interface;
+			state.userInfo = payload;
 			state.loading = false;
 		},
 
 		unBlockUserFailed: (state) => {
-			state.user = {};
+			state.userInfo = { user_type: "user" };
 			state.loading = false;
 		},
 		clearUnBlockUser: (state) => {
-			state.user = {};
+			state.userInfo = { user_type: "user" } || {};
 			state.loading = false;
 			state.error = "";
 		},
@@ -202,3 +201,130 @@ export const {
 	clearUnBlockUser,
 } = unBlockUserSlice.actions;
 export const unblockUserReducer = unBlockUserSlice.reducer;
+
+type allDriverType = {
+	loading: boolean;
+	error: string;
+	drivers: User_interface[] | [];
+};
+
+const allDriverInitialState: allDriverType = {
+	loading: false,
+	error: "",
+	drivers: [],
+};
+const getAllDriverSlice = createSlice({
+	name: "get all driver",
+	initialState: allDriverInitialState,
+	reducers: {
+		allDriverRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		allDriverSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.drivers = payload;
+		},
+		allDriverFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const { allDriverFailed, allDriverRequest, allDriverSuccess } =
+	getAllDriverSlice.actions;
+export const allDriverReducer = getAllDriverSlice.reducer;
+
+const becomeADriverSlice = createSlice({
+	name: "become a driver",
+	initialState: userState,
+	reducers: {
+		becomeADriverRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		becomeADriverSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.userInfo = payload as unknown as User_interface;
+		},
+		becomeADriverFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const {
+	becomeADriverFailed,
+	becomeADriverRequest,
+	becomeADriverSuccess,
+} = becomeADriverSlice.actions;
+export const becomeADriverReducer = becomeADriverSlice.reducer;
+
+type driverType = {
+	loading: boolean;
+	error: string;
+	userInfo: User_interface | { _id: string };
+};
+
+const driverInitialState: driverType = {
+	loading: false,
+	error: "",
+	userInfo: { _id: "" },
+};
+
+const registerAsDriverSlice = createSlice({
+	name: "register a driver",
+	initialState: driverInitialState,
+	reducers: {
+		registerAsDriverRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		registerAsDriverSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.userInfo = payload;
+		},
+		registerAsDriverFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const {
+	registerAsDriverFailed,
+	registerAsDriverRequest,
+	registerAsDriverSuccess,
+} = registerAsDriverSlice.actions;
+export const registerAsDriverReducer = registerAsDriverSlice.reducer;
+
+const AdminUpdateUserSlice = createSlice({
+	name: "admin update user",
+	initialState: driverInitialState,
+	reducers: {
+		adminUpdateUserRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		adminUpdateUserSuccess: (state, { payload }) => {
+			state.userInfo = payload;
+			state.loading = false;
+			state.error = "";
+		},
+		adminUpdateUserFailed: (state, { payload }) => {
+			state.error = payload;
+			state.loading = false;
+		},
+		adminUpdateUserReset: () => driverInitialState,
+	},
+});
+
+export const {
+	adminUpdateUserFailed,
+	adminUpdateUserRequest,
+	adminUpdateUserReset,
+	adminUpdateUserSuccess,
+} = AdminUpdateUserSlice.actions;
+export const adminUpdateUserReducer = AdminUpdateUserSlice.reducer;

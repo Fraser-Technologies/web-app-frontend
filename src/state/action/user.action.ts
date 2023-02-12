@@ -1,3 +1,10 @@
+import {
+	adminUpdateUserFailed,
+	adminUpdateUserReducer,
+	adminUpdateUserRequest,
+	adminUpdateUserReset,
+	adminUpdateUserSuccess,
+} from "./../slices/user.slice";
 import { requestHeader } from "./../../utils/requestHeader";
 import { RequestError } from "../../utils/requestError";
 import Cookie from "js-cookie";
@@ -5,6 +12,12 @@ import { api } from "../../utils/api";
 
 import { AppThunk } from "../redux-store";
 import {
+	allDriverFailed,
+	allDriverRequest,
+	allDriverSuccess,
+	becomeADriverFailed,
+	becomeADriverRequest,
+	becomeADriverSuccess,
 	blockUserFailed,
 	blockUserRequest,
 	blockUserSuccess,
@@ -17,6 +30,9 @@ import {
 	loginRequest,
 	loginSuccess,
 	logOut,
+	registerAsDriverFailed,
+	registerAsDriverRequest,
+	registerAsDriverSuccess,
 	registerRequest,
 	registerSuccess,
 	unBlockUserFailed,
@@ -26,7 +42,6 @@ import {
 	updateUserRequest,
 	updateUserSuccess,
 } from "../slices/user.slice";
-import { userInfo } from "os";
 
 export const getAllUserAction = (): AppThunk => async (dispatch, getState) => {
 	dispatch(getAllUserRequest());
@@ -66,8 +81,7 @@ export const userLoginAction =
 		try {
 			dispatch(loginRequest());
 			const { data } = await api.post("/user/login", { phone });
-
-			localStorage.setItem("userInfo", JSON.stringify(data));
+			Cookie.set("userInfo", JSON.stringify(data));
 			dispatch(loginSuccess(data));
 		} catch (error: any) {
 			dispatch(loginFailed(RequestError(error)));
@@ -75,7 +89,7 @@ export const userLoginAction =
 	};
 
 export const updateUserAction =
-	({ id, update }: { id: string; update: any }): AppThunk =>
+	(id: string, update: any): AppThunk =>
 	async (dispatch, getState) => {
 		dispatch(updateUserRequest());
 		try {
@@ -83,8 +97,8 @@ export const updateUserAction =
 				userLogin: { userInfo },
 			} = getState();
 			const { data } = await api.put(
-				`/user/${id}`,
-				{ update },
+				`/user/update/${id}`,
+				{ ...update },
 				requestHeader(userInfo)
 			);
 			Cookie.set("userInfo", JSON.stringify(data));
@@ -152,4 +166,84 @@ export const unblockUserAction =
 
 export const clearUnblockUserAction = (): AppThunk => (dispatch) => {
 	dispatch(clearUnBlockUser());
+};
+
+export const getAllDriverAction = (): AppThunk => async (dispatch) => {
+	try {
+		dispatch(allDriverRequest());
+		const { data } = await api.get("/user/drivers");
+		console.log("all the driver are ", data);
+		dispatch(allDriverSuccess(data));
+	} catch (error: any) {
+		dispatch(allDriverFailed(RequestError(error)));
+	}
+};
+
+export const becomeADriverAction =
+	(): AppThunk => async (dispatch, getState) => {
+		try {
+			dispatch(becomeADriverRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.post(`/user/becomedriver/${userInfo?._id}`);
+			Cookie.set("userInfo", JSON.stringify(data));
+			dispatch(loginSuccess(data));
+			dispatch(becomeADriverSuccess(data));
+		} catch (error: any) {
+			dispatch(becomeADriverFailed(RequestError(error)));
+		}
+	};
+
+export const registerAsADriverAction =
+	(driverData: any): AppThunk =>
+	async (dispatch) => {
+		try {
+			dispatch(registerAsDriverRequest());
+			const { data } = await api.post(
+				"/user/registerasdriver",
+				{
+					...driverData,
+				},
+				{
+					headers: {
+						"Content-type": "application/json",
+					},
+				}
+			);
+			Cookie.set("userInfo", JSON.stringify(data));
+			dispatch(loginSuccess(data));
+			dispatch(registerAsDriverSuccess(data));
+		} catch (error: any) {
+			dispatch(registerAsDriverFailed(RequestError(error)));
+		}
+	};
+
+export const AdminUpdateUserAction =
+	(id: string, update: any): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(adminUpdateUserRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.put(
+				`/user/admin/update/${id}`,
+				{
+					...update,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+			dispatch(adminUpdateUserSuccess(data));
+		} catch (error: any) {
+			dispatch(adminUpdateUserFailed(RequestError(error)));
+		}
+	};
+
+export const ResetAdminUpdateUserAction = (): AppThunk => (dispatch) => {
+	dispatch(adminUpdateUserReset());
 };

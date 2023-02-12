@@ -25,10 +25,16 @@ import {
 	getTripByDriverRequest,
 	getTripByDriverSuccess,
 	resetCreateTrip,
+	unverifyPassangerOnBoardFailed,
+	unverifyPassangerOnBoardRequest,
+	unverifyPassangerOnBoardSuccess,
 	updateTripFailed,
 	updateTripRequest,
 	updateTripReset,
 	updateTripSuccess,
+	verifyPassangerOnBoardFailed,
+	verifyPassangerOnBoardRequest,
+	verifyPassangerOnBoardSuccess,
 } from "../slices/trip.slice";
 import { resetDeleteCity } from "../slices/city.slice";
 
@@ -97,14 +103,21 @@ export const updateTripAction =
 	async (dispatch, getState) => {
 		try {
 			dispatch(updateTripRequest());
+
 			const {
 				userLogin: { userInfo },
 			} = getState();
-			const { data } = await api.put(`/trip/${id}`, input, {
-				headers: {
-					Authorization: `Bearer ${userInfo?.user_token}`,
-				},
-			});
+			const { data } = await api.put(
+				`/trip/${id}`,
+				{ ...input },
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+
+			console.log("the updated data is ", data);
 
 			dispatch(updateTripSuccess(data));
 		} catch (error: any) {
@@ -164,3 +177,55 @@ export const deleteTripByIdAction =
 export const resetDeleteTripAction = (): AppThunk => (dispatch) => {
 	dispatch(resetDeleteCity());
 };
+
+export const verifyPassangerOnboardAction =
+	(trip_id: string, booking_id: string): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(verifyPassangerOnBoardRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.post(
+				`/trip/verifypassenger/${trip_id}`,
+				{
+					booking_id: booking_id,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+
+			dispatch(verifyPassangerOnBoardSuccess(data));
+		} catch (error: any) {
+			dispatch(verifyPassangerOnBoardFailed(RequestError(error)));
+		}
+	};
+
+export const unverifyPassangerOnboardAction =
+	(trip_id: string, booking_id: string): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(unverifyPassangerOnBoardRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.post(
+				`/trip/unverifypassenger/${trip_id}`,
+				{
+					booking_id: booking_id,
+				},
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+
+			dispatch(unverifyPassangerOnBoardSuccess(data));
+		} catch (error: any) {
+			dispatch(unverifyPassangerOnBoardFailed(RequestError(error)));
+		}
+	};

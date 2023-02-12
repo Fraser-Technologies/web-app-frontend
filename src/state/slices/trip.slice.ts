@@ -1,5 +1,5 @@
 import { Trip_interface } from "./../../interfaces/trip_interface";
-import { createSlice } from "@reduxjs/toolkit";
+import { createSlice, PayloadAction } from "@reduxjs/toolkit";
 
 export type initialType = {
 	trips: Trip_interface[] | [];
@@ -111,12 +111,11 @@ const createTripSlice = createSlice({
 		},
 		createTripSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.trip = payload;
+			state.trip = payload as unknown as Trip_interface;
 		},
 		createTripFailed: (state, { payload }) => {
 			state.error = payload;
 			state.loading = false;
-			state.trip = {};
 		},
 		resetCreateTrip: () => initialState,
 	},
@@ -140,12 +139,11 @@ const updateTripSlice = createSlice({
 		},
 		updateTripSuccess: (state, { payload }) => {
 			state.loading = false;
-			state.trip = payload;
+			state.trip = payload as unknown as Trip_interface;
 		},
 		updateTripFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
-			state.trip = {};
 		},
 		updateTripReset: () => initialState,
 	},
@@ -242,3 +240,57 @@ export const {
 	resetDeleteTripById,
 } = deleteTripByIdSlice.actions;
 export const deleteTripByIdReducer = deleteTripByIdSlice.reducer;
+
+const verifyPassangerOnBoardSlice = createSlice({
+	name: "verify passanger is onboard",
+	initialState: initialState,
+	reducers: {
+		verifyPassangerOnBoardRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		verifyPassangerOnBoardSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trip = payload;
+		},
+		verifyPassangerOnBoardFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const {
+	verifyPassangerOnBoardFailed,
+	verifyPassangerOnBoardSuccess,
+	verifyPassangerOnBoardRequest,
+} = verifyPassangerOnBoardSlice.actions;
+export const verifyPassangerOnBoardReducer =
+	verifyPassangerOnBoardSlice.reducer;
+
+const unverifyPassangerOnBoardSlice = createSlice({
+	name: "unverify passanger is onboard",
+	initialState: initialState,
+	reducers: {
+		unverifyPassangerOnBoardRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		unverifyPassangerOnBoardSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trip = payload;
+		},
+		unverifyPassangerOnBoardFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const {
+	unverifyPassangerOnBoardFailed,
+	unverifyPassangerOnBoardSuccess,
+	unverifyPassangerOnBoardRequest,
+} = unverifyPassangerOnBoardSlice.actions;
+export const unverifyPassangerOnBoardReducer =
+	unverifyPassangerOnBoardSlice.reducer;

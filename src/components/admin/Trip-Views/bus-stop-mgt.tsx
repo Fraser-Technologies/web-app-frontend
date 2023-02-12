@@ -86,21 +86,25 @@ const BusStopManagement = () => {
   }, [addBusStopToCity, city, dispatch]);
 
   return (
-    <div>
+    <div className="pt-12 px-4 pb-12">
+      <h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xl font-medium">
+          Bus Stops{" "}
+        </h2>
+        <div className="flex place-content-end my-2  mt-24 w-full  bg-white">
+          {/* <h2 className=" text-xs font-medium">Trips</h2> */}
+          {/* {loading && <Spinner />} */}
+          <Button
+            title="+ Add new city"
+            type="submit"
+            className="px-4 py-2 mb-4 rounded-md bg-primary-100"
+            onClick={() => {
+              setModalVisible(true);
+              setFlip("create");
+            }}
+          />
+        </div>
       {/* BODY */}
-      <div className="flex justify-between items-center w-full mt-24 mb-4 pb-4 border-b">
-        Cities
-        {/* BUTTON TO CREATE A NEW CITY */}
-        <Button
-          title="+ Add new city"
-          type="submit"
-          className="px-4 py-2 text-sm rounded-md bg-primary-100"
-          onClick={() => {
-            setModalVisible(true);
-            setFlip("create");
-          }}
-        />
-      </div>
+     
 
       <div className="grid gap-4 grid-cols-2">
         {cities?.map((city: City_interface) => {
@@ -114,7 +118,7 @@ const BusStopManagement = () => {
               }}
             >
               <div className="text-xs">{city?.city}</div>
-              <div className="text-sm">{city?.bus_stops?.length}</div>
+              <div className="">{city?.bus_stops?.length}</div>
             </div>
           );
         })}
@@ -133,7 +137,7 @@ const BusStopManagement = () => {
         >
           <div className="mt-8">
             <div className="mb-2">
-              <label className="text-gray-500 text-sm ml-2">City Name</label>
+              <label className="text-gray-500  ml-2">City Name</label>
             </div>
             <Input
               className="hover:border-green-500 focus:border-green-600 h-10 w-full"
@@ -148,7 +152,7 @@ const BusStopManagement = () => {
           <br />
 
           <button
-            className={`w-full p-3 mb-2 text-sm rounded-lg ${
+            className={`w-full p-3 mb-2  rounded-lg ${
               true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
             } `}
             onClick={createCity}
@@ -193,7 +197,7 @@ const BusStopManagement = () => {
                 <div className="text-lg font-medium">
                   {cityModalData?.city}{" "}
                 </div>
-                <div className="text-sm mt-1 font-normal text-[#949292]">
+                <div className=" mt-1 font-normal text-[#949292]">
                   Number of Bus stops {cityModalData?.bus_stops?.length}
                 </div>
               </div>
@@ -231,7 +235,7 @@ const BusStopManagement = () => {
             </div>
 
             <button
-              className={`w-full mt-4 p-3 text-sm rounded-lg ${
+              className={`w-full mt-4 p-3  rounded-md bg-primary-100 ${
                 true ? " hover:text-[#1D7225]" : "bg-[#f5f5f5]"
               } `}
               onClick={() => {
@@ -239,6 +243,17 @@ const BusStopManagement = () => {
               }}
             >
               Add new stop
+            </button>
+            <button
+              className={`w-full mt-2 p-3  rounded-lg text-[#E71D36] ${
+                true ? " hover:text-[#C81027]" : "bg-[#f5f5f5]"
+              } `}
+              onClick={() => {
+                // setFlip("createBusStop");
+                //LEKAN WE'LL NEED TO FIX THIS
+              }}
+            >
+              Delete City
             </button>
           </Modal>
         )
@@ -268,7 +283,7 @@ const BusStopManagement = () => {
           <Button
             title="Delete"
             type="submit"
-            className="w-full py-2 mt-8 text-sm rounded-md bg-[#E71D36] text-white"
+            className="w-full py-2 mt-8  rounded-md bg-[#E71D36] text-white"
             onClick={() => {
               dispatch(
                 removeBusStopToCityAction(
@@ -282,7 +297,7 @@ const BusStopManagement = () => {
           <Button
             title="Cancel"
             type="submit"
-            className="w-full py-2 mt-4 mb-4 text-sm rounded-md border text-gray-600 border-gray-500"
+            className="w-full py-2 mt-4 mb-4  rounded-md border text-gray-600 border-gray-500"
             onClick={() => {
               setFlip("info");
             }}
@@ -310,7 +325,7 @@ const BusStopManagement = () => {
           <Button
             title="Close"
             type="submit"
-            className="w-full py-2 mt-8 mb-4 text-sm rounded-md bg-[#00FF6A] text-black"
+            className="w-full py-2 mt-8 mb-4  rounded-md bg-[#00FF6A] text-black"
             onClick={() => {
               setModalVisible(false);
             }}
@@ -356,7 +371,7 @@ const BusStopManagement = () => {
           <Button
             title="Okay"
             type="submit"
-            className="w-full py-4 mt-4 mb-4 text-sm rounded-md bg-[#00FF6A] text-black"
+            className="w-full py-4 mt-4 mb-4  rounded-md bg-[#00FF6A] text-black"
             onClick={() => {
               if (busStop) {
                 dispatch(
