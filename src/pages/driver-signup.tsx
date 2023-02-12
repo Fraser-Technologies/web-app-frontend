@@ -74,22 +74,7 @@ const DriverSignUp = () => {
 
 	const pages = [1, 2, 3, 4];
 
-	const handleSubmit = () => {
-		if (!bankFilter || !accountName || !accountNo) {
-			setShowError(true);
-			setErrorMessage("Adding all payment information if required");
-			return;
-		}
-		dispatch(
-			addAccountAction(userInfo?.user_token, {
-				bank_name: bankFilter,
-				account_number: accountNo,
-				account_name: accountName,
-			})
-		);
-
-		setCurrentPage(5);
-	};
+	
 
 	const handleBack = () => {
 		if (currentPage > 1) {
@@ -356,6 +341,7 @@ const DriverSignUp = () => {
 			setCurrentPage(currentPage + 1);
 		}
 	};
+	
 
 	const handleNext = () => {
 		setUploadProfilePicError("");
@@ -418,7 +404,24 @@ const DriverSignUp = () => {
 		}
 	};
 
-	useEffect(() => {}, []);
+	const handleSubmit = () => {
+		if (!bankFilter || !accountName || !accountNo) {
+			setShowError(true);
+			setErrorMessage("Adding all payment information if required");
+			return;
+		}
+		dispatch(
+			addAccountAction(userInfo?.user_token, {
+				bank_name: bankFilter,
+				account_number: accountNo,
+				account_name: accountName,
+			})
+		);
+
+		setCurrentPage(5);
+	};
+
+	// useEffect(() => {}, []);
 
 	return (
 		<div className="flex flex-col items-center w-full h-screen">
