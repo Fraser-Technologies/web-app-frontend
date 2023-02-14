@@ -2,7 +2,7 @@
 	"rewrites": [
 		{
 			"source": "/admin/",
-			"destination": "https://admin.web-app-frontend-lake.vercel.app/"
+			"destination": "https://ridefraser.com/"
 		},
 		{
 			"source": "/admin/:match*",
