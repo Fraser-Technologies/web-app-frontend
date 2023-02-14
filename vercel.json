@@ -6,23 +6,23 @@
 		},
 		{
 			"source": "/admin/:match*",
-			"destination": "https://admin.web-app-frontend-lake.vercel.app/:match*"
+			"destination": "https://ridefraser.com/:match*"
 		},
 		{
 			"source": "/",
-			"destination": "https://web-app-frontend-lake.vercel.com/"
+			"destination": "https://ridefraser.com/"
 		},
 		{
 			"source": "/:match*",
-			"destination": "https://web-app-frontend-lake.vercel.com/:match*"
+			"destination": "https://ridefraser.com/:match*"
 		},
 		{
 			"source": "/driver",
-			"destination": "https://driver.web-app-frontend-lake.vercel.com/"
+			"destination": "https://ridefraser.com/"
 		},
 		{
 			"source": "/driver/:match*",
-			"destination": "https://driver.web-app-frontend-lake.vercel.com/:match*"
+			"destination": "https://ridefraser.com/:match*"
 		}
 	]
 }
