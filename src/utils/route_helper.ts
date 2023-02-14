@@ -4,7 +4,11 @@ const getSubdomain = (location: string) => {
 	const locationParts = location.split(".");
 	let sliceTil = -2;
 
-	const isLocalhost = locationParts.slice(-1)[0] === "ridefraser";
+	const isLocalhost =
+		locationParts.slice(-1)[0] === process.env.production
+			? "ridefraser"
+			: "localhost:3000";
+
 	if (isLocalhost) sliceTil = -1;
 	return locationParts.slice(0, sliceTil).join("");
 };
