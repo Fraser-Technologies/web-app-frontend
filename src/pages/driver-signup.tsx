@@ -644,7 +644,7 @@ const DriverSignUp = () => {
 
 					{/* PAGE 2 */}
 					{currentPage === 2 && (
-						<div className="px-8 py-8 mt-32 mb-6">
+						<div className="px-8 py-8 mt-32 mb-12">
 							{(showError || errorMessage) && currentPage === 2 && (
 								<p className="text-red-600">{errorMessage || createBusError}</p>
 							)}
