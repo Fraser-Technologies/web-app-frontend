@@ -102,10 +102,10 @@ const UserOverview: React.FC = () => {
               <p className=" text-gray-400">Total Number of Users </p>
               <p className="text-white ">{users.length}</p>
             </div>
-            <div className="text-center">
+            {/* <div className="text-center">
               <p className=" text-gray-400">Total Active Users</p>
               <p className="text-white ">20,000</p>
-            </div>
+            </div> */}
             <div className="text-center">
               <p className=" text-gray-400"> Total Tickets Booked</p>
               <p className="text-white ">{bookings.length}</p>

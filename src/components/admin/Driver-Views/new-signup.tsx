@@ -20,12 +20,7 @@ const NewSignUps: React.FC = () => {
     DEACTIVATE = "deactivate",
   }
   const dispatch = useAppDispatch();
-  const [currentPage, setCurrentPage] = useState(0); // current page
-  const itemsPerPage = 10; // number of items per page
-  const pageRangeDisplayed = 5; // number of pages to display
-  const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
-  const totalItems = 10; // total number of items
-  const pageCount = Math.ceil(totalItems / itemsPerPage); // total number of pages
+
   const [modalData, setModalData] = useState<User_interface>();
   const { drivers } = useAppSelector((state: RootState) => state?.allDriver);
   const { userInfo, loading, error } = useAppSelector(
@@ -37,10 +32,21 @@ const NewSignUps: React.FC = () => {
     setCurrentPage(data.selected); // update the current page
   };
 
+  const [currentPage, setCurrentPage] = useState(0); // current page
+  const itemsPerPage = 10; // number of items per page
+  const pageRangeDisplayed = 5; // number of pages to display
+  const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
+  const totalItems = drivers?.filter(
+    (d: User_interface) => d?.driver_verification_status === false
+  ).length; // total number of items
+  const pageCount = Math.ceil(totalItems / itemsPerPage); // total number of pages
+
   // calculate the start and end index of the items to display on the current page
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const items = drivers.slice(startIndex, endIndex); // items to display on the current page
+  const items = drivers
+    ?.filter((d: User_interface) => d?.driver_verification_status === false)
+    .slice(startIndex, endIndex); // items to display on the current page
 
   // ROW ACTION MENU
   const [menuVisible, setMenuVisible] = useState(false);
@@ -135,71 +141,67 @@ const NewSignUps: React.FC = () => {
 
           {/* //TABLE ROWS */}
           <tbody className="">
-            {drivers
-              ?.filter(
-                (d: User_interface) => d?.driver_verification_status === false
-              )
-              .map((driver: User_interface) => {
-                return (
-                  <tr
-                    className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50"
-                    key={driver?._id}
+            {items.map((driver: User_interface) => {
+              return (
+                <tr
+                  className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50"
+                  key={driver?._id}
+                >
+                  <td
+                    onClick={() => {
+                      handleOpenModal(driver);
+                    }}
+                    className="px-4 py-2 text-xs font-normal text-gray-700"
                   >
-                    <td
-                      onClick={() => {
-                        handleOpenModal(driver);
-                      }}
-                      className="px-4 py-2 text-xs font-normal text-gray-700"
-                    >
-                      {driver?.first_name}
-                    </td>
-                    <td className="text-xs font-normal text-center text-gray-700 ">
-                      {driver?.last_name}
-                    </td>
-                    <td
-                      onClick={() => {
-                        handleOpenModal(driver);
-                      }}
-                      className="px-4 py-2 text-xs font-normal text-center text-gray-700"
-                    >
-                      {driver?.phone}
-                    </td>
-                    <td
-                      onClick={() => {
-                        handleOpenModal(driver);
-                      }}
-                      className="px-4 py-2 text-xs font-normal text-center text-gray-700"
-                    >
-                      {driver?.email}
-                    </td>
+                    {driver?.first_name}
+                  </td>
+                  <td className="text-xs font-normal text-center text-gray-700 ">
+                    {driver?.last_name}
+                  </td>
+                  <td
+                    onClick={() => {
+                      handleOpenModal(driver);
+                    }}
+                    className="px-4 py-2 text-xs font-normal text-center text-gray-700"
+                  >
+                    {driver?.phone}
+                  </td>
+                  <td
+                    onClick={() => {
+                      handleOpenModal(driver);
+                    }}
+                    className="px-4 py-2 text-xs font-normal text-center text-gray-700"
+                  >
+                    {driver?.email}
+                  </td>
 
-                    <td
-                      onClick={() => {
-                        handleOpenModal(driver);
-                      }}
-                      className="px-4 py-2 text-xs font-normal text-center text-gray-700"
-                    >
-                      {driver?.bus?.make}
-                    </td>
+                  <td
+                    onClick={() => {
+                      handleOpenModal(driver);
+                    }}
+                    className="px-4 py-2 text-xs font-normal text-center text-gray-700"
+                  >
+                    {driver?.bus?.make}
+                  </td>
 
-                    <td className="px-4 py-3 text-xs font-normal text-center text-gray-700">
-                      {" "}
-                      <Button
-                        title="Approve"
-                        type="submit"
-                        className="px-4 py-2 text-black rounded-md bg-primary-100"
-                        onClick={() => {
-                          dispatch(
-                            AdminUpdateUserAction(driver?._id, {
-                              driver_verification_status: true,
-                            })
-                          );
-                        }}
-                      />
-                    </td>
-                  </tr>
-                );
-              })}
+                  <td className="px-4 py-3 text-xs font-normal text-center text-gray-700">
+                    {" "}
+                    <Button
+                      title="Approve"
+                      type="submit"
+                      className="px-4 py-2 text-black rounded-md bg-primary-100"
+                      onClick={() => {
+                        dispatch(
+                          AdminUpdateUserAction(driver?._id, {
+                            driver_verification_status: true,
+                          })
+                        );
+                      }}
+                    />
+                  </td>
+                </tr>
+              );
+            })}
           </tbody>
         </table>
       </div>
