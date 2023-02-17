@@ -48,7 +48,9 @@ const VehicleOverview: React.FC = () => {
 	const [messageApi, contextHolder] = message.useMessage();
 
 	// calculate the start and end index of the items to display on the current page
-	//   const items = trips.slice(startIndex, endIndex); // items to display on the current page
+	const startIndex = currentPage * itemsPerPage;
+	const endIndex = startIndex + itemsPerPage;
+	  const items = buses.slice(startIndex, endIndex); // items to display on the current page
 
 	// ROW ACTION MENU
 	const [menuVisible, setMenuVisible] = useState(false);
@@ -146,7 +148,7 @@ const VehicleOverview: React.FC = () => {
 
 					{/* //TABLE ROWS */}
 					<tbody className="">
-						{buses?.map((bus: Bus_interface) => {
+						{items?.map((bus: Bus_interface) => {
 							return (
 								<tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
 									<td
