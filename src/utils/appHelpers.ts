@@ -29,11 +29,11 @@ export const storage = {
 };
 
 export const _paths_ = {
-	LANDING_PAGE: "/landingpage",
+	LANDING_PAGE: "/",
 	AVAILABLE_TRIP: "/bookings",
 	SIGNIN: "signin",
 	SIGNUP: "/signup",
-	BOOKRIDE: "/",
+	BOOKRIDE: "/bookaride",
 	// BOOKRIDE: "/book-a-ride",
 	CHECKOUT: "/checkout",
 	NOTFOUND: "*",

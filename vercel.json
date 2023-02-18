@@ -1,0 +1,28 @@
+{
+	"rewrites": [
+		{
+			"source": "/admin/",
+			"destination": "https://ridefraser.com/"
+		},
+		{
+			"source": "/admin/:match*",
+			"destination": "https://ridefraser.com/:match*"
+		},
+		{
+			"source": "/",
+			"destination": "https://ridefraser.com/"
+		},
+		{
+			"source": "/:match*",
+			"destination": "https://ridefraser.com/:match*"
+		},
+		{
+			"source": "/driver",
+			"destination": "https://ridefraser.com/"
+		},
+		{
+			"source": "/driver/:match*",
+			"destination": "https://ridefraser.com/:match*"
+		}
+	]
+}

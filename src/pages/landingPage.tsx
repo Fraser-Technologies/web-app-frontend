@@ -7,17 +7,27 @@ import { _paths_ } from "../utils/appHelpers";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { getAllBusStopAction } from "../state/action/busStop.action";
 import { useEffect } from "react";
+import { RootState } from "../state/redux-store";
+import { useSelector } from "react-redux";
 
 const LandingPage = () => {
 	const navigate = useNavigate();
 	const dispatch = useAppDispatch();
-	const { busStops } = useAppSelector((state: any) => state.allBusStop);
+	const { busStops } = useAppSelector((state: RootState) => state.allBusStop);
+	const { userInfo } = useSelector((state: RootState) => state.userLogin);
 
 	useEffect(() => {
 		if (!busStops?.length) {
 			dispatch(getAllBusStopAction());
 		}
 	}, [busStops, dispatch]);
+
+	useEffect(() => {
+		if (userInfo?._id) {
+			navigate(_paths_.BOOKRIDE);
+		}
+	}, [navigate, userInfo]);
+
 	return (
 		<div className="flex flex-col min-w-full">
 			{/* The nav bar session */}
@@ -94,7 +104,6 @@ const LandingPage = () => {
 					<Offeringcard
 						title="Affordable"
 						subtitle="Traveling with Fraser is  affordable. We are ready to take you to your next destination. Get guaranteed seats for as low as NGN 1,000.
-
               At our core, we are deeply committed to finding new ways to make your trip  affordable, you never have to break the bank to get the comfort you deserve."
 					/>
 				</div>
