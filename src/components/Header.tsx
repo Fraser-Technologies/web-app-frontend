@@ -29,7 +29,7 @@ export const Header = () => {
 			<div className="flex justify-start  w-full h-full pl-[20px] pr-[100px] py-8 bg-black ">
 				<div className="flex justify-end">
 					<AiOutlineClose
-						className="text-2xl text-white font-bold"
+						className="text-2xl font-bold text-white"
 						onClick={() => setOpenNavBar(false)}
 					/>
 				</div>
@@ -78,33 +78,17 @@ export const Header = () => {
 			key: "logout",
 			label: <span onClick={() => logOutUser()}>Logout</span>,
 		},
-		{
-			key: "driver portal",
-			label: userInfo?.user_type === "driver" && (
-				<span onClick={() => navigate(_paths_.DRIVER_PORTAL)}>
-					Driver Portal
-				</span>
-			),
-		},
-		{
-			key: "admin dashboard",
-			label: userInfo?.is_admin && (
-				<span onClick={() => navigate(_paths_.ADMIN_DASHBOARD)}>
-					Admin Dashboard
-				</span>
-			),
-		},
 	];
 
 	return (
-		<div className="fixed w-full top-0 h-auto flex flex-col z-50 ">
+		<div className="fixed top-0 z-50 flex flex-col w-full h-auto ">
 			<div className="px-4 w-full bg-white flex flex-row justify-end py-3 md:px-16 z-50  md:text-[12px] text-[10px]">
-				<p className="text-gray-500 mr-4">Partner with Fraser as</p>
+				<p className="mr-4 text-gray-500">Partner with Fraser as</p>
 				<p className="text-[#22B11E] ml-3 mr-3 cursor-pointer">Driver</p>
 				<p className="text-[#22B11E] ml-3 mr-3 cursor-pointer">Bus Owner</p>
 				<p className="text-[#22B11E] cursor-pointer">Ticket Outlet</p>
 			</div>
-			<div className="px-4 flex w-full py-3 items-center justify-between bg-black md:px-16">
+			<div className="flex items-center justify-between w-full px-4 py-3 bg-black md:px-16">
 				<div className="flex items-center space-x-2 md:block md:space-x-0 md:items-start">
 					<HiMenu
 						className="block text-xl text-white md:hidden"
