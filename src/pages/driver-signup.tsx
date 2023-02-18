@@ -74,22 +74,7 @@ const DriverSignUp = () => {
 
 	const pages = [1, 2, 3, 4];
 
-	const handleSubmit = () => {
-		if (!bankFilter || !accountName || !accountNo) {
-			setShowError(true);
-			setErrorMessage("Adding all payment information if required");
-			return;
-		}
-		dispatch(
-			addAccountAction(userInfo?.user_token, {
-				bank_name: bankFilter,
-				account_number: accountNo,
-				account_name: accountName,
-			})
-		);
-
-		setCurrentPage(5);
-	};
+	
 
 	const handleBack = () => {
 		if (currentPage > 1) {
@@ -356,6 +341,7 @@ const DriverSignUp = () => {
 			setCurrentPage(currentPage + 1);
 		}
 	};
+	
 
 	const handleNext = () => {
 		setUploadProfilePicError("");
@@ -411,7 +397,24 @@ const DriverSignUp = () => {
 		}
 	};
 
-	useEffect(() => {}, []);
+	const handleSubmit = () => {
+		if (!bankFilter || !accountName || !accountNo) {
+			setShowError(true);
+			setErrorMessage("Adding all payment information if required");
+			return;
+		}
+		dispatch(
+			addAccountAction(userInfo?.user_token, {
+				bank_name: bankFilter,
+				account_number: accountNo,
+				account_name: accountName,
+			})
+		);
+
+		setCurrentPage(5);
+	};
+
+	// useEffect(() => {}, []);
 
 	return (
 		<div className="flex flex-col items-center w-full h-screen">
@@ -641,7 +644,7 @@ const DriverSignUp = () => {
 
 					{/* PAGE 2 */}
 					{currentPage === 2 && (
-						<div className="px-8 py-8 mt-32 mb-6">
+						<div className="px-8 py-8 mt-32 mb-12">
 							{(showError || errorMessage) && currentPage === 2 && (
 								<p className="text-red-600">{errorMessage || createBusError}</p>
 							)}

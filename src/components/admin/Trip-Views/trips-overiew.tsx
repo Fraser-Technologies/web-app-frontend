@@ -170,7 +170,7 @@ const TripsOverview: React.FC = () => {
 
         {/* DATA */}
         <div className="bg-black rounded-md py-3 px-4 my-4 ">
-          <div className="m-auto text-white  mb-4 justify-between flex w-1/3">
+          {/* <div className="m-auto text-white  mb-4 justify-between flex w-1/3">
             <div
               className={` px-2 py-1 cursor-pointer ${
                 selectedData === "day"
@@ -221,8 +221,8 @@ const TripsOverview: React.FC = () => {
             >
               Year
             </div>
-          </div>
-          <div className="justify-evenly mb-4 border-t border-[#666666] pt-6 flex w-full">
+          </div> */}
+          <div className="justify-evenly mb-4 pt-6 flex w-full">
             <div className="text-center">
               <p className=" text-gray-400">Total Trips Executed </p>
               <p className="text-white ">
@@ -243,10 +243,10 @@ const TripsOverview: React.FC = () => {
                 }
               </p>
             </div>
-            <div className="text-center">
+            {/* <div className="text-center">
               <p className=" text-gray-400"> Active Trips</p>
               <p className="text-white ">20,000</p>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

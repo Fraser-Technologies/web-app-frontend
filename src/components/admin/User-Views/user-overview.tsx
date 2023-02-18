@@ -29,7 +29,7 @@ const UserOverview: React.FC = () => {
   const { bookings } = useAppSelector((state: any) => state.allBooking);
   const [flip, setFlip] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [visible, setStateModalVisible] = useState<boolean>(false);
+  // const [visible, setStateModalVisible] = useState<boolean>(false);
 
   const [currentPage, setCurrentPage] = useState(0); // current page
   const itemsPerPage = 10; // number of items per page
@@ -68,7 +68,7 @@ const UserOverview: React.FC = () => {
 
   const handleOpenDeactivateModal = (data: any) => {
     setFlip("deactivate");
-    setStateModalVisible(true);
+    // setStateModalVisible(true);
     // setModalData(data);
   };
 
@@ -102,10 +102,10 @@ const UserOverview: React.FC = () => {
               <p className=" text-gray-400">Total Number of Users </p>
               <p className="text-white ">{users.length}</p>
             </div>
-            <div className="text-center">
+            {/* <div className="text-center">
               <p className=" text-gray-400">Total Active Users</p>
               <p className="text-white ">20,000</p>
-            </div>
+            </div> */}
             <div className="text-center">
               <p className=" text-gray-400"> Total Tickets Booked</p>
               <p className="text-white ">{bookings.length}</p>
@@ -422,7 +422,7 @@ const UserOverview: React.FC = () => {
             className="w-full py-2 mt-8  rounded-md bg-[#00FF6A] text-black"
             onClick={() => {
               setModalVisible(false);
-              setStateModalVisible(false);
+              // setStateModalVisible(false);
             }}
           />
         </Modal>
