@@ -1,5 +1,4 @@
 import React from "react";
-// import Steps_counter from "./steps_number";
 
 const StepComp = ({
 	stepNumber,
