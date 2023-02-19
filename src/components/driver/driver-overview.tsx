@@ -196,7 +196,15 @@ const DriverOverview = () => {
                       (trip: Trip_interface) =>
                         trip?.completed_status === false &&
                         trip?.trip_type === "outbound"
-                    )
+                    ).sort((a, b) => {
+						const dateA = new Date(
+						  `${a?.take_off_date} ${a?.take_off_time}`
+						);
+						const dateB = new Date(
+						  `${b?.take_off_date} ${b?.take_off_time}`
+						);
+						return dateA.getTime() - dateB.getTime();
+					  })
                     .slice(0, 1)
                     .map((trip: Trip_interface) => {
                       return (
@@ -492,6 +500,15 @@ const DriverOverview = () => {
                   ?.filter(
                     (trip: Trip_interface) => trip?.completed_status === false
                   )
+                  .sort((a, b) => {
+                    const dateA = new Date(
+                      `${a?.take_off_date} ${a?.take_off_time}`
+                    );
+                    const dateB = new Date(
+                      `${b?.take_off_date} ${b?.take_off_time}`
+                    );
+                    return dateA.getTime() - dateB.getTime();
+                  })
                   .map((trip: Trip_interface) => (
                     <div
                       className="flex items-center justify-between px-6 py-4 mb-3 bg-black rounded-md"
