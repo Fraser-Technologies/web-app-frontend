@@ -34,8 +34,8 @@ const DriverHeader = (props: Props) => {
 		},
 	];
 	return (
-		<div className="flex flex-col text-sm text-white bg-black">
-			<div className="my-4  px-[40px] flex flex-row w-full justify-between">
+		<div className="fixed w-full top-0 flex flex-col text-white bg-black">
+			<div className="my-4 px-[16px] lg:px-[40px] flex flex-row w-full justify-between">
 				<div className="flex flex-row items-center justify-start ">
 					<div className="py-1 border-r border-[#ffffff]">
 						<img
@@ -68,14 +68,14 @@ const DriverHeader = (props: Props) => {
 				</Dropdown>
 			</div>
 
-			<div className="bg-[#E1EDE1] py-[10px] px-[10px]">
+			<div className="bg-[#E1EDE1] py-[10px] px-[16px] lg:px-[40px]">
 				{/* GROUP BUTTON - NAVIGATION */}
 
 				<div className="inline-flex rounded-md" role="group">
 					<button
 						onClick={() => handleToggle("overview")}
 						type="button"
-						className={`inline-flex mr-6 items-center text-sm font-medium  ${
+						className={`inline-flex mr-6 items-center font-medium  ${
 							activeView === "overview"
 								? //   true
 								  "text-[#22B11E] font-semibold"
@@ -88,7 +88,7 @@ const DriverHeader = (props: Props) => {
 					<button
 						onClick={() => handleToggle("revenue")}
 						type="button"
-						className={`inline-flex items-center text-sm font-medium  ${
+						className={`inline-flex items-center font-medium  ${
 							activeView === "revenue"
 								? //   false
 								  "text-[#22B11E] font-semibold"
