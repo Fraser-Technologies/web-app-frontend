@@ -46,7 +46,10 @@ const UserOverview: React.FC = () => {
   // calculate the start and end index of the items to display on the current page
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const items = users.slice(startIndex, endIndex); // items to display on the current page
+  // const items = users.slice(startIndex, endIndex); // items to display on the current page
+  const items = [...users]
+    .sort((a, b) => a.first_name.localeCompare(b.first_name))
+    .slice(startIndex, endIndex); // items to display on the current page
 
   // ROW ACTION MENU
   const [menuVisible, setMenuVisible] = useState(false);

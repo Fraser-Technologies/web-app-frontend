@@ -48,7 +48,8 @@ const AdminDriverOverview: React.FC = () => {
   // calculate the start and end index of the items to display on the current page
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const items = drivers
+  const items = [...drivers]
+    .sort((a, b) => a.first_name.localeCompare(b.first_name))
     ?.filter((d: User_interface) => d?.driver_verification_status === true)
     .slice(startIndex, endIndex); // items to display on the current page
 
