@@ -14,8 +14,8 @@ import { _paths_ } from "../utils/appHelpers";
 const UserApp: FC = () => {
 	return (
 		<Routes>
-			{/* <Route path={_paths_.LANDING_PAGE} element={<LandingPage />} /> */}
-			<Route path={_paths_.LANDING_PAGE} element={<Waitlist />} />
+			<Route path={_paths_.LANDING_PAGE} element={<LandingPage />} />
+			{/* <Route path={_paths_.LANDING_PAGE} element={<Waitlist />} /> */}
 			<Route path={_paths_.AVAILABLE_TRIP} element={<Bookings />} />
 			<Route path={_paths_.TERMS_OF_SERVICE} element={<TermsOfService />} />
 			<Route path={_paths_.SIGNIN} element={<SignIn />} />

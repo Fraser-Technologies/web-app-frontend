@@ -6,6 +6,7 @@ import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
 import { db } from "../components/Firebase";
 import "firebase/compat/firestore";
+import Layout from "../components/layouts/SignInLayout";
 
 const Waitlist = () => {
 	const [modal, openModal] = useState(false);
@@ -45,7 +46,7 @@ const Waitlist = () => {
 	};
 
 	return (
-		<>
+		<Layout title="WaitList">
 			<div className="waitlist-body">
 				<div className="container">
 					<div className="wrapper">
@@ -204,7 +205,7 @@ const Waitlist = () => {
 					</div>
 				</div>
 			</div>
-		</>
+		</Layout>
 	);
 };
 

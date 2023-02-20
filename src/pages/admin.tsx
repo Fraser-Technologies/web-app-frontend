@@ -41,7 +41,7 @@ const AdminDashBoard = () => {
 		}
 	}, [messageApi, navigate, userInfo]);
 	return (
-		<Layout title="Checkout - Fraser">
+		<Layout title="Admin Dashboard">
 			<div className="grid grid-cols-6 bg-white">
 				{contextHolder}
 				<LeftSidebar />

@@ -21,7 +21,6 @@ import { City_interface } from "../interfaces/city_interface";
 import { getAllCityAction } from "../state/action/city.action";
 import { RootState } from "../state/redux-store";
 import { _paths_ } from "../utils/appHelpers";
-import { faBedPulse } from "@fortawesome/free-solid-svg-icons";
 
 const BookRide = () => {
 	enum TripValidOption {

@@ -1,5 +1,5 @@
 import { Trip_interface } from "./../../interfaces/trip_interface";
-import { createSlice, PayloadAction } from "@reduxjs/toolkit";
+import { createSlice } from "@reduxjs/toolkit";
 
 export type initialType = {
 	trips: Trip_interface[] | [];
@@ -92,13 +92,13 @@ export const allTripReducer = getAllTripSlice.reducer;
 type initialStateType = {
 	loading: boolean;
 	error: string;
-	trip: Trip_interface | {};
+	trip: Trip_interface | { _id: "" };
 };
 
 const initialState: initialStateType = {
 	loading: false,
 	error: "",
-	trip: {},
+	trip: { _id: "" },
 };
 
 const createTripSlice = createSlice({
@@ -228,7 +228,7 @@ const deleteTripByIdSlice = createSlice({
 		resetDeleteTripById: (state) => {
 			state.loading = false;
 			state.error = "";
-			state.trip = {};
+			state.trip = { _id: "" };
 		},
 	},
 });
