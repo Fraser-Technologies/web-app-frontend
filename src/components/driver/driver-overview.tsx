@@ -196,15 +196,16 @@ const DriverOverview = () => {
                       (trip: Trip_interface) =>
                         trip?.completed_status === false &&
                         trip?.trip_type === "outbound"
-                    ).sort((a, b) => {
-						const dateA = new Date(
-						  `${a?.take_off_date} ${a?.take_off_time}`
-						);
-						const dateB = new Date(
-						  `${b?.take_off_date} ${b?.take_off_time}`
-						);
-						return dateA.getTime() - dateB.getTime();
-					  })
+                    )
+                    .sort((a, b) => {
+                      const dateA = new Date(
+                        `${a?.take_off_date} ${a?.take_off_time}`
+                      );
+                      const dateB = new Date(
+                        `${b?.take_off_date} ${b?.take_off_time}`
+                      );
+                      return dateA.getTime() - dateB.getTime();
+                    })
                     .slice(0, 1)
                     .map((trip: Trip_interface) => {
                       return (
@@ -254,13 +255,13 @@ const DriverOverview = () => {
                               }`}
                               onClick={() => {
                                 //VALUES NOT UPDATING
-                                console.log(trip.has_started, trip.has_ended);
-                                // if (!startOutBoundTrip) {
-                                //   handleOpenModal(trip, "startOutBoundTrip");
-                                // }
-                                // if (startOutBoundTrip) {
-                                //   handleOpenModal(trip, "endoutboundtrip");
-                                // }
+                                // console.log(trip.has_started, trip.has_ended);
+                                if (!trip?.has_started) {
+                                  handleOpenModal(trip, "startOutBoundTrip");
+                                }
+                                if (trip?.has_started) {
+                                  handleOpenModal(trip, "endoutboundtrip");
+                                }
                               }}
                             />
                           </div>
@@ -364,47 +365,50 @@ const DriverOverview = () => {
               <p className="text-lg lg:mt-8 mb:text-base font-medium pb-2">
                 Trip History
               </p>
-              <table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
-                <thead className="bg-black ">
-                  <tr>
-                    <th
-                      scope="col"
-                      className="px-2 py-4 pl-4  font-normal rounded-l-md lg"
-                    >
-                      Trips
-                    </th>
-                    <th scope="col" className="py-4  font-normal">
-                      Date
-                    </th>
-                    <th
-                      scope="col"
-                      className="px-4 py-4  font-normal text-center"
-                    >
-                      Passengers
-                    </th>
+              {trips.filter(
+                (trip: Trip_interface) => trip?.completed_status === true
+              ).length === 0 ? (
+                <Alert
+                  type="info"
+                  message="You haven't completed any trip yet"
+                  onClick={() => {
+                    console.log(trips.length);
+                  }}
+                  className="w-full"
+                />
+              ) : (
+                <table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
+                  <thead className="bg-black ">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-2 py-4 pl-4  font-normal rounded-l-md lg"
+                      >
+                        Trips
+                      </th>
+                      <th scope="col" className="py-4  font-normal">
+                        Date
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-4 py-4  font-normal text-center"
+                      >
+                        Passengers
+                      </th>
 
-                    <th
-                      scope="col"
-                      className="px-2 py-4 text-sm font-normal rounded-r-md text-center"
-                    >
-                      Earning
-                    </th>
-                  </tr>
-                </thead>
+                      <th
+                        scope="col"
+                        className="px-2 py-4 text-sm font-normal rounded-r-md text-center"
+                      >
+                        Earning
+                      </th>
+                    </tr>
+                  </thead>
 
-                {/* //TABLE ROWS */}
+                  {/* //TABLE ROWS */}
 
-                <tbody className="">
-                  {trips.length === 0 ? (
-                    <Alert
-                      type="info"
-                      message="You haven't completed any trip yet"
-                      onClick={() => {
-                        console.log(trips);
-                      }}
-                    />
-                  ) : (
-                    trips
+                  <tbody className="">
+                    {trips
                       .filter(
                         (trip: Trip_interface) =>
                           trip?.completed_status === true
@@ -447,18 +451,10 @@ const DriverOverview = () => {
                             </td>
                           </tr>
                         );
-                      })
-                  )}
-                  {/* {trips?.filter(
-                  (trip: Trip_interface) => trip?.completed_status === true
-                ).length && (
-                  <Alert
-                    type="info"
-                    message="You haven't completed any trip yet"
-                  />
-                )} */}
-                </tbody>
-              </table>
+                      })}
+                  </tbody>
+                </table>
+              )}
             </div>
           </div>
 
@@ -648,9 +644,9 @@ const DriverOverview = () => {
             closable={true}
             width="240px"
           >
-            <div className="w-full mt-8  text-center place-items-center">
-              Starting a trip means all users are aboard, <div></div>
-              <div className="mt-4 text-base font-medium">Start the trip?</div>
+            <div className="w-full mt-8 text-center place-items-center leading-5">
+              Starting a trip means all users are aboard <div></div>
+              <div className="mt-6 text-base font-medium">Start the trip?</div>
             </div>
 
             <div className="flex mt-6">
@@ -676,7 +672,7 @@ const DriverOverview = () => {
                   setstartOutBoundTrip(!startOutBoundTrip);
                   setVisible(true);
                   setAlertMessage(
-                    `Trip Started, your ETA is ${moment().toNow()}`
+                    `Trip Started at ${moment().toNow()}`
                   );
                   setModalVisible(false);
                 }}

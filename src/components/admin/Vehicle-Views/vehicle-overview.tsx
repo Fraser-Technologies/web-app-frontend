@@ -156,6 +156,13 @@ const VehicleOverview: React.FC = () => {
 										onClick={() => {
 											handleOpenModal(bus);
 										}}>
+										{bus?.registration_number}
+									</td>
+									<td
+										className=" font-normal text-center text-gray-700 "
+										onClick={() => {
+											handleOpenModal(bus);
+										}}>
 										{bus?.make}
 									</td>
 									<td
