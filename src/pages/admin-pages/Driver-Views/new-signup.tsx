@@ -3,7 +3,7 @@ import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { User_interface } from "../../../interfaces/user.interface";
-import { getTripByDriverAction } from "../../../state/action/trip.action";
+// import { getTripByDriverAction } from "../../../state/action/trip.action";
 import {
   AdminUpdateUserAction,
   getAllDriverAction,
@@ -50,12 +50,12 @@ const NewSignUps: React.FC = () => {
     .slice(startIndex, endIndex); // items to display on the current page
 
   // ROW ACTION MENU
-  const [menuVisible, setMenuVisible] = useState(false);
+  // const [menuVisible, setMenuVisible] = useState(false);
 
   //TOGGLE
-  const handleSetMenuToggle = () => {
-    setMenuVisible(!menuVisible);
-  };
+  // const handleSetMenuToggle = () => {
+  //   setMenuVisible(!menuVisible);
+  // };
   const [flip, setFlip] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 

@@ -1,6 +1,5 @@
-import { Modal, Alert, Switch, Space } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
+import { Modal, Alert, Space } from "antd";
+import { useEffect, useState } from "react";
 import {
 	FaStar,
 	FaClock,

@@ -1,5 +1,5 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Input } from "antd";
 import { FaCaretDown, FaChevronLeft } from "react-icons/fa";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
@@ -27,9 +27,9 @@ import { busTypes } from "../../utils/busTypesData";
 const DriverSignUp = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const { userInfo: newDriver } = useAppSelector(
-    (state: RootState) => state.registerAsDriver
-  );
+//   const { userInfo: newDriver } = useAppSelector(
+//     (state: RootState) => state.registerAsDriver
+//   );
   const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
   const { bus, error: createBusError } = useAppSelector(
     (state: RootState) => state.createBus
