@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "../components/Button";
-import Layout from "../components/layouts/SignInLayout";
+import { Button } from "../../components/Button";
+import Layout from "../../components/layouts/SignInLayout";
 import { Link } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 

@@ -14,7 +14,7 @@ import {
   getAllCityAction,
 } from "../../../state/action/city.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
-import { Button } from "../../Button";
+import { Button } from "../../../components/Button";
 
 const BusStopManagement = () => {
   const [flip, setFlip] = useState("");

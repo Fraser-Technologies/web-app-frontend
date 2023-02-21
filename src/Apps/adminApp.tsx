@@ -1,8 +1,8 @@
 import { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import NotFound from "../pages/404";
-import AdminDashBoard from "../pages/admin";
-import AdminLogin from "../pages/admin-login";
+import AdminDashBoard from "../pages/AdminPortal";
+import AdminLogin from "../pages/admin-pages/admin-login";
 import { _paths_ } from "../utils/appHelpers";
 
 const AdminApp: FC = () => {
