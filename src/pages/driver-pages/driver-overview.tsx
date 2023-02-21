@@ -119,7 +119,7 @@ const DriverOverview = () => {
     }
   }, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
   return (
-    <div className="pt-32">
+    <div className="pt-28 lg:pt-32">
       <div className="fixed lg:hidden mb-4 bottom-0 w-full flex items-center place-content-center">
         <div className="flex w-5/6 bg-black rounded-md text-white px-1">
           <div
@@ -184,11 +184,11 @@ const DriverOverview = () => {
                   />
                 )}
               </Space>
-              <p className="text-lg mb:text-base font-medium pb-2">
+              <p className="text-lg mb:text-base font-medium pb-1">
                 Upcoming Trip Schedule
               </p>
 
-              <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 pt-2 rounded-md">
+              <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 rounded-md">
                 <div className="p-4 bg-black rounded-md lg:p-0 ">
                   <p className="border-b text-[14px] lg: border-[#353535] py-2">
                     Outbound Schedule
@@ -449,7 +449,7 @@ const DriverOverview = () => {
                   : "hidden"
               } lg:block`}
             >
-              <p className="text-lg lg:mt-8 mb:text-base font-medium pb-2">
+              <p className="text-lg lg:mt-8 mt-6 mb:text-base font-medium pb-2">
                 Trip History
               </p>
               {trips.filter(
@@ -464,28 +464,28 @@ const DriverOverview = () => {
                   className="w-full"
                 />
               ) : (
-                <table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
+                <table className="w-full mt-2 lg:text-base font-normal text-left text-white table-auto">
                   <thead className="bg-black ">
                     <tr>
                       <th
                         scope="col"
-                        className="px-2 py-4 pl-4  font-normal rounded-l-md lg"
+                        className="px-2 py-4 pl-4 font-normal rounded-l-md lg"
                       >
                         Trips
                       </th>
-                      <th scope="col" className="py-4  font-normal">
+                      <th scope="col" className="py-4 font-normal">
                         Date
                       </th>
                       <th
                         scope="col"
-                        className="px-4 py-4  font-normal text-center"
+                        className="px-4 py-4 font-normal text-center"
                       >
                         Passengers
                       </th>
 
                       <th
                         scope="col"
-                        className="px-2 py-4 text-sm font-normal rounded-r-md text-center"
+                        className="px-2 py-4 font-normal rounded-r-md text-center"
                       >
                         Earning
                       </th>
@@ -547,7 +547,7 @@ const DriverOverview = () => {
 
           {/* COLUM ON RIGHT */}
           <div
-            className={` col-start-6 col-end-9 overflow-y-scroll h-[80vh] text-black border bg-white lg:fixed lg:w-2/6 right-0 lg:mr-[120px] rounded-md  ${
+            className={` col-start-6 mt-6 lg:mt-0 col-end-9 overflow-y-scroll h-[70vh] lg:h-[80vh] text-black border bg-white lg:fixed lg:w-2/6 right-0 lg:mr-[120px] rounded-md  ${
               selection === "Info"
                 ? "block lg:mt-8 mx-[18px] lg:mx-0"
                 : "hidden"
