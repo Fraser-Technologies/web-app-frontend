@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { message } from "antd";
 import LeftSidebar from "./admin-pages/SideBar";
-import RightSidebar from "./admin-pages/Notifications";
+// import RightSidebar from "./admin-pages/Notifications";
 import Layout from "../components/layouts/SignInLayout";
 import MiddleSection from "./admin-pages/MiddleSection";
 import { useAppDispatch, useAppSelector } from "../state/hooks";

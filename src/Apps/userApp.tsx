@@ -3,13 +3,13 @@ import { Route, Routes } from "react-router-dom";
 import NotFound from "../pages/404";
 import BookRide from "../pages/user-pages/book-a-ride";
 // import LandingPage from "../pages/landingPage";
-import SignIn from "../pages/signin";
-import SignUp from "../pages/signup";
+import SignIn from "../pages/user-pages/signin";
 import TermsOfService from "../pages/user-pages/terms-of-service";
 import Waitlist from "../pages/Waitlist";
 import { _paths_ } from "../utils/appHelpers";
 import Bookings from "../pages/user-pages/bookings";
 import Checkout from "../pages/user-pages/checkout";
+import SignUp from "../pages/user-pages/signup";
 
 const UserApp: FC = () => {
 	return (
