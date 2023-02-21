@@ -86,7 +86,7 @@ const DriverRevenueOverview = () => {
 
   return (
     <>
-      <div className="mx-[18px]  lg:mx-[120px] text-sm lg:mt-8">
+      <div className="mx-[18px]  lg:mx-[120px] text-sm mt-24 lg:mt-8">
         <div className="lg:grid h-screen pt-2 lg:pt-8 lg:grid-cols-12 lg:gap-4">
           <div className="lg:col-start-1 text-black lg:col-end-8">
             <div className="lg:bg-black  text-white lg:px-12 lg:py-16 rounded-md">
