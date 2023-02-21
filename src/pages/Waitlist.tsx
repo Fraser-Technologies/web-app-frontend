@@ -19,7 +19,6 @@ const Waitlist = () => {
   const emailRegex =
     /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
 
-
   const loginValid =
     firstName !== "" &&
     lastName !== "" &&
@@ -76,7 +75,7 @@ const Waitlist = () => {
             <h1 className="header-text">
               Move freely <br /> <span className="cities">between cities.</span>
             </h1>
-            <p className="subtitle-text">
+            <p className="subtitle-text text-[22px] text-[#E5FCF5] font-light w-1/2 mx-auto">
               {" "}
               Do you want to travel between cities comfortably, conveniently and
               affordably, use Fraser.
