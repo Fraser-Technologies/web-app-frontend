@@ -11,7 +11,7 @@ import {
 } from "../../../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { RootState } from "../../../state/redux-store";
-import { Button } from "../../Button";
+import { Button } from "../../../components/Button";
 
 const NewSignUps: React.FC = () => {
   enum flipType {

@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import DriverHeader from "../components/driver/DriverHeader";
-import DriverOverview from "../components/driver/driver-overview";
-import DriverRevenueOverview from "../components/driver/revenue-overview";
+import DriverHeader from "./driver-pages/DriverHeader";
+import DriverOverview from "./driver-pages/driver-overview";
+import DriverRevenueOverview from "./driver-pages/revenue-overview";
 import { useAppSelector } from "../state/hooks";
 import { RootState } from "../state/redux-store";
 import { useNavigate } from "react-router-dom";

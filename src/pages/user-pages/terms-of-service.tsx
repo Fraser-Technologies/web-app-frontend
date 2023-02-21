@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { BsFillGridFill } from "react-icons/bs";
 
-import Layout from "../components/layouts/SignInLayout";
-import { termsofservicedata } from "../utils/TermsofServiceData";
+import Layout from "../../components/layouts/SignInLayout";
+import { termsofservicedata } from "../../utils/TermsofServiceData";
 
 const TermsOfService = () => {
 	const [selectedContent, setSelectedContent] = useState("termsOfUse");

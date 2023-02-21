@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { usePaystackPayment } from "react-paystack";
-import Layout from "../components/layouts/SignInLayout";
+import Layout from "../../components/layouts/SignInLayout";
 import { Modal, Box } from "@mui/material";
-import { ModalStyle } from "../constants/styling";
-import SeatReservation from "../components/SeatReservation";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { ModalStyle } from "../../constants/styling";
+import SeatReservation from "../../components/SeatReservation";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Alert, Form, Input, message } from "antd";
 import {
   emptyMyBooking,
   verifyPaymentAction,
-} from "../state/action/booking.action";
+} from "../../state/action/booking.action";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import GeometricPatterns from "../components/GeometricPatterns";
-import { RootState } from "../state/redux-store";
-import { currency_formatter } from "../utils/currency-formatter";
+import GeometricPatterns from "../../components/GeometricPatterns";
+import { RootState } from "../../state/redux-store";
+import { currency_formatter } from "../../utils/currency-formatter";
 
 interface FormData {
   name: string;

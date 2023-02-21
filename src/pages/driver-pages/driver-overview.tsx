@@ -9,7 +9,7 @@ import {
 	FaMinusCircle,
 	FaChevronRight,
 } from "react-icons/fa";
-import { Button } from "../Button";
+import { Button } from "../../components/Button";
 import moment from "moment";
 import { RootState } from "../../state/redux-store";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";

@@ -16,7 +16,7 @@ import { Trip_interface } from "../../interfaces/trip_interface";
 import { useAppSelector } from "../../state/hooks";
 import { RootState } from "../../state/redux-store";
 import { currency_formatter } from "../../utils/currency-formatter";
-import { Button } from "../Button";
+import { Button } from "../../components/Button";
 
 const DriverRevenueOverview = () => {
 	enum DriverRevenueView {

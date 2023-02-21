@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import "./../styles/Waitlist.css";
 import { collection, addDoc, serverTimestamp } from "firebase/firestore";
 import BeatLoader from "react-spinners/BeatLoader";
-import { db } from "../components/Firebase";
+import { db } from "../Firebase";
 import "firebase/compat/firestore";
 import { Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";

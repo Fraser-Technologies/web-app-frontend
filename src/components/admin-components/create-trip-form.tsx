@@ -2,22 +2,21 @@
 import { useEffect, useState } from "react";
 import { Alert, Input, message } from "antd";
 import { FaCaretDown } from "react-icons/fa";
-import { City_interface } from "../../../interfaces/city_interface";
-import { createTripAction } from "../../../state/action/trip.action";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { City_interface } from "../../interfaces/city_interface";
+import { createTripAction } from "../../state/action/trip.action";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import DateField from "./datefield";
 import TimePicker from "./time-picker";
 import EndDateField from "./endDateField";
 import EndTimePicker from "./endTimePicker";
-import { resetCreateTrip } from "../../../state/slices/trip.slice";
-import { User_interface } from "../../../interfaces/user.interface";
+import { resetCreateTrip } from "../../state/slices/trip.slice";
+import { User_interface } from "../../interfaces/user.interface";
 
 // FORM TO CREATE A TRIP
 const CreateTripFormComponent = () => {
   const dispatch = useAppDispatch();
   const { cities } = useAppSelector((state: any) => state?.allCity);
   const { drivers } = useAppSelector((state: any) => state?.allDriver);
-  const { buses } = useAppSelector((state: any) => state.allBus);
   const { loading, trip, error } = useAppSelector(
     (state: any) => state?.createTrip
   );
@@ -69,11 +68,11 @@ const CreateTripFormComponent = () => {
   const [destinationBuStopDisplayText, setDestinationBusStopDisplayText] =
     useState("Select Destination Bus Stop" || "");
 
-  //   VEHICLE CONTROLLERS
-  const [vehicleOpen, setVehicleIsOpen] = useState(false);
-  const [vehicleDisplayText, setVehicleDisplayText] = useState(
-    "Select Vehicle" || ""
-  );
+  // //   VEHICLE CONTROLLERS
+  // const [vehicleOpen, setVehicleIsOpen] = useState(false);
+  // const [vehicleDisplayText, setVehicleDisplayText] = useState(
+  //   "Select Vehicle" || ""
+  // );
 
   //   DRIVER  CONTROLLERS
   const [driverOpen, setDriverIsOpen] = useState(false);
@@ -141,14 +140,14 @@ const CreateTripFormComponent = () => {
     setStopCityBusStopList([]);
     setTake_off_date("");
     setTake_off_time("");
-    setVehicleDisplayText("Select Vehicle");
+    // setVehicleDisplayText("Select Vehicle");
   };
 
   useEffect(() => {
     if (trip?._id) {
       messageApi.open({
         type: "success",
-        content: "a new trip have been created",
+        content: "A new trip has been created",
       });
 
       resetAll();

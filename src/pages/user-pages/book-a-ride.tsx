@@ -2,25 +2,25 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useState, useEffect } from "react";
 import { useRef } from "react";
-import Layout from "../components/layouts/SignInLayout";
-import { Button } from "../components/Button";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
+import Layout from "../../components/layouts/SignInLayout";
+import { Button } from "../../components/Button";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { Alert, Input, message, Modal } from "antd";
 import {
   registerUserAction,
   userLoginAction,
-} from "../state/action/user.action";
+} from "../../state/action/user.action";
 import {
   getAllAvailableTripAction,
   getAvailableTripAction,
-} from "../state/action/trip.action";
-import GeometricPatterns from "../components/GeometricPatterns";
+} from "../../state/action/trip.action";
+import GeometricPatterns from "../../components/GeometricPatterns";
 import { FaCaretDown } from "react-icons/fa";
-import { City_interface } from "../interfaces/city_interface";
-import { getAllCityAction } from "../state/action/city.action";
-import { RootState } from "../state/redux-store";
-import { _paths_ } from "../utils/appHelpers";
+import { City_interface } from "../../interfaces/city_interface";
+import { getAllCityAction } from "../../state/action/city.action";
+import { RootState } from "../../state/redux-store";
+import { _paths_ } from "../../utils/appHelpers";
 
 const BookRide = () => {
   enum TripValidOption {

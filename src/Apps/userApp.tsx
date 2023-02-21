@@ -1,15 +1,15 @@
 import React, { FC } from "react";
 import { Route, Routes } from "react-router-dom";
 import NotFound from "../pages/404";
-import BookRide from "../pages/book-a-ride";
-import Bookings from "../pages/bookings";
-import Checkout from "../pages/checkout";
-import LandingPage from "../pages/landingPage";
+import BookRide from "../pages/user-pages/book-a-ride";
+// import LandingPage from "../pages/landingPage";
 import SignIn from "../pages/signin";
 import SignUp from "../pages/signup";
-import TermsOfService from "../pages/terms-of-service";
+import TermsOfService from "../pages/user-pages/terms-of-service";
 import Waitlist from "../pages/Waitlist";
 import { _paths_ } from "../utils/appHelpers";
+import Bookings from "../pages/user-pages/bookings";
+import Checkout from "../pages/user-pages/checkout";
 
 const UserApp: FC = () => {
 	return (

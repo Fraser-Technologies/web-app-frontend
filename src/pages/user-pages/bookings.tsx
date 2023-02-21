@@ -2,24 +2,24 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import React, { useEffect, useState } from "react";
 import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
-import BookingCard from "../components/bookingCard";
-import Layout from "../components/layouts/SignInLayout";
-import { Button } from "../components/Button";
+import BookingCard from "../../components/bookingCard";
+import Layout from "../../components/layouts/SignInLayout";
+import { Button } from "../../components/Button";
 import {
   getAllAvailableTripAction,
   getAvailableTripAction,
-} from "../state/action/trip.action";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
+} from "../../state/action/trip.action";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Alert, Drawer, Modal } from "antd";
-import { addToMyBookinAction } from "../state/action/booking.action";
-import GeometricPatterns from "../components/GeometricPatterns";
+import { addToMyBookinAction } from "../../state/action/booking.action";
+import GeometricPatterns from "../../components/GeometricPatterns";
 import { FaCaretDown, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
-import { City_interface } from "../interfaces/city_interface";
-import { getAllCityAction } from "../state/action/city.action";
-import { Trip_interface } from "../interfaces/trip_interface";
-import { RootState } from "../state/redux-store";
+import { City_interface } from "../../interfaces/city_interface";
+import { getAllCityAction } from "../../state/action/city.action";
+import { Trip_interface } from "../../interfaces/trip_interface";
+import { RootState } from "../../state/redux-store";
 
 const Bookings = () => {
   enum BookingViews {

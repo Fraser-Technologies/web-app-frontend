@@ -20,9 +20,9 @@ import {
 } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { RootState } from "../../../state/redux-store";
-import { Button } from "../../Button";
-import CreateTripFormComponent from "../components/create-trip-form";
-import EditTripFormComponent from "../components/edit-trip-form";
+import { Button } from "../../../components/Button";
+import CreateTripFormComponent from "../../../components/admin-components/create-trip-form";
+import EditTripFormComponent from "../../../components/admin-components/edit-trip-form";
 
 const TripsOverview: React.FC = () => {
   enum TripOption {

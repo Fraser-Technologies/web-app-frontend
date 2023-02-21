@@ -12,7 +12,7 @@ import { Trip_interface } from "../../../interfaces/trip_interface";
 import { User_interface } from "../../../interfaces/user.interface";
 import { getTripByDriverAction } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
-import { Button } from "../../Button";
+import { Button } from "../../../components/Button";
 
 const AdminDriverOverview: React.FC = () => {
   enum flipType {

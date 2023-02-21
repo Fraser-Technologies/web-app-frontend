@@ -2,12 +2,12 @@
 import { Input, message } from "antd";
 import { useEffect, useState } from "react";
 import { FaCaretDown } from "react-icons/fa";
-import { Bus_interface } from "../../../interfaces/bus_interface";
-import { City_interface } from "../../../interfaces/city_interface";
-import { Trip_interface } from "../../../interfaces/trip_interface";
-import { User_interface } from "../../../interfaces/user.interface";
-import { updateTripAction } from "../../../state/action/trip.action";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { Bus_interface } from "../../interfaces/bus_interface";
+import { City_interface } from "../../interfaces/city_interface";
+import { Trip_interface } from "../../interfaces/trip_interface";
+import { User_interface } from "../../interfaces/user.interface";
+import { updateTripAction } from "../../state/action/trip.action";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import DateField from "./datefield";
 import EndDateField from "./endDateField";
 import EndTimePicker from "./endTimePicker";
@@ -139,28 +139,7 @@ const EditTripFormComponent = ({
 		}
 		dispatch(updateTripAction(trip?._id || "", updateData));
 	};
-
-	const resetAll = () => {
-		setBus("");
-		setStartBusStop("");
-		setArrival_date("");
-		setDestinationBusStopDisplayText("Select Destination Bus Stop");
-		setDestinationCityDisplayText("Select Destination City");
-		setDriverDisplayText("Select Driver");
-		setEndCity("");
-		setPrice("");
-		setStartCityDisplayText("Select Start City");
-		setDriver("");
-		setDriverDisplayText("Select Driver");
-		setStartBusStopDisplayText("Select Start Bus Stop");
-		setStartCity("");
-		setStartCityBusStopList([]);
-		setStopCityBusStopList([]);
-		setTake_off_date("");
-		setTake_off_time("");
-		setVehicleDisplayText("Select Vehicle");
-	};
-
+	
 	useEffect(() => {
 		if (error) {
 			messageApi.open({

@@ -1,9 +1,9 @@
 import React, { useEffect } from "react";
 import { message } from "antd";
-import LeftSidebar from "../components/admin/SideBar";
-import RightSidebar from "../components/admin/Notifications";
+import LeftSidebar from "./admin-pages/SideBar";
+import RightSidebar from "./admin-pages/Notifications";
 import Layout from "../components/layouts/SignInLayout";
-import MiddleSection from "../components/admin/MiddleSection";
+import MiddleSection from "./admin-pages/MiddleSection";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { getAllTripAction } from "../state/action/trip.action";
 import { getAllCityAction } from "../state/action/city.action";
