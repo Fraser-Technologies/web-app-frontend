@@ -36,7 +36,7 @@ const TripsOverview: React.FC = () => {
     MANIFEST = "manifest",
   }
   const dispatch = useAppDispatch();
-  const { loading, trips } = useAppSelector(
+  const { trips } = useAppSelector(
     (state: RootState) => state.allTrip
   );
   const { trip } = useAppSelector((state: RootState) => state.createTrip);
@@ -66,7 +66,7 @@ const TripsOverview: React.FC = () => {
   const totalItems = trips?.length; // total number of items
   const pageCount = Math.ceil(totalItems / itemsPerPage); // total number of pages
   const [menuVisible, setMenuVisible] = useState(false); // ROW ACTION MENU
-  const [messageApi, contextHolder] = message.useMessage();
+  const [messageApi] = message.useMessage();
 
   // function to handle page clicks
   const handlePageClick = (data: any) => {
@@ -161,10 +161,10 @@ const TripsOverview: React.FC = () => {
     }
   }, [TripOption, deletedTrip, dispatch, messageApi]);
 
-  const [selectedData, setIsSelected] = useState("day");
-  const handleFilterToggle = (value: string) => {
-    setIsSelected(value);
-  };
+  // const [selectedData, setIsSelected] = useState("day");
+  // const handleFilterToggle = (value: string) => {
+  //   setIsSelected(value);
+  // };
   const [onboard, setOnboard] = useState(false);
 
   return (

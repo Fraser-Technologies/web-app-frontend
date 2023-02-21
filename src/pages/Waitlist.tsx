@@ -17,7 +17,9 @@ const Waitlist = () => {
   const navigate = useNavigate();
 
   const emailRegex =
-    /^(([^<>()[\]\\.,;:\s@\"]+(\.[^<>()[\]\\.,;:\s@\"]+)*)|(\".+\"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+
+
   const loginValid =
     firstName !== "" &&
     lastName !== "" &&
@@ -212,7 +214,7 @@ const Waitlist = () => {
             </div>
 
             <button
-              className={`w-full p-3 mt-6 text-medium rounded-lg ${
+              className={`w-full p-3 mt-6 text-medium rounded-lg mb-8 ${
                 loginValid ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
               } `}
               type="submit"

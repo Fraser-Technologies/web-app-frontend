@@ -72,62 +72,6 @@ const Checkout = () => {
     initializePayment(onSuccess, onClose);
   };
 
-  //DATE FORMATTING
-  const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-  const [, day, month, year] = myBooking?.take_off_date.match(dateRegex) || [];
-
-  const newDay = String(day);
-  let ordinalDay;
-  if (newDay.endsWith("1")) {
-    ordinalDay = newDay + "st";
-  } else if (newDay.endsWith("2")) {
-    ordinalDay = newDay + "nd";
-  } else if (newDay.endsWith("3")) {
-    ordinalDay = newDay + "rd";
-  } else {
-    ordinalDay = newDay + "th";
-  }
-
-  let monthName;
-  switch (month) {
-    case "01":
-      monthName = "Jan.";
-      break;
-    case "02":
-      monthName = "Feb.";
-      break;
-    case "03":
-      monthName = "Mar.";
-      break;
-    case "04":
-      monthName = "Apr.";
-      break;
-    case "05":
-      monthName = "May";
-      break;
-    case "06":
-      monthName = "June";
-      break;
-    case "07":
-      monthName = "July";
-      break;
-    case "08":
-      monthName = "Aug.";
-      break;
-    case "09":
-      monthName = "Sept.";
-      break;
-    case "10":
-      monthName = "Oct.";
-      break;
-    case "11":
-      monthName = "Nov.";
-      break;
-    case "12":
-      monthName = "Dec.";
-      break;
-  }
-
   useEffect(() => {
     if (!myBooking) {
       navigate(-1);
@@ -211,11 +155,6 @@ const Checkout = () => {
       //   </div>
     );
   }
-
-  const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    console.log(formData);
-  };
 
   return (
     <Layout title="Checkout - Fraser">
