@@ -52,8 +52,8 @@ const Checkout = () => {
 
   const onSuccess = () => {
     dispatch(verifyPaymentAction(myBooking));
-    message.info("Your ride has been successfully booked!");
-    navigate("/");
+    message.info("Your ride has been booked successfully!");
+    navigate("/bookaride");
     dispatch(emptyMyBooking());
   };
 
@@ -68,7 +68,6 @@ const Checkout = () => {
     if (!check) {
       return setShowAlert(true);
     }
-
     initializePayment(onSuccess, onClose);
   };
 
@@ -124,35 +123,6 @@ const Checkout = () => {
           </div>
         </div>
       </Form.Item>
-      //   <div key={i}>
-      //     <label htmlFor={`name-${i}`}>Name {i + 1}:</label>
-      //     <input
-      //       id={`name-${i}`}
-      //       type="text"
-      //       name="name"
-      //       value={formData[i]?.name || ""}
-      //       onChange={(e) => handleInputChange(e, i)}
-      //     />
-      //     <label htmlFor={`phone-${i}`}>Phone {i + 1}:</label>
-      //     <input
-      //       id={`phone-${i}`}
-      //       type="text"
-      //       name="phoneNumber"
-      //       value={formData[i]?.phoneNumber || ""}
-      //       onChange={(e) => handleInputChange(e, i)}
-      //     />
-      //     <Input
-      //       id={`name-${i}`}
-      //       className="w-full h-10 hover:border-green-500 active:border-green-600 focus:border-green-600"
-      //       placeholder="Passenger Name"
-      //       type="text"
-      //       value={formData[i]?.name || ""}
-      //       required={true}
-      //       onChange={(e) => {
-      //         handleInputChange(e, i);
-      //       }}
-      //     />
-      //   </div>
     );
   }
 

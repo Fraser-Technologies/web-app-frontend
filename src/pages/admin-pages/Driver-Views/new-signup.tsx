@@ -235,8 +235,7 @@ const NewSignUps: React.FC = () => {
                 <div className="text-xs">{modalData?.email}</div>
                 {/* //LICENSE NUMBER */}
                 <div className="text-xs">
-                  WE didn't collect the driver license number when they are
-                  registering
+                  {modalData?.driver_license}
                 </div>
               </div>
             </div>

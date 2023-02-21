@@ -191,58 +191,7 @@ const TripsOverview: React.FC = () => {
 
         {/* DATA */}
         <div className="bg-black rounded-md py-3 px-4 my-4 ">
-          {/* <div className="m-auto text-white  mb-4 justify-between flex w-1/3">
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "day"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("day")}
-            >
-              Day
-            </div>
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "week"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("week")}
-            >
-              Week
-            </div>
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "month"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("month")}
-            >
-              Month
-            </div>
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "6 months"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("6 months")}
-            >
-              6 Months
-            </div>
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "year"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("year")}
-            >
-              Year
-            </div>
-          </div> */}
+          
           <div className="justify-evenly mb-4 pt-6 flex w-full">
             <div className="text-center">
               <p className="text-gray-400">Total Trips Executed </p>
@@ -443,72 +392,7 @@ const TripsOverview: React.FC = () => {
           <CreateTripFormComponent />
         </Modal>
       )}
-      {/* {flip === TripOption.REVIEW && modalVisible && (
-				<Modal
-					title={
-						<div className="text-xs font-medium boder-b">Trip Details</div>
-					}
-					onOk={handleOk}
-					onCancel={handleCancel}
-					open={modalVisible}
-					centered={true}
-					footer={false}
-					closable={true}>
-					<div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
-						<div>
-							<div className="mb-1  text-gray-400">Start</div>
-							<div className="text-xs">Start City </div>
-						</div>
-
-						<div>
-							<div className="mb-1  text-gray-400">Destination</div>
-							<div className="text-xs">Destination City</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Start Bus Stop</div>
-							<div className="text-xs">Start Bus Stop</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">
-								Destination Bus Stop
-							</div>
-							<div className="text-xs">Destination Bus Stop</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Departure Time</div>
-							<div className="text-xs">Time</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Date</div>
-							<div className="text-xs">Date</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Driver</div>
-							<div className="text-xs">Driver</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Vehicle</div>
-							<div className="text-xs">Vehicle</div>
-						</div>
-					</div>
-					<Button
-						title="Continue"
-						type="submit"
-						className="w-full px-4 py-4  rounded-md bg-primary-100"
-						onClick={() => {
-							setFlip(TripOption.SUCCESS);
-						}}
-					/>
-					<Button
-						title="Edit"
-						type="submit"
-						className="w-full px-4 py-4 mt-4 mb-6  text-gray-500 border border-gray-500 rounded-md"
-						onClick={() => {
-							setFlip(TripOption.CREATE);
-						}}
-					/>
-				</Modal>
-			)} */}
+      
       {flip === TripOption.SUCCESS && modalVisible && (
         <Modal
           onOk={handleOk}

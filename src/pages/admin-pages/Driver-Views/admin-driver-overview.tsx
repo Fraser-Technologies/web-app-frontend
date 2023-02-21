@@ -23,9 +23,7 @@ const AdminDriverOverview: React.FC = () => {
   const dispatch = useAppDispatch();
 
   const [modalData, setModalData] = useState<User_interface>();
-  const { drivers, loading, error } = useAppSelector(
-    (state: any) => state?.allDriver
-  );
+  const { drivers } = useAppSelector((state: any) => state?.allDriver);
   const {
     trips: byDriverTrip,
     loading: byDriverLoading,
@@ -70,7 +68,10 @@ const AdminDriverOverview: React.FC = () => {
     dispatch(getTripByDriverAction(driver?._id));
   };
 
-  const [visible, setStateModalVisible] = useState<boolean>(false);
+  const [activeView, setIsActive] = useState("history");
+  const handleViewToggle = (value: string) => {
+    setIsActive(value);
+  };
 
   const handleOk = () => {
     setModalVisible(false);
@@ -281,47 +282,199 @@ const AdminDriverOverview: React.FC = () => {
           closable={true}
         >
           <div className="h-5/6">
-            <div className="py-8 text-center">
-              <div className="mb-2 text-lg font-medium">
-                {modalData?.first_name} {modalData?.last_name}
-              </div>
-              <div className="text-[#949292]">{modalData?.email}</div>
-              <div className="text-[#949292]">{modalData?.phone}</div>
+            <div className="flex mt-8">
+              <img
+                src={modalData?.image}
+                alt=""
+                className=" w-[72px] h-[72px]"
+              />
 
-              <div className="bg-[#FAD0D0] text-[#E71D36] mt-2 py-2 text-center rounded-md">
-                {modalData?.available}
+              <div className="ml-4">
+                <div className="text-lg font-medium">
+                  {`${modalData?.first_name} ${modalData?.last_name}`}
+                </div>
+                <div className="text-xs">{modalData?.email}</div>
+                {/* //LICENSE NUMBER */}
+                {/* <div className="text-xs">{modalData?.driver_license}</div> */}
               </div>
             </div>
 
-            <div>
-              <div className="text-lg font-medium">Trip History</div>
+            {/* <div className="bg-[#FAD0D0] text-[#E71D36] mt-2 py-2 text-center rounded-md">
+              {modalData?.available}
+            </div> */}
 
-              {byDriverTrip?.map((trip: Trip_interface) => {
-                return (
-                  <div
-                    className="flex justify-between py-2 my-4 overflow-hidden text-gray-800 border-b"
-                    key={trip?._id}
-                  >
-                    <div className="flex">
-                      <div className="mt-2 mr-4">
-                        <FaBus />
+            <div className="mt-8">
+              <div className="inline-flex rounded-md" role="group">
+                <button
+                  onClick={() => handleViewToggle("history")}
+                  type="button"
+                  className={`inline-flex items-center py-2 px-6 font-medium  ${
+                    activeView === "history"
+                      ? "bg-primary-100 font-semibold text-black"
+                      : "text-gray-400 font-normal bg-gray-50"
+                  }`}
+                >
+                  Trips History
+                </button>
+
+                <button
+                  onClick={() => handleViewToggle("upcoming")}
+                  type="button"
+                  className={`inline-flex items-center py-2 px-8 font-medium  ${
+                    activeView === "upcoming"
+                      ? "bg-primary-100 font-semibold text-black"
+                      : "text-gray-400 font-normal bg-gray-50"
+                  }`}
+                >
+                  Upcoming Trips
+                </button>
+
+                <button
+                  onClick={() => handleViewToggle("details")}
+                  type="button"
+                  className={`inline-flex items-center py-2 px-8 font-medium  ${
+                    activeView === "details"
+                      ? "bg-primary-100 font-semibold text-black"
+                      : "text-gray-400 font-normal bg-gray-50"
+                  }`}
+                >
+                  Driver Details
+                </button>
+              </div>
+              {activeView === "history" &&
+                byDriverTrip
+                  ?.filter(
+                    (trip: Trip_interface) => trip?.completed_status === true
+                  )
+                  .map((trip: Trip_interface) => {
+                    return (
+                      <div
+                        className="flex justify-between py-2 my-4 overflow-hidden text-gray-800 border-b"
+                        key={trip?._id}
+                      >
+                        <div className="flex w-full items-center">
+                          <div className=" mr-4">
+                            <FaBus />
+                          </div>
+                          <div className="flex w-full items-center justify-between">
+                            <div className="text-lg font-semibold truncate">
+                              {trip?.travel_destination?.from?.city?.city} to{" "}
+                              {trip?.travel_destination?.to?.city?.city}
+                            </div>
+                            <div>
+                              <div className="text-[#949292] text-xs">
+                                {trip?.take_off_date}
+                              </div>
+                              <div className="text-[#949292] text-xs place-content-end">
+                                {trip?.take_off_time} to {trip?.arrival_time}
+                              </div>
+                            </div>
+                          </div>
+                        </div>
                       </div>
-                      <div>
-                        <div className="text-base truncate">
-                          {trip?.travel_destination?.from?.city?.city} to{" "}
-                          {trip?.travel_destination?.to?.city?.city}
+                    );
+                  })}
+              {activeView === "upcoming" &&
+                byDriverTrip
+                  ?.filter(
+                    (trip: Trip_interface) => trip?.completed_status === false
+                  )
+                  .map((trip: Trip_interface) => {
+                    return (
+                      <div
+                        className="flex justify-between py-2 my-4 overflow-hidden text-gray-800 border-b"
+                        key={trip?._id}
+                      >
+                        <div className="flex w-full items-center">
+                          <div className=" mr-4">
+                            <FaBus />
+                          </div>
+                          <div className="flex w-full items-center justify-between">
+                            <div className="text-lg font-semibold truncate">
+                              {trip?.travel_destination?.from?.city?.city} to{" "}
+                              {trip?.travel_destination?.to?.city?.city}
+                            </div>
+                            <div>
+                              <div className="text-[#949292] text-xs">
+                                {trip?.take_off_date}
+                              </div>
+                              <div className="text-[#949292] text-xs place-content-end">
+                                {trip?.take_off_time} to {trip?.arrival_time}
+                              </div>
+                            </div>
+                          </div>
                         </div>
-                        <div className="text-[#949292] text-xs">
-                          {trip?.take_off_date}
-                        </div>
+                      </div>
+                    );
+                  })}
+              {activeView === "details" && (
+                <div>
+                  <div className="grid grid-cols-2 gap-2 pb-8 mt-6">
+                    <div className="rounded-md py-2 px-4">
+                      <div className="mb-1 text-gray-400">Mobile Number</div>
+                      <div className="text-base font-medium">{modalData?.phone}</div>
+                    </div>
+                    <div className="rounded-md py-2 px-4">
+                      <div className="mb-1 text-gray-400">Primary Location</div>
+                      <div className="text-base font-medium">{modalData?.location}</div>
+                    </div>
+                    <div className="rounded-md py-2 px-4">
+                      <div className="mb-1 text-gray-400">
+                        Bus Make and Model
+                      </div>
+                      <div className="text-base font-medium">
+                        {` ${modalData?.bus?.make} ${modalData?.bus?.model}	`}
                       </div>
                     </div>
-                    <div className="text-base font-medium">
-                      {trip?.driver?.first_name}
+                    <div className="rounded-md py-2 px-4">
+                      <div className="mb-1 text-gray-400">
+                        Vehicle Registration
+                      </div>
+                      <div className="text-base font-medium">
+                        {modalData?.bus?.registration_number}
+                      </div>
                     </div>
                   </div>
-                );
-              })}
+                  <div className="rounded-md py-2 px-4 pb-8">
+                    <div className="mb-1 text-gray-400">
+                      Banking Information
+                    </div>
+                    <div className="text-xs text-black">
+                      {modalData?.balance?.user_banks_details?.bank_name}
+                    </div>
+                    <div className="text-xs">
+                      {modalData?.balance?.user_banks_details?.account_number}
+                    </div>
+                  </div>
+
+                  <div className="bg-[#fcfcfc] rounded-md py-2 px-4 mt-4">
+                    <div className="mb-1 text-gray-400">Drivers License</div>
+                    <img
+                      src={modalData?.driver_license}
+                      alt=""
+                      className="ml-4 w-[48px] h-[48px]"
+                    />
+                  </div>
+                  <div className="bg-[#fcfcfc] rounded-md py-2 px-4 mt-4">
+                    <div className="mb-1 text-gray-400">Proof of Insurance</div>
+                    <img
+                      src={modalData?.bus?.bus_insurance}
+                      alt=""
+                      className="ml-4 w-[48px] h-[48px]"
+                    />
+                  </div>
+                  <div className="bg-[#fcfcfc] rounded-md py-2 px-4 mt-4">
+                    <div className="mb-1 text-gray-400">
+                      Road Worthiness Certificate
+                    </div>
+                    <img
+                      src={modalData?.bus?.road_worthiness_cert}
+                      alt=""
+                      className="ml-4 w-[48px] h-[48px]"
+                    />
+                  </div>
+                </div>
+              )}
             </div>
           </div>
         </Modal>
@@ -389,7 +542,6 @@ const AdminDriverOverview: React.FC = () => {
             className="w-full py-2 mt-8 text-xs rounded-md bg-[#00FF6A] text-black"
             onClick={() => {
               setModalVisible(false);
-              setStateModalVisible(false);
             }}
           />
         </Modal>

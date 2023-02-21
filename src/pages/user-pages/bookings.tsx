@@ -493,20 +493,7 @@ const Bookings = () => {
                     })
                   )}
 
-                  {/* {availableTripData?.length === 0 && (
-                  <Alert
-                    type="info"
-                    message="Sorry there are no available trips to the destination selected"
-                  />
-                )}
-                {availableTripError && (
-                  <Alert
-                    message="An error occured"
-                    description={availableTripError}
-                    type="error"
-                    showIcon
-                  />
-                )} */}
+                  
                 </div>
               </div>
             </div>

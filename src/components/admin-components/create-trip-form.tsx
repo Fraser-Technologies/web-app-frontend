@@ -456,10 +456,10 @@ const CreateTripFormComponent = () => {
                       (d: User_interface) =>
                         d?.driver_verification_status === true
                     )
-                    .filter(
-                      (e: User_interface) =>
-                        e?.location === startCityDisplayText
-                    )
+                    // .filter(
+                    //   (e: User_interface) =>
+                    //     e?.location === startCityDisplayText
+                    // )
                     .map((driver: User_interface) => {
                       return (
                         <a
