@@ -34,7 +34,7 @@ export const Header = () => {
           />
         </div>
         <div className="flex-col items-center justify-center w-full mt-24 space-y-8 text-white">
-          <Link to="/">
+          <Link to="/bookaride">
             <h1 className="mb-4 text-[20px] font-semibold ">Home</h1>
           </Link>
           <h1
@@ -119,7 +119,7 @@ export const Header = () => {
             {getList()}
           </Drawer>
           <div>
-            <Link to="/" className="text-white ">
+            <Link to="/bookaride" className="text-white ">
               <img
                 src="/assets/images/fraser-white-logo.svg"
                 alt="Fraser Logo"
@@ -129,7 +129,7 @@ export const Header = () => {
           </div>
         </div>
         <div className="items-center justify-between hidden space-x-12 md:flex">
-          <Link to="/" className="text-white ">
+          <Link to="/bookaride" className="text-white ">
             Home
           </Link>
           {userInfo && (
