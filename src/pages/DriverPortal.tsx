@@ -8,7 +8,7 @@ import { useNavigate } from "react-router-dom";
 import { _paths_ } from "../utils/appHelpers";
 import { Alert } from "antd";
 import { userLoginAction } from "../state/action/user.action";
-import Layout from "../components/layouts/SignInLayout";
+import DriverLayout from "../components/layouts/DriverLayout";
 
 const DriverPortal = () => {
 	const navigate = useNavigate();
@@ -31,10 +31,8 @@ const DriverPortal = () => {
 	}, [userInfo]);
 
 	return (
-		<Layout title="Driver Portal">
+		<DriverLayout title="Driver Portal">
 			<div className="w-full h-full bg-white">
-				<DriverHeader onViewChange={handleViewChange} />
-
 				{!userInfo?.driver_verification_status && (
 					<Alert
 						type="info"
@@ -44,7 +42,7 @@ const DriverPortal = () => {
 				{selectedView === "overview" && <DriverOverview />}
 				{selectedView === "revenue" && <DriverRevenueOverview />}
 			</div>
-		</Layout>
+		</DriverLayout>
 	);
 };
 

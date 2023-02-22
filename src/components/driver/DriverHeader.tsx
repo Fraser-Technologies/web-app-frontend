@@ -8,13 +8,13 @@ type Props = {
 	onViewChange: (value: string) => void;
 };
 
-const DriverHeader = (props: Props) => {
+const DriverHeader = () => {
 	const dispatch = useAppDispatch();
 	const { userInfo } = useAppSelector((state: any) => state.userLogin);
 	const [activeView, setIsActive] = useState("overview");
 	const handleToggle = (value: string) => {
 		setIsActive(value);
-		props.onViewChange(value);
+		// props.onViewChange(value);
 	};
 	const items: MenuProps["items"] = [
 		{
@@ -28,7 +28,7 @@ const DriverHeader = (props: Props) => {
 					onClick={() => {
 						dispatch(logoutUserAction());
 					}}>
-					Logout
+					<p className="w-full">Logout</p>
 				</span>
 			),
 		},
