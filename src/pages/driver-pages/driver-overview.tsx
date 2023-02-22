@@ -7,6 +7,8 @@ import {
 	FaCheck,
 	FaMinusCircle,
 	FaChevronRight,
+	FaPlay,
+	FaBook,
 } from "react-icons/fa";
 import { Button } from "../../components/Button";
 import moment from "moment";
@@ -23,7 +25,6 @@ import {
 } from "../../state/action/trip.action";
 import { Booking_interface } from "../../interfaces/Booking_interface";
 import { getBalanceByUserAction } from "../../state/action/balance.action";
-import { getTheLatestByDate } from "../../utils/getTheLatestTripByDate";
 
 const DriverOverview = () => {
 	enum DriverViews {
@@ -117,14 +118,8 @@ const DriverOverview = () => {
 			dispatch(getTripByDriverAction(userInfo?._id));
 		}
 	}, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
-
-	useEffect(() => {
-		if (onBoardedTrip?._id) {
-			setModalData(getTheLatestByDate(trips));
-		}
-	}, [onBoardedTrip, trips]);
 	return (
-		<div className="pt-32">
+		<div className="pt-28 lg:pt-32">
 			<div className="fixed bottom-0 flex items-center w-full mb-4 lg:hidden place-content-center">
 				<div className="flex w-5/6 px-1 text-white bg-black rounded-md">
 					<div
@@ -138,6 +133,18 @@ const DriverOverview = () => {
 						}}>
 						Schedule
 					</div>
+
+					<div
+						className={`text-center w-1/3 py-3 px-4 mx-1 my-2 rounded-md ${
+							selection === "Info"
+								? "bg-[#00FF6A] text-black"
+								: "text-[#929292]"
+						}`}
+						onClick={() => {
+							setSelection("Info");
+						}}>
+						Trips{" "}
+					</div>
 					<div
 						className={`text-center w-1/3 py-3 px-4 mx-1 my-2 rounded-md ${
 							selection === "History"
@@ -150,23 +157,12 @@ const DriverOverview = () => {
 						{" "}
 						History{" "}
 					</div>
-					<div
-						className={`text-center w-1/3 py-3 px-4 mx-1 my-2 rounded-md ${
-							selection === "Info"
-								? "bg-[#00FF6A] text-black"
-								: "text-[#929292]"
-						}`}
-						onClick={() => {
-							setSelection("Info");
-						}}>
-						Info{" "}
-					</div>
 				</div>
 			</div>
 
 			<div className="lg:mx-[120px] pb-24 lg:pb-0 text-[13px]">
 				<div className="lg:grid lg:grid-cols-8 lg:gap-8">
-					<div className={`col-start-1 text-black col-end-6`}>
+					<div className={`col-start-1 text-black col-end-6 lg:mr-12`}>
 						<div
 							className={`${
 								selection === "Schedule" ? "block mx-[18px] lg:mx-0" : "hidden"
@@ -184,11 +180,11 @@ const DriverOverview = () => {
 									/>
 								)}
 							</Space>
-							<p className="pb-2 text-lg font-medium mb:text-base">
+							<p className="pb-1 text-lg font-medium mb:text-base">
 								Upcoming Trip Schedule
 							</p>
 
-							<div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 pt-2 rounded-md">
+							<div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 rounded-md">
 								<div className="p-4 bg-black rounded-md lg:p-0 ">
 									<p className="border-b text-[14px] lg: border-[#353535] py-2">
 										Outbound Schedule
@@ -211,12 +207,12 @@ const DriverOverview = () => {
 										.slice(0, 1)
 										.map((trip: Trip_interface) => {
 											return (
-												<div className="items-center justify-between lg:flex lg:mt-3">
+												<div className="items-center justify-between lg:flex lg:mt-2">
 													<div className="py-3 rounded-md lg:py-0">
-														<p className="text-xl text-white lg:text-xl">
+														<p className="text-xl text-white lg:text-base">
 															{`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
 														</p>
-														<div className="flex mt-1">
+														<div className="flex mt-2 lg:mt-0">
 															<div className="flex items-center mt-1 mr-4">
 																<FaCalendar className="mr-2" />
 																{trip?.take_off_date}
@@ -226,8 +222,10 @@ const DriverOverview = () => {
 																{trip?.take_off_time}
 															</div>
 														</div>
+
+														{/* SEE MORE IS HIDDEN ON RESPONSIVE VIEW */}
 														<div
-															className="text-[12px] text-[#00FF6A] mt-4 cursor-pointer hidden lg:block"
+															className="text-[10px] text-[#00FF6A] mt-3 cursor-pointer hidden lg:block"
 															onClick={() => {
 																handleOpenModal(trip, "tripinformation");
 															}}>
@@ -235,11 +233,11 @@ const DriverOverview = () => {
 														</div>
 													</div>
 
-													<div className="w-full mt-6 mb-2 lg:flex lg:mb-0 lg:mt-0 lg:w-2/4">
+													<div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
 														<Button
 															title="View Manifest"
 															type="submit"
-															className="w-full h-[48px] lg:h-[40px] mr-4 my-1 mb-3 lg:mb-0 rounded-md border border-[#ffffff] text-white"
+															className="lg:block hidden w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
 															onClick={() => {
 																handleOpenModal(trip, "manifest");
 															}}
@@ -249,7 +247,7 @@ const DriverOverview = () => {
 																trip?.has_started ? "End Trip" : "Start Trip"
 															}
 															type="submit"
-															className={`w-full h-[48px] lg:h-[40px] my-1 lg:mr-4 rounded-md ${
+															className={`lg:block hidden w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md ${
 																trip?.has_started
 																	? "bg-[#E71D36] text-white"
 																	: "bg-[#00FF6A] text-black"
@@ -265,6 +263,48 @@ const DriverOverview = () => {
 																}
 															}}
 														/>
+
+														{/* RESPONSIVE MENU ICONS FOR TRIP SCHEDULE CARD */}
+														<div
+															className="w-full  lg:hidden h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+															onClick={() => {
+																handleOpenModal(trip, "manifest");
+															}}>
+															<div className="flex flex-col items-center m-auto">
+																<FaBook className="m-auto mt-1 mb-2 text-white" />
+																Manifest
+															</div>
+														</div>
+														<div
+															className={`w-full  lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md cursor-pointer block lg:hidden flex flex-col items-center  ${
+																startOutBoundTrip
+																	? "bg-[#E71D36] text-white"
+																	: "bg-[#161616]"
+															}`}
+															onClick={() => {
+																if (!startOutBoundTrip) {
+																	handleOpenModal(trip, "startOutBoundTrip");
+																}
+																if (startOutBoundTrip) {
+																	handleOpenModal(trip, "endoutboundtrip");
+																}
+															}}>
+															<div
+																className={`m-auto flex flex-col items-center`}>
+																<FaPlay className="m-auto mt-1 mb-2 text-white" />
+																{startOutBoundTrip ? "End Trip" : "Start Trip"}
+															</div>
+														</div>
+														<div
+															className="w-full h-[56px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#161616] lg:bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
+															onClick={() => {
+																handleOpenModal(trip, "tripinformation");
+															}}>
+															<div className="flex flex-col items-center m-auto">
+																<FaChevronRight className="m-auto mt-1 mb-2 text-white" />
+																View Details
+															</div>
+														</div>
 													</div>
 												</div>
 											);
@@ -274,7 +314,7 @@ const DriverOverview = () => {
 								{/* RETURN */}
 								<div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black pb-4 pt-2 rounded-md">
 									<div className="p-4 bg-black rounded-md lg:p-0 ">
-										<p className="border-b text-[14px] lg: border-[#353535] py-2">
+										<p className="border-b text-[14px] lg:text-sm border-[#353535] py-2">
 											Return Schedule
 										</p>
 										{trips
@@ -290,7 +330,7 @@ const DriverOverview = () => {
 															<p className="text-xl text-white lg:text-base">
 																{`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
 															</p>
-															<div className="flex mt-2 lg:mt-4">
+															<div className="flex mt-2 lg:mt-0">
 																<div className="flex items-center mt-1 mr-4">
 																	<FaCalendar className="mr-2" />
 																	{trip?.take_off_date}
@@ -301,7 +341,7 @@ const DriverOverview = () => {
 																</div>
 															</div>
 															<div
-																className="text-[10px] text-[#00FF6A] mt-2 cursor-pointer hidden lg:block"
+																className="text-[10px] text-[#00FF6A] mt-3 cursor-pointer hidden lg:block"
 																onClick={() => {
 																	handleOpenModal(trip, "tripinformation");
 																}}>
@@ -313,7 +353,7 @@ const DriverOverview = () => {
 															<Button
 																title="View Manifest"
 																type="submit"
-																className="w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
+																className="lg:block hidden w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
 																onClick={() => {
 																	handleOpenModal(trip, "manifest");
 																}}
@@ -323,7 +363,7 @@ const DriverOverview = () => {
 																	startReturnTrip ? "End Trip" : "Start Trip"
 																}
 																type="submit"
-																className={`w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md ${
+																className={`lg:block hidden w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md  ${
 																	startReturnTrip
 																		? "bg-[#E71D36] text-white"
 																		: "bg-[#00FF6A] text-black"
@@ -337,12 +377,46 @@ const DriverOverview = () => {
 																	}
 																}}
 															/>
+															{/* RESPONSIVE MENU ICONS FOR TRIP SCHEDULE CARD */}
 															<div
-																className="w-full h-[48px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
+																className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+																onClick={() => {
+																	handleOpenModal(trip, "manifest");
+																}}>
+																<div className="flex flex-col items-center m-auto">
+																	<FaBook className="m-auto mt-1 mb-2 text-white" />
+																	Manifest
+																</div>
+															</div>
+															<div
+																className={`w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md cursor-pointer block lg:hidden flex flex-col items-center ${
+																	startReturnTrip
+																		? "bg-[#E71D36] text-white"
+																		: "bg-[#161616]"
+																}`}
+																onClick={() => {
+																	if (!startReturnTrip) {
+																		handleOpenModal(trip, "startReturnTrip");
+																	}
+																	if (startReturnTrip) {
+																		handleOpenModal(trip, "endreturntrip");
+																	}
+																}}>
+																<div
+																	className={`m-auto flex flex-col items-center `}>
+																	<FaPlay className="m-auto mt-1 mb-2 text-white" />
+																	{startReturnTrip ? "End Trip" : "Start Trip"}
+																</div>
+															</div>
+															<div
+																className="w-full h-[56px] lg:h-[40px] my-1 lg:mr-4  text-xs rounded-md bg-[#161616] lg:bg-[#00FF6A] cursor-pointer block lg:hidden flex items-center"
 																onClick={() => {
 																	handleOpenModal(trip, "tripinformation");
 																}}>
-																<FaChevronRight className="m-auto text-black" />
+																<div className="flex flex-col items-center m-auto">
+																	<FaChevronRight className="m-auto mt-1 mb-2 text-white" />
+																	View Details
+																</div>
 															</div>
 														</div>
 													</div>
@@ -360,7 +434,7 @@ const DriverOverview = () => {
 									? "block lg:mt-8 mx-[18px] lg:mx-0"
 									: "hidden"
 							} lg:block`}>
-							<p className="pb-2 text-lg font-medium lg:mt-8 mb:text-base">
+							<p className="pb-2 mt-6 text-lg font-medium lg:mt-8 mb:text-base">
 								Trip History
 							</p>
 							{trips.filter(
@@ -375,7 +449,7 @@ const DriverOverview = () => {
 									className="w-full"
 								/>
 							) : (
-								<table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
+								<table className="w-full mt-2 font-normal text-left text-white table-auto lg:text-base">
 									<thead className="bg-black ">
 										<tr>
 											<th
@@ -394,7 +468,7 @@ const DriverOverview = () => {
 
 											<th
 												scope="col"
-												className="px-2 py-4 text-sm font-normal text-center rounded-r-md">
+												className="px-2 py-4 font-normal text-center rounded-r-md">
 												Earning
 											</th>
 										</tr>
@@ -451,12 +525,12 @@ const DriverOverview = () => {
 
 					{/* COLUM ON RIGHT */}
 					<div
-						className={` col-start-6 col-end-9 text-black border rounded-md  ${
+						className={` col-start-6 mt-6 lg:mt-0 col-end-9 overflow-y-scroll h-[70vh] lg:h-[80vh] text-black border bg-white lg:fixed lg:w-2/6 right-0 lg:mr-[120px] rounded-md  ${
 							selection === "Info"
 								? "block lg:mt-8 mx-[18px] lg:mx-0"
 								: "hidden"
 						} lg:block`}>
-						<div className="flex px-4 pt-4 pb-6 text-white bg-black border-b rounded-t-md">
+						<div className="flex px-4 pt-4 pb-6 text-white bg-black border-b lg:fixed lg:w-2/6 rounded-t-md">
 							<div className="">
 								<p className="text-sm mb-2 font-normal text-[#929292]">
 									Trips Completed
@@ -477,7 +551,7 @@ const DriverOverview = () => {
 								</h3>
 							</div>
 						</div>
-						<div className="w-full px-4 pt-4 pb-4 rounded-mdlg">
+						<div className="w-full px-4 pt-4 pb-4 rounded-md lg:mt-24 lg">
 							<div className="mb-8">
 								<h3 className="mb-4 text-base font-medium">
 									Your Upcoming Trips

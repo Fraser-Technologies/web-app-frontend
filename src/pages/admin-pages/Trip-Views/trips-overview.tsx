@@ -13,6 +13,7 @@ import { Trip_interface } from "../../../interfaces/trip_interface";
 import {
 	deleteTripByIdAction,
 	getAllTripAction,
+	getTripByDriverAction,
 	resetDeleteTripAction,
 	resetUpdateTripAction,
 	unverifyPassangerOnboardAction,
@@ -24,6 +25,7 @@ import { Button } from "../../../components/Button";
 import CreateTripFormComponent from "../../../components/admin-components/create-trip-form";
 import EditTripFormComponent from "../../../components/admin-components/edit-trip-form";
 import { getTheLatestByDate } from "../../../utils/getTheLatestTripByDate";
+import { getBalanceByUserAction } from "../../../state/action/balance.action";
 
 const TripsOverview: React.FC = () => {
 	enum TripOption {
@@ -45,6 +47,7 @@ const TripsOverview: React.FC = () => {
 	const { trip: deletedTrip, loading: deleteLoading } = useAppSelector(
 		(state: RootState) => state.deleteTrip
 	);
+	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
 	const { trip: onBoardedTrip } = useAppSelector(
 		(state: RootState) => state.verifyPassangerOnboard
 	);
@@ -52,7 +55,7 @@ const TripsOverview: React.FC = () => {
 		(state: RootState) => state.unverifyPassengerOnboard
 	);
 	const [currentPage, setCurrentPage] = useState<number>(0);
-	const [modalData, setModalData] = useState<Trip_interface>();
+	const [modalData, setModalData] = useState<Trip_interface | any>();
 	const [flip, setFlip] = useState<
 		| ""
 		| TripOption.CREATE
@@ -166,10 +169,6 @@ const TripsOverview: React.FC = () => {
 		}
 	}, [TripOption, deletedTrip, dispatch, messageApi]);
 
-	// const [selectedData, setIsSelected] = useState("day");
-	// const handleFilterToggle = (value: string) => {
-	//   setIsSelected(value);
-	// };
 	const [onboard, setOnboard] = useState(false);
 
 	useEffect(() => {
@@ -177,6 +176,21 @@ const TripsOverview: React.FC = () => {
 			setModalData(getTheLatestByDate(trips));
 		}
 	}, [onBoardedTrip, trips]);
+
+	useEffect(() => {
+		dispatch(getTripByDriverAction(userInfo?._id));
+	}, [dispatch, onBoardedTrip, userInfo, unBoardedTrip]);
+
+	useEffect(() => {
+		dispatch(getBalanceByUserAction());
+	}, [dispatch]);
+
+	useEffect(() => {
+		dispatch(resetUpdateTripAction());
+		if (trip || onBoardedTrip || unBoardedTrip) {
+			dispatch(getTripByDriverAction(userInfo?._id));
+		}
+	}, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
 
 	return (
 		<div className="px-4 pt-12">
@@ -519,13 +533,12 @@ const TripsOverview: React.FC = () => {
 							Passenger Manifest
 						</div>
 						<div className="my-1 text-gray-400">
-							{`${modalData?.bookings?.length} Passengers, ${
-								modalData?.verified_passengers_onboard?.length
-							} Onboard, ${
-								(modalData?.bus?.capacity || 0) -
-								(modalData?.bookings?.length || 0)
-							}
-							 Not board `}
+							{modalData?.bookings.length} Passengers,{" "}
+							{modalData?.verified_passengers_onboard?.length}
+							Onboard,{" "}
+							{modalData?.bookings?.length -
+								modalData?.verified_passengers_onboard?.length}{" "}
+							Not Onboard
 						</div>
 						<table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
 							<thead className="bg-black">
