@@ -17,30 +17,12 @@
 
 }
 
-p {
-    font-size: 22px;
-    font-weight: 300;
-    color: var(--sWhite);
-}
 
-.waitlist-body {
-    background-color: var(--black);
-    height: 100vh;
-}
 
-.container {
-    background-color: var(--black);
-    height: 100vh;
-    overflow: hidden;
-    width: 100%;
-    max-width: 1920px;
-    max-height: 1080px;
-    /* background-color: yellow; */
-}
 
 .wrapper {
     text-align: center;
-    max-width: 1920px;
+    /* max-width: 1920px; */
     margin: auto;
     width: 100%;
 
@@ -52,7 +34,7 @@ p {
 }
 
 .logo-wrapper {
-    max-width: 1920px;
+    /* max-width: 1920px; */
     z-index: 32;
     display: flex;
     font-size: 14px;
@@ -140,22 +122,6 @@ p {
     /* box-shadow: inset; */
 }
 
-.Button {
-    background-color: var(--green);
-    color: var(--black);
-    padding: 24px 72px;
-    font-size: 18px;
-    font-weight: 500;
-    border: none;
-    outline: none;
-    border-radius: 8px;
-    margin-top: 40px;
-    margin-bottom: 24px;
-}
-
-.Button:hover{
-    background-color: #0be466;
-}
 
 .modal {
     position: fixed;

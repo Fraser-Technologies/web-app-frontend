@@ -1,6 +1,5 @@
-import { Modal, Alert, Switch, Space } from "antd";
-import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
-import React, { useEffect, useState } from "react";
+import { Modal, Alert, Space } from "antd";
+import { useEffect, useState } from "react";
 import {
 	FaStar,
 	FaClock,
@@ -9,7 +8,7 @@ import {
 	FaMinusCircle,
 	FaChevronRight,
 } from "react-icons/fa";
-import { Button } from "../Button";
+import { Button } from "../../components/Button";
 import moment from "moment";
 import { RootState } from "../../state/redux-store";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
@@ -24,6 +23,7 @@ import {
 } from "../../state/action/trip.action";
 import { Booking_interface } from "../../interfaces/Booking_interface";
 import { getBalanceByUserAction } from "../../state/action/balance.action";
+import { getTheLatestByDate } from "../../utils/getTheLatestTripByDate";
 
 const DriverOverview = () => {
 	enum DriverViews {
@@ -117,10 +117,16 @@ const DriverOverview = () => {
 			dispatch(getTripByDriverAction(userInfo?._id));
 		}
 	}, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
+
+	useEffect(() => {
+		if (onBoardedTrip?._id) {
+			setModalData(getTheLatestByDate(trips));
+		}
+	}, [onBoardedTrip, trips]);
 	return (
 		<div className="pt-32">
-			<div className="fixed lg:hidden mb-4 bottom-0 w-full flex items-center place-content-center">
-				<div className="flex w-5/6 bg-black rounded-md text-white px-1">
+			<div className="fixed bottom-0 flex items-center w-full mb-4 lg:hidden place-content-center">
+				<div className="flex w-5/6 px-1 text-white bg-black rounded-md">
 					<div
 						className={`text-center w-1/3 py-3 px-4 mx-1 my-2 rounded-md ${
 							selection === "Schedule"
@@ -165,7 +171,7 @@ const DriverOverview = () => {
 							className={`${
 								selection === "Schedule" ? "block mx-[18px] lg:mx-0" : "hidden"
 							} `}>
-							<Space direction="vertical" className="mb-4 w-full">
+							<Space direction="vertical" className="w-full mb-4">
 								{visible && (
 									<Alert
 										className=""
@@ -178,7 +184,7 @@ const DriverOverview = () => {
 									/>
 								)}
 							</Space>
-							<p className="text-lg mb:text-base font-medium pb-2">
+							<p className="pb-2 text-lg font-medium mb:text-base">
 								Upcoming Trip Schedule
 							</p>
 
@@ -354,7 +360,7 @@ const DriverOverview = () => {
 									? "block lg:mt-8 mx-[18px] lg:mx-0"
 									: "hidden"
 							} lg:block`}>
-							<p className="text-lg lg:mt-8 mb:text-base font-medium pb-2">
+							<p className="pb-2 text-lg font-medium lg:mt-8 mb:text-base">
 								Trip History
 							</p>
 							{trips.filter(
@@ -374,21 +380,21 @@ const DriverOverview = () => {
 										<tr>
 											<th
 												scope="col"
-												className="px-2 py-4 pl-4  font-normal rounded-l-md lg">
+												className="px-2 py-4 pl-4 font-normal rounded-l-md lg">
 												Trips
 											</th>
-											<th scope="col" className="py-4  font-normal">
+											<th scope="col" className="py-4 font-normal">
 												Date
 											</th>
 											<th
 												scope="col"
-												className="px-4 py-4  font-normal text-center">
+												className="px-4 py-4 font-normal text-center">
 												Passengers
 											</th>
 
 											<th
 												scope="col"
-												className="px-2 py-4 text-sm font-normal rounded-r-md text-center">
+												className="px-2 py-4 text-sm font-normal text-center rounded-r-md">
 												Earning
 											</th>
 										</tr>
@@ -409,21 +415,21 @@ const DriverOverview = () => {
 															onClick={() => {
 																handleOpenModal(trip, "view");
 															}}
-															className="py-4 pl-4  text-gray-700">
+															className="py-4 pl-4 text-gray-700">
 															{`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
 														</td>
 														<td
 															onClick={() => {
 																handleOpenModal(trip, "view");
 															}}
-															className="py-4  text-gray-700 ">
+															className="py-4 text-gray-700 ">
 															{trip?.arrival_date}
 														</td>
 														<td
 															onClick={() => {
 																handleOpenModal(trip, "view");
 															}}
-															className="px-4 py-4  text-center text-gray-700">
+															className="px-4 py-4 text-center text-gray-700">
 															{trip?.verified_passengers_onboard?.length}
 														</td>
 
@@ -431,7 +437,7 @@ const DriverOverview = () => {
 															onClick={() => {
 																handleOpenModal(trip, "view");
 															}}
-															className="px-4 py-4  text-center text-gray-700">
+															className="px-4 py-4 text-center text-gray-700">
 															{currency_formatter(trip?.amount_earned)}
 														</td>
 													</tr>
@@ -450,7 +456,7 @@ const DriverOverview = () => {
 								? "block lg:mt-8 mx-[18px] lg:mx-0"
 								: "hidden"
 						} lg:block`}>
-						<div className="flex rounded-t-md pt-4 px-4 text-white bg-black border-b pb-6">
+						<div className="flex px-4 pt-4 pb-6 text-white bg-black border-b rounded-t-md">
 							<div className="">
 								<p className="text-sm mb-2 font-normal text-[#929292]">
 									Trips Completed
@@ -498,7 +504,7 @@ const DriverOverview = () => {
 												<p className="text-xl text-white lg:text-base">
 													{`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
 												</p>
-												<div className="flex text-gray-600 mt-2 lg:mt-2">
+												<div className="flex mt-2 text-gray-600 lg:mt-2">
 													<div className="flex items-center mt-1 mr-4">
 														<FaCalendar className="mr-2" />
 														{trip?.take_off_date}
@@ -540,49 +546,49 @@ const DriverOverview = () => {
 						closable={true}>
 						<div className="grid w-full grid-cols-2 gap-8 pb-12 mt-8">
 							<div>
-								<div className="mb-1  text-gray-400">Start</div>
+								<div className="mb-1 text-gray-400">Start</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.from?.city?.city}
 								</div>
 							</div>
 
 							<div>
-								<div className="mb-1  text-gray-400">Destination</div>
+								<div className="mb-1 text-gray-400">Destination</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.to?.city?.city}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Start Bus Stop</div>
+								<div className="mb-1 text-gray-400">Start Bus Stop</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.from?.start_busstop}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Destination Bus Stop</div>
+								<div className="mb-1 text-gray-400">Destination Bus Stop</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.to?.stop_busstop}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Departure Time</div>
+								<div className="mb-1 text-gray-400">Departure Time</div>
 								<div className="text-xs">{modalData?.take_off_time}</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Departure Date</div>
+								<div className="mb-1 text-gray-400">Departure Date</div>
 								<div className="text-xs">{modalData?.take_off_date}</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Arrival Time</div>
+								<div className="mb-1 text-gray-400">Arrival Time</div>
 								<div className="text-xs">{modalData?.arrival_time}</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Arrival Date</div>
+								<div className="mb-1 text-gray-400">Arrival Date</div>
 								<div className="text-xs">{modalData?.arrival_date}</div>
 							</div>
 
 							<div>
-								<div className="mb-1  text-gray-400">Amount Earned</div>
+								<div className="mb-1 text-gray-400">Amount Earned</div>
 								<div className="text-xs">
 									{currency_formatter(modalData?.amount_earn)}
 								</div>
@@ -599,7 +605,7 @@ const DriverOverview = () => {
 						footer={false}
 						closable={true}
 						width="240px">
-						<div className="w-full mt-8 text-center place-items-center leading-5">
+						<div className="w-full mt-8 leading-5 text-center place-items-center">
 							Starting a trip means all users are aboard <div></div>
 							<div className="mt-6 text-base font-medium">Start the trip?</div>
 						</div>
@@ -642,7 +648,7 @@ const DriverOverview = () => {
 						footer={false}
 						closable={true}
 						width="240px">
-						<div className="w-full mt-8  text-center place-items-center">
+						<div className="w-full mt-8 text-center place-items-center">
 							Starting a trip means all users are aboard, <div></div>
 							<div className="mt-4 text-base font-medium">Start the trip?</div>
 						</div>
@@ -688,7 +694,7 @@ const DriverOverview = () => {
 						footer={false}
 						closable={true}
 						width="240px">
-						<div className="w-full mt-8  text-center place-items-center">
+						<div className="w-full mt-8 text-center place-items-center">
 							Ending a trip means the trip is completed.
 							<div className="mt-4 text-base font-medium">End the trip?</div>
 						</div>
@@ -731,7 +737,7 @@ const DriverOverview = () => {
 						footer={false}
 						closable={true}
 						width="240px">
-						<div className="w-full mt-8  text-center place-items-center">
+						<div className="w-full mt-8 text-center place-items-center">
 							Ending a trip means the trip is completed.
 							<div className="mt-4 text-base font-medium">End the trip?</div>
 						</div>
@@ -782,7 +788,7 @@ const DriverOverview = () => {
 							<p className="mt-6 mb-4 text-base font-medium">
 								Passenger Manifest
 							</p>
-							<div className="my-1  text-gray-400">
+							<div className="my-1 text-gray-400">
 								{modalData?.bookings.length} Passengers,{" "}
 								{modalData?.verified_passengers_onboard?.length}
 								Onboard,{" "}
@@ -795,12 +801,12 @@ const DriverOverview = () => {
 									<tr>
 										<th
 											scope="col"
-											className="px-2 py-2 pl-4  font-normal rounded-mdlg">
+											className="px-2 py-2 pl-4 font-normal rounded-mdlg">
 											Name
 										</th>
 										<th
 											scope="col"
-											className="px-2 py-2  font-normal text-center rounded-mdlg">
+											className="px-2 py-2 font-normal text-center rounded-mdlg">
 											Action
 										</th>
 									</tr>
@@ -813,12 +819,12 @@ const DriverOverview = () => {
 											<tr className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
 												<td
 													onClick={() => {}}
-													className="py-4 pl-4  text-gray-700">
+													className="py-4 pl-4 text-gray-700">
 													{`${book?.user?.first_name} ${book?.user?.last_name}`}
 												</td>
 												<td
 													onClick={() => {}}
-													className=" text-center text-gray-700">
+													className="text-center text-gray-700 ">
 													<div className="flex items-center h-full m-auto place-content-end">
 														<div
 															className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
@@ -899,44 +905,44 @@ const DriverOverview = () => {
 						closable={true}>
 						<div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
 							<div>
-								<div className="mb-1  text-gray-400">Start</div>
+								<div className="mb-1 text-gray-400">Start</div>
 								<div className="text-xs">
 									{`${modalData?.travel_destination?.from?.city?.city}`}
 								</div>
 							</div>
 
 							<div>
-								<div className="mb-1  text-gray-400">Destination</div>
+								<div className="mb-1 text-gray-400">Destination</div>
 								<div className="text-xs">
 									{`${modalData?.travel_destination?.to?.city?.city}`}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Start Bus Stop</div>
+								<div className="mb-1 text-gray-400">Start Bus Stop</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.from?.start_busstop}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Destination Bus Stop</div>
+								<div className="mb-1 text-gray-400">Destination Bus Stop</div>
 								<div className="text-xs">
 									{modalData?.travel_destination?.to?.stop_busstop}
 								</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Departure Time</div>
+								<div className="mb-1 text-gray-400">Departure Time</div>
 								<div className="text-xs">{modalData?.take_off_time}</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Date</div>
+								<div className="mb-1 text-gray-400">Date</div>
 								<div className="text-xs">{modalData?.take_off_date}</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Driver</div>
+								<div className="mb-1 text-gray-400">Driver</div>
 								<div className="text-xs">{`${modalData?.driver?.first_name} ${modalData?.driver?.last_name}`}</div>
 							</div>
 							<div>
-								<div className="mb-1  text-gray-400">Vehicle</div>
+								<div className="mb-1 text-gray-400">Vehicle</div>
 								<div className="text-xs">{modalData?.bus?.name}</div>
 							</div>
 						</div>

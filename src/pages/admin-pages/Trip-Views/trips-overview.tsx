@@ -20,9 +20,10 @@ import {
 } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { RootState } from "../../../state/redux-store";
-import { Button } from "../../Button";
-import CreateTripFormComponent from "../components/create-trip-form";
-import EditTripFormComponent from "../components/edit-trip-form";
+import { Button } from "../../../components/Button";
+import CreateTripFormComponent from "../../../components/admin-components/create-trip-form";
+import EditTripFormComponent from "../../../components/admin-components/edit-trip-form";
+import { getTheLatestByDate } from "../../../utils/getTheLatestTripByDate";
 
 const TripsOverview: React.FC = () => {
 	enum TripOption {
@@ -36,15 +37,19 @@ const TripsOverview: React.FC = () => {
 		MANIFEST = "manifest",
 	}
 	const dispatch = useAppDispatch();
-	const { loading, trips } = useAppSelector(
-		(state: RootState) => state.allTrip
-	);
+	const { trips } = useAppSelector((state: RootState) => state.allTrip);
 	const { trip } = useAppSelector((state: RootState) => state.createTrip);
 	const { trip: updatedTrip } = useAppSelector(
 		(state: RootState) => state.updateTrip
 	);
 	const { trip: deletedTrip, loading: deleteLoading } = useAppSelector(
 		(state: RootState) => state.deleteTrip
+	);
+	const { trip: onBoardedTrip } = useAppSelector(
+		(state: RootState) => state.verifyPassangerOnboard
+	);
+	const { trip: unBoardedTrip } = useAppSelector(
+		(state: RootState) => state.unverifyPassengerOnboard
 	);
 	const [currentPage, setCurrentPage] = useState<number>(0);
 	const [modalData, setModalData] = useState<Trip_interface>();
@@ -66,7 +71,7 @@ const TripsOverview: React.FC = () => {
 	const totalItems = trips?.length; // total number of items
 	const pageCount = Math.ceil(totalItems / itemsPerPage); // total number of pages
 	const [menuVisible, setMenuVisible] = useState(false); // ROW ACTION MENU
-	const [messageApi, contextHolder] = message.useMessage();
+	const [messageApi] = message.useMessage();
 
 	// function to handle page clicks
 	const handlePageClick = (data: any) => {
@@ -161,22 +166,28 @@ const TripsOverview: React.FC = () => {
 		}
 	}, [TripOption, deletedTrip, dispatch, messageApi]);
 
-	const [selectedData, setIsSelected] = useState("day");
-	const handleFilterToggle = (value: string) => {
-		setIsSelected(value);
-	};
+	// const [selectedData, setIsSelected] = useState("day");
+	// const handleFilterToggle = (value: string) => {
+	//   setIsSelected(value);
+	// };
 	const [onboard, setOnboard] = useState(false);
 
+	useEffect(() => {
+		if (onBoardedTrip?._id) {
+			setModalData(getTheLatestByDate(trips));
+		}
+	}, [onBoardedTrip, trips]);
+
 	return (
-		<div className="pt-12 px-4">
+		<div className="px-4 pt-12">
 			{/* TRIPS OVERVIEW VIEW*/}
 			{/* BUSSTOPS HEADER */}
 			<div>
-				<h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xl font-medium">
+				<h2 className="fixed w-full py-8 pl-4 mb-4 text-xl font-medium bg-white border-b top-24">
 					Trips{" "}
 				</h2>
-				<div className="flex place-content-end my-2  mt-24 w-full  bg-white">
-					{/* <h2 className=" text-xs font-medium">Trips</h2> */}
+				<div className="flex w-full my-2 mt-24 bg-white place-content-end">
+					{/* <h2 className="text-xs font-medium ">Trips</h2> */}
 					{/* {loading && <Spinner />} */}
 					<Button
 						title="+ Create new trip"
@@ -190,62 +201,10 @@ const TripsOverview: React.FC = () => {
 				</div>
 
 				{/* DATA */}
-				<div className="bg-black rounded-md py-3 px-4 my-4 ">
-					{/* <div className="m-auto text-white  mb-4 justify-between flex w-1/3">
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "day"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("day")}
-            >
-              Day
-            </div>
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "week"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("week")}
-            >
-              Week
-            </div>
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "month"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("month")}
-            >
-              Month
-            </div>
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "6 months"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("6 months")}
-            >
-              6 Months
-            </div>
-            <div
-              className={` px-2 py-1 cursor-pointer ${
-                selectedData === "year"
-                  ? "bg-[#00ff6a] text-center text-black"
-                  : "text-[#666666]"
-              }`}
-              onClick={() => handleFilterToggle("year")}
-            >
-              Year
-            </div>
-          </div> */}
-					<div className="justify-evenly mb-4 pt-6 flex w-full">
+				<div className="px-4 py-3 my-4 bg-black rounded-md ">
+					<div className="flex w-full pt-6 mb-4 justify-evenly">
 						<div className="text-center">
-							<p className=" text-gray-400">Total Trips Executed </p>
+							<p className="text-gray-400">Total Trips Executed </p>
 							<p className="text-white ">
 								{
 									(trips?.filter(
@@ -255,7 +214,7 @@ const TripsOverview: React.FC = () => {
 							</p>
 						</div>
 						<div className="text-center">
-							<p className=" text-gray-400">Total Available Trips</p>
+							<p className="text-gray-400">Total Available Trips</p>
 							<p className="text-white ">
 								{
 									trips?.filter(
@@ -265,7 +224,7 @@ const TripsOverview: React.FC = () => {
 							</p>
 						</div>
 						{/* <div className="text-center">
-              <p className=" text-gray-400"> Active Trips</p>
+              <p className="text-gray-400 "> Active Trips</p>
               <p className="text-white ">20,000</p>
             </div> */}
 					</div>
@@ -293,31 +252,27 @@ const TripsOverview: React.FC = () => {
 			</div>
 			{/* BUSSTOPS LIST - TABLE */}
 			<table className="w-full text-base font-normal text-left text-white table-auto">
-				<thead className=" bg-black">
+				<thead className="bg-black ">
 					<tr>
-						<th
-							scope="col"
-							className="pl-4 px-2 py-4 font-normal  rounded-l-md">
+						<th scope="col" className="px-2 py-4 pl-4 font-normal rounded-l-md">
 							Date
 						</th>
 						<th scope="col" className="py-4 font-normal ">
 							Departure
 						</th>
-						<th scope="col" className="px-4 py-4 font-normal  text-center">
+						<th scope="col" className="px-4 py-4 font-normal text-center">
 							Start
 						</th>
-						<th scope="col" className="px-2 py-4 font-normal  text-center">
+						<th scope="col" className="px-2 py-4 font-normal text-center">
 							Destination
 						</th>
-						<th scope="col" className="px-2 py-4 font-normal  text-center">
+						<th scope="col" className="px-2 py-4 font-normal text-center">
 							Driver
 						</th>
-						<th scope="col" className="px-2 py-4 font-normal  text-center">
+						<th scope="col" className="px-2 py-4 font-normal text-center">
 							Vehicle
 						</th>
-						<th
-							scope="col"
-							className="px-2 py-4 font-normal  rounded-r-md"></th>
+						<th scope="col" className="px-2 py-4 font-normal rounded-r-md"></th>
 					</tr>
 				</thead>
 
@@ -332,28 +287,28 @@ const TripsOverview: React.FC = () => {
 									onClick={() => {
 										handleOpenModal(trip, "info");
 									}}
-									className="pl-4 py-6  text-gray-700">
+									className="py-6 pl-4 text-gray-700">
 									{trip?.take_off_date}
 								</td>
 								<td
 									onClick={() => {
 										handleOpenModal(trip, "info");
 									}}
-									className=" py-4   text-gray-700">
+									className="py-4 text-gray-700 ">
 									{trip?.take_off_time}
 								</td>
 								<td
 									onClick={() => {
 										handleOpenModal(trip, "info");
 									}}
-									className="px-4 py-4  text-center text-gray-700">
+									className="px-4 py-4 text-center text-gray-700">
 									{trip?.travel_destination?.from?.city?.city}
 								</td>
 								<td
 									onClick={() => {
 										handleOpenModal(trip, "info");
 									}}
-									className=" text-center text-gray-700">
+									className="text-center text-gray-700 ">
 									{trip?.travel_destination?.to?.city?.city}
 								</td>
 
@@ -361,18 +316,18 @@ const TripsOverview: React.FC = () => {
 									onClick={() => {
 										handleOpenModal(trip, "info");
 									}}
-									className="px-4 py-4  text-center text-gray-700">
+									className="px-4 py-4 text-center text-gray-700">
 									{`${trip?.driver?.first_name} ${trip?.driver?.last_name} `}
 								</td>
 								<td
 									onClick={() => {
 										handleOpenModal(trip, "info");
 									}}
-									className="px-4 py-4  text-center text-gray-700">
+									className="px-4 py-4 text-center text-gray-700">
 									{trip?.bus?.make}
 								</td>
 								<td
-									className="px-4 py-4  text-gray-700"
+									className="px-4 py-4 text-gray-700"
 									onClick={() => {
 										// setMenuVisible(!menuVisible);
 										handleSetMenuToggle(index.toString());
@@ -387,14 +342,14 @@ const TripsOverview: React.FC = () => {
 														onClick={() => {
 															handleOpenModal(trip, "info");
 														}}
-														className="px-4 py-2  font-medium text-gray-700 border-b hover:bg-gray-100">
+														className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100">
 														View
 													</li>
 													<li
 														onClick={() => {
 															handleOpenModal(trip, "edit");
 														}}
-														className="px-4 py-2  font-medium text-gray-700 border-b hover:bg-gray-100">
+														className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100">
 														Edit
 													</li>
 													<li
@@ -402,7 +357,7 @@ const TripsOverview: React.FC = () => {
 															setFlip(TripOption.DELETE);
 															handleOpenDeleteModal(trip);
 														}}
-														className="px-4 py-2  font-medium text-gray-700 border-b hover:bg-gray-100">
+														className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100">
 														Delete
 													</li>
 												</ul>
@@ -429,72 +384,7 @@ const TripsOverview: React.FC = () => {
 					<CreateTripFormComponent />
 				</Modal>
 			)}
-			{/* {flip === TripOption.REVIEW && modalVisible && (
-				<Modal
-					title={
-						<div className="text-xs font-medium boder-b">Trip Details</div>
-					}
-					onOk={handleOk}
-					onCancel={handleCancel}
-					open={modalVisible}
-					centered={true}
-					footer={false}
-					closable={true}>
-					<div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
-						<div>
-							<div className="mb-1  text-gray-400">Start</div>
-							<div className="text-xs">Start City </div>
-						</div>
 
-						<div>
-							<div className="mb-1  text-gray-400">Destination</div>
-							<div className="text-xs">Destination City</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Start Bus Stop</div>
-							<div className="text-xs">Start Bus Stop</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">
-								Destination Bus Stop
-							</div>
-							<div className="text-xs">Destination Bus Stop</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Departure Time</div>
-							<div className="text-xs">Time</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Date</div>
-							<div className="text-xs">Date</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Driver</div>
-							<div className="text-xs">Driver</div>
-						</div>
-						<div>
-							<div className="mb-1  text-gray-400">Vehicle</div>
-							<div className="text-xs">Vehicle</div>
-						</div>
-					</div>
-					<Button
-						title="Continue"
-						type="submit"
-						className="w-full px-4 py-4  rounded-md bg-primary-100"
-						onClick={() => {
-							setFlip(TripOption.SUCCESS);
-						}}
-					/>
-					<Button
-						title="Edit"
-						type="submit"
-						className="w-full px-4 py-4 mt-4 mb-6  text-gray-500 border border-gray-500 rounded-md"
-						onClick={() => {
-							setFlip(TripOption.CREATE);
-						}}
-					/>
-				</Modal>
-			)} */}
 			{flip === TripOption.SUCCESS && modalVisible && (
 				<Modal
 					onOk={handleOk}
@@ -525,7 +415,7 @@ const TripsOverview: React.FC = () => {
 				<Modal
 					title={
 						<div>
-							<div className="text-lg font-medium boder-b mt-4">
+							<div className="mt-4 text-lg font-medium boder-b">
 								Trip Details
 							</div>
 							<div
@@ -547,52 +437,52 @@ const TripsOverview: React.FC = () => {
 					closable={true}>
 					<div className="grid grid-cols-2 gap-2 pb-12 mt-8">
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-							<div className="mb-1  text-gray-400">Start</div>
+							<div className="mb-1 text-gray-400">Start</div>
 							<div className="text-xs">
 								{modalData?.travel_destination?.from?.city?.city}
 							</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-							<div className="mb-1  text-gray-400">Destination</div>
+							<div className="mb-1 text-gray-400">Destination</div>
 							<div className="text-xs">
 								{modalData?.travel_destination?.to?.city?.city}
 							</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-							<div className="mb-1  text-gray-400">Start</div>
+							<div className="mb-1 text-gray-400">Start</div>
 							<div className="text-xs">
 								{modalData?.travel_destination?.from?.start_busstop}
 							</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-							<div className="mb-1  text-gray-400">Destination</div>
+							<div className="mb-1 text-gray-400">Destination</div>
 							<div className="text-xs">
 								{modalData?.travel_destination?.to?.stop_busstop}
 							</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-							<div className="mb-1  text-gray-400">Departure Time</div>
+							<div className="mb-1 text-gray-400">Departure Time</div>
 							<div className="text-xs">{modalData?.take_off_time}</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-							<div className="mb-1  text-gray-400">Date</div>
+							<div className="mb-1 text-gray-400">Date</div>
 							<div className="text-xs">{modalData?.take_off_date}</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-							<div className="mb-1  text-gray-400">Driver</div>
+							<div className="mb-1 text-gray-400">Driver</div>
 							<div className="text-xs">
 								{`${modalData?.driver?.first_name} ${modalData?.driver?.last_name}`}
 							</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
-							<div className="mb-1  text-gray-400">Vehicle</div>
+							<div className="mb-1 text-gray-400">Vehicle</div>
 							<div className="text-xs">{modalData?.bus?.make}</div>
 						</div>
 					</div>
 					<Button
 						title="Edit"
 						type="submit"
-						className="w-full px-4 py-4  rounded-md bg-primary-100"
+						className="w-full px-4 py-4 rounded-md bg-primary-100"
 						onClick={() => {
 							setFlip(TripOption.EDIT);
 						}}
@@ -600,7 +490,7 @@ const TripsOverview: React.FC = () => {
 					<Button
 						title="Delete"
 						type="submit"
-						className="w-full px-4 py-4 mt-4 mb-6  text-red-600 border border-red-500 rounded-md"
+						className="w-full px-4 py-4 mt-4 mb-6 text-red-600 border border-red-500 rounded-md"
 						onClick={() => {
 							setFlip(TripOption.DELETE);
 							setStateModalVisible(true);
@@ -625,10 +515,10 @@ const TripsOverview: React.FC = () => {
 					footer={false}
 					closable={true}>
 					<div>
-						<p className="mt-6 mb-4 text-base font-medium">
+						<div className="mt-6 mb-4 text-base font-medium">
 							Passenger Manifest
-						</p>
-						<div className="my-1  text-gray-400">
+						</div>
+						<div className="my-1 text-gray-400">
 							{`${modalData?.bookings?.length} Passengers, ${
 								modalData?.verified_passengers_onboard?.length
 							} Onboard, ${
@@ -637,17 +527,17 @@ const TripsOverview: React.FC = () => {
 							}
 							 Not board `}
 						</div>
-						<table className="mt-2 w-full text-base font-normal text-left text-white table-auto">
+						<table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
 							<thead className="bg-black">
 								<tr>
 									<th
 										scope="col"
-										className="pl-4 px-2 py-2 font-normal  rounded-mdlg">
+										className="px-2 py-2 pl-4 font-normal rounded-mdlg">
 										Name
 									</th>
 									<th
 										scope="col"
-										className="px-2 py-2 font-normal  text-center rounded-mdlg">
+										className="px-2 py-2 font-normal text-center rounded-mdlg">
 										Action
 									</th>
 								</tr>
@@ -660,13 +550,13 @@ const TripsOverview: React.FC = () => {
 										<tr className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
 											<td
 												onClick={() => {}}
-												className="pl-4 py-4  text-gray-700">
+												className="py-4 pl-4 text-gray-700">
 												{/* Amen Olabode */}
 												{`${book?.user?.first_name} ${book?.user?.last_name}`}
 											</td>
 											<td
 												onClick={() => {}}
-												className=" text-center text-gray-700">
+												className="text-center text-gray-700 ">
 												<div className="flex items-center h-full m-auto place-content-end">
 													<div
 														className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md 
@@ -677,8 +567,8 @@ const TripsOverview: React.FC = () => {
 																? "border-[#00FF6A] bg-[#00FF6A]"
 																: "border-black "
 														} `}>
-														{modalData?.verified_passengers_onboard?.includes(
-															book?._id
+														{modalData?.verified_passengers_onboard?.find(
+															(passenger: string) => passenger === book?._id
 														) ? (
 															<div
 																className="flex flex-row items-center"
@@ -839,7 +729,7 @@ const TripsOverview: React.FC = () => {
 					<Button
 						title="Close"
 						type="submit"
-						className="w-full py-2 mt-4 mb-4  text-gray-600 border border-gray-500 rounded-md"
+						className="w-full py-2 mt-4 mb-4 text-gray-600 border border-gray-500 rounded-md"
 						onClick={() => {
 							setModalVisible(false);
 							setStateModalVisible(false);

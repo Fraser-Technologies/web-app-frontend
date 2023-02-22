@@ -1,6 +1,6 @@
 import React from "react";
-import { Button } from "../components/Button";
-import Layout from "../components/layouts/SignInLayout";
+import { Button } from "../../components/Button";
+import Layout from "../../components/layouts/SignInLayout";
 import "react-phone-number-input/style.css";
 import PhoneInput from "react-phone-number-input";
 import { Helmet } from "react-helmet";

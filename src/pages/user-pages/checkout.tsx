@@ -1,21 +1,21 @@
 import React, { useEffect, useState } from "react";
 import { BsChevronDown, BsChevronUp } from "react-icons/bs";
 import { usePaystackPayment } from "react-paystack";
-import Layout from "../components/layouts/SignInLayout";
+import Layout from "../../components/layouts/SignInLayout";
 import { Modal, Box } from "@mui/material";
-import { ModalStyle } from "../constants/styling";
-import SeatReservation from "../components/SeatReservation";
-import { useAppDispatch, useAppSelector } from "../state/hooks";
+import { ModalStyle } from "../../constants/styling";
+import SeatReservation from "../../components/SeatReservation";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Alert, Form, Input, message } from "antd";
 import {
 	emptyMyBooking,
 	verifyPaymentAction,
-} from "../state/action/booking.action";
+} from "../../state/action/booking.action";
 import { useNavigate } from "react-router-dom";
 import { motion } from "framer-motion";
-import GeometricPatterns from "../components/GeometricPatterns";
-import { RootState } from "../state/redux-store";
-import { currency_formatter } from "../utils/currency-formatter";
+import GeometricPatterns from "../../components/GeometricPatterns";
+import { RootState } from "../../state/redux-store";
+import { currency_formatter } from "../../utils/currency-formatter";
 
 interface FormData {
 	name: string;
@@ -52,8 +52,8 @@ const Checkout = () => {
 
 	const onSuccess = () => {
 		dispatch(verifyPaymentAction(myBooking));
-		message.info("Your ride has been successfully booked!");
-		navigate("/");
+		message.info("Your ride has been booked successfully!");
+		navigate("/bookaride");
 		dispatch(emptyMyBooking());
 	};
 
@@ -68,65 +68,8 @@ const Checkout = () => {
 		if (!check) {
 			return setShowAlert(true);
 		}
-
 		initializePayment(onSuccess, onClose);
 	};
-
-	//DATE FORMATTING
-	const dateRegex = /^(\d{2})\/(\d{2})\/(\d{4})$/;
-	const [, day, month, year] = myBooking?.take_off_date.match(dateRegex) || [];
-
-	const newDay = String(day);
-	let ordinalDay;
-	if (newDay.endsWith("1")) {
-		ordinalDay = newDay + "st";
-	} else if (newDay.endsWith("2")) {
-		ordinalDay = newDay + "nd";
-	} else if (newDay.endsWith("3")) {
-		ordinalDay = newDay + "rd";
-	} else {
-		ordinalDay = newDay + "th";
-	}
-
-	let monthName;
-	switch (month) {
-		case "01":
-			monthName = "Jan.";
-			break;
-		case "02":
-			monthName = "Feb.";
-			break;
-		case "03":
-			monthName = "Mar.";
-			break;
-		case "04":
-			monthName = "Apr.";
-			break;
-		case "05":
-			monthName = "May";
-			break;
-		case "06":
-			monthName = "June";
-			break;
-		case "07":
-			monthName = "July";
-			break;
-		case "08":
-			monthName = "Aug.";
-			break;
-		case "09":
-			monthName = "Sept.";
-			break;
-		case "10":
-			monthName = "Oct.";
-			break;
-		case "11":
-			monthName = "Nov.";
-			break;
-		case "12":
-			monthName = "Dec.";
-			break;
-	}
 
 	useEffect(() => {
 		if (!myBooking) {
@@ -180,42 +123,8 @@ const Checkout = () => {
 					</div>
 				</div>
 			</Form.Item>
-			//   <div key={i}>
-			//     <label htmlFor={`name-${i}`}>Name {i + 1}:</label>
-			//     <input
-			//       id={`name-${i}`}
-			//       type="text"
-			//       name="name"
-			//       value={formData[i]?.name || ""}
-			//       onChange={(e) => handleInputChange(e, i)}
-			//     />
-			//     <label htmlFor={`phone-${i}`}>Phone {i + 1}:</label>
-			//     <input
-			//       id={`phone-${i}`}
-			//       type="text"
-			//       name="phoneNumber"
-			//       value={formData[i]?.phoneNumber || ""}
-			//       onChange={(e) => handleInputChange(e, i)}
-			//     />
-			//     <Input
-			//       id={`name-${i}`}
-			//       className="w-full h-10 hover:border-green-500 active:border-green-600 focus:border-green-600"
-			//       placeholder="Passenger Name"
-			//       type="text"
-			//       value={formData[i]?.name || ""}
-			//       required={true}
-			//       onChange={(e) => {
-			//         handleInputChange(e, i);
-			//       }}
-			//     />
-			//   </div>
 		);
 	}
-
-	const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
-		e.preventDefault();
-		console.log(formData);
-	};
 
 	return (
 		<Layout title="Checkout - Fraser">
@@ -315,29 +224,25 @@ const Checkout = () => {
 						</div>
 						<div className="border-b border-[#EFF3EF] pb-3 mt-4 flex space-x-5 font-semibold text-base md:text-base">
 							{/* LEKAN, THIS WOULD BE DYNAMIC NOW */}
-							<p> {myBooking?.no_of_ticket} Bus Ticket</p>
-							<p>{myBooking?.take_off_date}.</p>
+							<div> {myBooking?.no_of_ticket} Bus Ticket</div>
+							<div>{myBooking?.take_off_date}.</div>
 						</div>
 						{/* {location and time} */}
 						<div className="mt-3 relative border-b border-[#EFF3EF] pb-6">
 							<div className="text-[#949292] text-sm flex space-x-8 items-center">
-								<p>{myBooking?.take_off_time}</p>
+								<div>{myBooking?.take_off_time}</div>
 								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
-								<p>{`${myBooking?.travel_destination?.from?.start_busstop}, ${myBooking?.travel_destination?.from?.city?.city}`}</p>
+								<div>{`${myBooking?.travel_destination?.from?.start_busstop}, ${myBooking?.travel_destination?.from?.city?.city}`}</div>
 							</div>
 							<div className="h-4 border-l-[1.5px] ml-20 border-primary-200 mt-2 "></div>
 							<div className="text-[#949292] text-sm flex space-x-8 items-center mt-2">
-								<p>{myBooking?.arrival_time}</p>
+								<div>{myBooking?.arrival_time}</div>
 								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
-								<p>{`${myBooking?.travel_destination?.to?.stop_busstop}, ${myBooking?.travel_destination?.to?.city?.city}`}</p>
+								<div>{`${myBooking?.travel_destination?.to?.stop_busstop}, ${myBooking?.travel_destination?.to?.city?.city}`}</div>
 							</div>
 						</div>
 						{/* {discount, subtotal and VAT} */}
 						<div className="border-b border-[#EFF3EF] pb-6">
-							{/* <div className="flex justify-between mt-4 text-[#949292]">
-								<p className="text-sm md:text-base ">Discount</p>
-								<p className="text-sm md:text-base">-NGN 500.00</p>
-							</div> */}
 							<div className="flex justify-between mt-4 mr-8">
 								<p className="text-base ">Subtotal</p>
 								<p className="text-base">
@@ -346,12 +251,6 @@ const Checkout = () => {
 									)}
 								</p>
 							</div>
-							{/* <div className="flex justify-between mt-4 mr-8 text-[#949292]">
-                <p className="text-sm md:text-xs ">VAT(7.5%)</p>
-                <p className="text-sm md:text-xs">
-                  NGN {vAT.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,")}
-                </p>
-              </div> */}
 						</div>
 
 						{/* {total} */}

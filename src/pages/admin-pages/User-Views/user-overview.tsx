@@ -17,7 +17,7 @@ import {
   getAllUserAction,
 } from "../../../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
-import { Button } from "../../Button";
+import { Button } from "../../../components/Button";
 
 const UserOverview: React.FC = () => {
   const dispatch = useAppDispatch();

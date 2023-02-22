@@ -3,7 +3,7 @@ import { Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
 import { User_interface } from "../../../interfaces/user.interface";
-import { getTripByDriverAction } from "../../../state/action/trip.action";
+// import { getTripByDriverAction } from "../../../state/action/trip.action";
 import {
   AdminUpdateUserAction,
   getAllDriverAction,
@@ -11,7 +11,7 @@ import {
 } from "../../../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { RootState } from "../../../state/redux-store";
-import { Button } from "../../Button";
+import { Button } from "../../../components/Button";
 
 const NewSignUps: React.FC = () => {
   enum flipType {
@@ -50,12 +50,12 @@ const NewSignUps: React.FC = () => {
     .slice(startIndex, endIndex); // items to display on the current page
 
   // ROW ACTION MENU
-  const [menuVisible, setMenuVisible] = useState(false);
+  // const [menuVisible, setMenuVisible] = useState(false);
 
   //TOGGLE
-  const handleSetMenuToggle = () => {
-    setMenuVisible(!menuVisible);
-  };
+  // const handleSetMenuToggle = () => {
+  //   setMenuVisible(!menuVisible);
+  // };
   const [flip, setFlip] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -235,8 +235,7 @@ const NewSignUps: React.FC = () => {
                 <div className="text-xs">{modalData?.email}</div>
                 {/* //LICENSE NUMBER */}
                 <div className="text-xs">
-                  WE didn't collect the driver license number when they are
-                  registering
+                  {modalData?.driver_license}
                 </div>
               </div>
             </div>

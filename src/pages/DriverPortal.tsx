@@ -1,14 +1,13 @@
 import React, { useEffect, useState } from "react";
-import DriverHeader from "../components/driver/DriverHeader";
-import DriverOverview from "../components/driver/driver-overview";
-import DriverRevenueOverview from "../components/driver/revenue-overview";
+import DriverHeader from "../components/driver-components/DriverHeader";
+import DriverOverview from "./driver-pages/driver-overview";
+import DriverRevenueOverview from "./driver-pages/revenue-overview";
 import { useAppSelector } from "../state/hooks";
 import { RootState } from "../state/redux-store";
 import { useNavigate } from "react-router-dom";
 import { _paths_ } from "../utils/appHelpers";
 import { Alert } from "antd";
 import { userLoginAction } from "../state/action/user.action";
-import DriverLayout from "../components/layouts/DriverLayout";
 
 const DriverPortal = () => {
 	const navigate = useNavigate();
@@ -31,18 +30,18 @@ const DriverPortal = () => {
 	}, [userInfo]);
 
 	return (
-		<DriverLayout title="Driver Portal">
-			<div className="w-full h-full bg-white">
-				{!userInfo?.driver_verification_status && (
-					<Alert
-						type="info"
-						message="Your account is been review and will be verified shortly"
-					/>
-				)}
-				{selectedView === "overview" && <DriverOverview />}
-				{selectedView === "revenue" && <DriverRevenueOverview />}
-			</div>
-		</DriverLayout>
+		<div className="w-full h-full bg-white">
+			<DriverHeader onViewChange={handleViewChange} />
+
+			{!userInfo?.driver_verification_status && (
+				<Alert
+					type="info"
+					message="Your account is been review and will be verified shortly"
+				/>
+			)}
+			{selectedView === "overview" && <DriverOverview />}
+			{selectedView === "revenue" && <DriverRevenueOverview />}
+		</div>
 	);
 };
 

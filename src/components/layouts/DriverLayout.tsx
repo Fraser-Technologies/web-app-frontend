@@ -1,6 +1,6 @@
 import React from "react";
 import { Helmet } from "react-helmet";
-import DriverHeader from "../driver/DriverHeader";
+import DriverHeader from "../driver-components/DriverHeader";
 
 interface Props {
 	children: React.ReactNode;
@@ -18,7 +18,7 @@ const DriverLayout = ({ children, title, childClass, bg }: Props) => {
 				<title>{title || "Fraser"}</title>
 			</Helmet>
 			<div className={`h-full ${bg}`}>
-				<DriverHeader />
+				<DriverHeader onViewChange={function (value: string): void {}} />
 				<div className="h-[70px]"></div>
 				<div className={`${childClass}`}>{children}</div>
 			</div>
