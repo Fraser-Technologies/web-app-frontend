@@ -30,7 +30,7 @@ const DriverPortal = () => {
 	}, [userInfo]);
 
 	return (
-		<div className="w-full h-full bg-white">
+		<div className="w-full h-full">
 			<DriverHeader onViewChange={handleViewChange} />
 
 			{!userInfo?.driver_verification_status && (
