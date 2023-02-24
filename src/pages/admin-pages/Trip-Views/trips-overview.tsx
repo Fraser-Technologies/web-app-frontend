@@ -573,13 +573,13 @@ const TripsOverview: React.FC = () => {
 												<div className="flex items-center h-full m-auto place-content-end">
 													<div
 														className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md 
-                            ${
-															modalData?.verified_passengers_onboard?.includes(
-																book?._id
-															)
-																? "border-[#00FF6A] bg-[#00FF6A]"
-																: "border-black "
-														} `}>
+                            														${
+																													modalData?.verified_passengers_onboard?.includes(
+																														book?._id
+																													)
+																														? "border-[#00FF6A] bg-[#00FF6A]"
+																														: "border-black "
+																												} `}>
 														{modalData?.verified_passengers_onboard?.find(
 															(passenger: string) => passenger === book?._id
 														) ? (
