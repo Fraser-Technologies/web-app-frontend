@@ -266,7 +266,7 @@ const DriverOverview = () => {
 
 														{/* RESPONSIVE MENU ICONS FOR TRIP SCHEDULE CARD */}
 														<div
-															className="w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+															className="w-full  lg:hidden h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
 															onClick={() => {
 																handleOpenModal(trip, "manifest");
 															}}>
@@ -276,7 +276,7 @@ const DriverOverview = () => {
 															</div>
 														</div>
 														<div
-															className={`w-full block lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md cursor-pointer block lg:hidden flex flex-col items-center  ${
+															className={`w-full  lg:hidden h-[56px] mr-2 lg:h-[40px] my-1 lg:mr-4 text-xs rounded-md cursor-pointer block lg:hidden flex flex-col items-center  ${
 																startOutBoundTrip
 																	? "bg-[#E71D36] text-white"
 																	: "bg-[#161616]"
