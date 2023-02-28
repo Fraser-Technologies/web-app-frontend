@@ -9,12 +9,16 @@ const getSubdomain = (location: string) => {
 			? "ridefraser"
 			: "localhost:3000";
 
+	console.log("the is localhost is ", isLocalhost);
+
 	if (isLocalhost) sliceTil = -1;
 	return locationParts.slice(0, sliceTil).join("");
 };
 
 export const getApp = () => {
 	const subdomain = getSubdomain(window.location.hostname);
+
+	console.log("the subdomain is ", subdomain);
 
 	const main = APPS.find((app) => app?.main);
 
