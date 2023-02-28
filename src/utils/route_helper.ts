@@ -7,16 +7,17 @@ const getSubdomain = (location: string) => {
 
 	const isLocalhost = () => {
 		if (process.env.production) {
-			return (locationParts.slice(-1)[0] = "ridefraser");
+			return locationParts[1];
 		} else {
-			return (locationParts.slice(-1)[0] = "localhost:3000");
+			return locationParts[1];
 		}
 	};
 
 	console.log("the is localhost is ", isLocalhost());
 
 	if (isLocalhost()) sliceTil = -1;
-	return locationParts.slice(0, sliceTil).join(".");
+	console.log("the result of the get subdomeina is ", locationParts);
+	return locationParts[0];
 };
 
 export const getApp = () => {
