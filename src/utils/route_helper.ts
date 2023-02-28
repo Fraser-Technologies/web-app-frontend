@@ -2,6 +2,7 @@ import { APPS } from "./route_constant";
 
 const getSubdomain = (location: string) => {
 	const locationParts = location.split(".");
+	console.log("the location parts is ", locationParts);
 	let sliceTil = -2;
 
 	const isLocalhost =
