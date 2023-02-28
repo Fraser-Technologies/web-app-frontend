@@ -6,10 +6,10 @@ import BookRide from "../pages/user-pages/book-a-ride";
 import SignIn from "../pages/user-pages/signin";
 import TermsOfService from "../pages/user-pages/terms-of-service";
 import Waitlist from "../pages/Waitlist";
-import { _paths_ } from "../utils/appHelpers";
 import Bookings from "../pages/user-pages/bookings";
 import Checkout from "../pages/user-pages/checkout";
 import SignUp from "../pages/user-pages/signup";
+import { _paths_ } from "../utils/routes";
 
 const UserApp: FC = () => {
 	return (

@@ -15,7 +15,7 @@ import { getAllBusAction } from "../state/action/bus.action";
 import { getAllBookingAction } from "../state/action/booking.action";
 import { useNavigate } from "react-router-dom";
 import { RootState } from "../state/redux-store";
-import { _paths_ } from "../utils/appHelpers";
+import { _paths_ } from "../utils/routes";
 
 const AdminDashBoard = () => {
 	const dispatch = useAppDispatch();

@@ -5,9 +5,9 @@ import DriverRevenueOverview from "./driver-pages/revenue-overview";
 import { useAppSelector } from "../state/hooks";
 import { RootState } from "../state/redux-store";
 import { useNavigate } from "react-router-dom";
-import { _paths_ } from "../utils/appHelpers";
 import { Alert } from "antd";
 import { userLoginAction } from "../state/action/user.action";
+import { _paths_ } from "../utils/routes";
 
 const DriverPortal = () => {
 	const navigate = useNavigate();

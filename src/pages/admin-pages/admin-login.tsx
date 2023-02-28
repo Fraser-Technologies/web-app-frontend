@@ -5,7 +5,7 @@ import Layout from "../../components/layouts/SignInLayout";
 import { userLoginAction } from "../../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { RootState } from "../../state/redux-store";
-import { _paths_ } from "../../utils/appHelpers";
+import { _paths_ } from "../../utils/routes";
 
 const AdminLogin = () => {
 	const navigate = useNavigate();

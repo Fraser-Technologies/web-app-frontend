@@ -3,13 +3,13 @@ import StepComp from "../components/StepComp";
 import Accordion from "../components/Accordion";
 import { Button } from "../components/Button";
 import { useNavigate } from "react-router-dom";
-import { _paths_ } from "../utils/appHelpers";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { getAllBusStopAction } from "../state/action/busStop.action";
 import { useEffect } from "react";
 import { RootState } from "../state/redux-store";
 import { useSelector } from "react-redux";
 import Layout from "../components/layouts/SignInLayout";
+import { _paths_ } from "../utils/routes";
 
 const LandingPage = () => {
 	const navigate = useNavigate();
