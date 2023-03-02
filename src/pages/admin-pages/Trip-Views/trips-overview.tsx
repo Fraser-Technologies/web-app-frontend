@@ -172,13 +172,13 @@ const TripsOverview: React.FC = () => {
 	const [onboard, setOnboard] = useState(false);
 
 	useEffect(() => {
-		if (onBoardedTrip?._id) {
-			setModalData(getTheLatestByDate(trips));
+		if (trips) {
+			setModalData(trips.find((trip) => trip._id === modalData?._id));
 		}
-	}, [onBoardedTrip, trips]);
+	}, [trips, onBoardedTrip, unBoardedTrip, modalData]);
 
 	useEffect(() => {
-		dispatch(getTripByDriverAction(userInfo?._id));
+		dispatch(getAllTripAction());
 	}, [dispatch, onBoardedTrip, userInfo, unBoardedTrip]);
 
 	useEffect(() => {

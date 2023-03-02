@@ -25,6 +25,7 @@ import {
 } from "../../state/action/trip.action";
 import { Booking_interface } from "../../interfaces/Booking_interface";
 import { getBalanceByUserAction } from "../../state/action/balance.action";
+import { getTheLatestByDate } from "../../utils/getTheLatestTripByDate";
 
 const DriverOverview = () => {
 	enum DriverViews {
@@ -118,6 +119,10 @@ const DriverOverview = () => {
 			dispatch(getTripByDriverAction(userInfo?._id));
 		}
 	}, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
+
+	useEffect(() => {
+		setModalData(getTheLatestByDate(trips));
+	}, [trips, onBoardedTrip, unBoardedTrip]);
 	return (
 		<div className="pt-28 lg:pt-32">
 			<div className="fixed bottom-0 flex items-center w-full mb-4 lg:hidden place-content-center">
@@ -266,7 +271,7 @@ const DriverOverview = () => {
 
 														{/* RESPONSIVE MENU ICONS FOR TRIP SCHEDULE CARD */}
 														<div
-															className="w-full  lg:hidden h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
+															className="w-full h-[56px] mr-2 lg:h-[40px] py-2 lg:py-0 my-1 lg:mr-4 text-xs rounded-md bg-[#161616] cursor-pointer block lg:hidden flex flex-col items-center"
 															onClick={() => {
 																handleOpenModal(trip, "manifest");
 															}}>
