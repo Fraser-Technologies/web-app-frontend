@@ -80,6 +80,8 @@ const Bookings = () => {
 		trips: availableTripData,
 	} = useAppSelector((state: any) => state.availableTrip);
 
+	console.log("the available trip is ", availableTripData);
+
 	const FindAvailableTrip = () => {
 		whereToToggleClick();
 		if (from && to) {
@@ -89,7 +91,9 @@ const Bookings = () => {
 		}
 	};
 
-	const [modalData, setModalData] = useState<Trip_interface>(availableTripData);
+	const [modalData, setModalData] = useState<Trip_interface | any>(
+		availableTripData
+	);
 	const handleOpenModal = (data: Trip_interface, flipValue: any) => {
 		setFlip(flipValue);
 		setModalData(data);
@@ -164,8 +168,6 @@ const Bookings = () => {
 			dispatch(getAllCityAction());
 		}
 	}, [cities, dispatch]);
-
-	console.log("modelDAta", modalData);
 
 	return (
 		<Layout title="Fraser - Book a ride">
@@ -435,7 +437,7 @@ const Bookings = () => {
 								{/* HEADER */}
 
 								<div className="w-full px-8 py-4 pb-24 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
-									{availableTripLoading ? (
+									{availableTripLoading && (
 										<div className="flex px-6 py-2 mb-8 space-x-4 animate-pulse">
 											<div className="flex-1 py-1 space-y-6">
 												<div className="h-2 rounded bg-slate-200"></div>
@@ -448,40 +450,38 @@ const Bookings = () => {
 												</div>
 											</div>
 										</div>
-									) : availableTripError ? (
+									)}
+									{availableTripError && (
 										<Alert
 											message="An error occured"
 											description={availableTripError}
 											type="error"
 											showIcon
 										/>
-									) : availableTripData?.length === 0 ? (
+									)}{" "}
+									{availableTripData?.length === 0 && (
 										<Alert
 											type="info"
 											message="Sorry there are no available trips to the destination selected"
 										/>
-									) : (
-										availableTripData.reverse()?.map((trip: Trip_interface) => {
-											return (
-												<BookingCard
-													key={trip?._id}
-													from={trip?.travel_destination?.from?.start_busstop}
-													to={trip?.travel_destination?.to?.stop_busstop}
-													takeOffTime={trip?.take_off_time}
-													takeOffDate={trip?.take_off_date}
-													price={trip?.price}
-													arrivalTime={trip?.arrival_time}
-													arrivalDate={trip?.arrival_date}
-													onClick={() => {
-														// console.log(trip?.no_of_seat);
-														handleOpenModal(trip, "howmanytickets");
-														// dispatch(addToMyBookinAction(trip));
-														// navigate("/checkout");
-													}}
-												/>
-											);
-										})
 									)}
+									{availableTripData?.map((trip: Trip_interface) => {
+										return (
+											<BookingCard
+												key={trip?._id}
+												from={trip?.travel_destination?.from?.start_busstop}
+												to={trip?.travel_destination?.to?.stop_busstop}
+												takeOffTime={trip?.take_off_time}
+												takeOffDate={trip?.take_off_date}
+												price={trip?.price}
+												arrivalTime={trip?.arrival_time}
+												arrivalDate={trip?.arrival_date}
+												onClick={() => {
+													handleOpenModal(trip, "howmanytickets");
+												}}
+											/>
+										);
+									})}
 								</div>
 							</div>
 						</div>
@@ -509,7 +509,7 @@ const Bookings = () => {
 										</h3>
 									</div>
 
-									<BsArrowRight className="top-0 mt-1 mr-8 lg:w-4  lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
+									<BsArrowRight className="top-0 mt-1 mr-8 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
 									<div className="w-1/2 lg:w-1/3 ">
 										<h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
 											{modalData?.travel_destination?.to?.stop_busstop}

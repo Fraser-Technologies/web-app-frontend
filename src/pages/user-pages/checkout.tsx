@@ -96,7 +96,7 @@ const Checkout = () => {
 	for (let i = 0; i < myBooking?.no_of_ticket; i++) {
 		inputFields.push(
 			<Form.Item key={i}>
-				<div className="w-full flex lg:space-x-3">
+				<div className="flex w-full lg:space-x-3">
 					<div className="w-full">
 						<div className="mb-1">
 							<label className="text-gray-500">Name</label>
