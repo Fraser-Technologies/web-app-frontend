@@ -66,60 +66,23 @@ const Waitlist = () => {
 
   return (
     // <Layout title="Waitlist">
-    <div className=" w-full bg-black">
-      <div className=" w-full h-[100vh] overflow-hidden">
-        <div className="text-center w-full">
-          <h1 className="text-white mt-8 text-[32px]">Fraser</h1>
+    <div className="w-full bg-black text-white">
+      <div className="w-full h-[100vh] overflow-scroll md:overflow-hidden">
+        <div className="mx-[24px] text-center">
+          <h1 className=" mt-8 text-[32px]">Fraser</h1>
 
-          <div className="waitlist-text mb-8">
-            <h1 className="header-text">
-              Move freely <br /> <span className="cities">between cities.</span>
-            </h1>
-            <p className="subtitle-text text-[22px] text-[#E5FCF5] font-light w-1/2 mx-auto">
-              {" "}
-              Do you want to travel between cities comfortably, conveniently and
-              affordably, use Fraser.
-              {/* <br />
-              <br />
-              Be the first to know when we launch. */}
-            </p>
+          <div className="mt-12 md:mt-28 mb-6 mx-4 text-[62px] md:text-[120px] font-medium md:font-semibold leading-none md:leading-12 md:tracking-tight">
+            <div className="text-primary-100">Move freely</div>
+            <div className="">between cities</div>
           </div>
-          <div className="Patterns-dots Landing-dots Patterns_animatedIn__2wrQM">
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
+          <p className="mx-4 w-full md:w-1/3 md:mx-auto mb-8 text-gray-300 md:text-[22px]">
+            Travel comfortably, conveniently and affordably between cities with Fraser.
+          </p>
+          
 
-          <div className="w-1/4 mx-auto">
+          <div className="md:w-1/4 md:mx-auto">
             <button
-              className="py-8 px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4"
+              className="py-6 md:py-8 md:px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4 md:mb-8"
               onClick={() => {
                 openModal(true);
               }}
@@ -127,7 +90,7 @@ const Waitlist = () => {
               Join Waitlist
             </button>
             <button
-              className=" py-8 px-16 w-full rounded-xl text-[18px] border border-[#ffffff] hover:border-[#e3e3e3] hover:text-[#e3e3e3] text-white"
+              className="py-6 md:py-8 md:px-16 w-full rounded-xl text-[18px] border border-[#ffffff] hover:border-[#e3e3e3] hover:text-[#e3e3e3] text-white"
               onClick={() => {
                 navigate(_paths_.BOOKRIDE);
               }}
@@ -136,12 +99,14 @@ const Waitlist = () => {
             </button>
           </div>
 
-          <div className="image-container">
+          <div className="h-[30vh] lg:h-full overflow-hidden">
+          <div className="image-container ">
             <div className="image-bg-left">
               <div className="image-bg">
                 <img className="homepage" src="/Homepage.png" alt="" />
               </div>
             </div>
+          </div>
           </div>
         </div>
       </div>
@@ -228,7 +193,40 @@ const Waitlist = () => {
           </form>
         </Modal>
       )}
+      <div className="Patterns-dots Landing-dots Patterns_animatedIn__2wrQM">
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
     </div>
+    
     // </Layout>
   );
 };
