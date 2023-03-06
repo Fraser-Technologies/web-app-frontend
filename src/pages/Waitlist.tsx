@@ -64,85 +64,89 @@ const Waitlist = () => {
 		} else alert("Empty Fields");
 	};
 
-	return (
-		// <Layout title="Waitlist">
-		<div className=" w-full bg-black">
-			<div className=" w-full h-[100vh] overflow-hidden">
-				<div className="text-center w-full">
-					<h1 className="text-white mt-8 text-[32px]">Fraser</h1>
+  return (
+    // <Layout title="Waitlist">
+    <div className="w-full bg-black text-white">
+      <div className="w-full h-[100vh] overflow-y-scroll md:overflow-hidden">
+        <div className="text-center">
+          <h1 className="mt-8 text-[32px]">Fraser</h1>
 
-					<div className="waitlist-text mb-8">
-						<h1 className="header-text">
-							Move freely <br /> <span className="cities">between cities.</span>
-						</h1>
-						<p className="subtitle-text text-[22px] text-[#E5FCF5] font-light w-1/2 mx-auto">
-							{" "}
-							Do you want to travel between cities comfortably, conveniently and
-							affordably, use Fraser.
-							{/* <br />
+          <div className="waitlist-text mb-8">
+            <h1 className="header-text">
+              Move freely <br /> <span className="cities">between cities.</span>
+            </h1>
+            <p className="subtitle-text text-[22px] text-[#E5FCF5] font-light w-1/2 mx-auto">
+              {" "}
+              Do you want to travel between cities comfortably, conveniently and
+              affordably, use Fraser.
+              {/* <br />
               <br />
               Be the first to know when we launch. */}
-						</p>
-					</div>
-					<div className="Patterns-dots Landing-dots Patterns_animatedIn__2wrQM">
-						<div>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<div>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<div>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<div>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-						<div>
-							<span></span>
-							<span></span>
-							<span></span>
-							<span></span>
-						</div>
-					</div>
+            </p>
+          </div>
+          <div className="Patterns-dots Landing-dots Patterns_animatedIn__2wrQM">
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
 
-					<div className="w-1/4 mx-auto">
-						<button
-							className="py-8 px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4"
-							onClick={() => {
-								openModal(true);
-							}}>
-							Join Waitlist
-						</button>
-						<button
-							className=" py-8 px-16 w-full rounded-xl text-[18px] border border-[#ffffff] hover:border-[#e3e3e3] hover:text-[#e3e3e3] text-white"
-							onClick={() => {
-								navigate(_paths_.BOOKRIDE);
-							}}>
-							Get Early Access 👀
-						</button>
-					</div>
+          <div className="w-1/4 mx-auto">
+            <button
+              className="py-8 px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4"
+              onClick={() => {
+                openModal(true);
+              }}
+            >
+              Join Waitlist
+            </button>
+            <button
+              className=" py-8 px-16 w-full rounded-xl text-[18px] border border-[#ffffff] hover:border-[#e3e3e3] hover:text-[#e3e3e3] text-white"
+              onClick={() => {
+                navigate(_paths_.BOOKRIDE);
+              }}
+            >
+              Get Early Access 👀
+            </button>
+          </div>
 
-					<div className="image-container">
-						<div className="image-bg-left">
-							<div className="image-bg">
-								<img className="homepage" src="/Homepage.png" alt="" />
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+          <div className="h-[30vh] md:h-[50vh] mt-0 md:mt-12 lg:mt-0 lg:h-full overflow-hidden">
+          <div className="image-container ">
+            <div className="image-bg-left">
+              <div className="image-bg">
+                <img className="homepage" src="/Homepage.png" alt="" />
+              </div>
+            </div>
+          </div>
+          </div>
+        </div>
+      </div>
 
 			{/* Modal */}
 
@@ -209,24 +213,58 @@ const Waitlist = () => {
 							/>
 						</div>
 
-						<button
-							className={`w-full p-3 mt-6 text-medium rounded-lg mb-8 ${
-								loginValid ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
-							} `}
-							type="submit"
-							onClick={loginValid ? handleSubmit : () => {}}>
-							{loading ? (
-								<BeatLoader color={"#000000"} loading={loading} size={15} />
-							) : (
-								"Join Waitlist"
-							)}
-						</button>
-					</form>
-				</Modal>
-			)}
-		</div>
-		// </Layout>
-	);
+            <button
+              className={`w-full p-3 mt-6 text-medium rounded-lg mb-8 ${
+                loginValid ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
+              } `}
+              type="submit"
+              onClick={loginValid ? handleSubmit : () => {}}
+            >
+              {loading ? (
+                <BeatLoader color={"#000000"} loading={loading} size={15} />
+              ) : (
+                "Join Waitlist"
+              )}
+            </button>
+          </form>
+        </Modal>
+      )}
+      <div className="Patterns-dots Landing-dots Patterns_animatedIn__2wrQM">
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+            <div>
+              <span></span>
+              <span></span>
+              <span></span>
+              <span></span>
+            </div>
+          </div>
+    </div>
+    
+    // </Layout>
+  );
 };
 
 export default Waitlist;
