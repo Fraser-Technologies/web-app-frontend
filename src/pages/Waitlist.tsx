@@ -67,22 +67,22 @@ const Waitlist = () => {
   return (
     // <Layout title="Waitlist">
     <div className="w-full bg-black text-white">
-      <div className="w-full h-[100vh] overflow-scroll md:overflow-hidden">
-        <div className="mx-[24px] text-center">
-          <h1 className=" mt-8 text-[32px]">Fraser</h1>
+      <div className="w-full h-[100vh] overflow-y-scroll md:overflow-hidden">
+        <div className="text-center">
+          <h1 className="mt-8 text-[32px]">Fraser</h1>
 
-          <div className="mt-12 md:mt-28 mb-6 mx-4 text-[62px] md:text-[120px] font-medium md:font-semibold leading-none md:leading-12 md:tracking-tight">
+          <div className="px-4 mt-12 md:mt-40 lg:mt-28 mb-6 text-[64px] md:text-[80px] lg:text-[120px] font-medium md:font-semibold leading-none md:leading-12 md:tracking-tight">
             <div className="text-primary-100">Move freely</div>
-            <div className="">between cities</div>
+            <div className="w-full">between cities</div>
           </div>
-          <p className="mx-4 w-full md:w-1/3 md:mx-auto mb-8 text-gray-300 md:text-[22px]">
+          <p className="px-4 w-full md:w-4/6 lg:w-1/3 md:mx-auto mb-8 md:mb-16 lg:mb-8 text-gray-300 md:text-[22px]">
             Travel comfortably, conveniently and affordably between cities with Fraser.
           </p>
           
 
-          <div className="md:w-1/4 md:mx-auto">
+          <div className="mx-8 md:w-1/2 lg:w-1/4 md:mx-auto">
             <button
-              className="py-6 md:py-8 md:px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4 md:mb-8"
+              className="py-6 lg:py-8 lg:px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4 lg:mb-6"
               onClick={() => {
                 openModal(true);
               }}
@@ -99,7 +99,7 @@ const Waitlist = () => {
             </button>
           </div>
 
-          <div className="h-[30vh] lg:h-full overflow-hidden">
+          <div className="h-[30vh] md:h-[50vh] mt-0 md:mt-12 lg:mt-0 lg:h-full overflow-hidden">
           <div className="image-container ">
             <div className="image-bg-left">
               <div className="image-bg">
