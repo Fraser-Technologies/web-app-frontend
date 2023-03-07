@@ -8,6 +8,7 @@ import { Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { _paths_ } from "../utils/routes";
 
+
 const Waitlist = () => {
   const [modal, openModal] = useState(false);
   const [firstName, setFirstName] = useState("");
