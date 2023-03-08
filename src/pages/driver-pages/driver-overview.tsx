@@ -9,6 +9,7 @@ import {
 	FaChevronRight,
 	FaPlay,
 	FaBook,
+	FaUser,
 } from "react-icons/fa";
 import { Button } from "../../components/Button";
 import moment from "moment";
@@ -25,7 +26,6 @@ import {
 	verifyPassangerOnboardAction,
 } from "../../state/action/trip.action";
 import { Booking_interface } from "../../interfaces/Booking_interface";
-import { getBalanceByUserAction } from "../../state/action/balance.action";
 import { getTheLatestByDate } from "../../utils/getTheLatestTripByDate";
 
 const DriverOverview = () => {
@@ -84,8 +84,6 @@ const DriverOverview = () => {
 	const [dates, setDates] = useState<string[]>([]);
 	const [disabledDates, setDisabledDates] = useState<string[]>([]);
 
-	const verifyPassengerArrived = () => {};
-
 	const TotalRating = (trips: Trip_interface[]): number => {
 		let list_of_rating = [];
 		for (let index = 0; index < trips?.length; index++) {
@@ -111,11 +109,11 @@ const DriverOverview = () => {
 
 	useEffect(() => {
 		dispatch(getTripByDriverAction(userInfo?._id));
-	}, [dispatch, onBoardedTrip, userInfo, unBoardedTrip, endTripSuccess]);
+	}, [dispatch, onBoardedTrip, userInfo, unBoardedTrip]);
 
 	useEffect(() => {
-		dispatch(getBalanceByUserAction());
-	}, [dispatch]);
+		dispatch(getTripByDriverAction(userInfo?._id));
+	}, [dispatch, onBoardedTrip, userInfo, unBoardedTrip, endTripSuccess]);
 
 	useEffect(() => {
 		dispatch(resetUpdateTripAction());
@@ -565,6 +563,9 @@ const DriverOverview = () => {
 								<h3 className="mb-4 text-base font-medium">
 									Your Upcoming Trips
 								</h3>
+								{trips?.filter(
+									(trip: Trip_interface) => trip?.completed_status === false
+								).length === 0 && <div>You don't have any upcoming trips</div>}
 								{trips
 									?.filter(
 										(trip: Trip_interface) => trip?.completed_status === false
@@ -850,44 +851,63 @@ const DriverOverview = () => {
 				{flip === DriverViews.MANIFEST && modalVisible && (
 					<Modal
 						title={
-							<div className="text-lg font-medium boder-b">
-								{`${modalData?.travel_destination?.from?.city?.city} to ${modalData?.travel_destination?.to?.city?.city} Trip`}
+							<div className="">
+								<p className="mb-4 text-lg font-medium">Passenger Manifest</p>
+								<p className="text-base font-normal">{`${modalData?.travel_destination?.from?.city?.city} to ${modalData?.travel_destination?.to?.city?.city} Trip`}</p>
+
+								<div className="flex w-full bg-black rounded-md px-2 pt-1 pb-3 font-normal text-[14px] text-white my-2">
+									<div className="w-full flex mt-2 mr-2 rounded-md ">
+										<div className="ml-2">
+											<p className="mb-1 text-gray-500">Passengers</p>
+											<p className="text-lg">{modalData?.bookings.length} </p>
+										</div>
+									</div>
+									<div className="w-full flex mt-2 mr-2 rounded-md ">
+										<div className="ml-2">
+											<p className="mb-1 text-gray-500">Onboard</p>
+											<p className=" text-lg">
+												{modalData?.verified_passengers_onboard?.length}{" "}
+											</p>
+										</div>
+									</div>
+									<div className="w-full flex mt-2 mr-2 rounded-md ">
+										<div className="ml-2">
+											<p className="mb-1 text-gray-500">Not Onboard</p>
+											<p className=" text-lg">
+												{modalData?.bookings?.length -
+													modalData?.verified_passengers_onboard?.length}
+											</p>
+										</div>
+									</div>
+								</div>
+
+								<table className="w-full mt-4 text-base font-normal text-left text-white table-auto">
+									<thead className="bg-black w-full text-white">
+										<tr>
+											<th
+												scope="col"
+												className="px-2 py-2 pl-4 font-normal rounded-l-md">
+												Name
+											</th>
+											<th
+												scope="col"
+												className="px-2 py-2 font-normal text-center rounded-r-md">
+												Action
+											</th>
+										</tr>
+									</thead>
+								</table>
 							</div>
 						}
+						className=""
 						onOk={handleOk}
 						onCancel={handleCancel}
 						open={modalVisible}
 						centered={true}
 						footer={false}
 						closable={true}>
-						<div>
-							<p className="mt-6 mb-4 text-base font-medium">
-								Passenger Manifest
-							</p>
-							<div className="my-1 text-gray-400">
-								{modalData?.bookings.length} Passengers,{" "}
-								{modalData?.verified_passengers_onboard?.length}
-								Onboard,{" "}
-								{modalData?.bookings?.length -
-									modalData?.verified_passengers_onboard?.length}{" "}
-								Not Onboard
-							</div>
+						<div className="h-[60vh] overflow-y-scroll">
 							<table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
-								<thead className="bg-black">
-									<tr>
-										<th
-											scope="col"
-											className="px-2 py-2 pl-4 font-normal rounded-mdlg">
-											Name
-										</th>
-										<th
-											scope="col"
-											className="px-2 py-2 font-normal text-center rounded-mdlg">
-											Action
-										</th>
-									</tr>
-								</thead>
-
 								{/* //TABLE ROWS */}
 								<tbody className="mt-4">
 									{modalData?.bookings?.map((book: Booking_interface) => {
@@ -939,10 +959,7 @@ const DriverOverview = () => {
 																		);
 																		setOnboard(!onboard);
 																	}}>
-																	<FaCheck
-																		className="mr-2"
-																		onClick={verifyPassengerArrived}
-																	/>
+																	<FaCheck className="mr-2" />
 																	<span>Onboard</span>
 																</div>
 															)}

@@ -232,7 +232,7 @@ const DriverSignUp = () => {
 				!phone
 			) {
 				setShowError(true);
-				setErrorMessage("All field are required");
+				setErrorMessage("All fields are required");
 				return;
 			}
 			dispatch(registerAsADriverAction(DriverData));
@@ -243,7 +243,7 @@ const DriverSignUp = () => {
 		if (currentPage === 2) {
 			if (!make || !model || !vehicleCapacity || !registrationNumber) {
 				setShowError(true);
-				setErrorMessage("All field are required");
+				setErrorMessage("All fields are required");
 				return;
 			}
 			dispatch(
@@ -263,7 +263,7 @@ const DriverSignUp = () => {
 		if (currentPage === 3) {
 			if (!driverLisense || !roadWorthiness || !roadWorthiness) {
 				setShowError(true);
-				setErrorMessage("Upload all relevant document");
+				setErrorMessage("Upload all relevant documents");
 				return;
 			}
 
@@ -275,7 +275,7 @@ const DriverSignUp = () => {
 	const handleSubmit = () => {
 		if (!bankFilter || !accountName || !accountNo) {
 			setShowError(true);
-			setErrorMessage("Adding all payment information if required");
+			setErrorMessage("Add your payment information");
 			return;
 		}
 		dispatch(
@@ -292,7 +292,7 @@ const DriverSignUp = () => {
 	// useEffect(() => {}, []);
 
 	return (
-		<div className="flex flex-col items-center w-full h-screen">
+		<div className="bg-black flex flex-col items-center w-full h-screen">
 			<div className="flex items-center w-full mt-6">
 				<div className="flex m-auto mb-6">
 					<div className="py-1 border-r border-[#000000]">
@@ -306,9 +306,9 @@ const DriverSignUp = () => {
 				</div>
 			</div>
 
-			<div className="bg-white overflow-y-scroll fixed bottom-8 h-[85vh] w-1/3 mx-auto rounded-md text-sm">
+			<div className="bg-white overflow-y-scroll fixed bottom-8 h-[85vh] w-5/6 md:w-1/3 mx-auto rounded-md">
 				<div
-					className={`py-4 rounded-t-md fixed w-1/3 px-8 z-20 bg-white border-b border-[#EFF3EF] ${
+					className={`py-4 rounded-t-md fixed md:w-1/3 px-4 md:px-8 z-20 w-5/6 bg-white border-b border-[#EFF3EF] ${
 						currentPage === 5 && "hidden"
 					}`}>
 					<div className="flex items-center justify-between w-2/6">
@@ -335,22 +335,22 @@ const DriverSignUp = () => {
 					</div>
 
 					<div>
-						<h3 className="mt-6 text-base font-medium">
+						<h3 className="mt-6 text-xl font-medium">
 							{currentPage === 1 && "Personal Information"}
 							{currentPage === 2 && "Vehicle Information"}
 							{currentPage === 3 && "Document Upload"}
 							{currentPage === 4 && "Payment Information"}
 						</h3>
-						<p className="text-[10px] text-[#929292] mt-1 w-11/12">
-							{currentPage === 1 &&
-								"Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
-							{currentPage === 2 &&
-								"Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
-							{currentPage === 3 &&
-								"Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
-							{currentPage === 4 &&
-								"Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
-						</p>
+						{/* <p className=" text-[#929292] text-sm mt-1 w-11/12">
+              {currentPage === 1 &&
+                "Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
+              {currentPage === 2 &&
+                "Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
+              {currentPage === 3 &&
+                "Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
+              {currentPage === 4 &&
+                "Join the revolution of earning money on your own terms. Sign up now to start turning your vehicle into a money-making machine"}
+            </p> */}
 					</div>
 				</div>
 
@@ -359,18 +359,18 @@ const DriverSignUp = () => {
 					{/*  */}
 					{/* PAGE 1 */}
 					{currentPage === 1 && (
-						<div className="px-8 py-8 mt-32 mb-32">
+						<div className="px-4 md:px-8 py-8 mt-24 mb-32">
 							{showError && currentPage === 1 && (
-								<p className="text-red-600">{errorMessage}</p>
+								<p className="text-red-600 mb-8">{errorMessage}</p>
 							)}
-							<div className="mb-6">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+							<div className="mb-4">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										First Name
 									</label>
 								</div>
 								<Input
-									className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
+									className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
 									placeholder="First Name"
 									value={fName}
 									required={true}
@@ -378,14 +378,14 @@ const DriverSignUp = () => {
 									onChange={(e) => setFName(e.target.value)}
 								/>
 							</div>
-							<div className="mb-6">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+							<div className="mb-4">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										Last Name
 									</label>
 								</div>
 								<Input
-									className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
+									className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
 									placeholder="Last Name"
 									value={lName}
 									required={true}
@@ -394,12 +394,12 @@ const DriverSignUp = () => {
 								/>
 							</div>
 
-							<div className="mb-6">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">Phone</label>
+							<div className="mb-4">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">Phone</label>
 								</div>
 								<Input
-									className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
+									className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
 									placeholder="Phone Number"
 									value={phone}
 									required={true}
@@ -416,14 +416,14 @@ const DriverSignUp = () => {
 								/>
 							</div>
 
-							<div className="mb-6">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+							<div className="mb-4">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										Driver’s License Number
 									</label>
 								</div>
 								<Input
-									className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
+									className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
 									placeholder="License Number"
 									value={licenseNumber}
 									required={true}
@@ -431,14 +431,14 @@ const DriverSignUp = () => {
 									onChange={(e) => setLicenseNumber(e.target.value)}
 								/>
 							</div>
-							<div className="mb-6">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+							<div className="mb-4">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										Email Address
 									</label>
 								</div>
 								<Input
-									className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
+									className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
 									placeholder="Email"
 									value={email}
 									required={true}
@@ -447,15 +447,15 @@ const DriverSignUp = () => {
 								/>
 							</div>
 
-							<div className="relative w-full mb-6 text-left duration-300 ease-in-out">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+							<div className="relative w-full mb-4 text-left duration-300 ease-in-out">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										Primary Location
 									</label>
 								</div>
 								<button
 									type="button"
-									className="inline-flex h-9 items-center w-full px-2 py-2 mb-2 text-sm  leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+									className="inline-flex h-12 text-[14px] items-center w-full px-2 py-2 mb-2  leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 									onClick={() => {
 										setlocation(!location);
 									}}>
@@ -463,12 +463,12 @@ const DriverSignUp = () => {
 									<FaCaretDown className="ml-auto" />
 								</button>
 								{location && (
-									<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg scroll-auto">
+									<div className="absolute z-10 w-full py-4 text-[14px] mt-2 bg-white rounded-md shadow-xs shadow-lg scroll-auto">
 										{availableCities.map((e) => {
 											return (
 												<a
 													href="#"
-													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+													className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
 														setlocationName(e.state);
 														setlocation(false);
@@ -482,8 +482,8 @@ const DriverSignUp = () => {
 							</div>
 
 							<div className="flex flex-col pb-4 mb-4 border-b ">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										Profile Image
 									</label>
 								</div>
@@ -495,9 +495,9 @@ const DriverSignUp = () => {
 									onChange={uploadProfilePics}
 								/>
 							</div>
-							{uploadingProfile && (
-								<p className="text-blue-500">Uploading Please wait...</p>
-							)}
+							{/* {uploadingProfile && (
+                <p className="text-blue-500">Uploading Please wait...</p>
+              )} */}
 							{profile && (
 								<div className="flex justify-between w-full bg-green-200 align-center rounded-md p-[2px]">
 									<img alt="" src={profile} className="w-[30px] h-[30px]" />
@@ -519,18 +519,18 @@ const DriverSignUp = () => {
 
 					{/* PAGE 2 */}
 					{currentPage === 2 && (
-						<div className="px-8 py-8 mt-32 mb-12">
-							{(showError || errorMessage) && currentPage === 2 && (
-								<p className="text-red-600">{errorMessage || createBusError}</p>
-							)}
+						<div className="px-4 md:px-8 py-8 mt-24 mb-40 text-[14px]">
+							{/* {(showError || errorMessage) && currentPage === 2 && (
+                <p className="text-red-600">{errorMessage || createBusError}</p>
+              )} */}
 
-							<div className="relative w-full mb-6 text-left duration-300 ease-in-out">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">Bus Make</label>
+							<div className="relative w-full mb-4 text-left duration-300 ease-in-out">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">Bus Make</label>
 								</div>
 								<button
 									type="button"
-									className="inline-flex h-9 items-center w-full px-2 py-2 mb-2 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-[6px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+									className="inline-flex h-12 items-center w-full px-2 py-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[6px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 									onClick={() => {
 										setMakeOpen(!makeOpen);
 									}}>
@@ -543,7 +543,7 @@ const DriverSignUp = () => {
 											return (
 												<a
 													href="#"
-													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+													className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
 														setMake(e.make);
 														setModelList(e.models);
@@ -558,17 +558,17 @@ const DriverSignUp = () => {
 							</div>
 
 							<div
-								className={`relative w-full text-left duration-300 ease-in-out z-10 mb-6 ${
+								className={`relative w-full text-left duration-300 ease-in-out z-10 mb-4 ${
 									modelList.length === 0 && "hidden"
 								}`}>
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										Bus Model
 									</label>
 								</div>
 								<button
 									type="button"
-									className="inline-flex h-9 items-center w-full px-2 py-2 mb-2 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-[6px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+									className="inline-flex h-12 items-center w-full px-2 py-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[6px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
 									onClick={() => {
 										setModelOpen(!modelOpen);
 									}}>
@@ -581,7 +581,7 @@ const DriverSignUp = () => {
 											return (
 												<a
 													href="#"
-													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+													className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
 														setModel(e);
 														setModelOpen(false);
@@ -593,14 +593,14 @@ const DriverSignUp = () => {
 									</div>
 								)}
 							</div>
-							<div className="mb-6">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+							<div className="mb-4">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										Vehicle Capacity
 									</label>
 								</div>
 								<Input
-									className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
+									className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
 									placeholder="Vehicle Capacity"
 									type="number"
 									value={vehicleCapacity}
@@ -610,15 +610,15 @@ const DriverSignUp = () => {
 								/>
 							</div>
 
-							<div className="mb-6">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+							<div className="mb-4">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										Vehicle Registration Number
 									</label>
 								</div>
 								<Input
-									className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
-									placeholder="Vehicle Registration Number"
+									className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
+									placeholder="AA 1234 KJA"
 									value={registrationNumber}
 									required={true}
 									size="small"
@@ -630,11 +630,11 @@ const DriverSignUp = () => {
 
 					{/* PAGE 3 */}
 					{currentPage === 3 && (
-						<div className="flex flex-col px-8 py-8 mt-32 mb-32 ">
+						<div className="flex flex-col px-4 text-[14px] md:text-base md:px-8 py-8 mt-24 mb-32">
 							<div className="flex flex-col pb-4 mb-4 border-b ">
-								{showError && currentPage === 3 && (
-									<p className="text-red-600">{errorMessage}</p>
-								)}
+								{/* {showError && currentPage === 3 && (
+                  <p className="text-red-600">{errorMessage}</p>
+                )} */}
 								<p className="mb-3 text-[#22B11E]">
 									Driver’s License (as image)
 								</p>
@@ -705,7 +705,7 @@ const DriverSignUp = () => {
 									</div>
 								)}
 							</div>
-							<div className="flex flex-col pb-4 mb-4 border-b ">
+							<div className="flex flex-col pb-4 mb-4 border-b mb-24">
 								<p className="mb-3 text-[#22B11E]">
 									Road Worthiness Certificate
 								</p>
@@ -746,20 +746,20 @@ const DriverSignUp = () => {
 
 					{currentPage === 4 && (
 						// banks
-						<div className="px-8 py-8 mt-32 mb-6">
-							<div className="relative w-full mb-6 text-left duration-300 ease-in-out">
-								{showError && currentPage === 4 && (
-									<p className="text-red-600">{errorMessage}</p>
-								)}
-								<div className="mb-6">
-									<div className="mb-1">
-										<label className="text-[#929292] text-[10px]">
+						<div className="px-4 md:px-8 py-8 mt-24 mb-40 text-[14px]">
+							<div className="relative w-full mb-4 text-left duration-300 ease-in-out">
+								{/* {showError && currentPage === 4 && (
+                  <p className="text-red-600">{errorMessage}</p>
+                )} */}
+								<div className="mb-4">
+									<div className="mb-2">
+										<label className="text-[#929292] text-[14px]">
 											Account Name
 										</label>
 									</div>
 									<Input
-										className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
-										placeholder="account name"
+										className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
+										placeholder="Account Name"
 										type="text"
 										value={accountName}
 										required={true}
@@ -767,13 +767,13 @@ const DriverSignUp = () => {
 										onChange={(e) => setAccountName(e.target.value)}
 									/>
 								</div>
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">Bank</label>
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">Bank</label>
 								</div>
 								<input
 									type="text"
-									className="inline-flex h-9 items-center w-full px-2 py-2 mb-2 text-sm  leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-									placeholder="Search Banks"
+									className="inline-flex h-12 items-center w-full px-2 py-2 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+									placeholder="Bank Name"
 									onClick={() => {
 										setBankOpen(!bankOpen);
 									}}
@@ -792,7 +792,7 @@ const DriverSignUp = () => {
 												return (
 													<a
 														href="#"
-														className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+														className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 														onClick={() => {
 															setBankFilter(e);
 															setBankOpen(false);
@@ -804,15 +804,15 @@ const DriverSignUp = () => {
 									</div>
 								)}
 							</div>
-							<div className="mb-6">
-								<div className="mb-1">
-									<label className="text-[#929292] text-[10px]">
+							<div className="mb-4">
+								<div className="mb-2">
+									<label className="text-[#929292] text-[14px]">
 										Account Number
 									</label>
 								</div>
 								<Input
-									className="w-full text-sm h-9 hover:border-green-500 focus:border-green-500 active:border-green-600"
-									placeholder="Account Number"
+									className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
+									placeholder="0123456789"
 									value={accountNo}
 									required={true}
 									size="small"
@@ -822,21 +822,20 @@ const DriverSignUp = () => {
 						</div>
 					)}
 					{currentPage === 5 && (
-						<div className="h-[70vh] items-center flex flex-col px-8">
+						<div className="h-[70vh] items-center flex flex-col px-6 md:px-8">
 							<img
 								src="/assets/images/success.gif"
 								width="120px"
 								alt=""
 								className="mt-auto mb-6"
 							/>
-							<div className="w-2/3 mb-24 text-center ">
+							<div className="w-5/6 md:w-2/3 mb-8 md:mb-24 text-center ">
 								We have received your submission, our team will review shortly
-								and get back to you. <br /> <br /> This is usually within 24
-								hours
+								and get back to you.
 							</div>
 
 							<button
-								className={`items-center justify-center w-full p-3 mb-4 font-medium rounded-md bg-[#000000] text-white hover:bg-[#353535]`}
+								className={`items-center justify-center w-full p-3 mb-4 font-medium rounded-md bg-primary-100 text-black hover:bg-[#58FF9E]`}
 								onClick={() => {}}>
 								<svg
 									className={`${
@@ -894,10 +893,10 @@ const DriverSignUp = () => {
 				{/* BUTTONS */}
 
 				<div
-					className={`fixed bottom-8 bg-white border-t border-[#EFF3EF] rounded-b-md w-1/3 ${
+					className={`fixed bottom-8 bg-white border-t border-[#EFF3EF] rounded-b-md w-5/6 md:w-1/3 ${
 						currentPage === 5 && "hidden"
 					}`}>
-					<div className="flex items-center m-auto mx-8 my-6">
+					<div className="flex items-center m-auto mx-4 md:mx-8 my-6">
 						<button
 							className={`items-center justify-center flex  p-3 px-6 font-medium rounded-md mr-3 ${
 								// signUpValid
@@ -926,14 +925,15 @@ const DriverSignUp = () => {
 									stroke-width="5"
 								/>
 							</svg>
-							<FaChevronLeft className="mr-4" /> Previous
+							{/* <FaChevronLeft className="mr-4" />  */}
+							Previous
 						</button>
 
 						<button
 							className={`items-center justify-center flex w-full p-3 font-medium rounded-md ${
 								// signUpValid
 								true
-									? "bg-[#000000] text-white hover:bg-[#353535]"
+									? "bg-primary-100 text-black hover:bg-[#58FF9E]"
 									: "bg-[#f5f5f5]"
 							} `}
 							onClick={() => {

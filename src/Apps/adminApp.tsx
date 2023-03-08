@@ -5,6 +5,7 @@ import AdminDashBoard from "../pages/AdminPortal";
 import AdminLogin from "../pages/admin-pages/admin-login";
 import { _paths_ } from "../utils/routes";
 
+
 const AdminApp: FC = () => {
 	return (
 		<Routes>
