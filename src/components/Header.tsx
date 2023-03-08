@@ -7,7 +7,7 @@ import { Button } from "./Button";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
 import { Dropdown } from "antd";
 import type { MenuProps } from "antd";
-import { logoutUserAction } from "../state/action/user.action";
+import { logoutUserAction } from "../state/slices/user.action";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { _paths_ } from "../utils/routes";
 

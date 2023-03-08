@@ -11,6 +11,9 @@ import {
 	getBalanceByUserFailed,
 	getBalanceByUserRequest,
 	getBalanceByUserSuccess,
+	withdrawFailed,
+	withdrawRequest,
+	withdrawSuccess,
 } from "../slices/balance.slice";
 import { AppThunk } from "./../redux-store";
 
@@ -21,7 +24,11 @@ export const getAllUserBalance = (): AppThunk => async (dispatch, getState) => {
 			userLogin: { userInfo },
 		} = getState();
 
-		const { data } = await api.get("/balance", requestHeader(userInfo));
+		const { data } = await api.get("/balance", {
+			headers: {
+				Authorization: `Bearer ${userInfo?.user_token}`,
+			},
+		});
 		dispatch(getAllUserBalanceSuccess(data));
 	} catch (error: any) {
 		dispatch(getAllUserBalanceFailed(RequestError(error)));
@@ -64,5 +71,32 @@ export const addAccountAction =
 			dispatch(addAcccountSuccess(data));
 		} catch (error: any) {
 			dispatch(addAccountFailed(RequestError(error)));
+		}
+	};
+
+export const withdrawBalanceAction =
+	(amount: number): AppThunk =>
+	async (dispatch, getState) => {
+		console.log("the amount is ", amount);
+		try {
+			const {
+				userLogin: { userInfo },
+			} = getState();
+
+			dispatch(withdrawRequest());
+
+			const { data } = await api.post(
+				"/balance/withdraw",
+				{ amount: amount },
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+
+			dispatch(withdrawSuccess(data));
+		} catch (error: any) {
+			dispatch(withdrawFailed(RequestError(error)));
 		}
 	};

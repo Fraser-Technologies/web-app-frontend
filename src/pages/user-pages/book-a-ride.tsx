@@ -10,7 +10,7 @@ import { Alert, Input, message, Modal } from "antd";
 import {
 	registerUserAction,
 	userLoginAction,
-} from "../../state/action/user.action";
+} from "../../state/slices/user.action";
 import {
 	getAllAvailableTripAction,
 	getAvailableTripAction,

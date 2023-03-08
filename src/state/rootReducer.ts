@@ -3,6 +3,7 @@ import {
 	addAccountReducer,
 	allUserBalances,
 	balanceByUserReducer,
+	withdrawReducer,
 } from "./slices/balance.slice";
 import {
 	allBusReducer,
@@ -40,6 +41,7 @@ import {
 	availableTripReducer,
 	createTripReducer,
 	deleteTripByIdReducer,
+	endTripReducer,
 	getAllAvailableTripReducer,
 	getTripByBusReducer,
 	getTripByDriverReducer,
@@ -89,6 +91,7 @@ const rootReducer = combineReducers({
 	createTrip: createTripReducer,
 	updateTrip: updateTripReducer,
 	deleteTrip: deleteTripByIdReducer,
+	endTrip: endTripReducer,
 
 	// trip reducers
 	verifyPayment: verifyPaymentReducer,
@@ -112,6 +115,7 @@ const rootReducer = combineReducers({
 	allBalance: allUserBalances,
 	userBalance: balanceByUserReducer,
 	createAccount: addAccountReducer,
+	withdrawBalance: withdrawReducer,
 
 	// image reducer
 	uploadFile: uploadFileReducer,

@@ -1,7 +1,7 @@
 import { Input } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { userLoginAction } from "../../state/action/user.action";
+import { userLoginAction } from "../../state/slices/user.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { RootState } from "../../state/redux-store";
 import { _paths_ } from "../../utils/routes";
