@@ -1,7 +1,7 @@
 import { Dropdown, MenuProps } from "antd";
 import React, { useState } from "react";
 import { FaCaretDown, FaSuitcase, FaThLarge } from "react-icons/fa";
-import { logoutUserAction } from "../../state/action/user.action";
+import { logoutUserAction } from "../../state/slices/user.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 
 type Props = {
@@ -39,12 +39,14 @@ const DriverHeader = ({ onViewChange }: Props) => {
 				<div className="flex flex-row items-center justify-start ">
 					<div className="py-1 border-r border-[#ffffff]">
 						<img
-							className="pr-[10px] h-[20px]"
+							className="md:pr-[10px] pr-[6px] md:h-[20px] h-[15px]"
 							src="/assets/images/fraser-white-logo.svg"
-							alt=""
+							alt="Fraser"
 						/>
 					</div>
-					<span className="ml-[10px] ">Driver Portal</span>
+					<span className="ml-[10px] text-[8px] md:text-[15px] ">
+						Driver Portal
+					</span>
 				</div>
 
 				<Dropdown menu={{ items }} trigger={["click"]}>
@@ -58,8 +60,9 @@ const DriverHeader = ({ onViewChange }: Props) => {
 								}
 								alt=""
 							/>
-							<p className="ml-[10px] text-white"></p>
-							{`${userInfo?.first_name} ${userInfo?.last_name}`}
+							<p className=" hidden ml-[10px] text-white  lg:flex ">
+								{`${userInfo?.first_name} ${userInfo?.last_name}`}
+							</p>
 							<p className="ml-[10px]">
 								<FaCaretDown className="ml-auto" />
 							</p>

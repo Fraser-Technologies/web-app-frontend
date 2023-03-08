@@ -4,8 +4,8 @@ import {
 	adminUpdateUserRequest,
 	adminUpdateUserReset,
 	adminUpdateUserSuccess,
-} from "./../slices/user.slice";
-import { requestHeader } from "./../../utils/requestHeader";
+} from "./user.slice";
+import { requestHeader } from "../../utils/requestHeader";
 import { RequestError } from "../../utils/requestError";
 import Cookie from "js-cookie";
 import { api } from "../../utils/api";
@@ -41,7 +41,7 @@ import {
 	updateUserFailed,
 	updateUserRequest,
 	updateUserSuccess,
-} from "../slices/user.slice";
+} from "./user.slice";
 
 export const getAllUserAction = (): AppThunk => async (dispatch, getState) => {
 	dispatch(getAllUserRequest());

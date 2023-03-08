@@ -11,6 +11,19 @@ export const allTripState: initialType = {
 	loading: false,
 	error: "",
 };
+
+export type initialTypeForOne = {
+	trip: Trip_interface | { _id: string };
+	loading: boolean;
+	error: string;
+};
+
+export const oneTrip: initialTypeForOne = {
+	loading: false,
+	error: "",
+	trip: { _id: "" },
+};
+
 export const getAvailableTripSlice = createSlice({
 	name: "get all trips",
 	initialState: allTripState,
@@ -156,6 +169,30 @@ export const {
 	updateTripReset,
 } = updateTripSlice.actions;
 export const updateTripReducer = updateTripSlice.reducer;
+
+export const endTripSlice = createSlice({
+	name: "end trip",
+	initialState: oneTrip,
+	reducers: {
+		endTripRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		endTripSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.trip = payload as unknown as Trip_interface;
+		},
+		endTripFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+		endTripReset: () => initialState,
+	},
+});
+
+export const { endTripRequest, endTripFailed, endTripReset, endTripSuccess } =
+	endTripSlice.actions;
+export const endTripReducer = endTripSlice.reducer;
 
 const getTripByBusSlice = createSlice({
 	name: "get trip by bus",

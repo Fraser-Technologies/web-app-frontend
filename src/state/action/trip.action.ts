@@ -1,7 +1,6 @@
+import { AppThunk } from "./../redux-store";
 import { RequestError } from "../../utils/requestError";
 import { api } from "../../utils/api";
-
-import { AppThunk } from "../redux-store";
 import {
 	createTripFailed,
 	createTripRequest,
@@ -35,6 +34,9 @@ import {
 	verifyPassangerOnBoardFailed,
 	verifyPassangerOnBoardRequest,
 	verifyPassangerOnBoardSuccess,
+	endTripFailed,
+	endTripRequest,
+	endTripSuccess,
 } from "../slices/trip.slice";
 import { resetDeleteCity } from "../slices/city.slice";
 
@@ -122,6 +124,29 @@ export const updateTripAction =
 			dispatch(updateTripSuccess(data));
 		} catch (error: any) {
 			dispatch(updateTripFailed(RequestError(error)));
+		}
+	};
+
+export const endTripAction =
+	(id: string): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			dispatch(endTripRequest());
+			const {
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api.put(
+				`/trip/endtrip/${id}`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+			dispatch(endTripSuccess(data));
+		} catch (error: any) {
+			dispatch(endTripFailed(RequestError(error)));
 		}
 	};
 

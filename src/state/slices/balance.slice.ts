@@ -99,3 +99,26 @@ const addAccountSlice = createSlice({
 export const { addAcccountSuccess, addAccountFailed, addAccountRequest } =
 	addAccountSlice.actions;
 export const addAccountReducer = addAccountSlice.reducer;
+
+const withdrawSlice = createSlice({
+	name: "withdraw from your balance",
+	initialState: oneBalance,
+	reducers: {
+		withdrawRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+		},
+		withdrawSuccess: (state, { payload }) => {
+			state.loading = false;
+			state.balance = payload;
+		},
+		withdrawFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+		},
+	},
+});
+
+export const { withdrawFailed, withdrawRequest, withdrawSuccess } =
+	withdrawSlice.actions;
+export const withdrawReducer = withdrawSlice.reducer;

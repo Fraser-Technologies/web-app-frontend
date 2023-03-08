@@ -9,7 +9,7 @@ import { _paths_ } from "../../utils/routes";
 import {
 	registerAsADriverAction,
 	updateUserAction,
-} from "../../state/action/user.action";
+} from "../../state/slices/user.action";
 import { api } from "../../utils/api";
 import { deleteFileAction } from "../../state/action/image.action";
 import { MdCancel } from "react-icons/md";
