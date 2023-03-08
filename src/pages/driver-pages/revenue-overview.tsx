@@ -15,11 +15,11 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { RootState } from "../../state/redux-store";
 import { currency_formatter } from "../../utils/currency-formatter";
 import { Button } from "../../components/Button";
-import { Transaction_interface } from "../../interfaces/transaction_interface";
 import {
 	getBalanceByUserAction,
 	withdrawBalanceAction,
 } from "../../state/action/balance.action";
+import { Transaction_interface } from "../../interfaces/transaction_interface";
 
 const DriverRevenueOverview = () => {
 	enum DriverRevenueView {
