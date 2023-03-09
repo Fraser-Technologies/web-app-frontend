@@ -31,7 +31,7 @@ const NewSignUps: React.FC = () => {
 	const handlePageClick = (data: any) => {
 		setCurrentPage(data.selected); // update the current page
 	};
-
+	
 	const [currentPage, setCurrentPage] = useState(0); // current page
 	const itemsPerPage = 10; // number of items per page
 	const pageRangeDisplayed = 5; // number of pages to display

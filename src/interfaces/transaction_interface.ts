@@ -6,5 +6,5 @@ export interface Transaction_interface extends Mongo_extra {
 	amount: number;
 	bank: string;
 	transaction_type: "debit" | "credit";
-	transaction_time: string;
+	trasaction_time: string;
 }
