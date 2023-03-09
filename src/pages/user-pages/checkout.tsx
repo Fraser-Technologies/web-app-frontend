@@ -33,7 +33,7 @@ const Checkout = () => {
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
 	const { myBooking } = useAppSelector((state: RootState) => state.booking);
 	const [formData, setFormData] = useState<FormData[]>([]);
-	console.log(myBooking)
+	
 	const handleClose = () => {
 		setOpen(false);
 	};

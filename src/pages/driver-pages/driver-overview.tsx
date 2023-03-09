@@ -115,10 +115,6 @@ const DriverOverview = () => {
   }, [dispatch]);
 
   useEffect(() => {
-	setModalData(getTheLatestByDate(trips));
-  }, [trips, onBoardedTrip, unBoardedTrip, endTripSuccess]); 
-
-  useEffect(() => {
     dispatch(resetUpdateTripAction());
     if (trip || onBoardedTrip || unBoardedTrip) {
       dispatch(getTripByDriverAction(userInfo?._id));
