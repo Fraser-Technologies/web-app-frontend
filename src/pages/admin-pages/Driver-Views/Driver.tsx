@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import DriverPaymentRequests from "./payment-requests";
 import AdminDriverOverview from "./admin-driver-overview";
 import NewSignUps from "./new-signup";
 
@@ -24,21 +25,34 @@ const Driver: React.FC = () => {
           </button>
 
           <button
-            onClick={() => handleViewToggle("management")}
+            onClick={() => handleViewToggle("newsignups")}
             type="button"
             className={`inline-flex items-center py-2 px-8 font-medium  ${
-              activeView === "management"
+              activeView === "newsignups"
                 ? "bg-primary-100 font-semibold text-black"
                 : "text-gray-400 font-normal bg-gray-50"
             }`}
           >
             New Signups
           </button>
+          <button
+            onClick={() => handleViewToggle("payments")}
+            type="button"
+            className={`inline-flex items-center py-2 px-8 font-medium  ${
+              activeView === "payments"
+                ? "bg-primary-100 font-semibold text-black"
+                : "text-gray-400 font-normal bg-gray-50"
+            }`}
+          >
+            Payment Requests
+          </button>
         </div>
       </div>
       <div className="h-full bg-white">
         <div>
-          {activeView === "overview" ? <AdminDriverOverview /> : <NewSignUps />}
+          {activeView === "overview" && <AdminDriverOverview />}
+          {activeView === "newsignups" && <NewSignUps />}
+          {activeView === "payments" && <DriverPaymentRequests />}
         </div>
       </div>
     </div>
