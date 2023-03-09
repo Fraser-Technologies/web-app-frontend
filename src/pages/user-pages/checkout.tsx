@@ -19,7 +19,7 @@ import { currency_formatter } from "../../utils/currency-formatter";
 
 interface FormData {
 	name: string;
-	phoneNumber: string;
+	phone: string;
 }
 
 const Checkout = () => {
@@ -32,7 +32,8 @@ const Checkout = () => {
 	const [open, setOpen] = React.useState(false);
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
 	const { myBooking } = useAppSelector((state: RootState) => state.booking);
-
+	const [formData, setFormData] = useState<FormData[]>([]);
+	console.log(myBooking)
 	const handleClose = () => {
 		setOpen(false);
 	};
@@ -51,7 +52,7 @@ const Checkout = () => {
 	const initializePayment = usePaystackPayment(config as any);
 
 	const onSuccess = () => {
-		dispatch(verifyPaymentAction(myBooking));
+		dispatch(verifyPaymentAction(myBooking, formData));
 		message.info("Your ride has been booked successfully!");
 		navigate("/bookaride");
 		dispatch(emptyMyBooking());
@@ -76,8 +77,6 @@ const Checkout = () => {
 			navigate(-1);
 		}
 	}, [myBooking, navigate]);
-
-	const [formData, setFormData] = useState<FormData[]>([]);
 
 	const handleInputChange = (
 		e: React.ChangeEvent<HTMLInputElement>,
@@ -107,6 +106,7 @@ const Checkout = () => {
 							name="name"
 							value={formData[i]?.name || ""}
 							onChange={(e) => handleInputChange(e, i)}
+							required
 						/>
 					</div>
 					<div className="w-full">
@@ -116,9 +116,10 @@ const Checkout = () => {
 						<Input
 							className="w-full h-10 hover:border-green-500 active:border-green-600 focus:border-green-600"
 							placeholder="Phone"
-							name="phoneNumber"
-							value={formData[i]?.phoneNumber || ""}
+							name="phone"
+							value={formData[i]?.phone || ""}
 							onChange={(e) => handleInputChange(e, i)}
+							required
 						/>
 					</div>
 				</div>

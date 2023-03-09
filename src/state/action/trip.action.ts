@@ -204,7 +204,7 @@ export const resetDeleteTripAction = (): AppThunk => (dispatch) => {
 };
 
 export const verifyPassangerOnboardAction =
-	(trip_id: string, booking_id: string): AppThunk =>
+	(trip_id: string, passenger_id: string): AppThunk =>
 	async (dispatch, getState) => {
 		try {
 			dispatch(verifyPassangerOnBoardRequest());
@@ -212,9 +212,9 @@ export const verifyPassangerOnboardAction =
 				userLogin: { userInfo },
 			} = getState();
 			const { data } = await api.post(
-				`/trip/verifypassenger/${trip_id}`,
+				`/trip/passenger/onboard/${trip_id}`,
 				{
-					booking_id: booking_id,
+					passenger_id,
 				},
 				{
 					headers: {
@@ -230,7 +230,7 @@ export const verifyPassangerOnboardAction =
 	};
 
 export const unverifyPassangerOnboardAction =
-	(trip_id: string, booking_id: string): AppThunk =>
+	(trip_id: string, passenger_id: string): AppThunk =>
 	async (dispatch, getState) => {
 		try {
 			dispatch(unverifyPassangerOnBoardRequest());
@@ -238,9 +238,9 @@ export const unverifyPassangerOnboardAction =
 				userLogin: { userInfo },
 			} = getState();
 			const { data } = await api.post(
-				`/trip/unverifypassenger/${trip_id}`,
+				`/trip/passenger/onboard/${trip_id}`,
 				{
-					booking_id: booking_id,
+					passenger_id,
 				},
 				{
 					headers: {

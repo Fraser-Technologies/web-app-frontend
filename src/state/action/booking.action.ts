@@ -32,7 +32,7 @@ export const emptyMyBooking = (): AppThunk => (dispatch) => {
 };
 
 export const verifyPaymentAction =
-	(trip: any): AppThunk =>
+	(trip: any, passengers: any): AppThunk =>
 	async (dispatch, getState) => {
 		console.log("the trip data is ", trip);
 		try {
@@ -49,6 +49,7 @@ export const verifyPaymentAction =
 					trip: trip?._id,
 					no_of_ticket: trip?.no_of_ticket,
 					comfirmed_payment: true,
+					passengers
 				},
 				requestHeader(userInfo)
 			);

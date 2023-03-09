@@ -8,7 +8,7 @@ import {
 	FaMinusCircle,
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
-import { Booking_interface } from "../../../interfaces/Booking_interface";
+import { Passenger_interface } from "../../../interfaces/Booking_interface";
 import { Trip_interface } from "../../../interfaces/trip_interface";
 import {
 	deleteTripByIdAction,
@@ -168,8 +168,6 @@ const TripsOverview: React.FC = () => {
 			setFlip(TripOption.NONE);
 		}
 	}, [TripOption, deletedTrip, dispatch, messageApi]);
-
-	const [onboard, setOnboard] = useState(false);
 
 	useEffect(() => {
 		if (trips) {
@@ -533,11 +531,10 @@ const TripsOverview: React.FC = () => {
 							Passenger Manifest
 						</div>
 						<div className="my-1 text-gray-400">
-							{modalData?.bookings.length} Passengers,{" "}
-							{modalData?.verified_passengers_onboard?.length}
+							{modalData?.passengers.length} Passengers,{" "}
+							{modalData?.passengers?.filter((item: any) => item.isOnboard).length}
 							Onboard,{" "}
-							{modalData?.bookings?.length -
-								modalData?.verified_passengers_onboard?.length}{" "}
+							{modalData?.passengers?.filter((item: any) => !item.isOnboard).length}{" "}
 							Not Onboard
 						</div>
 						<table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
@@ -558,14 +555,14 @@ const TripsOverview: React.FC = () => {
 
 							{/* //TABLE ROWS */}
 							<tbody className="mt-4">
-								{modalData?.bookings?.map((book: Booking_interface) => {
+								{modalData?.passengers?.map((passenger: Passenger_interface) => {
 									return (
-										<tr className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
+										<tr key={passenger._id} className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
 											<td
 												onClick={() => {}}
 												className="py-4 pl-4 text-gray-700">
 												{/* Amen Olabode */}
-												{`${book?.user?.first_name} ${book?.user?.last_name}`}
+												{passenger?.name} 
 											</td>
 											<td
 												onClick={() => {}}
@@ -574,25 +571,20 @@ const TripsOverview: React.FC = () => {
 													<div
 														className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md 
                             														${
-																													modalData?.verified_passengers_onboard?.includes(
-																														book?._id
-																													)
-																														? "border-[#00FF6A] bg-[#00FF6A]"
-																														: "border-black "
-																												} `}>
-														{modalData?.verified_passengers_onboard?.find(
-															(passenger: string) => passenger === book?._id
-														) ? (
+																							passenger.isOnboard
+																								? "border-[#00FF6A] bg-[#00FF6A]"
+																								: "border-black "
+																						} `}>
+														{passenger.isOnboard ? (
 															<div
 																className="flex flex-row items-center"
 																onClick={() => {
 																	dispatch(
 																		unverifyPassangerOnboardAction(
 																			modalData?._id,
-																			book?._id
+																			passenger?._id
 																		)
 																	);
-																	setOnboard(!onboard);
 																}}>
 																<FaMinusCircle className="mr-2" />
 																<span> Onboarded</span>
@@ -604,27 +596,26 @@ const TripsOverview: React.FC = () => {
 																	dispatch(
 																		verifyPassangerOnboardAction(
 																			modalData?._id,
-																			book?._id
+																			passenger?._id
 																		)
 																	);
-																	setOnboard(!onboard);
 																}}>
 																<FaCheck className="mr-2" onClick={() => {}} />
 																<span>Onboard</span>
 															</div>
 														)}
 													</div>
+													<a href={`tel:${passenger.phone}`}>
 													<div
 														className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
-															modalData?.verified_passengers_onboard?.includes(
-																book?._id
-															)
+															passenger.isOnboard
 																? "hidden"
 																: "block"
 														}`}>
 														{/* INITIATE A CALL TO THE USER'S NUMBER */}
 														Call
 													</div>
+													</a>
 												</div>
 											</td>
 										</tr>
