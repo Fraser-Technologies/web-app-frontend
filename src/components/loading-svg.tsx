@@ -1,11 +1,13 @@
 import React from "react";
 
-const LoadingWheel = (param: any) => {
+const LoadingWheel = (param: any, margin: any) => {
   return (
     <svg
       className={`${
         param ? "animate-spin" : "hidden"
-      } inline mr-2 w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
+      } 
+      
+      inline w-4 h-4 text-gray-200 dark:text-gray-600 fill-blue-600`}
       viewBox="0 0 100 101"
       fill="none"
       xmlns="http://www.w3.org/2000/svg"

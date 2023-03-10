@@ -11,7 +11,7 @@ import {
   FaBook,
   FaUser,
 } from "react-icons/fa";
-import { Button } from "../../components/Button";
+import { FraserButton } from "../../components/Button";
 import moment from "moment";
 import { RootState } from "../../state/redux-store";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
@@ -259,23 +259,23 @@ const DriverOverview = () => {
                             </div>
 
                             <div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
-                              <Button
+                              <FraserButton
                                 title="View Manifest"
                                 type="submit"
-                                className="lg:block hidden w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
+                                className="lg:block hidden"
+                                size="regular"
                                 onClick={() => {
                                   handleOpenModal(trip, "manifest");
                                 }}
                               />
-                              <Button
+                              <FraserButton
                                 title={
                                   trip?.has_started ? "End Trip" : "Start Trip"
                                 }
+                                size="regular"
                                 type="submit"
-                                className={`lg:block hidden w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md ${
-                                  trip?.has_started
-                                    ? "bg-[#E71D36] text-white"
-                                    : "bg-[#00FF6A] text-black"
+                                className={`lg:block hidden ${
+                                  trip?.has_started && "bg-[#E71D36] text-white"
                                 }`}
                                 onClick={() => {
                                   //VALUES NOT UPDATING
@@ -383,7 +383,8 @@ const DriverOverview = () => {
                             </div>
 
                             <div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
-                              <Button
+                              <FraserButton
+                                size="regular"
                                 title="View Manifest"
                                 type="submit"
                                 className="lg:block hidden w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
@@ -391,12 +392,13 @@ const DriverOverview = () => {
                                   handleOpenModal(trip, "manifest");
                                 }}
                               />
-                              <Button
+                              <FraserButton
+                                size="regular"
                                 title={
                                   startReturnTrip ? "End Trip" : "Start Trip"
                                 }
                                 type="submit"
-                                className={`lg:block hidden w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md  ${
+                                className={`lg:block hidden ${
                                   startReturnTrip
                                     ? "bg-[#E71D36] text-white"
                                     : "bg-[#00FF6A] text-black"
@@ -744,7 +746,8 @@ const DriverOverview = () => {
             </div>
 
             <div className="flex mt-6">
-              <Button
+              <FraserButton
+                size="small"
                 title="No"
                 type="submit"
                 className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
@@ -752,8 +755,9 @@ const DriverOverview = () => {
                   setModalVisible(!modalVisible);
                 }}
               />
-              <Button
+              <FraserButton
                 title={`Yes`}
+                size="small"
                 type="submit"
                 className="w-full py-2 text-xs text-white bg-black rounded-md"
                 onClick={() => {
@@ -788,14 +792,16 @@ const DriverOverview = () => {
             </div>
 
             <div className="flex mt-6">
-              <Button
+              <FraserButton
                 title="No"
+                size="regular"
                 type="submit"
                 className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
                 onClick={() => {}}
               />
-              <Button
+              <FraserButton
                 title={`Yes`}
+                size="regular"
                 type="submit"
                 className="w-full py-2 text-xs text-white bg-black rounded-md"
                 onClick={() => {
@@ -835,14 +841,16 @@ const DriverOverview = () => {
             </div>
 
             <div className="flex mt-6">
-              <Button
+              <FraserButton
                 title="No"
+                size="small"
                 type="submit"
                 className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
                 onClick={() => {}}
               />
-              <Button
+              <FraserButton
                 title={`Yes`}
+                size="small"
                 type="submit"
                 className="w-full py-2 text-xs text-white bg-black rounded-md"
                 onClick={() => {
@@ -879,14 +887,16 @@ const DriverOverview = () => {
             </div>
 
             <div className="flex mt-6">
-              <Button
+              <FraserButton
                 title="No"
+                size="small"
                 type="submit"
                 className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
                 onClick={() => {}}
               />
-              <Button
+              <FraserButton
                 title={`Yes`}
+                size="small"
                 type="submit"
                 className="w-full py-2 text-xs text-white bg-black rounded-md"
                 onClick={() => {
@@ -1034,7 +1044,7 @@ const DriverOverview = () => {
                                     }}
                                   >
                                     {isLoading ? (
-                                      <LoadingWheel param={isLoading}/>
+                                      <LoadingWheel param={isLoading} />
                                     ) : (
                                       <FaMinusCircle className="mr-2" />
                                     )}
@@ -1057,7 +1067,7 @@ const DriverOverview = () => {
                                     }}
                                   >
                                     {isLoading ? (
-                                      <LoadingWheel param={isLoading}/>
+                                      <LoadingWheel param={isLoading} />
                                     ) : (
                                       <FaCheck className="mr-2" />
                                     )}

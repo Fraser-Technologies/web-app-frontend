@@ -14,13 +14,13 @@ import {
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { RootState } from "../../state/redux-store";
 import { currency_formatter } from "../../utils/currency-formatter";
-import { Button } from "../../components/Button";
 import {
   getBalanceByUserAction,
   withdrawBalanceAction,
 } from "../../state/action/balance.action";
 import { Transaction_interface } from "../../interfaces/transaction_interface";
 import LoadingWheel from "../../components/loading-svg";
+import { FraserButton } from "../../components/Button";
 
 const DriverRevenueOverview = () => {
   enum DriverRevenueView {
@@ -220,7 +220,8 @@ const DriverRevenueOverview = () => {
               </div> */}
 
               <div className="w-full flex items-center lg:items-start">
-                <Button
+                <FraserButton
+                size="regular"
                   title="Request Payout"
                   // type="submit"
                   className="m-auto lg:m-0 w-full lg:w-fit px-4 py-8 lg:py-3 mt-4 lg:mt-8 text-base font-medium lg:font-normal lg:text-xs rounded-md bg-[#00FF6A] text-black"

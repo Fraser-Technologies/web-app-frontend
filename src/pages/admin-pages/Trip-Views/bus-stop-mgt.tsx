@@ -14,7 +14,7 @@ import {
   getAllCityAction,
 } from "../../../state/action/city.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
-import { Button } from "../../../components/Button";
+import { FraserButton } from "../../../components/Button";
 import LoadingWheel from "../../../components/loading-svg";
 
 const BusStopManagement = () => {
@@ -89,23 +89,22 @@ const BusStopManagement = () => {
   return (
     <div className="pt-12 px-4 pb-12">
       <h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xl font-medium">
-          Bus Stops{" "}
-        </h2>
-        <div className="flex place-content-end my-2  mt-24 w-full  bg-white">
-          {/* <h2 className=" text-xs font-medium">Trips</h2> */}
-          {/* {loading && <Spinner />} */}
-          <Button
-            title="+ Add new city"
-            type="submit"
-            className="px-4 py-2 mb-4 rounded-md bg-primary-100"
-            onClick={() => {
-              setModalVisible(true);
-              setFlip("create");
-            }}
-          />
-        </div>
+        Bus Stops{" "}
+      </h2>
+      <div className="flex place-content-end my-2  mt-24 w-full  bg-white">
+        {/* <h2 className=" text-xs font-medium">Trips</h2> */}
+        {/* {loading && <Spinner />} */}
+        <FraserButton
+          title="+ Add new city"
+          type="submit"
+          size="regular"
+          onClick={() => {
+            setModalVisible(true);
+            setFlip("create");
+          }}
+        />
+      </div>
       {/* BODY */}
-     
 
       <div className="grid gap-4 grid-cols-2">
         {cities?.map((city: City_interface) => {
@@ -160,7 +159,7 @@ const BusStopManagement = () => {
           >
             {loading && (
               <span className="mr-2">
-                <LoadingWheel param={loading}/>
+                <LoadingWheel param={loading} />
               </span>
             )}
             Create City
@@ -261,10 +260,10 @@ const BusStopManagement = () => {
             </div>
           </div>
 
-          <Button
+          <FraserButton
             title="Delete"
             type="submit"
-            className="w-full py-2 mt-8  rounded-md bg-[#E71D36] text-white"
+            size="regular"
             onClick={() => {
               dispatch(
                 removeBusStopToCityAction(
@@ -275,10 +274,10 @@ const BusStopManagement = () => {
               setModalVisible(false);
             }}
           />
-          <Button
+          <FraserButton
             title="Cancel"
             type="submit"
-            className="w-full py-2 mt-4 mb-4  rounded-md border text-gray-600 border-gray-500"
+            size="regular"
             onClick={() => {
               setFlip("info");
             }}
@@ -303,10 +302,10 @@ const BusStopManagement = () => {
             </div>
           </div>
 
-          <Button
+          <FraserButton
             title="Close"
             type="submit"
-            className="w-full py-2 mt-8 mb-4  rounded-md bg-[#00FF6A] text-black"
+            size="regular"
             onClick={() => {
               setModalVisible(false);
             }}
@@ -323,7 +322,7 @@ const BusStopManagement = () => {
           centered={true}
           footer={false}
           closable={true}
-        //   width={240}
+          //   width={240}
         >
           <div className="w-full">
             <div className="boder-b mt-4 w-full text-lg font-medium">
@@ -349,10 +348,10 @@ const BusStopManagement = () => {
             />
           </div>
 
-          <Button
+          <FraserButton
             title="Okay"
             type="submit"
-            className="w-full py-4 mt-4 mb-4  rounded-md bg-[#00FF6A] text-black"
+            size="regular"
             onClick={() => {
               if (busStop) {
                 dispatch(

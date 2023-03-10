@@ -21,7 +21,7 @@ import {
 } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { RootState } from "../../../state/redux-store";
-import { Button } from "../../../components/Button";
+import { FraserButton } from "../../../components/Button";
 import CreateTripFormComponent from "../../../components/admin-components/create-trip-form";
 import EditTripFormComponent from "../../../components/admin-components/edit-trip-form";
 import { getTheLatestByDate } from "../../../utils/getTheLatestTripByDate";
@@ -206,10 +206,10 @@ const TripsOverview: React.FC = () => {
         <div className="flex w-full my-2 mt-24 bg-white place-content-end">
           {/* <h2 className="text-xs font-medium ">Trips</h2> */}
           {/* {loading && <Spinner />} */}
-          <Button
+          <FraserButton
             title="+ Create new trip"
             type="submit"
-            className="px-4 py-2 mb-2 rounded-md bg-primary-100"
+            size="regular"
             onClick={() => {
               setModalVisible(true);
               setFlip(TripOption.CREATE);
@@ -431,10 +431,10 @@ const TripsOverview: React.FC = () => {
             </div>
           </div>
 
-          <Button
+          <FraserButton
             title="Close"
             type="submit"
-            className="w-full py-2 mt-8 mb-4  rounded-md bg-[#00FF6A] text-black"
+            size="regular"
             onClick={() => {
               setModalVisible(false);
             }}
@@ -511,18 +511,18 @@ const TripsOverview: React.FC = () => {
               <div className="text-xs">{modalData?.bus?.make}</div>
             </div>
           </div>
-          <Button
+          <FraserButton
             title="Edit"
             type="submit"
-            className="w-full px-4 py-4 rounded-md bg-primary-100"
+            size="regular"
             onClick={() => {
               setFlip(TripOption.EDIT);
             }}
           />
-          <Button
+          <FraserButton
             title="Delete"
             type="submit"
-            className="w-full px-4 py-4 mt-4 mb-6 text-red-600 border border-red-500 rounded-md"
+            size="regular"
             onClick={() => {
               setFlip(TripOption.DELETE);
               setStateModalVisible(true);
@@ -740,18 +740,18 @@ const TripsOverview: React.FC = () => {
             </div>
           </div>
 
-          <Button
+          <FraserButton
             title={`Delete`}
             type="submit"
-            className="w-full py-2 mt-8 text-xs rounded-md bg-[#E71D36] text-white"
+            size="regular"
             onClick={() => {
               dispatch(deleteTripByIdAction(modalData?._id || ""));
             }}
           />
-          <Button
+          <FraserButton
             title="Cancel"
             type="submit"
-            className="w-full py-2 mt-4 mb-4 text-xs text-gray-600 border border-gray-500 rounded-md"
+            size="regular"
             onClick={() => {
               setFlip(TripOption.INFO);
             }}
@@ -776,19 +776,19 @@ const TripsOverview: React.FC = () => {
             </div>
           </div>
 
-          <Button
+          <FraserButton
             title="View"
             type="submit"
-            className="w-full py-2 mt-8  rounded-md bg-[#00FF6A] text-black"
+            size="regular"
             onClick={() => {
               //NOT SURE THIS IS USEFUL DURING API CALLS
               setFlip(TripOption.INFO);
             }}
           />
-          <Button
+          <FraserButton
             title="Close"
             type="submit"
-            className="w-full py-2 mt-4 mb-4 text-gray-600 border border-gray-500 rounded-md"
+            size="regular"
             onClick={() => {
               setModalVisible(false);
               setStateModalVisible(false);

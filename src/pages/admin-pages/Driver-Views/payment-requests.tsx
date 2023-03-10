@@ -1,6 +1,7 @@
 import React, { useState } from "react";
+import { BsChevronBarContract, BsSuitHeartFill } from "react-icons/bs";
 import ReactPaginate from "react-paginate";
-import { Button } from "../../../components/Button";
+import { FraserButton } from "../../../components/Button";
 
 const DriverPaymentRequests = () => {
   enum flipType {
@@ -107,16 +108,18 @@ const DriverPaymentRequests = () => {
 
             <td className="px-4 py-3 text-xs font-normal text-center text-gray-700">
               {" "}
-              <Button
+              <FraserButton
                 title="Paid"
                 type="submit"
-                className="px-8 py-2 text-black rounded-md bg-primary-100"
+                size="regular"
                 onClick={() => {}}
               />
             </td>
           </tr>
         </tbody>
       </table>
+
+      
     </div>
   );
 };
