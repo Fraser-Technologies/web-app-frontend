@@ -10,7 +10,6 @@ interface Props {
   iconposition?: "left" | "right";
   icon?: JSX.Element;
   active?: boolean;
-  
 }
 
 export const FraserButton = ({
@@ -32,7 +31,6 @@ export const FraserButton = ({
 	  ${size === "large" && "px-12 py-4"} 
 	  ${size === "regular" && "px-8 py-3"} 
 	  ${size === "small" && "px-4 py-2"} 
-	  font-medium 
 	  
 	  ${
       active === false
@@ -40,7 +38,7 @@ export const FraserButton = ({
         : "bg-[#00ff6a] hover:bg-[#58FF9E]"
     } 
 	
-	flex items-center flex justify-center rounded-md`}
+    font-medium text-[16px] flex items-center flex justify-center rounded-md`}
       type={type ? type : "submit"}
     >
       {loader

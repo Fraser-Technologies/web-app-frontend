@@ -418,15 +418,15 @@ const Bookings = () => {
                       </div>
                     )}
                   </div>
-                  <div>
-                    <FraserButton
-                      title="Search Trips"
-                      loader={availableTripLoading}
-                      size="regular"
-                      active={isValid}
-                      onClick={FindAvailableTrip}
-                    />
-                  </div>
+
+                  <FraserButton
+                    title="Search Trips"
+                    loader={availableTripLoading}
+                    size="regular"
+                    className="w-full mt-8"
+                    active={isValid}
+                    onClick={FindAvailableTrip}
+                  />
                 </div>
               </div>
             </div>
@@ -630,6 +630,7 @@ const Bookings = () => {
           <FraserButton
             title="Continue"
             size="regular"
+            className="w-full mt-8"
             onClick={() => {
               dispatch(
                 addToMyBookinAction({ ...modalData, no_of_ticket: value })
