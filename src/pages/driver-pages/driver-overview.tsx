@@ -20,9 +20,9 @@ import { currency_formatter } from "../../utils/currency-formatter";
 import {
   getTripByDriverAction,
   resetUpdateTripAction,
-  unverifyPassangerOnboardAction,
+  unverifyPassengerOnboardAction,
   updateTripAction,
-  verifyPassangerOnboardAction,
+  verifyPassengerOnboardAction,
 } from "../../state/action/trip.action";
 import { Passenger_interface } from "../../interfaces/Booking_interface";
 import { getBalanceByUserAction } from "../../state/action/balance.action";
@@ -40,26 +40,26 @@ const DriverOverview = () => {
   }
   const dispatch = useAppDispatch();
 
-	const { trips } = useAppSelector((state: RootState) => state.tripByDriver);
-	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
-	const { trip } = useAppSelector((state: RootState) => state.updateTrip);
-	const { trip: endTripSuccess } = useAppSelector(
-		(state: RootState) => state.endTrip
-	);
-	const { trip: onBoardedTrip } = useAppSelector(
-		(state: RootState) => state.verifyPassangerOnboard
-	);
-	const { trip: unBoardedTrip } = useAppSelector(
-		(state: RootState) => state.unverifyPassengerOnboard
-	);
-	const [visible, setVisible] = useState(false);
-	const [flip, setFlip] = useState<"" | DriverViews>("");
-	const [modalVisible, setModalVisible] = useState<boolean>(false);
-	const [startOutBoundTrip, setstartOutBoundTrip] = useState(false);
-	const [startReturnTrip, setstartReturnTrip] = useState(false);
-	const [alertmessage, setAlertMessage] = useState("");
-	const [selection, setSelection] = useState("Schedule");
-	const [modalData, setModalData] = useState<Trip_interface | any>({});
+  const { trips } = useAppSelector((state: RootState) => state.tripByDriver);
+  const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
+  const { trip } = useAppSelector((state: RootState) => state.updateTrip);
+  const { trip: endTripSuccess } = useAppSelector(
+    (state: RootState) => state.endTrip
+  );
+  const { trip: onBoardedTrip } = useAppSelector(
+    (state: RootState) => state.verifyPassengerOnboard
+  );
+  const { trip: unBoardedTrip } = useAppSelector(
+    (state: RootState) => state.unverifyPassengerOnboard
+  );
+  const [visible, setVisible] = useState(false);
+  const [flip, setFlip] = useState<"" | DriverViews>("");
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [startOutBoundTrip, setstartOutBoundTrip] = useState(false);
+  const [startReturnTrip, setstartReturnTrip] = useState(false);
+  const [alertmessage, setAlertMessage] = useState("");
+  const [selection, setSelection] = useState("Schedule");
+  const [modalData, setModalData] = useState<Trip_interface | any>({});
 
   const handleClose = () => {
     setVisible(false);
@@ -120,6 +120,12 @@ const DriverOverview = () => {
       dispatch(getTripByDriverAction(userInfo?._id));
     }
   }, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
+
+  useEffect(() => {
+    if (trips) {
+      setModalData(trips.find((trip) => trip._id === modalData?._id));
+    }
+  }, [trips, onBoardedTrip, unBoardedTrip, modalData]);
 
   useEffect(() => {});
   return (
@@ -497,7 +503,7 @@ const DriverOverview = () => {
                       >
                         Passengers
                       </th>
-					  <th
+                      <th
                         scope="col"
                         className="px-2 py-4 font-normal text-center rounded-r-md"
                       >
@@ -539,7 +545,11 @@ const DriverOverview = () => {
                               }}
                               className="px-4 py-4 text-center text-gray-700"
                             >
-                              {trip?.passengers?.filter((item: any) => item.isOnboard).length}
+                              {
+                                trip?.passengers?.filter(
+                                  (item: any) => item.isOnboard
+                                ).length
+                              }
                             </td>
 
                             <td
@@ -595,7 +605,11 @@ const DriverOverview = () => {
                 </h3>
                 {trips?.filter(
                   (trip: Trip_interface) => trip?.completed_status === false
-                ).length === 0 && <div className="text-gray-500">You have no upcoming trips</div>}
+                ).length === 0 && (
+                  <div className="text-gray-500">
+                    You have no upcoming trips
+                  </div>
+                )}
                 {trips
                   ?.filter(
                     (trip: Trip_interface) => trip?.completed_status === false
@@ -898,147 +912,173 @@ const DriverOverview = () => {
                 <p className="mb-4 text-lg font-medium">Passenger Manifest</p>
                 <p className="text-base font-normal">{`${modalData?.travel_destination?.from?.city?.city} to ${modalData?.travel_destination?.to?.city?.city} Trip`}</p>
 
-<div className="flex w-full bg-black rounded-md px-2 pt-1 pb-3 font-normal text-[14px] text-white my-2">
-									<div className="w-full flex mt-2 mr-2 rounded-md ">
-										<div className="ml-2">
-											<p className="mb-1 text-gray-500">Passengers</p>
-											<p className="text-lg">{modalData?.passengers.length} </p>
-										</div>
-									</div>
-									<div className="w-full flex mt-2 mr-2 rounded-md ">
-										<div className="ml-2">
-											<p className="mb-1 text-gray-500">Onboard</p>
-											<p className=" text-lg">
-											  {modalData?.passengers?.filter((item: any) => item.isOnboard).length}{" "}
-											</p>
-										</div>
-									</div>
-									<div className="w-full flex mt-2 mr-2 rounded-md ">
-										<div className="ml-2">
-											<p className="mb-1 text-gray-500">Not Onboard</p>
-											<p className=" text-lg">
-											  {modalData?.passengers?.filter((item: any) => !item.isOnboard).length}
-											</p>
-										</div>
-									</div>
-								</div>
+                <div className="flex w-full bg-black rounded-md px-2 pt-1 pb-3 font-normal text-[14px] text-white my-2">
+                  <div className="w-full flex mt-2 mr-2 rounded-md ">
+                    <div className="ml-2">
+                      <p className="mb-1 text-gray-500">Passengers</p>
+                      <p className="text-lg">{modalData?.passengers.length} </p>
+                    </div>
+                  </div>
+                  <div className="w-full flex mt-2 mr-2 rounded-md ">
+                    <div className="ml-2">
+                      <p className="mb-1 text-gray-500">Onboard</p>
+                      <p className=" text-lg">
+                        {
+                          modalData?.passengers?.filter(
+                            (item: any) => item.isOnboard
+                          ).length
+                        }{" "}
+                      </p>
+                    </div>
+                  </div>
+                  <div className="w-full flex mt-2 mr-2 rounded-md ">
+                    <div className="ml-2">
+                      <p className="mb-1 text-gray-500">Not Onboard</p>
+                      <p className=" text-lg">
+                        {
+                          modalData?.passengers?.filter(
+                            (item: any) => !item.isOnboard
+                          ).length
+                        }
+                      </p>
+                    </div>
+                  </div>
+                </div>
 
-								<table className="w-full mt-4 text-base font-normal text-left text-white table-auto">
-									<thead className="bg-black w-full text-white">
-										<tr>
-											<th
-												scope="col"
-												className="px-2 py-2 pl-4 font-normal rounded-l-md">
-												Name
-											</th>
-											<th
-												scope="col"
-												className="px-2 py-2 font-normal text-center rounded-r-md">
-												Action
-											</th>
-										</tr>
-									</thead>
-								</table>
-							</div>
-						}
-						className=""
-						onOk={handleOk}
-						onCancel={handleCancel}
-						open={modalVisible}
-						centered={true}
-						footer={false}
-						closable={true}>
-						<div className="h-[60vh] overflow-y-scroll">
-							<table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
-								{/* //TABLE ROWS */}
-								<tbody className="mt-4">
-									{modalData?.passengers?.map((passenger: Passenger_interface) => {
-										return (
-											<tr key={passenger._id} className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-												<td
-													onClick={() => {}}
-													className="py-4 pl-4 text-gray-700">
-													{passenger?.name} 
-												</td>
-												<td
-													onClick={() => {}}
-													className="text-center text-gray-700 ">
-													<div className="flex items-center h-full m-auto place-content-end">
-														<div
-															className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
-																passenger.isOnboard
-																	? "border-[#00FF6A] bg-[#00FF6A]"
-																	: "border-black "
-															} `}>
-															{passenger.isOnboard ? (
-																<div
-																	className="flex flex-row items-center"
-																	onClick={() => {
-																		dispatch(
-																			unverifyPassangerOnboardAction(
-																				modalData?._id,
-																				passenger?._id
-																			)
-																		);
-																	}}>
-																	<FaMinusCircle className="mr-2" />
-																	<span> Onboarded</span>
-																</div>
-															) : (
-																<div
-																	className="flex flex-row items-center"
-																	onClick={() => {
-																		dispatch(
-																			verifyPassangerOnboardAction(
-																				modalData?._id,
-																				passenger?._id
-																			)
-																		);
-																	}}>
-																	<FaCheck className="mr-2" />
-																	<span>Onboard</span>
-																</div>
-															)}
-														</div>
-														<a href={`tel:${passenger.phone}`}>
-															<div
-															className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
-																passenger.isOnboard
-																	? "hidden"
-																	: "block"
-															}`}>
-															{/* INITIATE A CALL TO THE USER'S NUMBER */}
-															Call
-														</div>
-														</a>
-													</div>
-												</td>
-											</tr>
-										);
-									})}
-								</tbody>
-							</table>
-						</div>
-					</Modal>
-				)}
-				{flip === DriverViews.TRIPINFO && modalVisible && (
-					<Modal
-						title={
-							<div className="text-xs font-medium boder-b">Trip Details</div>
-						}
-						onOk={handleOk}
-						onCancel={handleCancel}
-						open={modalVisible}
-						centered={true}
-						footer={false}
-						closable={true}>
-						<div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
-							<div>
-								<div className="mb-1 text-gray-400">Start</div>
-								<div className="text-xs">
-									{`${modalData?.travel_destination?.from?.city?.city}`}
-								</div>
-							</div>
+                <table className="w-full mt-4 text-base font-normal text-left text-white table-auto">
+                  <thead className="bg-black w-full text-white">
+                    <tr>
+                      <th
+                        scope="col"
+                        className="px-2 py-2 pl-4 font-normal rounded-l-md"
+                      >
+                        Name
+                      </th>
+                      <th
+                        scope="col"
+                        className="px-2 py-2 font-normal text-center rounded-r-md"
+                      >
+                        Action
+                      </th>
+                    </tr>
+                  </thead>
+                </table>
+              </div>
+            }
+            className=""
+            onOk={handleOk}
+            onCancel={handleCancel}
+            open={modalVisible}
+            centered={true}
+            footer={false}
+            closable={true}
+          >
+            <div className="h-[60vh] overflow-y-scroll">
+              <table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
+                {/* //TABLE ROWS */}
+                <tbody className="mt-4">
+                {modalData?.passengers?.map(
+                  (passenger: Passenger_interface) => {
+                    return (
+                      <tr
+                        key={passenger._id}
+                        className="border-b cursor-pointer border-slate-100 hover:bg-gray-50"
+                      >
+                        <td
+                          onClick={() => {}}
+                          className="py-4 pl-4 text-gray-700"
+                        >
+                          {/* Amen Olabode */}
+                          {passenger?.name}
+                        </td>
+                        <td
+                          onClick={() => {}}
+                          className="text-center text-gray-700 "
+                        >
+                          <div className="flex items-center h-full m-auto place-content-end">
+                            <div
+                              className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md 
+                            														${
+                                                          passenger.isOnboard
+                                                            ? "border-[#00FF6A] bg-[#00FF6A]"
+                                                            : "border-black "
+                                                        } `}
+                            >
+                              {passenger.isOnboard ? (
+                                <div
+                                  className="flex flex-row items-center"
+                                  onClick={() => {
+                                    dispatch(
+                                      unverifyPassengerOnboardAction(
+                                        modalData?._id,
+                                        passenger?._id
+                                      )
+                                    );
+                                  }}
+                                >
+                                  <FaMinusCircle className="mr-2" />
+                                  <span> Onboarded</span>
+                                </div>
+                              ) : (
+                                <div
+                                  className="flex flex-row items-center"
+                                  onClick={() => {
+                                    dispatch(
+                                      verifyPassengerOnboardAction(
+                                        modalData?._id,
+                                        passenger?._id
+                                      )
+                                    );
+                                  }}
+                                >
+                                  <FaCheck
+                                    className="mr-2"
+                                    onClick={() => {}}
+                                  />
+                                  <span>Onboard</span>
+                                </div>
+                              )}
+                            </div>
+                            <a href={`tel:${passenger.phone}`}>
+                              <div
+                                className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
+                                  passenger.isOnboard ? "hidden" : "block"
+                                }`}
+                              >
+                                {/* INITIATE A CALL TO THE USER'S NUMBER */}
+                                Call
+                              </div>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  }
+                )}
+                </tbody>
+              </table>
+            </div>
+          </Modal>
+        )}
+        {flip === DriverViews.TRIPINFO && modalVisible && (
+          <Modal
+            title={
+              <div className="text-xs font-medium boder-b">Trip Details</div>
+            }
+            onOk={handleOk}
+            onCancel={handleCancel}
+            open={modalVisible}
+            centered={true}
+            footer={false}
+            closable={true}
+          >
+            <div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
+              <div>
+                <div className="mb-1 text-gray-400">Start</div>
+                <div className="text-xs">
+                  {`${modalData?.travel_destination?.from?.city?.city}`}
+                </div>
+              </div>
 
               <div>
                 <div className="mb-1 text-gray-400">Destination</div>
