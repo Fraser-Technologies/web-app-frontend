@@ -8,7 +8,7 @@ import {
   AdminUpdateUserAction,
   getAllDriverAction,
   ResetAdminUpdateUserAction,
-} from "../../../state/slices/user.action";
+} from "../../../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { RootState } from "../../../state/redux-store";
 import { FraserButton } from "../../../components/Button";
