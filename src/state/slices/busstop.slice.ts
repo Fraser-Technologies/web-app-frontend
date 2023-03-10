@@ -27,7 +27,7 @@ export const busSlice = createSlice({
 			state.busStops = payload;
 		},
 		getAllBusStopFailed: (state, { payload }) => {
-			state.loading = true;
+			state.loading = false;
 			state.error = payload;
 		},
 	},

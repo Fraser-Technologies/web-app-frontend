@@ -15,7 +15,7 @@ import {
 	clearBlockUserAction,
 	clearUnblockUserAction,
 	getAllUserAction,
-} from "../../../state/slices/user.action";
+} from "../../../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { Button } from "../../../components/Button";
 

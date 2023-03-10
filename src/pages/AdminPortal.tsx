@@ -10,7 +10,7 @@ import { getAllCityAction } from "../state/action/city.action";
 import {
 	getAllDriverAction,
 	getAllUserAction,
-} from "../state/slices/user.action";
+} from "../state/action/user.action";
 import { getAllBusAction } from "../state/action/bus.action";
 import { getAllBookingAction } from "../state/action/booking.action";
 import { useNavigate } from "react-router-dom";

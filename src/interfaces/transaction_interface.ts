@@ -7,4 +7,5 @@ export interface Transaction_interface extends Mongo_extra {
 	bank: string;
 	transaction_type: "debit" | "credit";
 	trasaction_time: string;
+	payment_status: Boolean;
 }

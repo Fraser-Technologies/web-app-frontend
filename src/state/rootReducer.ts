@@ -54,6 +54,12 @@ import {
 	bookingReducer,
 	verifyPaymentReducer,
 } from "./slices/booking.slice";
+import {
+	getAllTransactionReducer,
+	getAllTransactionSlice,
+	getTransactionByIdReducer,
+	verifyPaymentStatusReducer,
+} from "./slices/transactionSlice";
 
 const rootReducer = combineReducers({
 	getotp: getOtpReducer,
@@ -120,6 +126,11 @@ const rootReducer = combineReducers({
 	// image reducer
 	uploadFile: uploadFileReducer,
 	deleteFile: deleteFileReducer,
+
+	// transaction reducer
+	allTransaction: getAllTransactionReducer,
+	transactionById: getTransactionByIdReducer,
+	verifyPaymentStatus: verifyPaymentStatusReducer,
 });
 
 export default rootReducer;
