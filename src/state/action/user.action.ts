@@ -1,15 +1,13 @@
 import {
 	adminUpdateUserFailed,
-	adminUpdateUserReducer,
 	adminUpdateUserRequest,
 	adminUpdateUserReset,
 	adminUpdateUserSuccess,
-} from "./user.slice";
+} from "../slices/user.slice";
 import { requestHeader } from "../../utils/requestHeader";
 import { RequestError } from "../../utils/requestError";
 import Cookie from "js-cookie";
 import { api } from "../../utils/api";
-
 import { AppThunk } from "../redux-store";
 import {
 	allDriverFailed,
@@ -41,7 +39,7 @@ import {
 	updateUserFailed,
 	updateUserRequest,
 	updateUserSuccess,
-} from "./user.slice";
+} from "../slices/user.slice";
 
 export const getAllUserAction = (): AppThunk => async (dispatch, getState) => {
 	dispatch(getAllUserRequest());
@@ -172,7 +170,6 @@ export const getAllDriverAction = (): AppThunk => async (dispatch) => {
 	try {
 		dispatch(allDriverRequest());
 		const { data } = await api.get("/user/drivers");
-		console.log("all the driver are ", data);
 		dispatch(allDriverSuccess(data));
 	} catch (error: any) {
 		dispatch(allDriverFailed(RequestError(error)));

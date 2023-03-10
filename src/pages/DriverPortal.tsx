@@ -6,7 +6,7 @@ import { useAppSelector } from "../state/hooks";
 import { RootState } from "../state/redux-store";
 import { useNavigate } from "react-router-dom";
 import { Alert } from "antd";
-import { userLoginAction } from "../state/slices/user.action";
+import { userLoginAction } from "../state/action/user.action";
 import { _paths_ } from "../utils/routes";
 
 const DriverPortal = () => {

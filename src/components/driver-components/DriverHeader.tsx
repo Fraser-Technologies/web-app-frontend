@@ -1,7 +1,7 @@
 import { Dropdown, MenuProps } from "antd";
 import React, { useState } from "react";
 import { FaCaretDown, FaSuitcase, FaThLarge } from "react-icons/fa";
-import { logoutUserAction } from "../../state/slices/user.action";
+import { logoutUserAction } from "../../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 
 type Props = {
