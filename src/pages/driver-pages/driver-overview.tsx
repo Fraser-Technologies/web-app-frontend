@@ -11,7 +11,7 @@ import {
   FaBook,
   FaUser,
 } from "react-icons/fa";
-import { Button } from "../../components/Button";
+import { FraserButton } from "../../components/Button";
 import moment from "moment";
 import { RootState } from "../../state/redux-store";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
@@ -20,13 +20,14 @@ import { currency_formatter } from "../../utils/currency-formatter";
 import {
   getTripByDriverAction,
   resetUpdateTripAction,
-  unverifyPassangerOnboardAction,
+  unverifyPassengerOnboardAction,
   updateTripAction,
-  verifyPassangerOnboardAction,
+  verifyPassengerOnboardAction,
 } from "../../state/action/trip.action";
-import { Booking_interface } from "../../interfaces/Booking_interface";
+import { Passenger_interface } from "../../interfaces/Booking_interface";
 import { getBalanceByUserAction } from "../../state/action/balance.action";
 import { getTheLatestByDate } from "../../utils/getTheLatestTripByDate";
+import LoadingWheel from "../../components/loading-svg";
 
 const DriverOverview = () => {
   enum DriverViews {
@@ -43,8 +44,11 @@ const DriverOverview = () => {
   const { trips } = useAppSelector((state: RootState) => state.tripByDriver);
   const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
   const { trip } = useAppSelector((state: RootState) => state.updateTrip);
+  const { trip: endTripSuccess } = useAppSelector(
+    (state: RootState) => state.endTrip
+  );
   const { trip: onBoardedTrip } = useAppSelector(
-    (state: RootState) => state.verifyPassangerOnboard
+    (state: RootState) => state.verifyPassengerOnboard
   );
   const { trip: unBoardedTrip } = useAppSelector(
     (state: RootState) => state.unverifyPassengerOnboard
@@ -52,12 +56,10 @@ const DriverOverview = () => {
   const [visible, setVisible] = useState(false);
   const [flip, setFlip] = useState<"" | DriverViews>("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [onboard, setOnboard] = useState(false);
   const [startOutBoundTrip, setstartOutBoundTrip] = useState(false);
   const [startReturnTrip, setstartReturnTrip] = useState(false);
   const [alertmessage, setAlertMessage] = useState("");
   const [selection, setSelection] = useState("Schedule");
-
   const [modalData, setModalData] = useState<Trip_interface | any>({});
 
   const handleClose = () => {
@@ -81,6 +83,7 @@ const DriverOverview = () => {
 
   const [dates, setDates] = useState<string[]>([]);
   const [disabledDates, setDisabledDates] = useState<string[]>([]);
+  const [loadingIndex, setLoadingIndex] = useState<number>(-1);
 
   const TotalRating = (trips: Trip_interface[]): number => {
     let list_of_rating = [];
@@ -119,6 +122,12 @@ const DriverOverview = () => {
       dispatch(getTripByDriverAction(userInfo?._id));
     }
   }, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
+
+  useEffect(() => {
+    if (trips) {
+      setModalData(trips.find((trip) => trip._id === modalData?._id));
+    }
+  }, [trips, onBoardedTrip, unBoardedTrip, modalData]);
 
   useEffect(() => {});
   return (
@@ -250,23 +259,23 @@ const DriverOverview = () => {
                             </div>
 
                             <div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
-                              <Button
+                              <FraserButton
                                 title="View Manifest"
                                 type="submit"
-                                className="lg:block hidden w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
+                                className="lg:block hidden"
+                                size="regular"
                                 onClick={() => {
                                   handleOpenModal(trip, "manifest");
                                 }}
                               />
-                              <Button
+                              <FraserButton
                                 title={
                                   trip?.has_started ? "End Trip" : "Start Trip"
                                 }
+                                size="regular"
                                 type="submit"
-                                className={`lg:block hidden w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md ${
-                                  trip?.has_started
-                                    ? "bg-[#E71D36] text-white"
-                                    : "bg-[#00FF6A] text-black"
+                                className={`lg:block hidden ${
+                                  trip?.has_started && "bg-[#E71D36] text-white"
                                 }`}
                                 onClick={() => {
                                   //VALUES NOT UPDATING
@@ -374,7 +383,8 @@ const DriverOverview = () => {
                             </div>
 
                             <div className="flex w-full mt-6 mb-2 lg:mb-0 lg:mt-0 lg:w-2/4">
-                              <Button
+                              <FraserButton
+                                size="regular"
                                 title="View Manifest"
                                 type="submit"
                                 className="lg:block hidden w-full h-[48px] lg:h-[40px] mr-2 my-1 lg:mb-0 text-xs rounded-md border border-[#ffffff] text-white"
@@ -382,12 +392,13 @@ const DriverOverview = () => {
                                   handleOpenModal(trip, "manifest");
                                 }}
                               />
-                              <Button
+                              <FraserButton
+                                size="regular"
                                 title={
                                   startReturnTrip ? "End Trip" : "Start Trip"
                                 }
                                 type="submit"
-                                className={`lg:block hidden w-full h-[48px] lg:h-[40px] my-1 mr-2 text-xs rounded-md  ${
+                                className={`lg:block hidden ${
                                   startReturnTrip
                                     ? "bg-[#E71D36] text-white"
                                     : "bg-[#00FF6A] text-black"
@@ -496,7 +507,6 @@ const DriverOverview = () => {
                       >
                         Passengers
                       </th>
-
                       <th
                         scope="col"
                         className="px-2 py-4 font-normal text-center rounded-r-md"
@@ -539,7 +549,11 @@ const DriverOverview = () => {
                               }}
                               className="px-4 py-4 text-center text-gray-700"
                             >
-                              {trip?.verified_passengers_onboard?.length}
+                              {
+                                trip?.passengers?.filter(
+                                  (item: any) => item.isOnboard
+                                ).length
+                              }
                             </td>
 
                             <td
@@ -595,7 +609,11 @@ const DriverOverview = () => {
                 </h3>
                 {trips?.filter(
                   (trip: Trip_interface) => trip?.completed_status === false
-                ).length === 0 && <div className="text-gray-500">You have no upcoming trips</div>}
+                ).length === 0 && (
+                  <div className="text-gray-500">
+                    You have no upcoming trips
+                  </div>
+                )}
                 {trips
                   ?.filter(
                     (trip: Trip_interface) => trip?.completed_status === false
@@ -728,7 +746,8 @@ const DriverOverview = () => {
             </div>
 
             <div className="flex mt-6">
-              <Button
+              <FraserButton
+                size="small"
                 title="No"
                 type="submit"
                 className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
@@ -736,8 +755,9 @@ const DriverOverview = () => {
                   setModalVisible(!modalVisible);
                 }}
               />
-              <Button
+              <FraserButton
                 title={`Yes`}
+                size="small"
                 type="submit"
                 className="w-full py-2 text-xs text-white bg-black rounded-md"
                 onClick={() => {
@@ -772,14 +792,16 @@ const DriverOverview = () => {
             </div>
 
             <div className="flex mt-6">
-              <Button
+              <FraserButton
                 title="No"
+                size="regular"
                 type="submit"
                 className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
                 onClick={() => {}}
               />
-              <Button
+              <FraserButton
                 title={`Yes`}
+                size="regular"
                 type="submit"
                 className="w-full py-2 text-xs text-white bg-black rounded-md"
                 onClick={() => {
@@ -819,14 +841,16 @@ const DriverOverview = () => {
             </div>
 
             <div className="flex mt-6">
-              <Button
+              <FraserButton
                 title="No"
+                size="small"
                 type="submit"
                 className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
                 onClick={() => {}}
               />
-              <Button
+              <FraserButton
                 title={`Yes`}
+                size="small"
                 type="submit"
                 className="w-full py-2 text-xs text-white bg-black rounded-md"
                 onClick={() => {
@@ -863,14 +887,16 @@ const DriverOverview = () => {
             </div>
 
             <div className="flex mt-6">
-              <Button
+              <FraserButton
                 title="No"
+                size="small"
                 type="submit"
                 className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
                 onClick={() => {}}
               />
-              <Button
+              <FraserButton
                 title={`Yes`}
+                size="small"
                 type="submit"
                 className="w-full py-2 text-xs text-white bg-black rounded-md"
                 onClick={() => {
@@ -902,14 +928,18 @@ const DriverOverview = () => {
                   <div className="w-full flex mt-2 mr-2 rounded-md ">
                     <div className="ml-2">
                       <p className="mb-1 text-gray-500">Passengers</p>
-                      <p className="text-lg">{modalData?.bookings.length} </p>
+                      <p className="text-lg">{modalData?.passengers.length} </p>
                     </div>
                   </div>
                   <div className="w-full flex mt-2 mr-2 rounded-md ">
                     <div className="ml-2">
                       <p className="mb-1 text-gray-500">Onboard</p>
                       <p className=" text-lg">
-                        {modalData?.verified_passengers_onboard?.length}{" "}
+                        {
+                          modalData?.passengers?.filter(
+                            (item: any) => item.isOnboard
+                          ).length
+                        }{" "}
                       </p>
                     </div>
                   </div>
@@ -917,8 +947,11 @@ const DriverOverview = () => {
                     <div className="ml-2">
                       <p className="mb-1 text-gray-500">Not Onboard</p>
                       <p className=" text-lg">
-                        {modalData?.bookings?.length -
-                          modalData?.verified_passengers_onboard?.length}
+                        {
+                          modalData?.passengers?.filter(
+                            (item: any) => !item.isOnboard
+                          ).length
+                        }
                       </p>
                     </div>
                   </div>
@@ -956,82 +989,107 @@ const DriverOverview = () => {
               <table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
                 {/* //TABLE ROWS */}
                 <tbody className="mt-4">
-                  {modalData?.bookings?.map((book: Booking_interface) => {
-                    return (
-                      <tr className="border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-                        <td
-                          onClick={() => {}}
-                          className="py-4 pl-4 text-gray-700"
+                  {modalData?.passengers
+                    ?.slice()
+                    .sort((a: { isOnboard: any }, b: { isOnboard: any }) => {
+                      if (a?.isOnboard && !b?.isOnboard) {
+                        return 1;
+                      }
+                      if (!a?.isOnboard && b?.isOnboard) {
+                        return -1;
+                      }
+                      return 0;
+                    })
+                    .map((passenger: Passenger_interface, index: number) => {
+                      const isLoading = loadingIndex === index;
+                      return (
+                        <tr
+                          key={passenger._id}
+                          className="border-b cursor-pointer border-slate-100 hover:bg-gray-50"
                         >
-                          {`${book?.user?.first_name} ${book?.user?.last_name}`}
-                        </td>
-                        <td
-                          onClick={() => {}}
-                          className="text-center text-gray-700 "
-                        >
-                          <div className="flex items-center h-full m-auto place-content-end">
-                            <div
-                              className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md ${
-                                modalData?.verified_passengers_onboard.includes(
-                                  book?._id
-                                )
-                                  ? "border-[#00FF6A] bg-[#00FF6A]"
-                                  : "border-black "
-                              } `}
-                            >
-                              {modalData?.verified_passengers_onboard?.find(
-                                (passenger: string) => passenger === book?._id
-                              ) ? (
+                          <td
+                            onClick={() => {}}
+                            className="py-4 pl-4 text-gray-700"
+                          >
+                            {/* Amen Olabode */}
+                            {passenger?.name}
+                          </td>
+                          <td
+                            onClick={() => {}}
+                            className="text-center text-gray-700 "
+                          >
+                            <div className="flex items-center h-full m-auto place-content-end">
+                              <div
+                                className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md 
+                            														${
+                                                          passenger.isOnboard
+                                                            ? "border-[#00FF6A] bg-[#00FF6A]"
+                                                            : "border-black "
+                                                        } `}
+                              >
+                                {passenger.isOnboard ? (
+                                  <div
+                                    className="flex flex-row items-center"
+                                    onClick={() => {
+                                      setLoadingIndex(index);
+
+                                      dispatch(
+                                        unverifyPassengerOnboardAction(
+                                          modalData?._id,
+                                          passenger?._id
+                                        )
+                                      ).finally(() => {
+                                        setLoadingIndex(-1);
+                                      });
+                                    }}
+                                  >
+                                    {isLoading ? (
+                                      <LoadingWheel param={isLoading} />
+                                    ) : (
+                                      <FaMinusCircle className="mr-2" />
+                                    )}
+
+                                    <span> Onboarded</span>
+                                  </div>
+                                ) : (
+                                  <div
+                                    className="flex flex-row items-center"
+                                    onClick={() => {
+                                      setLoadingIndex(index);
+                                      dispatch(
+                                        verifyPassengerOnboardAction(
+                                          modalData?._id,
+                                          passenger?._id
+                                        )
+                                      ).finally(() => {
+                                        setLoadingIndex(-1);
+                                      });
+                                    }}
+                                  >
+                                    {isLoading ? (
+                                      <LoadingWheel param={isLoading} />
+                                    ) : (
+                                      <FaCheck className="mr-2" />
+                                    )}
+                                    <span>Onboard </span>
+                                  </div>
+                                )}
+                              </div>
+                              <a href={`tel:${passenger.phone}`}>
                                 <div
-                                  className="flex flex-row items-center"
-                                  onClick={() => {
-                                    dispatch(
-                                      unverifyPassangerOnboardAction(
-                                        modalData?._id,
-                                        book?._id
-                                      )
-                                    );
-                                    setOnboard(!onboard);
-                                  }}
+                                  className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
+                                    passenger.isOnboard ? "hidden" : "block"
+                                  }`}
                                 >
-                                  <FaMinusCircle className="mr-2" />
-                                  <span> Onboarded</span>
+                                  {/* INITIATE A CALL TO THE USER'S NUMBER */}
+                                  Call
                                 </div>
-                              ) : (
-                                <div
-                                  className="flex flex-row items-center"
-                                  onClick={() => {
-                                    dispatch(
-                                      verifyPassangerOnboardAction(
-                                        modalData?._id,
-                                        book?._id
-                                      )
-                                    );
-                                    setOnboard(!onboard);
-                                  }}
-                                >
-                                  <FaCheck className="mr-2" />
-                                  <span>Onboard</span>
-                                </div>
-                              )}
+                              </a>
                             </div>
-                            <div
-                              className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
-                                modalData?.verified_passengers_onboard?.includes(
-                                  book?._id
-                                )
-                                  ? "hidden"
-                                  : "block"
-                              }`}
-                            >
-                              {/* INITIATE A CALL TO THE USER'S NUMBER */}
-                              Call
-                            </div>
-                          </div>
-                        </td>
-                      </tr>
-                    );
-                  })}
+                          </td>
+                        </tr>
+                      );
+                    })}
                 </tbody>
               </table>
             </div>

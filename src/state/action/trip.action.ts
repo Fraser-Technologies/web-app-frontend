@@ -24,16 +24,16 @@ import {
 	getTripByDriverRequest,
 	getTripByDriverSuccess,
 	resetCreateTrip,
-	unverifyPassangerOnBoardFailed,
-	unverifyPassangerOnBoardRequest,
-	unverifyPassangerOnBoardSuccess,
+	unverifyPassengerOnBoardFailed,
+	unverifyPassengerOnBoardRequest,
+	unverifyPassengerOnBoardSuccess,
 	updateTripFailed,
 	updateTripRequest,
 	updateTripReset,
 	updateTripSuccess,
-	verifyPassangerOnBoardFailed,
-	verifyPassangerOnBoardRequest,
-	verifyPassangerOnBoardSuccess,
+	verifyPassengerOnBoardFailed,
+	verifyPassengerOnBoardRequest,
+	verifyPassengerOnBoardSuccess,
 	endTripFailed,
 	endTripRequest,
 	endTripSuccess,
@@ -203,18 +203,18 @@ export const resetDeleteTripAction = (): AppThunk => (dispatch) => {
 	dispatch(resetDeleteCity());
 };
 
-export const verifyPassangerOnboardAction =
-	(trip_id: string, booking_id: string): AppThunk =>
+export const verifyPassengerOnboardAction =
+	(trip_id: string, passenger_id: string): AppThunk =>
 	async (dispatch, getState) => {
 		try {
-			dispatch(verifyPassangerOnBoardRequest());
+			dispatch(verifyPassengerOnBoardRequest());
 			const {
 				userLogin: { userInfo },
 			} = getState();
 			const { data } = await api.post(
-				`/trip/verifypassenger/${trip_id}`,
+				`/trip/passenger/onboard/${trip_id}`,
 				{
-					booking_id: booking_id,
+					passenger_id,
 				},
 				{
 					headers: {
@@ -223,24 +223,24 @@ export const verifyPassangerOnboardAction =
 				}
 			);
 
-			dispatch(verifyPassangerOnBoardSuccess(data));
+			dispatch(verifyPassengerOnBoardSuccess(data));
 		} catch (error: any) {
-			dispatch(verifyPassangerOnBoardFailed(RequestError(error)));
+			dispatch(verifyPassengerOnBoardFailed(RequestError(error)));
 		}
 	};
 
-export const unverifyPassangerOnboardAction =
-	(trip_id: string, booking_id: string): AppThunk =>
+export const unverifyPassengerOnboardAction =
+	(trip_id: string, passenger_id: string): AppThunk =>
 	async (dispatch, getState) => {
 		try {
-			dispatch(unverifyPassangerOnBoardRequest());
+			dispatch(unverifyPassengerOnBoardRequest());
 			const {
 				userLogin: { userInfo },
 			} = getState();
 			const { data } = await api.post(
-				`/trip/unverifypassenger/${trip_id}`,
+				`/trip/passenger/onboard/${trip_id}`,
 				{
-					booking_id: booking_id,
+					passenger_id,
 				},
 				{
 					headers: {
@@ -249,8 +249,8 @@ export const unverifyPassangerOnboardAction =
 				}
 			);
 
-			dispatch(unverifyPassangerOnBoardSuccess(data));
+			dispatch(unverifyPassengerOnBoardSuccess(data));
 		} catch (error: any) {
-			dispatch(unverifyPassangerOnBoardFailed(RequestError(error)));
+			dispatch(unverifyPassengerOnBoardFailed(RequestError(error)));
 		}
 	};

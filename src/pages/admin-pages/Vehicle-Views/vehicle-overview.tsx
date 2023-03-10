@@ -8,6 +8,7 @@ import {
 	FaExclamationCircle,
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
+import { FraserButton } from "../../../components/Button";
 import { Bus_interface } from "../../../interfaces/bus_interface";
 import { Trip_interface } from "../../../interfaces/trip_interface";
 import {
@@ -17,7 +18,6 @@ import {
 } from "../../../state/action/bus.action";
 import { getTripByBusAction } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
-import { Button } from "../../../components/Button";
 
 const VehicleOverview: React.FC = () => {
 	enum tripType {
@@ -331,18 +331,18 @@ const VehicleOverview: React.FC = () => {
 						</div>
 					</div>
 
-					<Button
+					<FraserButton
 						title="Deactivate"
 						type="submit"
-						className="w-full py-2 mt-8  rounded-md bg-[#E71D36] text-white"
+						size="regular"
 						onClick={() => {
 							setFlip("success");
 						}}
 					/>
-					<Button
+					<FraserButton
 						title="Cancel"
 						type="submit"
-						className="w-full py-2 mt-4 mb-4  text-gray-600 border border-gray-500 rounded-md"
+						size="regular"
 						onClick={() => {
 							setFlip("info");
 						}}
@@ -366,10 +366,10 @@ const VehicleOverview: React.FC = () => {
 						</div>
 					</div>
 
-					<Button
+					<FraserButton
 						title="Close"
 						type="submit"
-						className="w-full py-2 mt-8  rounded-md bg-[#00FF6A] text-black"
+						size="regular"
 						onClick={() => {
 							setModalVisible(false);
 							setStateModalVisible(false);

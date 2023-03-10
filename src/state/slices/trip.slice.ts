@@ -278,19 +278,19 @@ export const {
 } = deleteTripByIdSlice.actions;
 export const deleteTripByIdReducer = deleteTripByIdSlice.reducer;
 
-const verifyPassangerOnBoardSlice = createSlice({
-	name: "verify passanger is onboard",
+const verifyPassengerOnBoardSlice = createSlice({
+	name: "verify Passenger is onboard",
 	initialState: initialState,
 	reducers: {
-		verifyPassangerOnBoardRequest: (state) => {
+		verifyPassengerOnBoardRequest: (state) => {
 			state.loading = true;
 			state.error = "";
 		},
-		verifyPassangerOnBoardSuccess: (state, { payload }) => {
+		verifyPassengerOnBoardSuccess: (state, { payload }) => {
 			state.loading = false;
 			state.trip = payload;
 		},
-		verifyPassangerOnBoardFailed: (state, { payload }) => {
+		verifyPassengerOnBoardFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
 		},
@@ -298,26 +298,26 @@ const verifyPassangerOnBoardSlice = createSlice({
 });
 
 export const {
-	verifyPassangerOnBoardFailed,
-	verifyPassangerOnBoardSuccess,
-	verifyPassangerOnBoardRequest,
-} = verifyPassangerOnBoardSlice.actions;
-export const verifyPassangerOnBoardReducer =
-	verifyPassangerOnBoardSlice.reducer;
+	verifyPassengerOnBoardFailed,
+	verifyPassengerOnBoardSuccess,
+	verifyPassengerOnBoardRequest,
+} = verifyPassengerOnBoardSlice.actions;
+export const verifyPassengerOnBoardReducer =
+	verifyPassengerOnBoardSlice.reducer;
 
-const unverifyPassangerOnBoardSlice = createSlice({
-	name: "unverify passanger is onboard",
+const unverifyPassengerOnBoardSlice = createSlice({
+	name: "unverify Passenger is onboard",
 	initialState: initialState,
 	reducers: {
-		unverifyPassangerOnBoardRequest: (state) => {
+		unverifyPassengerOnBoardRequest: (state) => {
 			state.loading = true;
 			state.error = "";
 		},
-		unverifyPassangerOnBoardSuccess: (state, { payload }) => {
+		unverifyPassengerOnBoardSuccess: (state, { payload }) => {
 			state.loading = false;
 			state.trip = payload;
 		},
-		unverifyPassangerOnBoardFailed: (state, { payload }) => {
+		unverifyPassengerOnBoardFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
 		},
@@ -325,9 +325,9 @@ const unverifyPassangerOnBoardSlice = createSlice({
 });
 
 export const {
-	unverifyPassangerOnBoardFailed,
-	unverifyPassangerOnBoardSuccess,
-	unverifyPassangerOnBoardRequest,
-} = unverifyPassangerOnBoardSlice.actions;
-export const unverifyPassangerOnBoardReducer =
-	unverifyPassangerOnBoardSlice.reducer;
+	unverifyPassengerOnBoardFailed,
+	unverifyPassengerOnBoardSuccess,
+	unverifyPassengerOnBoardRequest,
+} = unverifyPassengerOnBoardSlice.actions;
+export const unverifyPassengerOnBoardReducer =
+	unverifyPassengerOnBoardSlice.reducer;
