@@ -124,8 +124,7 @@ const DriverPaymentRequests = () => {
 						return (
 							<tr
 								className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50"
-								// key={undefined?._id}
-							>
+								key={transaction?._id}>
 								<td className="px-4 py-2 text-xs font-normal text-gray-700">
 									{`${transaction?.user?.first_name} ${transaction?.user?.last_name}`}
 								</td>
@@ -142,13 +141,14 @@ const DriverPaymentRequests = () => {
 								<td className="px-4 py-3 text-xs font-normal text-center text-gray-700">
 									{" "}
 									<FraserButton
-									loader={loading}
-                title="Paid"
-                type="submit"
-                size="regular"
-                onClick={() => {dispatch(verifyPaymentStatusAction(transaction?._id));}}
-              />
-									
+										loader={loading}
+										title={transaction?.payment_status ? "Paid" : "UnPaid"}
+										type="submit"
+										size="regular"
+										onClick={() => {
+											dispatch(verifyPaymentStatusAction(transaction?._id));
+										}}
+									/>
 								</td>
 							</tr>
 						);
