@@ -1,7 +1,6 @@
 import { message } from "antd";
 import React, { useEffect, useState } from "react";
 import ReactPaginate from "react-paginate";
-import { Button } from "../../../components/Button";
 import { Transaction_interface } from "../../../interfaces/transaction_interface";
 import {
 	getAllTransactionAction,
@@ -10,6 +9,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { RootState } from "../../../state/redux-store";
 import { currency_formatter } from "../../../utils/currency-formatter";
+import { FraserButton } from "../../../components/Button";
 
 const DriverPaymentRequests = () => {
 	const dispatch = useAppDispatch();
@@ -124,8 +124,7 @@ const DriverPaymentRequests = () => {
 						return (
 							<tr
 								className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50"
-								// key={undefined?._id}
-							>
+								key={transaction?._id}>
 								<td className="px-4 py-2 text-xs font-normal text-gray-700">
 									{`${transaction?.user?.first_name} ${transaction?.user?.last_name}`}
 								</td>
@@ -141,11 +140,11 @@ const DriverPaymentRequests = () => {
 
 								<td className="px-4 py-3 text-xs font-normal text-center text-gray-700">
 									{" "}
-									<Button
+									<FraserButton
 										loader={loading}
-										title="Paid"
+										title={transaction?.payment_status ? "Paid" : "UnPaid"}
 										type="submit"
-										className="px-8 py-2 text-black rounded-md bg-primary-100"
+										size="regular"
 										onClick={() => {
 											dispatch(verifyPaymentStatusAction(transaction?._id));
 										}}

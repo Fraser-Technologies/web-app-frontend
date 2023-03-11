@@ -11,3 +11,9 @@ export interface Booking_interface extends Mongo_extra {
 	rating?: number;
 	verify_onboard: boolean;
 }
+
+export interface Passenger_interface extends Mongo_extra {
+	name: string;
+	phone: string;
+	isOnboard: boolean;
+}
