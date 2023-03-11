@@ -107,7 +107,8 @@ const DriverRevenueOverview = () => {
     dispatch(getBalanceByUserAction());
     setModalVisible(false);
     setValue("");
-  }, [dispatch, withdraw]);
+  }, [dispatch, withdraw, balance]);
+
 
   return (
     <>
@@ -131,31 +132,29 @@ const DriverRevenueOverview = () => {
                     </h3>
                   </div>
                   <div className="lg:flex lg:mt-8 justify-between">
-                      <div
-                        className={`${
-                          item === 1 ? "block" : "hidden lg:block"
-                        }`}
-                      >
-                        <div className="lg:lg:mb-3 lg:font-normal lg:text-[#646464]">
-                          Total Earnings
-                        </div>
-                        <h3 className="text-[24px] mt-3 lg:mt-0 text-white lg:text-[#646464] font-semibold lg:text-[18px] lg:font-medium">
-                          {currency_formatter(balance?.total_earnings)}
-                        </h3>
+                    <div
+                      className={`${item === 1 ? "block" : "hidden lg:block"}`}
+                    >
+                      <div className="lg:lg:mb-3 lg:font-normal lg:text-[#646464]">
+                        Total Earnings
                       </div>
-                      <div
-                        className={`ml-auto mr-auto ${
-                          item === 2 ? "block" : "hidden lg:block"
-                        }`}
-                      >
-                        <div className="lg:lg:mb-3 lg:font-normal lg:text-[#646464]">
-                          Total Withdrawals
-                        </div>
-                        <h3 className="text-[24px] mt-3 lg:mt-0 text-white lg:text-[#646464] font-semibold lg:text-[18px] lg:font-medium">
-                          {currency_formatter(balance?.total_withdraw)}
-                        </h3>
-                      </div>
+                      <h3 className="text-[24px] mt-3 lg:mt-0 text-white lg:text-[#646464] font-semibold lg:text-[18px] lg:font-medium">
+                        {currency_formatter(balance?.total_earnings)}
+                      </h3>
                     </div>
+                    <div
+                      className={`ml-auto mr-auto ${
+                        item === 2 ? "block" : "hidden lg:block"
+                      }`}
+                    >
+                      <div className="lg:lg:mb-3 lg:font-normal lg:text-[#646464]">
+                        Total Withdrawals
+                      </div>
+                      <h3 className="text-[24px] mt-3 lg:mt-0 text-white lg:text-[#646464] font-semibold lg:text-[18px] lg:font-medium">
+                        {currency_formatter(balance?.total_withdraw)}
+                      </h3>
+                    </div>
+                  </div>
                 </div>
                 <FaChevronCircleRight
                   className="lg:hidden text-white text-xl"
@@ -224,21 +223,24 @@ const DriverRevenueOverview = () => {
                             ? "Trip Fulfilment"
                             : "Cash Withdrawal"}{" "}
                           {/* TRANSACTION STATUS  */}
-                          
-						  {transaction?.transaction_type === "debit"
-                            && false && <div className="ml-2 bg-[#FFD6D6] text-[#753131] border border-[#FF8D8D] rounded-md px-2 py-1 text-sm">
-                            Declined
-                          </div>}
-						  
-                          {transaction?.transaction_type === "debit"
-                            && true && <div className="ml-2 bg-[#ffefc1] text-[#756031] border border-[#ffe28d] rounded-md px-2 py-1 text-sm">
-                            Pending
-                          </div> }
-
-                          {transaction?.transaction_type === "debit"
-                            && false &&<div className="ml-2 bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1 text-sm">
-                            Success
-                          </div>}
+                          {transaction?.transaction_type === "debit" &&
+                            false && (
+                              <div className="ml-2 bg-[#FFD6D6] text-[#753131] border border-[#FF8D8D] rounded-md px-2 py-1 text-sm">
+                                Declined
+                              </div>
+                            )}
+                          {transaction?.transaction_type === "debit" &&
+                            !transaction?.payment_status && (
+                              <div className="ml-2 bg-[#ffefc1] text-[#756031] border border-[#ffe28d] rounded-md px-2 py-1 text-sm">
+                                Pending
+                              </div>
+                            )}
+                          {transaction?.transaction_type === "debit" &&
+                            transaction?.payment_status && (
+                              <div className="ml-2 bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1 text-sm">
+                                Success
+                              </div>
+                            )}
                         </div>
                         <p className="text-[13px] text-[#929292] leading-snug font-normal">
                           {timeString}
