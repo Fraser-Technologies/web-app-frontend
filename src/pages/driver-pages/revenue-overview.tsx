@@ -225,15 +225,18 @@ const DriverRevenueOverview = () => {
                             : "Cash Withdrawal"}{" "}
                           {/* TRANSACTION STATUS  */}
                           
-						  {false && <div className="ml-2 bg-[#FFD6D6] text-[#753131] border border-[#FF8D8D] rounded-md px-2 py-1 text-sm">
+						  {transaction?.transaction_type === "debit"
+                            && false && <div className="ml-2 bg-[#FFD6D6] text-[#753131] border border-[#FF8D8D] rounded-md px-2 py-1 text-sm">
                             Declined
                           </div>}
 						  
-                          {true && <div className="ml-2 bg-[#ffefc1] text-[#756031] border border-[#ffe28d] rounded-md px-2 py-1 text-sm">
+                          {transaction?.transaction_type === "debit"
+                            && true && <div className="ml-2 bg-[#ffefc1] text-[#756031] border border-[#ffe28d] rounded-md px-2 py-1 text-sm">
                             Pending
                           </div> }
 
-                          {false &&<div className="ml-2 bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1 text-sm">
+                          {transaction?.transaction_type === "debit"
+                            && false &&<div className="ml-2 bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1 text-sm">
                             Success
                           </div>}
                         </div>
