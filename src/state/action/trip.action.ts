@@ -138,6 +138,7 @@ export const endTripAction =
 			const { data } = await api.put(
 				`/trip/endtrip/${id}`,
 				{},
+
 				{
 					headers: {
 						Authorization: `Bearer ${userInfo?.user_token}`,
