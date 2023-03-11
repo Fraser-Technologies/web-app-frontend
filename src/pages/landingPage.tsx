@@ -108,7 +108,7 @@ const LandingPage = () => {
             />
             <Offeringcard
               title="Affordable"
-              subtitle="Traveling with Fraser is  affordable. We are ready to take you to your next destination. Get guaranteed seats for as low as NGN 1,000.
+              subtitle="Traveling with Fraser is  affordable. We are ready to take you to your next destination. Get guaranteed seats for as low as ₦ 1,000.
               At our core, we are deeply committed to finding new ways to make your trip  affordable, you never have to break the bank to get the comfort you deserve."
             />
           </div>

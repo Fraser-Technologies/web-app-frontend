@@ -60,7 +60,7 @@ const BookingCard = ({
         <div className="flex flex-col w-full mt-6 mb-2 lg:w-1/4 lg:mt-0">
           <p className="text-sm text-gray-400 md:text-sm">Price</p>
           <p className="justify-between mt-1 mb-2 text-xl font-semibold text-primary-100 md:text-lg">
-            NGN {price.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,") + ".00"}
+            ₦ {price.toString().replace(/(\d)(?=(\d{3})+$)/g, "$1,") + ".00"}
           </p>
           <div className="w-full my-2 mr-4 border-b border-gray-200 lg:w-1/2 lg:border-r md:mr-0 "></div>
           <FraserButton

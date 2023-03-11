@@ -312,7 +312,7 @@ const UserOverview: React.FC = () => {
                       </div>
                     </div>
                     <div className="text-base font-medium">
-                      NGN {book?.trip?.price}
+                      ₦ {book?.trip?.price}
                     </div>
                   </div>
                 );
