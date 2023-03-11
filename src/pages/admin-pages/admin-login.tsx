@@ -77,7 +77,7 @@ const AdminLogin = () => {
 								// loginValid ? "bg-[#000000] text-white hover:bg-[#353535]" : "bg-[#f5f5f5]"
 							} `}
 							onClick={() => loginValid && logInAdmin()}>
-							<LoadingWheel param={loading}/>
+							{loading && <LoadingWheel param={loading} />}
 							Continue
 						</button>
 					</div>

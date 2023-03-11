@@ -48,42 +48,41 @@ const DriverLogin = () => {
 						Unlock the earning potential of your vehicle and enjoy
 						financial freedom with a steady stream of income!
 					</p> */}
-          <div className="mt-12 px-4 md:px-12">
-            <div className="mb-2">
-              <label className="text-gray-500">Mobile Number</label>
-            </div>
-            <Input
-              className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
-              placeholder="903 123 1234"
-              value={phone}
-              prefix={"+234"}
-              type="number"
-              required={true}
-              onChange={(e) => {
-                setPhone(
-                  e.target.value.startsWith("0")
-                    ? e.target.value.slice(1)
-                    : e.target.value
-                );
-              }}
-            />
-          </div>
-          <div className="px-4 md:px-12">
-            <button
-              className={` w-full p-3 mt-6 font-medium rounded-md ${
-                true
-                  ? "bg-primary-100 text-black hover:bg-[#58FF9E]"
-                  : "bg-[#f5f5f5]"
-                // loginValid ? "bg-[#000000] text-white hover:bg-[#353535]" : "bg-[#f5f5f5]"
-              } `}
-              onClick={() =>
-                // loginValid &&
-                logInDriver()
-              }
-            >
-              <LoadingWheel param={loading}/>
-              Continue
-            </button>
+					<div className="mt-12 px-4 md:px-12">
+						<div className="mb-2">
+							<label className="text-gray-500">Mobile Number</label>
+						</div>
+						<Input
+							className="w-full h-12 hover:border-green-500 focus:border-green-500 active:border-green-600"
+							placeholder="903 123 1234"
+							value={phone}
+							prefix={"+234"}
+							type="number"
+							required={true}
+							onChange={(e) => {
+								setPhone(
+									e.target.value.startsWith("0")
+										? e.target.value.slice(1)
+										: e.target.value
+								);
+							}}
+						/>
+					</div>
+					<div className="px-4 md:px-12">
+						<button
+							className={` w-full p-3 mt-6 font-medium rounded-md ${
+								!loading
+									? "bg-primary-100 text-black hover:bg-[#58FF9E]"
+									: "bg-[#f5f5f5]"
+								// loginValid ? "bg-[#000000] text-white hover:bg-[#353535]" : "bg-[#f5f5f5]"
+							} `}
+							onClick={() =>
+								// loginValid &&
+								logInDriver()
+							}>
+							{loading && <LoadingWheel param={loading} />}
+							Continue
+						</button>
 
 						<button
 							className=" flex items-center justify-center w-full cursor-pointer mt-6 text-[#22B11E]  hover:text-[#179713]"
