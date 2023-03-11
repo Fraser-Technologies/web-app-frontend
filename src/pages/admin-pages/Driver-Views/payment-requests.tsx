@@ -20,6 +20,7 @@ const DriverPaymentRequests = () => {
     setFlip(fliptype);
     setVisible(true);
   };
+  const [loadingIndex, setLoadingIndex] = useState<number>(-1);
 
   const handleOk = () => {
     setFlip("");
@@ -139,7 +140,8 @@ const DriverPaymentRequests = () => {
           <tbody className="">
             {items
               ?.filter((a: Transaction_interface) => a.payment_status === false)
-              ?.map((transaction: Transaction_interface) => {
+              ?.map((transaction: Transaction_interface, index: number) => {
+                const isLoading = loadingIndex === index;
                 return (
                   <tr
                     className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50"
@@ -160,12 +162,17 @@ const DriverPaymentRequests = () => {
                     <td className="px-4 py-3 text-xs font-normal text-center text-gray-700 justify-end flex">
                       {" "}
                       <FraserButton
-                        loader={loading}
+                        loader={isLoading && loading}
                         title={"Payment Made"}
                         // className={"w-full"}
                         size="regular"
                         onClick={() => {
-                          dispatch(verifyPaymentStatusAction(transaction?._id));
+                          setLoadingIndex(index);
+                          dispatch(
+                            verifyPaymentStatusAction(transaction?._id)
+                          ).finally(() => {
+                            setLoadingIndex(-1);
+                          });
                         }}
                       />
                     </td>
