@@ -44,7 +44,10 @@ const DriverPaymentRequests = () => {
   const itemsPerPage = 10; // number of items per page
   const pageRangeDisplayed = 5; // number of pages to display
   const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
-  const totalItems = transactions.length; // total number of items
+  const totalItems = transactions.filter(
+    (a: Transaction_interface) =>
+      a.payment_status === false && a.transaction_type == "debit"
+  ).length; // total number of items
   const pageCount = Math.ceil(totalItems / itemsPerPage); // total number of pages
   const [messageApi, contextHolder] = message.useMessage();
   // calculate the start and end index of the items to display on the current page
@@ -56,6 +59,7 @@ const DriverPaymentRequests = () => {
       const statusB = Boolean(b.payment_status);
       return statusA === statusB ? 0 : statusA ? -1 : 1;
     })
+    .filter((a: Transaction_interface) => a.transaction_type == "debit")
     .reverse()
     .slice(startIndex, endIndex); // items to display on the current page
 
@@ -139,7 +143,10 @@ const DriverPaymentRequests = () => {
           {/* SORT BY IF PAID OR UNPAID */}
           <tbody className="">
             {items
-              ?.filter((a: Transaction_interface) => a.payment_status === false)
+              ?.filter(
+                (a: Transaction_interface) =>
+                  a.payment_status === false && a.transaction_type == "debit"
+              )
               ?.map((transaction: Transaction_interface, index: number) => {
                 const isLoading = loadingIndex === index;
                 return (
@@ -198,6 +205,11 @@ const DriverPaymentRequests = () => {
           <div className="h-[70vh] overflow-y-scroll">
             {transactions
               ?.filter((a: Transaction_interface) => a.payment_status === true)
+              .sort((a: Transaction_interface, b: Transaction_interface) => {
+                const dateA = new Date(a.updatedAt);
+                const dateB = new Date(b.updatedAt);
+                return dateA.getTime() - dateB.getTime();
+              })
               .reverse()
               ?.map((b: Transaction_interface) => {
                 const timestamp = b?.updatedAt;
