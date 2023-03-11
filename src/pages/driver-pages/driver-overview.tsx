@@ -133,7 +133,7 @@ const DriverOverview = () => {
   return (
     <div className="pt-28 lg:pt-32">
       <div className="fixed bottom-0 flex items-center w-full mb-4 lg:hidden place-content-center">
-        <div className="flex w-5/6 px-1 text-white bg-black rounded-md">
+        <div className="flex w-5/6 px-1 bg-black rounded-md">
           <div
             className={`text-center w-1/3 py-3 px-4 mx-1 my-2 rounded-md ${
               selection === "Schedule"
@@ -200,9 +200,9 @@ const DriverOverview = () => {
                 Upcoming Trip Schedule
               </p>
 
-              <div className="mt-2 lg:mt-4 text-[#929292] lg:bg-black lg:px-4 pb-4 rounded-md">
+              <div className="mt-2 lg:mt-4 lg:bg-black lg:px-6 py-4 rounded-md">
                 <div className="p-4 bg-black rounded-md lg:p-0 ">
-                  <p className="border-b text-[14px] lg: border-[#353535] py-2">
+                  <p className="border-b text-[#929292] text-[14px] lg: border-[#353535] py-2">
                     Outbound Schedule
                   </p>
 
@@ -211,7 +211,9 @@ const DriverOverview = () => {
                       trip?.completed_status === false &&
                       trip?.trip_type === "outbound"
                   ).length === 0 ? (
-                    <div className="my-4">You have no upcoming trips</div>
+                    <div className="my-4 text-[#929292] ">
+                      You have no upcoming trips
+                    </div>
                   ) : (
                     trips
                       ?.filter(
@@ -236,7 +238,7 @@ const DriverOverview = () => {
                               <p className="text-xl text-white lg:text-base">
                                 {`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
                               </p>
-                              <div className="flex mt-2 lg:mt-0">
+                              <div className="text-[#929292] flex mt-2 lg:mt-0">
                                 <div className="flex items-center mt-1 mr-4">
                                   <FaCalendar className="mr-2" />
                                   {trip?.take_off_date}
@@ -262,11 +264,14 @@ const DriverOverview = () => {
                               <FraserButton
                                 title="View Manifest"
                                 type="submit"
-                                className="lg:block hidden"
-                                size="regular"
+                                className="lg:block hidden w-full mr-4"
+                                size="small"
                                 onClick={() => {
                                   handleOpenModal(trip, "manifest");
                                 }}
+                                buttonType="secondary"
+                                buttonActionType={"regular"}
+                                active={true}
                               />
                               <FraserButton
                                 title={
@@ -274,12 +279,15 @@ const DriverOverview = () => {
                                 }
                                 size="regular"
                                 type="submit"
-                                className={`lg:block hidden ${
+                                className={`w-full lg:block hidden ${
                                   trip?.has_started && "bg-[#E71D36] text-white"
                                 }`}
+                                buttonType="primary"
+                                buttonActionType={
+                                  !trip?.has_started ? "regular" : "destructive"
+                                }
+                                active={true}
                                 onClick={() => {
-                                  //VALUES NOT UPDATING
-                                  // console.log(trip.has_started, trip.has_ended);
                                   if (!trip?.has_started) {
                                     handleOpenModal(trip, "startOutBoundTrip");
                                   }
@@ -398,11 +406,10 @@ const DriverOverview = () => {
                                   startReturnTrip ? "End Trip" : "Start Trip"
                                 }
                                 type="submit"
-                                className={`lg:block hidden ${
-                                  startReturnTrip
-                                    ? "bg-[#E71D36] text-white"
-                                    : "bg-[#00FF6A] text-black"
-                                }`}
+                                buttonActionType={
+                                  startReturnTrip ? "destructive" : "regular"
+                                }
+                                className={`lg:block hidden`}
                                 onClick={() => {
                                   if (!startReturnTrip) {
                                     handleOpenModal(trip, "startReturnTrip");
@@ -663,496 +670,489 @@ const DriverOverview = () => {
         </div>
 
         {/* TABLE */}
+      </div>
 
-        {flip === DriverViews.VIEW && modalVisible && (
-          <Modal
-            title={
-              <div className="text-lg font-medium boder-b">
-                Lagos to Ibadan Trip
-              </div>
-            }
-            onOk={handleOk}
-            onCancel={handleCancel}
-            open={modalVisible}
-            centered={true}
-            footer={false}
-            closable={true}
-          >
-            <div className="grid w-full grid-cols-2 gap-8 pb-12 mt-8">
-              <div>
-                <div className="mb-1 text-gray-400">Start</div>
-                <div className="text-xs">
-                  {modalData?.travel_destination?.from?.city?.city}
-                </div>
-              </div>
-
-              <div>
-                <div className="mb-1 text-gray-400">Destination</div>
-                <div className="text-xs">
-                  {modalData?.travel_destination?.to?.city?.city}
-                </div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Start Bus Stop</div>
-                <div className="text-xs">
-                  {modalData?.travel_destination?.from?.start_busstop}
-                </div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Destination Bus Stop</div>
-                <div className="text-xs">
-                  {modalData?.travel_destination?.to?.stop_busstop}
-                </div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Departure Time</div>
-                <div className="text-xs">{modalData?.take_off_time}</div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Departure Date</div>
-                <div className="text-xs">{modalData?.take_off_date}</div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Arrival Time</div>
-                <div className="text-xs">{modalData?.arrival_time}</div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Arrival Date</div>
-                <div className="text-xs">{modalData?.arrival_date}</div>
-              </div>
-
-              <div>
-                <div className="mb-1 text-gray-400">Amount Earned</div>
-                <div className="text-xs">
-                  {currency_formatter(modalData?.amount_earn)}
-                </div>
+      {flip === DriverViews.VIEW && modalVisible && (
+        <Modal
+          title={
+            <div className="text-lg font-medium boder-b">
+              Lagos to Ibadan Trip
+            </div>
+          }
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+        >
+          <div className="grid w-full grid-cols-2 gap-8 pb-12 mt-8">
+            <div>
+              <div className="mb-1 text-gray-400">Start</div>
+              <div className="text-xs">
+                {modalData?.travel_destination?.from?.city?.city}
               </div>
             </div>
-          </Modal>
-        )}
-        {flip === DriverViews.STARTOUTBOUNDTRIP && modalVisible && (
-          <Modal
-            onOk={handleOk}
-            onCancel={handleCancel}
-            open={modalVisible}
-            centered={true}
-            footer={false}
-            closable={true}
-            width="240px"
-          >
-            <div className="w-full mt-8 leading-5 text-center place-items-center">
-              Starting a trip means all users are aboard <div></div>
-              <div className="mt-6 text-base font-medium">Start the trip?</div>
+
+            <div>
+              <div className="mb-1 text-gray-400">Destination</div>
+              <div className="text-xs">
+                {modalData?.travel_destination?.to?.city?.city}
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Start Bus Stop</div>
+              <div className="text-xs">
+                {modalData?.travel_destination?.from?.start_busstop}
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Destination Bus Stop</div>
+              <div className="text-xs">
+                {modalData?.travel_destination?.to?.stop_busstop}
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Departure Time</div>
+              <div className="text-xs">{modalData?.take_off_time}</div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Departure Date</div>
+              <div className="text-xs">{modalData?.take_off_date}</div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Arrival Time</div>
+              <div className="text-xs">{modalData?.arrival_time}</div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Arrival Date</div>
+              <div className="text-xs">{modalData?.arrival_date}</div>
             </div>
 
-            <div className="flex mt-6">
-              <FraserButton
-                size="small"
-                title="No"
-                type="submit"
-                className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
-                onClick={() => {
-                  setModalVisible(!modalVisible);
-                }}
-              />
-              <FraserButton
-                title={`Yes`}
-                size="small"
-                type="submit"
-                className="w-full py-2 text-xs text-white bg-black rounded-md"
-                onClick={() => {
-                  dispatch(
-                    updateTripAction(modalData?._id, {
-                      has_started: true,
-                      start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-                    })
-                  );
-                  setstartOutBoundTrip(!startOutBoundTrip);
-                  setVisible(true);
-                  setAlertMessage(`Trip Started at ${moment().toNow()}`);
-                  setModalVisible(false);
-                }}
-              />
+            <div>
+              <div className="mb-1 text-gray-400">Amount Earned</div>
+              <div className="text-xs">
+                {currency_formatter(modalData?.amount_earn)}
+              </div>
             </div>
-          </Modal>
-        )}
-        {flip === DriverViews.STARTRETURNTRIP && modalVisible && (
-          <Modal
-            onOk={handleOk}
-            onCancel={handleCancel}
-            open={modalVisible}
-            centered={true}
-            footer={false}
-            closable={true}
-            width="240px"
-          >
-            <div className="w-full mt-8 text-center place-items-center">
-              Starting a trip means all users are aboard, <div></div>
-              <div className="mt-4 text-base font-medium">Start the trip?</div>
-            </div>
+          </div>
+        </Modal>
+      )}
+      {flip === DriverViews.STARTOUTBOUNDTRIP && modalVisible && (
+        <Modal
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+          width="240px"
+        >
+          <div className="w-full mt-8 leading-5 text-center place-items-center">
+            Starting a trip means all users are aboard <div></div>
+            <div className="mt-6 text-base font-medium">Start the trip?</div>
+          </div>
 
-            <div className="flex mt-6">
-              <FraserButton
-                title="No"
-                size="regular"
-                type="submit"
-                className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
-                onClick={() => {}}
-              />
-              <FraserButton
-                title={`Yes`}
-                size="regular"
-                type="submit"
-                className="w-full py-2 text-xs text-white bg-black rounded-md"
-                onClick={() => {
-                  // setstartOutBoundTrip(!startOutBoundTrip);
-                  setstartReturnTrip(!startReturnTrip);
-                  setVisible(true);
-                  setAlertMessage(
-                    `Trip Started, your ETA is ${moment(Date.now())}`
-                  );
-                  setModalVisible(false);
-                  dispatch(
-                    updateTripAction(modalData?._id, {
-                      has_started: true,
-                      start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-                    })
-                  );
-                }}
-              />
-            </div>
-          </Modal>
-        )}
+          <div className="mt-6">
+            <FraserButton
+              title={`Yes`}
+              size="small"
+              className="w-full mb-4"
+              onClick={() => {
+                dispatch(
+                  updateTripAction(modalData?._id, {
+                    has_started: true,
+                    start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+                  })
+                );
+                setstartOutBoundTrip(!startOutBoundTrip);
+                setVisible(true);
+                setAlertMessage(`Trip Started at ${moment().toNow()}`);
+                setModalVisible(false);
+              }}
+            />
+            <FraserButton
+              size="small"
+              title="No"
+              buttonType="secondary"
+              secondaryColor="black"
+              className="w-full"
+              onClick={() => {
+                setModalVisible(!modalVisible);
+              }}
+            />
+          </div>
+        </Modal>
+      )}
+      {flip === DriverViews.STARTRETURNTRIP && modalVisible && (
+        <Modal
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+          width="240px"
+        >
+          <div className="w-full mt-8 text-center place-items-center">
+            Starting a trip means all users are aboard, <div></div>
+            <div className="mt-4 text-base font-medium">Start the trip?</div>
+          </div>
 
-        {/* WHEN A TRIP ENDS, REMOVE THE TRIP FROM THE UPCOMING SCHEDULE */}
-        {flip === DriverViews.ENDOUTBOUNDTRIP && modalVisible && (
-          <Modal
-            onOk={handleOk}
-            onCancel={handleCancel}
-            open={modalVisible}
-            centered={true}
-            footer={false}
-            closable={true}
-            width="240px"
-          >
-            <div className="w-full mt-8 text-center place-items-center">
-              Ending a trip means the trip is completed.
-              <div className="mt-4 text-base font-medium">End the trip?</div>
-            </div>
+          <div className="flex mt-6">
+            <FraserButton title="No" size="regular" onClick={() => {}} />
+            <FraserButton
+              title={`Yes`}
+              size="regular"
+              type="submit"
+              onClick={() => {
+                // setstartOutBoundTrip(!startOutBoundTrip);
+                setstartReturnTrip(!startReturnTrip);
+                setVisible(true);
+                setAlertMessage(
+                  `Trip Started, your ETA is ${moment(Date.now())}`
+                );
+                setModalVisible(false);
+                dispatch(
+                  updateTripAction(modalData?._id, {
+                    has_started: true,
+                    start_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+                  })
+                );
+              }}
+            />
+          </div>
+        </Modal>
+      )}
 
-            <div className="flex mt-6">
-              <FraserButton
-                title="No"
-                size="small"
-                type="submit"
-                className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
-                onClick={() => {}}
-              />
-              <FraserButton
-                title={`Yes`}
-                size="small"
-                type="submit"
-                className="w-full py-2 text-xs text-white bg-black rounded-md"
-                onClick={() => {
-                  setstartOutBoundTrip(!startOutBoundTrip);
-                  setVisible(true);
-                  setAlertMessage("Great Job! Trip Completed successfully");
-                  setModalVisible(false);
-                  dispatch(
-                    updateTripAction(modalData?._id, {
-                      has_started: false,
-                      has_ended: true,
-                      completed_status: true,
-                      end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-                    })
-                  );
-                }}
-              />
-            </div>
-          </Modal>
-        )}
-        {flip === DriverViews.ENDRETURNTRIP && modalVisible && (
-          <Modal
-            onOk={handleOk}
-            onCancel={handleCancel}
-            open={modalVisible}
-            centered={true}
-            footer={false}
-            closable={true}
-            width="240px"
-          >
-            <div className="w-full mt-8 text-center place-items-center">
-              Ending a trip means the trip is completed.
-              <div className="mt-4 text-base font-medium">End the trip?</div>
-            </div>
+      {/* WHEN A TRIP ENDS, REMOVE THE TRIP FROM THE UPCOMING SCHEDULE */}
+      {flip === DriverViews.ENDOUTBOUNDTRIP && modalVisible && (
+        <Modal
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+          width="240px"
+        >
+          <div className="w-full mt-8 text-center place-items-center">
+            Ending a trip means the trip is completed.
+            <div className="mt-4 text-base font-medium">End the trip?</div>
+          </div>
 
-            <div className="flex mt-6">
-              <FraserButton
-                title="No"
-                size="small"
-                type="submit"
-                className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
-                onClick={() => {}}
-              />
-              <FraserButton
-                title={`Yes`}
-                size="small"
-                type="submit"
-                className="w-full py-2 text-xs text-white bg-black rounded-md"
-                onClick={() => {
-                  dispatch(
-                    updateTripAction(modalData?._id, {
-                      has_started: false,
-                      has_ended: true,
-                      completed_status: true,
-                      end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
-                    })
-                  );
-                  setstartReturnTrip(!startReturnTrip);
-                  setVisible(true);
-                  setAlertMessage("Great Job! Trip Completed successfully");
-                  setModalVisible(false);
-                }}
-              />
-            </div>
-          </Modal>
-        )}
-        {flip === DriverViews.MANIFEST && modalVisible && (
-          <Modal
-            title={
-              <div className="">
-                <p className="mb-4 text-lg font-medium">Passenger Manifest</p>
-                <p className="text-base font-normal">{`${modalData?.travel_destination?.from?.city?.city} to ${modalData?.travel_destination?.to?.city?.city} Trip`}</p>
+          <div className="flex mt-6">
+            <FraserButton
+              title="No"
+              size="small"
+              type="submit"
+              className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
+              onClick={() => {}}
+            />
+            <FraserButton
+              title={`Yes`}
+              size="small"
+              type="submit"
+              className="w-full py-2 text-xs text-white bg-black rounded-md"
+              onClick={() => {
+                setstartOutBoundTrip(!startOutBoundTrip);
+                setVisible(true);
+                setAlertMessage("Great Job! Trip Completed successfully");
+                setModalVisible(false);
+                dispatch(
+                  updateTripAction(modalData?._id, {
+                    has_started: false,
+                    has_ended: true,
+                    completed_status: true,
+                    end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+                  })
+                );
+              }}
+            />
+          </div>
+        </Modal>
+      )}
+      {flip === DriverViews.ENDRETURNTRIP && modalVisible && (
+        <Modal
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+          width="240px"
+        >
+          <div className="w-full mt-8 text-center place-items-center">
+            Ending a trip means the trip is completed.
+            <div className="mt-4 text-base font-medium">End the trip?</div>
+          </div>
 
-                <div className="flex w-full bg-black rounded-md px-2 pt-1 pb-3 font-normal text-[14px] text-white my-2">
-                  <div className="w-full flex mt-2 mr-2 rounded-md ">
-                    <div className="ml-2">
-                      <p className="mb-1 text-gray-500">Passengers</p>
-                      <p className="text-lg">{modalData?.passengers.length} </p>
-                    </div>
-                  </div>
-                  <div className="w-full flex mt-2 mr-2 rounded-md ">
-                    <div className="ml-2">
-                      <p className="mb-1 text-gray-500">Onboard</p>
-                      <p className=" text-lg">
-                        {
-                          modalData?.passengers?.filter(
-                            (item: any) => item.isOnboard
-                          ).length
-                        }{" "}
-                      </p>
-                    </div>
-                  </div>
-                  <div className="w-full flex mt-2 mr-2 rounded-md ">
-                    <div className="ml-2">
-                      <p className="mb-1 text-gray-500">Not Onboard</p>
-                      <p className=" text-lg">
-                        {
-                          modalData?.passengers?.filter(
-                            (item: any) => !item.isOnboard
-                          ).length
-                        }
-                      </p>
-                    </div>
+          <div className="flex mt-6">
+            <FraserButton
+              title="No"
+              size="small"
+              type="submit"
+              className="w-full py-2 mr-2 text-xs text-gray-600 border border-gray-500 rounded-md"
+              onClick={() => {}}
+            />
+            <FraserButton
+              title={`Yes`}
+              size="small"
+              type="submit"
+              className="w-full py-2 text-xs text-white bg-black rounded-md"
+              onClick={() => {
+                dispatch(
+                  updateTripAction(modalData?._id, {
+                    has_started: false,
+                    has_ended: true,
+                    completed_status: true,
+                    end_time: moment().format("MMMM Do YYYY, h:mm:ss a"),
+                  })
+                );
+                setstartReturnTrip(!startReturnTrip);
+                setVisible(true);
+                setAlertMessage("Great Job! Trip Completed successfully");
+                setModalVisible(false);
+              }}
+            />
+          </div>
+        </Modal>
+      )}
+      {flip === DriverViews.MANIFEST && modalVisible && (
+        <Modal
+          title={
+            <div className="">
+              <p className="mb-4 text-lg font-medium">Passenger Manifest</p>
+              <p className="text-base font-normal">{`${modalData?.travel_destination?.from?.city?.city} to ${modalData?.travel_destination?.to?.city?.city} Trip`}</p>
+
+              <div className="flex w-full bg-black rounded-md px-2 pt-1 pb-3 font-normal text-[14px] text-white my-2">
+                <div className="w-full flex mt-2 mr-2 rounded-md ">
+                  <div className="ml-2">
+                    <p className="mb-1 text-gray-500">Passengers</p>
+                    <p className="text-lg">{modalData?.passengers.length} </p>
                   </div>
                 </div>
-
-                <table className="w-full mt-4 text-base font-normal text-left text-white table-auto">
-                  <thead className="bg-black w-full text-white">
-                    <tr>
-                      <th
-                        scope="col"
-                        className="px-2 py-2 pl-4 font-normal rounded-l-md"
-                      >
-                        Name
-                      </th>
-                      <th
-                        scope="col"
-                        className="px-2 py-2 font-normal text-center rounded-r-md"
-                      >
-                        Action
-                      </th>
-                    </tr>
-                  </thead>
-                </table>
-              </div>
-            }
-            className=""
-            onOk={handleOk}
-            onCancel={handleCancel}
-            open={modalVisible}
-            centered={true}
-            footer={false}
-            closable={true}
-          >
-            <div className="h-[60vh] overflow-y-scroll">
-              <table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
-                {/* //TABLE ROWS */}
-                <tbody className="mt-4">
-                  {modalData?.passengers
-                    ?.slice()
-                    .sort((a: { isOnboard: any }, b: { isOnboard: any }) => {
-                      if (a?.isOnboard && !b?.isOnboard) {
-                        return 1;
+                <div className="w-full flex mt-2 mr-2 rounded-md ">
+                  <div className="ml-2">
+                    <p className="mb-1 text-gray-500">Onboard</p>
+                    <p className=" text-lg">
+                      {
+                        modalData?.passengers?.filter(
+                          (item: any) => item.isOnboard
+                        ).length
+                      }{" "}
+                    </p>
+                  </div>
+                </div>
+                <div className="w-full flex mt-2 mr-2 rounded-md ">
+                  <div className="ml-2">
+                    <p className="mb-1 text-gray-500">Not Onboard</p>
+                    <p className=" text-lg">
+                      {
+                        modalData?.passengers?.filter(
+                          (item: any) => !item.isOnboard
+                        ).length
                       }
-                      if (!a?.isOnboard && b?.isOnboard) {
-                        return -1;
-                      }
-                      return 0;
-                    })
-                    .map((passenger: Passenger_interface, index: number) => {
-                      const isLoading = loadingIndex === index;
-                      return (
-                        <tr
-                          key={passenger._id}
-                          className="border-b cursor-pointer border-slate-100 hover:bg-gray-50"
+                    </p>
+                  </div>
+                </div>
+              </div>
+
+              <table className="w-full mt-4 text-base font-normal text-left text-white table-auto">
+                <thead className="bg-black w-full text-white">
+                  <tr>
+                    <th
+                      scope="col"
+                      className="px-2 py-2 pl-4 font-normal rounded-l-md"
+                    >
+                      Name
+                    </th>
+                    <th
+                      scope="col"
+                      className="px-2 py-2 font-normal text-center rounded-r-md"
+                    >
+                      Action
+                    </th>
+                  </tr>
+                </thead>
+              </table>
+            </div>
+          }
+          className=""
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+        >
+          <div className="h-[60vh] overflow-y-scroll">
+            <table className="w-full mt-2 text-base font-normal text-left text-white table-auto">
+              {/* //TABLE ROWS */}
+              <tbody className="mt-4">
+                {modalData?.passengers
+                  ?.slice()
+                  .sort((a: { isOnboard: any }, b: { isOnboard: any }) => {
+                    if (a?.isOnboard && !b?.isOnboard) {
+                      return 1;
+                    }
+                    if (!a?.isOnboard && b?.isOnboard) {
+                      return -1;
+                    }
+                    return 0;
+                  })
+                  .map((passenger: Passenger_interface, index: number) => {
+                    const isLoading = loadingIndex === index;
+                    return (
+                      <tr
+                        key={passenger._id}
+                        className="border-b cursor-pointer border-slate-100 hover:bg-gray-50"
+                      >
+                        <td
+                          onClick={() => {}}
+                          className="py-4 pl-4 text-gray-700"
                         >
-                          <td
-                            onClick={() => {}}
-                            className="py-4 pl-4 text-gray-700"
-                          >
-                            {/* Amen Olabode */}
-                            {passenger?.name}
-                          </td>
-                          <td
-                            onClick={() => {}}
-                            className="text-center text-gray-700 "
-                          >
-                            <div className="flex items-center h-full m-auto place-content-end">
-                              <div
-                                className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md 
+                          {/* Amen Olabode */}
+                          {passenger?.name}
+                        </td>
+                        <td
+                          onClick={() => {}}
+                          className="text-center text-gray-700 "
+                        >
+                          <div className="flex items-center h-full m-auto place-content-end">
+                            <div
+                              className={`flex items-center text-black mr-2 py-2 px-4 border rounded-md 
                             														${
                                                           passenger.isOnboard
                                                             ? "border-[#00FF6A] bg-[#00FF6A]"
                                                             : "border-black "
                                                         } `}
-                              >
-                                {passenger.isOnboard ? (
-                                  <div
-                                    className="flex flex-row items-center"
-                                    onClick={() => {
-                                      setLoadingIndex(index);
-
-                                      dispatch(
-                                        unverifyPassengerOnboardAction(
-                                          modalData?._id,
-                                          passenger?._id
-                                        )
-                                      ).finally(() => {
-                                        setLoadingIndex(-1);
-                                      });
-                                    }}
-                                  >
-                                    {isLoading ? (
-                                      <LoadingWheel param={isLoading} />
-                                    ) : (
-                                      <FaMinusCircle className="mr-2" />
-                                    )}
-
-                                    <span> Onboarded</span>
-                                  </div>
-                                ) : (
-                                  <div
-                                    className="flex flex-row items-center"
-                                    onClick={() => {
-                                      setLoadingIndex(index);
-                                      dispatch(
-                                        verifyPassengerOnboardAction(
-                                          modalData?._id,
-                                          passenger?._id
-                                        )
-                                      ).finally(() => {
-                                        setLoadingIndex(-1);
-                                      });
-                                    }}
-                                  >
-                                    {isLoading ? (
-                                      <LoadingWheel param={isLoading} />
-                                    ) : (
-                                      <FaCheck className="mr-2" />
-                                    )}
-                                    <span>Onboard </span>
-                                  </div>
-                                )}
-                              </div>
-                              <a href={`tel:${passenger.phone}`}>
+                            >
+                              {passenger.isOnboard ? (
                                 <div
-                                  className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
-                                    passenger.isOnboard ? "hidden" : "block"
-                                  }`}
-                                >
-                                  {/* INITIATE A CALL TO THE USER'S NUMBER */}
-                                  Call
-                                </div>
-                              </a>
-                            </div>
-                          </td>
-                        </tr>
-                      );
-                    })}
-                </tbody>
-              </table>
-            </div>
-          </Modal>
-        )}
-        {flip === DriverViews.TRIPINFO && modalVisible && (
-          <Modal
-            title={
-              <div className="text-xs font-medium boder-b">Trip Details</div>
-            }
-            onOk={handleOk}
-            onCancel={handleCancel}
-            open={modalVisible}
-            centered={true}
-            footer={false}
-            closable={true}
-          >
-            <div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
-              <div>
-                <div className="mb-1 text-gray-400">Start</div>
-                <div className="text-xs">
-                  {`${modalData?.travel_destination?.from?.city?.city}`}
-                </div>
-              </div>
+                                  className="flex flex-row items-center"
+                                  onClick={() => {
+                                    setLoadingIndex(index);
 
-              <div>
-                <div className="mb-1 text-gray-400">Destination</div>
-                <div className="text-xs">
-                  {`${modalData?.travel_destination?.to?.city?.city}`}
-                </div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Start Bus Stop</div>
-                <div className="text-xs">
-                  {modalData?.travel_destination?.from?.start_busstop}
-                </div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Destination Bus Stop</div>
-                <div className="text-xs">
-                  {modalData?.travel_destination?.to?.stop_busstop}
-                </div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Departure Time</div>
-                <div className="text-xs">{modalData?.take_off_time}</div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Date</div>
-                <div className="text-xs">{modalData?.take_off_date}</div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Driver</div>
-                <div className="text-xs">{`${modalData?.driver?.first_name} ${modalData?.driver?.last_name}`}</div>
-              </div>
-              <div>
-                <div className="mb-1 text-gray-400">Vehicle</div>
-                <div className="text-xs">{modalData?.bus?.name}</div>
+                                    dispatch(
+                                      unverifyPassengerOnboardAction(
+                                        modalData?._id,
+                                        passenger?._id
+                                      )
+                                    ).finally(() => {
+                                      setLoadingIndex(-1);
+                                    });
+                                  }}
+                                >
+                                  {isLoading ? (
+                                    <LoadingWheel param={isLoading} />
+                                  ) : (
+                                    <FaMinusCircle className="mr-2" />
+                                  )}
+
+                                  <span> Onboarded</span>
+                                </div>
+                              ) : (
+                                <div
+                                  className="flex flex-row items-center"
+                                  onClick={() => {
+                                    setLoadingIndex(index);
+                                    dispatch(
+                                      verifyPassengerOnboardAction(
+                                        modalData?._id,
+                                        passenger?._id
+                                      )
+                                    ).finally(() => {
+                                      setLoadingIndex(-1);
+                                    });
+                                  }}
+                                >
+                                  {isLoading ? (
+                                    <LoadingWheel param={isLoading} />
+                                  ) : (
+                                    <FaCheck className="mr-2" />
+                                  )}
+                                  <span>Onboard </span>
+                                </div>
+                              )}
+                            </div>
+                            <a href={`tel:${passenger.phone}`}>
+                              <div
+                                className={`bg-[#00FF6A] px-6 py-2 rounded-md border border-[#00FF6A] text-black ${
+                                  passenger.isOnboard ? "hidden" : "block"
+                                }`}
+                              >
+                                {/* INITIATE A CALL TO THE USER'S NUMBER */}
+                                Call
+                              </div>
+                            </a>
+                          </div>
+                        </td>
+                      </tr>
+                    );
+                  })}
+              </tbody>
+            </table>
+          </div>
+        </Modal>
+      )}
+      {flip === DriverViews.TRIPINFO && modalVisible && (
+        <Modal
+          title={
+            <div className="text-xs font-medium boder-b">Trip Details</div>
+          }
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+        >
+          <div className="grid w-full grid-cols-2 gap-8 pb-12 mt-12">
+            <div>
+              <div className="mb-1 text-gray-400">Start</div>
+              <div className="text-xs">
+                {`${modalData?.travel_destination?.from?.city?.city}`}
               </div>
             </div>
-          </Modal>
-        )}
-      </div>
+
+            <div>
+              <div className="mb-1 text-gray-400">Destination</div>
+              <div className="text-xs">
+                {`${modalData?.travel_destination?.to?.city?.city}`}
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Start Bus Stop</div>
+              <div className="text-xs">
+                {modalData?.travel_destination?.from?.start_busstop}
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Destination Bus Stop</div>
+              <div className="text-xs">
+                {modalData?.travel_destination?.to?.stop_busstop}
+              </div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Departure Time</div>
+              <div className="text-xs">{modalData?.take_off_time}</div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Date</div>
+              <div className="text-xs">{modalData?.take_off_date}</div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Driver</div>
+              <div className="text-xs">{`${modalData?.driver?.first_name} ${modalData?.driver?.last_name}`}</div>
+            </div>
+            <div>
+              <div className="mb-1 text-gray-400">Vehicle</div>
+              <div className="text-xs">{modalData?.bus?.name}</div>
+            </div>
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
