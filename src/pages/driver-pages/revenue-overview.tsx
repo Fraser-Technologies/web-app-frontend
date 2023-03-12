@@ -43,7 +43,6 @@ const DriverRevenueOverview = () => {
   };
 
   const handleVerify = () => {};
-  const onSearch = (value: string) => console.log(value);
 
   const { balance } = useAppSelector((state: RootState) => state.userBalance);
   const {
@@ -62,7 +61,6 @@ const DriverRevenueOverview = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const dispatch = useAppDispatch();
   const [pin, setPIN] = useState<any>("");
-  
 
   const handleBankChange = (bank: any) => {
     setSelectedBank(bank);
@@ -196,7 +194,7 @@ const DriverRevenueOverview = () => {
           <p className="mt-12 text-lg lg:text-xl font-medium border-b mb-4 pb-4">
             Transaction History
           </p>
-          <div className="border border-[#e3e3e3] lg:px-10 pt-8">
+          <div className="border border-[#e3e3e3] lg:px-10 pt-8 pb-16">
             {!balance?.transaction_history?.length && (
               <Alert
                 type="info"
@@ -208,7 +206,7 @@ const DriverRevenueOverview = () => {
               />
             )}
             {balance?.transaction_history
-              ?.slice(0, 10)
+              ?.slice()
               .sort(
                 (
                   a: { transaction_time: string | number | Date },
@@ -220,6 +218,7 @@ const DriverRevenueOverview = () => {
                 }
               )
               .reverse()
+              ?.slice(0, 10)
               ?.map((transaction: Transaction_interface) => {
                 const dateString = transaction?.transaction_time;
                 const dateWithoutDayOfWeek = dateString.substring(
@@ -235,7 +234,6 @@ const DriverRevenueOverview = () => {
                   hour12: true,
                 });
                 // console.log(timeString);
-
                 return (
                   <div className="flex items-center border-b px-4 py-3 mb-6 rounded-md">
                     <div className="flex mr-auto items-center">
@@ -269,9 +267,9 @@ const DriverRevenueOverview = () => {
                   </div>
                 );
               })}
-            {balance?.transaction_history?.length > 10 && (
+            {balance?.transaction_history?.length >= 10 && (
               <div
-                className="w-full items-center align-center cursor-pointer text-[#0969da] mr-8 text-[14px]"
+                className="w-full items-center align-center flex justify-center cursor-pointer text-[#0969da] mr-8 my-8 text-[14px]"
                 onClick={() => {
                   handleModalOpen(undefined, "seemore");
                 }}
