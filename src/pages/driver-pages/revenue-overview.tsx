@@ -296,7 +296,7 @@ const DriverRevenueOverview = () => {
         >
           <div className="">
             <div className="w-full my-8  place-content-center">
-              <p className="">NGN</p>
+              <p className="">₦</p>
               <input
                 type="number"
                 value={value}
@@ -383,7 +383,7 @@ const DriverRevenueOverview = () => {
         >
           <div className="">
             <div className="w-full my-8 m-auto place-content-center">
-              <p className="">NGN</p>
+              <p className="">₦</p>
               <input
                 type="number"
                 value={value}
