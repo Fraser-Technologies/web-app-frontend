@@ -100,7 +100,7 @@ const VehicleOverview: React.FC = () => {
 			</h2>{" "}
 			{/* PAGINATION */}
 			<div className="px-4 mt-24">
-				<div className="px-6 mb-4 bg-gray-200 rounded-md">
+			<div className="px-6 mb-4 bg-[#F6F8FA] border border-[#d0d7de] rounded-md items-center align-center flex">
 					<ReactPaginate
 						className="inline-flex items-center w-full py-2"
 						pageCount={pageCount}
