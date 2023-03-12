@@ -490,7 +490,7 @@ const DriverOverview = () => {
               ).length === 0 ? (
                 <Alert
                   type="info"
-                  message="You haven't completed any trip yet"
+                  message="You haven't completed any trips yet"
                   onClick={() => {
                     console.log(trips.length);
                   }}
@@ -618,9 +618,14 @@ const DriverOverview = () => {
                 {trips?.filter(
                   (trip: Trip_interface) => trip?.completed_status === false
                 ).length === 0 && (
-                  <div className="text-gray-500">
-                    You have no upcoming trips
-                  </div>
+                  <Alert
+                    type="info"
+                    message="You have no upcoming trips"
+                    onClick={() => {
+                      console.log(trips.length);
+                    }}
+                    className="w-full"
+                  />
                 )}
                 {trips
                   ?.filter(
