@@ -243,7 +243,7 @@ const DriverPaymentRequests = () => {
                       <div className="text-[#929292]">{formattedString}</div>
                     </div>
                     <div className="w-1/2 flex justify-end text-lg font-medium">
-                      NGN {b.amount}
+                      {currency_formatter(b.amount)}
                     </div>
                   </div>
                 );

@@ -10,6 +10,7 @@ import {
   FaPlay,
   FaBook,
   FaUser,
+  FaSearch,
 } from "react-icons/fa";
 import { FraserButton } from "../../components/Button";
 import moment from "moment";
@@ -39,6 +40,7 @@ const DriverOverview = () => {
     STARTOUTBOUNDTRIP = "startOutBoundTrip",
     STARTRETURNTRIP = "startReturnTrip",
     TRIPINFO = "tripinformation",
+    SEEMORE = "seemore",
   }
   const dispatch = useAppDispatch();
 
@@ -69,6 +71,12 @@ const DriverOverview = () => {
 
   const handleOpenModal = (data: Trip_interface, flipValue: any) => {
     setFlip(flipValue);
+    setModalVisible(true);
+    setModalData(data);
+  };
+
+  const handleModalOpen = (data: any, flip: any) => {
+    setFlip(flip);
     setModalVisible(true);
     setModalData(data);
   };
@@ -528,10 +536,22 @@ const DriverOverview = () => {
 
                   <tbody className="">
                     {trips
+                      .slice(0, 10)
+                      .sort(
+                        (
+                          a: { arrival_date: string | number | Date },
+                          b: { arrival_date: string | number | Date }
+                        ) => {
+                          const dateA = new Date(a.arrival_date).getTime();
+                          const dateB = new Date(b.arrival_date).getTime();
+                          return dateA - dateB;
+                        }
+                      )
                       .filter(
                         (trip: Trip_interface) =>
                           trip?.completed_status === true
                       )
+                      .reverse()
                       ?.map((trip: Trip_interface) => {
                         return (
                           <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
@@ -575,6 +595,18 @@ const DriverOverview = () => {
                           </tr>
                         );
                       })}
+                    {trips?.filter(
+                      (trip: Trip_interface) => trip?.completed_status === true
+                    ).length >= 5 && (
+                      <div
+                        className="w-full items-center flex justicy-center lg:justify-left cursor-pointer text-[#0969da] mr-8 my-6 ml-3 text-[14px]"
+                        onClick={() => {
+                          handleModalOpen(undefined, "seemore");
+                        }}
+                      >
+                        See more
+                      </div>
+                    )}
                   </tbody>
                 </table>
               )}
@@ -1149,6 +1181,86 @@ const DriverOverview = () => {
               <div className="mb-1 text-gray-400">Vehicle</div>
               <div className="text-xs">{modalData?.bus?.name}</div>
             </div>
+          </div>
+        </Modal>
+      )}
+      {flip === DriverViews.SEEMORE && modalVisible && (
+        <Modal
+          title={
+            <div>
+              Trips History
+              <div className="w-full">
+                {" "}
+                <div className="w-full mt-4 flex justify-center">
+                  <div className="input-group relative flex items-stretch w-full mb-4">
+                    <input
+                      type="search"
+                      className="mr-2 form-control relative flex-auto min-w-0 block w-full px-3 py-1.5 text-base font-normal text-gray-700 bg-white bg-clip-padding border border-solid border-gray-300 rounded transition ease-in-out m-0 focus:text-gray-700 focus:bg-white focus:border-black focus:outline-none"
+                      placeholder="Search"
+                    />
+                    <FraserButton
+                      title={""}
+                      size={"regular"}
+                      icon={<FaSearch />}
+                    />
+                  </div>
+                </div>
+              </div>
+            </div>
+          }
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+        >
+          <div className="h-[80vh] overflow-y-scroll">
+            {/* //TABLE ROWS */}
+            {trips
+              .filter((trip: Trip_interface) => trip?.completed_status === true)
+              .sort(
+                (
+                  a: { arrival_date: string | number | Date },
+                  b: { arrival_date: string | number | Date }
+                ) => {
+                  const dateA = new Date(a.arrival_date).getTime();
+                  const dateB = new Date(b.arrival_date).getTime();
+                  return dateA - dateB;
+                }
+              )
+              .reverse()
+              ?.map((trip: Trip_interface) => {
+                return (
+                  <div>
+                    <div className="w-fit bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1 text-sm">
+                      Completed
+                    </div>
+                    <div className="flex items-center border-b py-3 mb-3 rounded-md">
+                      <div className="flex mr-auto items-center">
+                        <div className="font-medium">
+                          {`${trip?.travel_destination?.from?.city?.city} to ${trip?.travel_destination?.to?.city?.city}`}
+
+                          <p className="text-[13px] text-[#929292] leading-snug font-normal">
+                            {trip?.arrival_date}
+                          </p>
+                        </div>
+                      </div>
+                      <div className="flex items-center">
+                        <FaUser className="mr-2" />
+                        {
+                          trip?.passengers?.filter(
+                            (item: any) => item.isOnboard
+                          ).length
+                        }
+                      </div>
+                      <div className="text-base w-1/3 text-right font-semibold">
+                        {currency_formatter(trip?.amount_earned)}
+                      </div>
+                    </div>
+                  </div>
+                );
+              })}
           </div>
         </Modal>
       )}
