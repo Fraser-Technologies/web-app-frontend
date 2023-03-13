@@ -46,7 +46,7 @@ const DriverPaymentRequests = () => {
   const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
   const totalItems = transactions.filter(
     (a: Transaction_interface) =>
-      a.payment_status === false && a.transaction_type == "debit"
+      a.payment_status === false && a.transaction_type === "debit"
   ).length; // total number of items
   const pageCount = Math.ceil(totalItems / itemsPerPage); // total number of pages
   const [messageApi, contextHolder] = message.useMessage();
@@ -59,7 +59,7 @@ const DriverPaymentRequests = () => {
       const statusB = Boolean(b.payment_status);
       return statusA === statusB ? 0 : statusA ? -1 : 1;
     })
-    .filter((a: Transaction_interface) => a.transaction_type == "debit")
+    .filter((a: Transaction_interface) => a.transaction_type === "debit")
     .reverse()
     .slice(startIndex, endIndex); // items to display on the current page
 
@@ -145,7 +145,7 @@ const DriverPaymentRequests = () => {
             {items
               ?.filter(
                 (a: Transaction_interface) =>
-                  a.payment_status === false && a.transaction_type == "debit"
+                  a.payment_status === false && a.transaction_type === "debit"
               )
               ?.map((transaction: Transaction_interface, index: number) => {
                 const isLoading = loadingIndex === index;

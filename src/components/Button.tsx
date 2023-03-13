@@ -61,55 +61,47 @@ export const FraserButton = ({
       buttonActionType !== "destructive" &&
       active !== false &&
       secondaryColor === "white"
-
-
         ? "border border-white hover:border-[#929292] text-white hover:text-[#929292]"
         : buttonType === "secondary" &&
           buttonActionType !== "destructive" &&
           active === false &&
           secondaryColor === "white"
-
         ? "border border-[#353535] text-[#353535]"
         : buttonType === "secondary" &&
           buttonActionType === "destructive" &&
           active !== false &&
           secondaryColor === "white"
-
         ? "border border-[#E71D36] text-[#E71D36]"
         : buttonType === "secondary" &&
           buttonActionType === "destructive" &&
           active === false &&
           secondaryColor === "white"
-
-
         ? "border border-[#353535] text-[#353535]"
         : buttonType === "secondary" &&
           buttonActionType !== "destructive" &&
           active !== false &&
           secondaryColor !== "white"
-          
         ? "border border-black hover:border-[#929292] text-black hover:text-[#929292]"
         : buttonType === "secondary" &&
           buttonActionType !== "destructive" &&
           active === false &&
           secondaryColor !== "white"
-
         ? "border border-[#353535] text-[#353535]"
         : buttonType === "secondary" &&
           buttonActionType === "destructive" &&
           active !== false &&
           secondaryColor !== "white"
-
         ? "border border-[#E71D36] text-[#E71D36]"
         : buttonType === "secondary" &&
           buttonActionType === "destructive" &&
           active === false &&
           secondaryColor !== "white"
-          
         ? "border border-[#353535] text-[#353535]"
         : buttonType === "secondary" &&
           "border border-black hover:border-[#929292] text-black hover:text-[#929292]"
     } 
+
+    ${buttonType === "tertiary" && "text-[#0969da] hover:text-[#4B9EFF]"}
 	  
 	
     font-medium text-[16px] flex items-center flex justify-center rounded-md`}

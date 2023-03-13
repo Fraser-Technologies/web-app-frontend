@@ -8,6 +8,7 @@ import { _paths_ } from "../../utils/routes";
 import LoadingWheel from "../../components/loading-svg";
 import OtpInput from "react18-input-otp";
 import { FraserButton } from "../../components/Button";
+import { FaArrowRight, FaChair } from "react-icons/fa";
 
 const DriverLogin = () => {
   const navigate = useNavigate();
@@ -70,7 +71,7 @@ const DriverLogin = () => {
         </div> */}
         {error && <p className="text-red-500">{error}</p>}
 
-        <div className="bg-white w-full rounded-md text-[14px] pb-12 ">
+        <div className="bg-white w-full rounded-md text-[14px] pb-8 ">
           <div className="border-b w-full pb-4 px-4 md:px-12 py-4 ">
             <h3 className="text-lg font-medium w-2/3 pt-4">
               Enter your mobile number to continue
@@ -105,17 +106,18 @@ const DriverLogin = () => {
               title={"Continue"}
               size={"regular"}
               loader={loading}
-              className={"w-full"}
+              className={"w-full mt-8 mb-4"}
               onClick={() => {
                 logInDriver();
               }}
             />
             <FraserButton
-              title={"Continue"}
+              title={"I don't have an account"}
               size={"regular"}
-              buttonType={"secondary"}
-              secondaryColor={"black"}
+              buttonType={"tertiary"}
               className={"w-full"}
+              icon={<FaArrowRight />}
+              iconposition={"right"}
               onClick={() => {
                 navigate("/driversignup");
               }}
