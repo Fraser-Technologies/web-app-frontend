@@ -2,10 +2,6 @@
 import { Alert, Input, message, Modal } from "antd";
 import { useEffect, useState } from "react";
 import {
-  BsArrowDownLeftCircleFill,
-  BsArrowUpRightCircleFill,
-} from "react-icons/bs";
-import {
   FaCaretDown,
   FaChevronCircleLeft,
   FaChevronCircleRight,
@@ -20,10 +16,8 @@ import {
   withdrawBalanceAction,
 } from "../../state/action/balance.action";
 import { Transaction_interface } from "../../interfaces/transaction_interface";
-import LoadingWheel from "../../components/loading-svg";
 import { FraserButton } from "../../components/Button";
 import OtpInput from "react18-input-otp";
-import Search from "antd/es/input/Search";
 
 const DriverRevenueOverview = () => {
   enum DriverRevenueView {
@@ -32,11 +26,6 @@ const DriverRevenueOverview = () => {
     PIN = "pin",
     SEEMORE = "seemore",
   }
-
-  //   const [selectedData, setIsSelected] = useState("day");
-  //   const handleFilterToggle = (value: string) => {
-  //     setIsSelected(value);
-  //   };
 
   const handleInput = (text: any) => {
     setPIN(text);
@@ -121,7 +110,7 @@ const DriverRevenueOverview = () => {
     dispatch(getBalanceByUserAction());
     // setModalVisible(false);
     // setValue("");
-  }, [dispatch, withdraw]);
+  }, [dispatch]);
 
   return (
     <>
@@ -359,7 +348,6 @@ const DriverRevenueOverview = () => {
           <FraserButton
             title={"Proceed"}
             size={"regular"}
-            loader={loadingWithdraw}
             className={"w-full mb-6"}
             active={Number(value) >= 100}
             onClick={() => {
@@ -481,13 +469,13 @@ const DriverRevenueOverview = () => {
           centered={true}
           footer={false}
           closable={true}
-          width={"280px"}
+          width={"320px"}
         >
-          <div className="text-lg text-center">
-            <div>You are about to withdraw</div>
-            <div>₦ {Number(value)}</div>
+          <div className="text-lg text-center font-medium">
+            <div className="pt-8 mb-3">You are about to withdraw</div>
+            <div className="text-[24px] mb-8">₦ {Number(value)}</div>
           </div>
-          <div>Input your PIN to continue</div>
+          <div className="mt-2 mb-1 text-center w-full justify-center flex">Input your PIN to continue</div>
           <OtpInput
             value={pin}
             onChange={handleInput}
@@ -495,13 +483,14 @@ const DriverRevenueOverview = () => {
             isInputNum={true}
             shouldAutoFocus={true}
             onSubmit={handleVerify}
+            className={"w-full"}
             inputStyle={{
               width: "3rem",
               height: "3rem",
               borderRadius: "6px",
               border: "1px solid rgba(0, 0, 0, 0.3)",
               outline: "#000",
-              marginRight: "0.5rem",
+              justify: "space-between",
             }}
             containerStyle={{
               width: "100%",
@@ -511,8 +500,9 @@ const DriverRevenueOverview = () => {
           />
           <FraserButton
             title={"Request Payout"}
+            loader={loadingWithdraw}
             size={"regular"}
-            className={"w-full"}
+            className={"w-full mt-8"}
             onClick={dispatch(withdrawBalanceAction(Number(value)))}
           />
         </Modal>
