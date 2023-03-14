@@ -33,7 +33,7 @@ export const getOtpSlice = createSlice({
 	},
 });
 
-export const { getOtpRequest, getOtpSuccess, getOtpFailed } =
+export const { getOtpRequest, getOtpSuccess, getOtpFailed, clearOtp } =
 	getOtpSlice.actions;
 export const getOtpReducer = getOtpSlice.reducer;
 
@@ -59,6 +59,10 @@ export const VerifyOtpSlice = createSlice({
 	},
 });
 
-export const { verifyOtpRequest, verifyOtpSuccess, verifyOtpFailed } =
-	VerifyOtpSlice.actions;
+export const {
+	verifyOtpRequest,
+	verifyOtpSuccess,
+	verifyOtpFailed,
+	clearVerifyOtp,
+} = VerifyOtpSlice.actions;
 export const verifyOtpReducer = VerifyOtpSlice.reducer;

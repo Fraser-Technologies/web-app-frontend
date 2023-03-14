@@ -62,6 +62,7 @@ const getUserBalanceSlice = createSlice({
 		getBalanceByUserSuccess: (state, { payload }) => {
 			state.loading = false;
 			state.balance = payload;
+			state.error = "";
 		},
 		getBalanceByUserFailed: (state, { payload }) => {
 			state.loading = false;
@@ -88,6 +89,7 @@ const addAccountSlice = createSlice({
 		addAcccountSuccess: (state, { payload }) => {
 			state.loading = false;
 			state.balance = payload;
+			state.error = "";
 		},
 		addAccountFailed: (state, { payload }) => {
 			state.loading = false;
