@@ -38,7 +38,9 @@ const TripsOverview: React.FC = () => {
     EDIT = "edit",
     DELETE = "delete",
     MANIFEST = "manifest",
+    TRANSACTIONHISTORY = "transactionhistory",
   }
+
   const dispatch = useAppDispatch();
   const { trips } = useAppSelector((state: RootState) => state.allTrip);
   const { trip } = useAppSelector((state: RootState) => state.createTrip);
@@ -66,6 +68,7 @@ const TripsOverview: React.FC = () => {
     | TripOption.REVIEW
     | TripOption.SUCCESS
     | TripOption.MANIFEST
+    | TripOption.TRANSACTIONHISTORY
   >("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
 
@@ -99,7 +102,7 @@ const TripsOverview: React.FC = () => {
     )
     .slice(startIndex, endIndex); // items to display on the current page
 
-  const handleOpenModal = (data: Trip_interface, flipValue: any) => {
+  const handleOpenModal = (data: any, flipValue: any) => {
     setFlip(flipValue);
     setModalData(data);
     setModalVisible(true);
@@ -251,21 +254,29 @@ const TripsOverview: React.FC = () => {
       {/* PAGINATION */}
       <div className="px-6 mb-4 bg-[#F6F8FA] border border-[#d0d7de] rounded-md items-center align-center flex">
         <ReactPaginate
-          className="inline-flex items-center w-full py-2"
+          className="inline-flex items-center w-full py-3"
           pageCount={pageCount}
           pageRangeDisplayed={pageRangeDisplayed}
           marginPagesDisplayed={marginPagesDisplayed}
           onPageChange={handlePageClick}
           containerClassName={"pagination"}
           pageLinkClassName={
-            "page-link px-2 mx-2  leading-tight text-gray-800 rounded-md"
+            "page-link px-3 py-2 mx-2 leading-tight text-gray-800 rounded-md"
           }
           activeClassName={" bg-gray-300 rounded-md"}
           previousClassName={"previous  mr-6"}
-          nextClassName={"next  ml-6"}
+          nextClassName={"next ml-6"}
           previousLabel={"<"}
           nextLabel={">"}
         />
+        <div
+          className="w-full items-center align-center cursor-pointer text-[#0969da] justify-end mr-8 flex text-[14px]"
+          onClick={() => {
+            handleOpenModal(undefined, "transactionhistory");
+          }}
+        >
+          view history
+        </div>
       </div>
       {/* BUSSTOPS LIST - TABLE */}
       <table className="w-full text-base font-normal text-left text-white table-auto">
@@ -411,6 +422,67 @@ const TripsOverview: React.FC = () => {
           closable={true}
         >
           <CreateTripFormComponent />
+        </Modal>
+      )}
+      {flip === TripOption.TRANSACTIONHISTORY && modalVisible && (
+        <Modal
+          title={
+            <div className="text-xl font-medium boder-b"> Trip History </div>
+          }
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+        >
+          <div className="mt-8 h-[70vh] overflow-y-scroll">
+          {trips
+            ?.filter((trip: Trip_interface) => trip?.completed_status === true)
+            .sort(
+              (
+                a: { take_off_date: any; take_off_time: any },
+                b: { take_off_date: any; take_off_time: any }
+              ) => {
+                const dateA = new Date(
+                  `${a?.take_off_date} ${a?.take_off_time}`
+                );
+                const dateB = new Date(
+                  `${b?.take_off_date} ${b?.take_off_time}`
+                );
+                return dateA.getTime() - dateB.getTime();
+              }
+            )
+            .map((trip: Trip_interface, index: Number) => {
+              return (
+                <div className="mb-2 border-b pb-4">
+                  <div className="flex">
+                    <div className="text-lg mr-2">
+                      {trip?.travel_destination?.from?.city?.city} to{" "}
+                      {trip?.travel_destination?.to?.city?.city}
+                    </div>
+                    {/* <div className="items-center flex bg-[#C1D2FF] border border-[#8D98FF] text-[#314075] px-3 rounded-md">
+                      {" "}
+                      Completed{" "}
+                    </div> */}
+                  </div>
+                  <div className="flex text-[#929292] items-center">
+                    <div className="flex items-center">
+                      <div className="mr-2">{trip?.arrival_date} </div>
+                      <div className="h-1 w-1 bg-[#353535] rounded-md mr-2"></div>{" "}
+                      <div className="mr-2">{
+                      trip?.arrival_time}</div>
+                    </div>
+                    <div className="h-1 w-1 bg-[#353535] rounded-md mr-2"></div>
+                    <div className="">
+                      {`${trip?.driver?.first_name} ${trip?.driver?.last_name} `}
+                    </div>
+                  </div>
+                </div>
+              );
+            })}
+          </div>
+          {/* <CreateTripFormComponent /> */}
         </Modal>
       )}
 
@@ -672,7 +744,7 @@ const TripsOverview: React.FC = () => {
                                   }}
                                 >
                                   {isLoading ? (
-                                    <LoadingWheel param={isLoading}/>
+                                    <LoadingWheel param={isLoading} />
                                   ) : (
                                     <FaCheck className="mr-2" />
                                   )}
@@ -733,9 +805,7 @@ const TripsOverview: React.FC = () => {
               Delete {modalData?.travel_destination?.from?.start_busstop} to{" "}
               {modalData?.travel_destination?.to?.stop_busstop} trip?{" "}
               <span>
-                {deleteLoading && (
-                  <LoadingWheel param={deleteLoading}/>
-                )}
+                {deleteLoading && <LoadingWheel param={deleteLoading} />}
               </span>
             </div>
           </div>
