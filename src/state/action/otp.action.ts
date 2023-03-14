@@ -2,6 +2,8 @@ import { api } from "../../utils/api";
 import { RequestError } from "../../utils/requestError";
 import Cookie from "js-cookie";
 import {
+	clearOtp,
+	clearVerifyOtp,
 	getOtpFailed,
 	getOtpRequest,
 	getOtpSuccess,
@@ -17,19 +19,23 @@ export const getOtpAction =
 	async (dispatch) => {
 		dispatch(getOtpRequest());
 		try {
-			const { data } = await api.post("/user/get_otp", { phone: phone });
+			const { data } = await api.post("/otp/getotp", { phone: phone });
 			dispatch(getOtpSuccess(data));
 		} catch (error: any) {
 			dispatch(getOtpFailed(RequestError(error)));
 		}
 	};
 
+export const resetGetOtpAction = (): AppThunk => async (dispatch) => {
+	dispatch(clearOtp());
+};
+
 export const VerifyOtpAction =
 	({ otp, phone }: { otp: string; phone: string }): AppThunk =>
 	async (dispatch) => {
 		dispatch(verifyOtpRequest());
 		try {
-			const { data } = await api.post("/user/verify_otp", {
+			const { data } = await api.post("/otp/verifyotp", {
 				phone: phone,
 				otp: otp,
 			});
@@ -48,3 +54,7 @@ export const VerifyOtpAction =
 			dispatch(verifyOtpFailed(RequestError(error)));
 		}
 	};
+
+export const resetVerifyOtpAction = (): AppThunk => async (dispatch) => {
+	dispatch(clearVerifyOtp());
+};
