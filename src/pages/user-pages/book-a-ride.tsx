@@ -32,13 +32,14 @@ const BookRide = () => {
     startBusStopOption = "Select start bus stop",
   }
 
-  const { userInfo, error: loginError } = useAppSelector(
-    (state: RootState) => state.userLogin
-  );
-  const { error: registerUserError } = useAppSelector(
-    (state: RootState) => state.registerUser
-  );
-  const { cities } = useAppSelector((state: any) => state.allCity);
+	const {
+		userInfo,
+		error: loginError,
+		loading: userLoginLoading,
+	} = useAppSelector((state: RootState) => state.userLogin);
+	const { error: registerUserError, loading: userRegisterLoading } =
+		useAppSelector((state: RootState) => state.registerUser);
+	const { cities } = useAppSelector((state: any) => state.allCity);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -120,27 +121,21 @@ const BookRide = () => {
     phone.length === 10 &&
     email.match(emailRegex);
 
-  const CreateUser = () => {
-    setLoading(true);
-    return dispatch(
-      registerUserAction({
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        phone: "+234" + phone,
-        referred_by,
-      })
-    ).finally(() => {
-      setLoading(false);
-    });
-  };
+	const CreateUser = () => {
+		return dispatch(
+			registerUserAction({
+				first_name: firstName,
+				last_name: lastName,
+				email: email,
+				phone: "+234" + phone,
+				referred_by,
+			})
+		);
+	};
 
-  const LoginUser = () => {
-    setLoading(true);
-    dispatch(userLoginAction("+234" + phone)).finally(() => {
-      setLoading(false);
-    });
-  };
+	const LoginUser = () => {
+		return dispatch(userLoginAction("+234" + phone));
+	};
 
   useEffect(() => {
     if (!userInfo?._id) {
@@ -150,15 +145,24 @@ const BookRide = () => {
     }
   }, [dispatch, navigate, userInfo]);
 
-  useEffect(() => {
-    if (!userInfo && loginError) {
-      messageApi.open({
-        type: "error",
-        content: loginError,
-      });
-      setFlip(true);
-    }
-  }, [loginError, messageApi, userInfo]);
+	useEffect(() => {
+		if (!userInfo && loginError) {
+			messageApi.open({
+				type: "error",
+				content: loginError,
+			});
+			setFlip(true);
+		}
+	}, [loginError, messageApi, userInfo]);
+
+	useEffect(() => {
+		if (userInfo?._id) {
+			setFirstName("");
+			setLastName("");
+			setEmail("");
+			setPhone("");
+		}
+	}, [userInfo]);
 
   useEffect(() => {
     dispatch(getAllCityAction());
@@ -526,18 +530,19 @@ const BookRide = () => {
                   />
                 </div>
 
-                <div>
-                  <button
-                    className={`items-center justify-center flex w-full p-3 mt-6 font-medium rounded-lg ${
-                      signUpValid
-                        ? "bg-[#00ff6a] hover:bg-[#58FF9E]"
-                        : "bg-[#f5f5f5]"
-                    } `}
-                    onClick={() => signUpValid && CreateUser()}
-                  >
-                    {loading && <LoadingWheel param={loading} />}
-                    Continue
-                  </button>
+								<div>
+									<button
+										className={`items-center justify-center flex w-full p-3 mt-6 font-medium rounded-lg ${
+											signUpValid
+												? "bg-[#00ff6a] hover:bg-[#58FF9E]"
+												: "bg-[#f5f5f5]"
+										} `}
+										onClick={() => signUpValid && CreateUser()}>
+										{userRegisterLoading && (
+											<LoadingWheel param={userRegisterLoading} />
+										)}
+										Continue
+									</button>
 
                   <button
                     className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
@@ -567,31 +572,34 @@ const BookRide = () => {
                   />
                 </div>
 
-                {/* USER LOGIN */}
-                <div>
-                  <FraserButton
-                    title={"Continue"}
-                    size={"regular"}
-                    className={"w-full"}
-                    loader={loginValid}
-                    active={loginValid}
-                    onClick={() => loginValid && LoginUser()}
-                  />
-                  <FraserButton
-                    title={"Continue"}
-                    size={"regular"}
-                    className={"w-full"}
-                    buttonType={"tertiary"}
-                    onClick={() => setFlip(!flip)}
-                  />
-                </div>
-              </div>
-            )}
-          </Modal>
-        </div>
-      </div>
-    </Layout>
-  );
+								{/* USER LOGIN */}
+								<div>
+									<button
+										className={`w-full p-3 mt-6 font-medium rounded-lg ${
+											loginValid
+												? "bg-[#00ff6a] hover:bg-[#58FF9E]"
+												: "bg-[#f5f5f5]"
+										} `}
+										onClick={() => loginValid && LoginUser()}>
+										{userLoginLoading && (
+											<LoadingWheel param={userLoginLoading} />
+										)}
+										Continue
+									</button>
+
+									<button
+										className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
+										onClick={() => setFlip(!flip)}>
+										I don't have an account
+									</button>
+								</div>
+							</div>
+						)}
+					</Modal>
+				</div>
+			</div>
+		</Layout>
+	);
 };
 
 export default BookRide;
