@@ -23,6 +23,7 @@ import { RootState } from "../../state/redux-store";
 import { _paths_ } from "../../utils/routes";
 import LoadingWheel from "../../components/loading-svg";
 import { FraserButton } from "../../components/Button";
+import { FraserDropDown } from "../../components/drop-drown";
 
 const BookRide = () => {
   enum TripValidOption {
@@ -32,14 +33,14 @@ const BookRide = () => {
     startBusStopOption = "Select start bus stop",
   }
 
-	const {
-		userInfo,
-		error: loginError,
-		loading: userLoginLoading,
-	} = useAppSelector((state: RootState) => state.userLogin);
-	const { error: registerUserError, loading: userRegisterLoading } =
-		useAppSelector((state: RootState) => state.registerUser);
-	const { cities } = useAppSelector((state: any) => state.allCity);
+  const {
+    userInfo,
+    error: loginError,
+    loading: userLoginLoading,
+  } = useAppSelector((state: RootState) => state.userLogin);
+  const { error: registerUserError, loading: userRegisterLoading } =
+    useAppSelector((state: RootState) => state.registerUser);
+  const { cities } = useAppSelector((state: any) => state.allCity);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -121,21 +122,21 @@ const BookRide = () => {
     phone.length === 10 &&
     email.match(emailRegex);
 
-	const CreateUser = () => {
-		return dispatch(
-			registerUserAction({
-				first_name: firstName,
-				last_name: lastName,
-				email: email,
-				phone: "+234" + phone,
-				referred_by,
-			})
-		);
-	};
+  const CreateUser = () => {
+    return dispatch(
+      registerUserAction({
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: "+234" + phone,
+        referred_by,
+      })
+    );
+  };
 
-	const LoginUser = () => {
-		return dispatch(userLoginAction("+234" + phone));
-	};
+  const LoginUser = () => {
+    return dispatch(userLoginAction("+234" + phone));
+  };
 
   useEffect(() => {
     if (!userInfo?._id) {
@@ -145,24 +146,24 @@ const BookRide = () => {
     }
   }, [dispatch, navigate, userInfo]);
 
-	useEffect(() => {
-		if (!userInfo && loginError) {
-			messageApi.open({
-				type: "error",
-				content: loginError,
-			});
-			setFlip(true);
-		}
-	}, [loginError, messageApi, userInfo]);
+  useEffect(() => {
+    if (!userInfo && loginError) {
+      messageApi.open({
+        type: "error",
+        content: loginError,
+      });
+      setFlip(true);
+    }
+  }, [loginError, messageApi, userInfo]);
 
-	useEffect(() => {
-		if (userInfo?._id) {
-			setFirstName("");
-			setLastName("");
-			setEmail("");
-			setPhone("");
-		}
-	}, [userInfo]);
+  useEffect(() => {
+    if (userInfo?._id) {
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhone("");
+    }
+  }, [userInfo]);
 
   useEffect(() => {
     dispatch(getAllCityAction());
@@ -300,6 +301,8 @@ const BookRide = () => {
                 <label className="ml-2 text-sm text-gray-600">
                   Destination City
                 </label>
+				
+
                 <button
                   type="button"
                   className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
@@ -346,6 +349,7 @@ const BookRide = () => {
                 </label>
 
                 {/* START BUSSTOP */}
+               
                 <button
                   type="button"
                   className="inline-flex w-full px-4 py-2 mt-1 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
@@ -530,26 +534,22 @@ const BookRide = () => {
                   />
                 </div>
 
-								<div>
-									<button
-										className={`items-center justify-center flex w-full p-3 mt-6 font-medium rounded-lg ${
-											signUpValid
-												? "bg-[#00ff6a] hover:bg-[#58FF9E]"
-												: "bg-[#f5f5f5]"
-										} `}
-										onClick={() => signUpValid && CreateUser()}>
-										{userRegisterLoading && (
-											<LoadingWheel param={userRegisterLoading} />
-										)}
-										Continue
-									</button>
-
-                  <button
-                    className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
+                <div>
+                  <FraserButton
+                    title={"Continue"}
+                    size={"small"}
+                    active={signUpValid === false ? false : true}
+                    className={"w-full mt-4"}
+                    onClick={() => signUpValid && CreateUser()}
+                    loader={userRegisterLoading}
+                  />
+                  <FraserButton
+                    title={"I have an account"}
+                    buttonType={"tertiary"}
+                    size={"regular"}
+                    className={"w-full mt-2"}
                     onClick={() => setFlip(!flip)}
-                  >
-                    I have an account
-                  </button>
+                  />
                 </div>
               </div>
             ) : (
@@ -572,34 +572,31 @@ const BookRide = () => {
                   />
                 </div>
 
-								{/* USER LOGIN */}
-								<div>
-									<button
-										className={`w-full p-3 mt-6 font-medium rounded-lg ${
-											loginValid
-												? "bg-[#00ff6a] hover:bg-[#58FF9E]"
-												: "bg-[#f5f5f5]"
-										} `}
-										onClick={() => loginValid && LoginUser()}>
-										{userLoginLoading && (
-											<LoadingWheel param={userLoginLoading} />
-										)}
-										Continue
-									</button>
-
-									<button
-										className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
-										onClick={() => setFlip(!flip)}>
-										I don't have an account
-									</button>
-								</div>
-							</div>
-						)}
-					</Modal>
-				</div>
-			</div>
-		</Layout>
-	);
+                {/* USER LOGIN */}
+                <div>
+                  <FraserButton
+                    title={"Continue"}
+                    size={"regular"}
+                    active={loginValid}
+                    className={"w-full mt-4"}
+                    loader={userLoginLoading}
+                    onClick={() => loginValid && LoginUser()}
+                  />
+                  <FraserButton
+                    title={"I don't have an account"}
+                    buttonType={"tertiary"}
+                    size={"regular"}
+                    className={"w-full mt-2"}
+                    onClick={() => setFlip(!flip)}
+                  />
+                </div>
+              </div>
+            )}
+          </Modal>
+        </div>
+      </div>
+    </Layout>
+  );
 };
 
 export default BookRide;
