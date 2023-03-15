@@ -32,12 +32,13 @@ const BookRide = () => {
 		startBusStopOption = "Select start bus stop",
 	}
 
-	const { userInfo, error: loginError } = useAppSelector(
-		(state: RootState) => state.userLogin
-	);
-	const { error: registerUserError } = useAppSelector(
-		(state: RootState) => state.registerUser
-	);
+	const {
+		userInfo,
+		error: loginError,
+		loading: userLoginLoading,
+	} = useAppSelector((state: RootState) => state.userLogin);
+	const { error: registerUserError, loading: userRegisterLoading } =
+		useAppSelector((state: RootState) => state.registerUser);
 	const { cities } = useAppSelector((state: any) => state.allCity);
 
 	const dispatch = useAppDispatch();
@@ -121,7 +122,6 @@ const BookRide = () => {
 		email.match(emailRegex);
 
 	const CreateUser = () => {
-		setLoading(true);
 		return dispatch(
 			registerUserAction({
 				first_name: firstName,
@@ -130,16 +130,11 @@ const BookRide = () => {
 				phone: "+234" + phone,
 				referred_by,
 			})
-		).finally(() => {
-			setLoading(false);
-		});
+		);
 	};
 
 	const LoginUser = () => {
-		setLoading(true);
-		dispatch(userLoginAction("+234" + phone)).finally(() => {
-			setLoading(false);
-		});
+		return dispatch(userLoginAction("+234" + phone));
 	};
 
 	useEffect(() => {
@@ -159,6 +154,15 @@ const BookRide = () => {
 			setFlip(true);
 		}
 	}, [loginError, messageApi, userInfo]);
+
+	useEffect(() => {
+		if (userInfo?._id) {
+			setFirstName("");
+			setLastName("");
+			setEmail("");
+			setPhone("");
+		}
+	}, [userInfo]);
 
 	useEffect(() => {
 		dispatch(getAllCityAction());
@@ -522,7 +526,9 @@ const BookRide = () => {
 												: "bg-[#f5f5f5]"
 										} `}
 										onClick={() => signUpValid && CreateUser()}>
-										{loading && <LoadingWheel param={loading} />}
+										{userRegisterLoading && (
+											<LoadingWheel param={userRegisterLoading} />
+										)}
 										Continue
 									</button>
 
@@ -562,7 +568,9 @@ const BookRide = () => {
 												: "bg-[#f5f5f5]"
 										} `}
 										onClick={() => loginValid && LoginUser()}>
-										{loading && <LoadingWheel param={loading} />}
+										{userLoginLoading && (
+											<LoadingWheel param={userLoginLoading} />
+										)}
 										Continue
 									</button>
 
