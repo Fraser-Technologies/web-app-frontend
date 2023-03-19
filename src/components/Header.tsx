@@ -10,6 +10,7 @@ import type { MenuProps } from "antd";
 import { logoutUserAction } from "../state/action/user.action";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { _paths_ } from "../utils/routes";
+import { FaCopy } from "react-icons/fa";
 
 export const Header = () => {
   const { userInfo } = useAppSelector((state: any) => state.userLogin);
@@ -62,20 +63,59 @@ export const Header = () => {
           </h1>
         </div>
 
-        <div
-          className="absolute bottom-3   text-[20px] font-semibold flex flex-row items-center text-white hover:cursor-pointer"
-          onClick={() => logOutUser()}
-        >
-          Logout
-          <span className="ml-[10px]">
-            <AiOutlinePoweroff />
+        <div className="absolute bottom-12 text-[16px] text-white hover:cursor-pointer">
+          <span
+            className="flex mb-2"
+            onClick={() => {
+              console.log(`${userInfo?.referral_code}`);
+              navigator.clipboard.writeText(`${userInfo?.referral_code}`);
+              alert(
+                `Referral code ${userInfo?.referral_code} has been copied to clipboard!`
+              );
+            }}
+          >
+            Referral Code: {userInfo?.referral_code} <FaCopy className="ml-2" />
           </span>
+          <div className="mb-8 border-b pb-8">
+            Total Referrals: {userInfo.referrals.length}
+          </div>
+
+          <div
+            className="flex flex-row items-center font-medium"
+            onClick={() => logOutUser()}
+          >
+            Logout
+            <span className="ml-[10px]">
+              <AiOutlinePoweroff />
+            </span>
+          </div>
         </div>
       </div>
     );
   };
 
   const items: MenuProps["items"] = [
+    {
+      key: `${userInfo?.referral_code}`,
+      label: (
+        <div>
+          <span
+            className="flex"
+            onClick={() => {
+              navigator.clipboard.writeText(`${userInfo?.referral_code}`);
+              alert(
+                `Referral code ${userInfo?.referral_code} has been copied to clipboard!`
+              );
+            }}
+          >
+            Referral Code: {userInfo?.referral_code} <FaCopy className="ml-2" />
+          </span>
+          <div className="mb-2 pb-2 border-b">
+            Total Referrals: {userInfo.referrals.length}
+          </div>
+        </div>
+      ),
+    },
     {
       key: "logout",
       label: <span onClick={() => logOutUser()}>Logout</span>,
@@ -143,7 +183,7 @@ export const Header = () => {
           )}
           <FraserButton
             title="Book a ride"
-			size="regular"
+            size="regular"
             type="submit"
             onClick={() => {
               navigate(_paths_.BOOKRIDE);
