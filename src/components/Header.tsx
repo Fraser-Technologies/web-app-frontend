@@ -77,7 +77,7 @@ export const Header = () => {
             Referral Code: {userInfo?.referral_code} <FaCopy className="ml-2" />
           </span>
           <div className="mb-8 border-b pb-8">
-            Total Referrals: {userInfo.referrals.length}
+            {/* Total Referrals: {userInfo.referrals.length} */}
           </div>
 
           <div
@@ -111,7 +111,7 @@ export const Header = () => {
             Referral Code: {userInfo?.referral_code} <FaCopy className="ml-2" />
           </span>
           <div className="mb-2 pb-2 border-b">
-            Total Referrals: {userInfo.referrals.length}
+            {/* Total Referrals: {userInfo.referrals.length} */}
           </div>
         </div>
       ),

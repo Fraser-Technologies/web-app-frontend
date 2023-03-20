@@ -22,6 +22,7 @@ import { RootState } from "../../state/redux-store";
 import { FraserButton } from "../../components/Button";
 
 const Bookings = () => {
+  const { userInfo } = useAppSelector((state: any) => state.userLogin);
   enum BookingViews {
     NOOFTICKETS = "howmanytickets",
   }
@@ -130,6 +131,44 @@ const Bookings = () => {
 
   const minusItem = () => {
     if (value > 1) setValue(value - 1);
+  };
+
+  // const share = async () => {
+  //   try {
+  //     await navigator.share({
+  //       title: "Fraser Intercity Bus Transportation",
+  //       text: `Signup on Fraser with my code ${userInfo.referral_code} and get 25% discounts on your trips for the next month`,
+  //       url: window.location.href,
+  //     });
+  //     console.log("Content shared successfully!");
+  //   } catch (err) {
+  //     console.error("Error sharing content:", err);
+  //   }
+  // };
+  const share = async () => {
+    if (navigator.share) {
+      try {
+        await navigator.share({
+          title: "Fraser Intercity Bus Transportation",
+          text: `Signup on Fraser with my code ${userInfo.referral_code} and get 25% discounts on your trips for the next month`,
+          url: window.location.href,
+        });
+        console.log("Content shared successfully!");
+      } catch (err) {
+        console.error("Error sharing content:", err);
+      }
+    } else {
+      try {
+        navigator.clipboard.writeText(userInfo?.referral_code);
+        alert("Referral code copied to clipboard");
+      } catch (err) {
+        console.error("Error copying URL to clipboard:", err);
+        // window.prompt(
+        //   "Press Ctrl+C or Command+C to copy the URL",
+        //   window.location.href
+        // );
+      }
+    }
   };
 
   //Check ScreenWidth to check what element to render
@@ -467,26 +506,75 @@ const Bookings = () => {
                     />
                   )}{" "}
                   {availableTripData?.length === 0 && (
-                    <Alert
-                      type="info"
-                      message="Sorry there are no available trips to the destination selected"
-                    />
+                    // <Alert
+                    //   type="info"
+                    //   message="Sorry there are no available trips to the destination selected"
+                    // />
+                    <div>
+                      <Alert
+                        type="info"
+                        message="Routes will be open on the 27th of March, Kindly Check Back."
+                      />
+                      <div>
+                        <div className="items-center mt-12 flex justify-center text-center leading-loose">
+                          <div className="w-2/3 ">
+                            Share your referral code{" "}
+                            <span className="bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1">
+                              {userInfo.referral_code}
+                            </span>{" "}
+                            with a friend and get 25% discount on your next trip
+                          </div>
+                        </div>
+                        <div className="mt-8 justify-center flex place-items-center">
+                          <FraserButton
+                            title={"Share"}
+                            size={"regular"}
+                            onClick={share}
+                          />
+                        </div>
+                      </div>
+                    </div>
                   )}
                   {availableTripData?.map((trip: Trip_interface) => {
                     return (
-                      <BookingCard
-                        key={trip?._id}
-                        from={trip?.travel_destination?.from?.start_busstop}
-                        to={trip?.travel_destination?.to?.stop_busstop}
-                        takeOffTime={trip?.take_off_time}
-                        takeOffDate={trip?.take_off_date}
-                        price={trip?.price}
-                        arrivalTime={trip?.arrival_time}
-                        arrivalDate={trip?.arrival_date}
-                        onClick={() => {
-                          handleOpenModal(trip, "howmanytickets");
-                        }}
-                      />
+                      <div>
+                        <Alert
+                          type="info"
+                          message="Routes will be open on the 27th of March, Kindly Check Back."
+                        />
+                        <div>
+                          <div className="items-center mt-12 flex justify-center text-center leading-loose">
+                            <div className="w-2/3 ">
+                              Share your referral code{" "}
+                              <span className="bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1">
+                                {userInfo.referral_code}
+                              </span>{" "}
+                              with a friend and get 25% discount on your next
+                              trip
+                            </div>
+                          </div>
+                          <div className="mt-8 justify-center flex place-items-center">
+                            <FraserButton
+                              title={"Share"}
+                              size={"regular"}
+                              onClick={share}
+                            />
+                          </div>
+                        </div>
+                      </div>
+                      // <BookingCard
+                      //   key={trip?._id}
+                      //   from={trip?.travel_destination?.from?.start_busstop}
+                      //   to={trip?.travel_destination?.to?.stop_busstop}
+                      //   takeOffTime={trip?.take_off_time}
+                      //   takeOffDate={trip?.take_off_date}
+                      //   price={trip?.price}
+                      //   arrivalTime={trip?.arrival_time}
+                      //   arrivalDate={trip?.arrival_date}
+                      //   onClick={() => {
+                      //     handleOpenModal(trip, "howmanytickets");
+                      //   }}
+                      // />
                     );
                   })}
                 </div>
