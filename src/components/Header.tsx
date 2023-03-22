@@ -130,9 +130,8 @@ export const Header = () => {
         </p>
         <p
           className="text-[#22B11E] ml-3 mr-3 cursor-pointer md:text-[12px] text-[10px]"
-          //   LEKAN UPDATE TO NAVIGATE TO DRIVER PORTAL
           onClick={() => {
-            navigate(_paths_.DRIVER_LOGIN);
+            window.location.href = "https://driver.ridefraser.com";
           }}
         >
           Driver

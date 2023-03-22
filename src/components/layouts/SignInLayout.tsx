@@ -26,7 +26,7 @@ const Layout = ({
         <meta name="description" content={pageDescription} charSet="utf-8" />
         <meta name="keywords" content={pageKeywords} charSet="utf-8" />
         <title>{title || "Fraser"}</title>
-        <meta name="robots" content="index,follow" />
+        <meta name="robots" content="index, follow" />
         <meta name="author" content="Fraser" />
       </Helmet>
       <div className={`h-full ${bg}`}>
