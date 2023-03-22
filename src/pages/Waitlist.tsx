@@ -8,7 +8,6 @@ import { Input, Modal } from "antd";
 import { useNavigate } from "react-router-dom";
 import { _paths_ } from "../utils/routes";
 
-
 const Waitlist = () => {
   const [modal, openModal] = useState(false);
   const [firstName, setFirstName] = useState("");
@@ -68,18 +67,18 @@ const Waitlist = () => {
   return (
     // <Layout title="Waitlist">
     <div className="w-full bg-black text-white">
-      <div className="w-full h-[100vh] overflow-y-scroll md:overflow-hidden">
+      <div className="w-full h-[100vh] overflow-y-scroll">
         <div className="text-center">
           <h1 className="mt-8 text-[32px]">Fraser</h1>
 
-          <div className="px-4 mt-12 md:mt-40 lg:mt-28 mb-6 text-[64px] md:text-[80px] lg:text-[120px] font-medium md:font-semibold leading-none md:leading-12 md:tracking-tight">
+          <div className="px-4 mt-12 md:mt-40 lg:mt-28 mb-6 text-[64px] md:text-[60px] lg:text-[120px] font-medium md:font-semibold leading-none md:leading-12 md:tracking-tight">
             <div className="text-primary-100">Move freely</div>
             <div className="w-full">between cities</div>
           </div>
           <p className="px-4 w-full md:w-4/6 lg:w-1/3 md:mx-auto mb-8 md:mb-16 lg:mb-8 text-gray-300 md:text-[22px]">
-            Travel comfortably, conveniently and affordably between cities with Fraser.
+            Travel comfortably, conveniently and affordably between cities with
+            Fraser.
           </p>
-          
 
           <div className="mx-8 md:w-1/2 lg:w-1/4 md:mx-auto">
             <button
@@ -101,13 +100,13 @@ const Waitlist = () => {
           </div>
 
           <div className="h-[30vh] md:h-[50vh] mt-0 md:mt-12 lg:mt-0 lg:h-full overflow-hidden">
-          <div className="image-container ">
-            <div className="image-bg-left">
-              <div className="image-bg">
-                <img className="homepage" src="/Homepage.png" alt="" />
+            <div className="image-container ">
+              <div className="image-bg-left">
+                <div className="image-bg">
+                  <img className="homepage" src="/Homepage.png" alt="" />
+                </div>
               </div>
             </div>
-          </div>
           </div>
         </div>
       </div>
@@ -195,39 +194,39 @@ const Waitlist = () => {
         </Modal>
       )}
       <div className="Patterns-dots Landing-dots Patterns_animatedIn__2wrQM">
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-            <div>
-              <span></span>
-              <span></span>
-              <span></span>
-              <span></span>
-            </div>
-          </div>
+        <div>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+        <div>
+          <span></span>
+          <span></span>
+          <span></span>
+          <span></span>
+        </div>
+      </div>
     </div>
-    
+
     // </Layout>
   );
 };
