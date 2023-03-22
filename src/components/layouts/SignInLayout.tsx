@@ -8,13 +8,16 @@ interface Props {
 	bg?: string;
 	childClass?: string;
 	title?: string;
+	pageDescription?: string;
+	pageKeywords?: string;
 }
 
-const Layout = ({ children, bg, childClass, title }: Props) => {
+const Layout = ({ children, bg, childClass, title ,pageDescription, pageKeywords}: Props) => {
 	return (
 		<div className="overflow-hidden h-full font-sans">
 			<Helmet>
-				<meta charSet="utf-8" />
+				<meta name="description" content={pageDescription} charSet="utf-8" />
+				<meta name="keywords" content={pageKeywords} charSet="utf-8" />
 				<title>{title || "Fraser"}</title>
 			</Helmet>
 			<div className={`h-full ${bg}`}>

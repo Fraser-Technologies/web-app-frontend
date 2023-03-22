@@ -170,7 +170,7 @@ const BookRide = () => {
   }, [dispatch]);
 
   return (
-    <Layout title="Book a Ride">
+    <Layout title="Book a Ride" pageDescription="" pageKeywords="">
       {contextHolder}
       <div className="relative h-24 bg-black -z-10 lg:h-32">
         <GeometricPatterns />
