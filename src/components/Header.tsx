@@ -67,11 +67,12 @@ export const Header = () => {
 					<span
 						className="flex mb-2"
 						onClick={() => {
-							// console.log(`${userInfo?.referral_code}`);
 							navigator.clipboard.writeText(`${userInfo?.referral_code}`);
-							alert(
-								`Referral code ${userInfo?.referral_code} has been copied to clipboard!`
-							);
+							messageApi.info({
+								type: "info",
+								content: `Referral code ${userInfo?.referral_code} has been copied to clipboard!`,
+								duration: 1.5,
+							});
 						}}>
 						Referral Code: {userInfo?.referral_code} <FaCopy className="ml-2" />
 					</span>
