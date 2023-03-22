@@ -5,13 +5,13 @@ import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../../components/bookingCard";
 import Layout from "../../components/layouts/SignInLayout";
 import {
-  getAllAvailableTripAction,
-  getAvailableTripAction,
+	getAllAvailableTripAction,
+	getAvailableTripAction,
 } from "../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { Alert, Drawer, Modal } from "antd";
+import { Alert, Drawer, message, Modal } from "antd";
 import { addToMyBookinAction } from "../../state/action/booking.action";
 import GeometricPatterns from "../../components/GeometricPatterns";
 import { FaCaretDown, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
@@ -22,626 +22,713 @@ import { RootState } from "../../state/redux-store";
 import { FraserButton } from "../../components/Button";
 
 const Bookings = () => {
-  enum BookingViews {
-    NOOFTICKETS = "howmanytickets",
-  }
+	const { userInfo } = useAppSelector((state: any) => state.userLogin);
+	enum BookingViews {
+		NOOFTICKETS = "howmanytickets",
+	}
 
-  const { cities } = useAppSelector((state: RootState) => state.allCity);
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const [from, setFrom] = useState<string>("");
-  const [to, setTo] = useState<string>("");
-  const [flip, setFlip] = useState<"" | BookingViews>("");
-  const [modalVisible, setModalVisible] = useState<boolean>(false);
-  const [value, setValue] = useState<number>(1);
-  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
-  const [useDrawer, setUseDrawer] = useState(false);
+	const { cities } = useAppSelector((state: RootState) => state.allCity);
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
+	const [from, setFrom] = useState<string>("");
+	const [to, setTo] = useState<string>("");
+	const [flip, setFlip] = useState<"" | BookingViews>("");
+	const [modalVisible, setModalVisible] = useState<boolean>(false);
+	const [value, setValue] = useState<number>(1);
+	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+	const [useDrawer, setUseDrawer] = useState(false);
+	const [messageApi, contextHolder] = message.useMessage();
 
-  //PASSING DATA USING STATE
-  const location = useLocation();
-  const { startCity, destinationCity, destinationBusStop, startBusStop } =
-    location.state || {};
+	//PASSING DATA USING STATE
+	const location = useLocation();
+	const { startCity, destinationCity, destinationBusStop, startBusStop } =
+		location.state || {};
 
-  const [fromCity, setFromCity] = useState<string>(
-    startCity || "Set your current city"
-  );
-  const [toCity, setToCity] = useState<string>(
-    destinationCity || "Set your destination"
-  );
-  const [start, setstart] = useState<string>(
-    startBusStop || "Select start bus stop"
-  );
-  const [destination, setdestination] = useState<string>(
-    destinationBusStop || "Select destination bus stop"
-  );
+	const [fromCity, setFromCity] = useState<string>(
+		startCity || "Set your current city"
+	);
+	const [toCity, setToCity] = useState<string>(
+		destinationCity || "Set your destination"
+	);
+	const [start, setstart] = useState<string>(
+		startBusStop || "Select start bus stop"
+	);
+	const [destination, setdestination] = useState<string>(
+		destinationBusStop || "Select destination bus stop"
+	);
 
-  //FOR DROPDOWNS OPEN AND CLOSE
-  const [startCityIsOpen, setStartCityIsOpen] = useState(false);
-  const [startBusStopIsOpen, setStartBusStopIsOpen] = useState(false);
-  const [destinationCityIsOpen, setDestinationCityIsOpen] = useState(false);
-  const [destinationBusStopIsOpen, setDestinationBusStopIsOpen] =
-    useState(false);
-  const [startBusStopList, setStartBusStopList] = useState<string[]>([]);
-  const [desinationBusStopList, setDestinationBusStopList] = useState<string[]>(
-    []
-  );
+	//FOR DROPDOWNS OPEN AND CLOSE
+	const [startCityIsOpen, setStartCityIsOpen] = useState(false);
+	const [startBusStopIsOpen, setStartBusStopIsOpen] = useState(false);
+	const [destinationCityIsOpen, setDestinationCityIsOpen] = useState(false);
+	const [destinationBusStopIsOpen, setDestinationBusStopIsOpen] =
+		useState(false);
+	const [startBusStopList, setStartBusStopList] = useState<string[]>([]);
+	const [desinationBusStopList, setDestinationBusStopList] = useState<string[]>(
+		[]
+	);
 
-  //RESPONSIVENESS
-  //WHERE TO||LEFT COLUMN
-  const [whereToToggle, setwhereToToggle] = useState(false);
-  const whereToToggleClick = () => {
-    setwhereToToggle(!whereToToggle);
-  };
+	//RESPONSIVENESS
+	//WHERE TO||LEFT COLUMN
+	const [whereToToggle, setwhereToToggle] = useState(false);
+	const whereToToggleClick = () => {
+		setwhereToToggle(!whereToToggle);
+	};
 
-  //
-  const {
-    loading: availableTripLoading,
-    error: availableTripError,
-    trips: availableTripData,
-  } = useAppSelector((state: any) => state.availableTrip);
+	//
+	const {
+		loading: availableTripLoading,
+		error: availableTripError,
+		trips: availableTripData,
+	} = useAppSelector((state: any) => state.availableTrip);
 
-  console.log("the available trip is ", availableTripData);
+	console.log("the available trip is ", availableTripData);
 
-  const FindAvailableTrip = () => {
-    whereToToggleClick();
-    if (from && to) {
-      dispatch(getAvailableTripAction({ from: from, to: to }));
-    } else {
-      dispatch(getAllAvailableTripAction());
-    }
-  };
+	const FindAvailableTrip = () => {
+		whereToToggleClick();
+		if (from && to) {
+			dispatch(getAvailableTripAction({ from: from, to: to }));
+		} else {
+			dispatch(getAllAvailableTripAction());
+		}
+	};
 
-  const [modalData, setModalData] = useState<Trip_interface | any>(
-    availableTripData
-  );
-  const handleOpenModal = (data: Trip_interface, flipValue: any) => {
-    setFlip(flipValue);
-    setModalData(data);
-    setModalVisible(true);
-  };
+	const [modalData, setModalData] = useState<Trip_interface | any>(
+		availableTripData
+	);
+	const handleOpenModal = (data: Trip_interface, flipValue: any) => {
+		setFlip(flipValue);
+		setModalData(data);
+		setModalVisible(true);
+	};
 
-  const handleOk = () => {
-    setModalVisible(false);
-  };
+	const handleOk = () => {
+		setModalVisible(false);
+	};
 
-  const handleCancel = () => {
-    setModalVisible(false);
-    setFlip("");
-  };
+	const handleCancel = () => {
+		setModalVisible(false);
+		setFlip("");
+	};
 
-  const handleChange = (e: any) => {
-    const inputValue = e.target.value;
-    if (modalData?.bus?.capacity - modalData?.bookings?.length >= inputValue) {
-      setValue(inputValue);
-    } else {
-      setValue(modalData?.bus?.capacity - modalData?.bookings?.length);
-    }
-    // const formattedValue = inputValue.replace(regex, ",");
-    // setValue(formattedValue);
-  };
+	const handleChange = (e: any) => {
+		const inputValue = e.target.value;
+		if (modalData?.bus?.capacity - modalData?.bookings?.length >= inputValue) {
+			setValue(inputValue);
+		} else {
+			setValue(modalData?.bus?.capacity - modalData?.bookings?.length);
+		}
+		// const formattedValue = inputValue.replace(regex, ",");
+		// setValue(formattedValue);
+	};
 
-  const addItem = () => {
-    if (modalData?.bus?.capacity - modalData?.bookings?.length > value) {
-      setValue(value + 1);
-    } else {
-      setValue(modalData?.bus?.capacity - modalData?.bookings?.length);
-    }
-  };
+	const addItem = () => {
+		if (modalData?.bus?.capacity - modalData?.bookings?.length > value) {
+			setValue(value + 1);
+		} else {
+			setValue(modalData?.bus?.capacity - modalData?.bookings?.length);
+		}
+	};
 
-  const minusItem = () => {
-    if (value > 1) setValue(value - 1);
-  };
+	const minusItem = () => {
+		if (value > 1) setValue(value - 1);
+	};
 
-  //Check ScreenWidth to check what element to render
-  useEffect(() => {
-    function handleResize() {
-      setScreenWidth(window.innerWidth);
-    }
+	// const share = async () => {
+	//   try {
+	//     await navigator.share({
+	//       title: "Fraser Intercity Bus Transportation",
+	//       text: `Signup on Fraser with my code ${userInfo.referral_code} and get 25% discounts on your trips for the next month`,
+	//       url: window.location.href,
+	//     });
+	//     console.log("Content shared successfully!");
+	//   } catch (err) {
+	//     console.error("Error sharing content:", err);
+	//   }
+	// };
+	const share = async () => {
+		if (navigator.share) {
+			try {
+				await navigator.share({
+					title: "Fraser Intercity Bus Transportation",
+					text: `Signup on Fraser with my code ${userInfo.referral_code} and get 25% discounts on your trips for the next month`,
+					url: window.location.href,
+				});
+				console.log("Content shared successfully!");
+			} catch (err) {
+				console.error("Error sharing content:", err);
+			}
+		} else {
+			try {
+				navigator.clipboard.writeText(userInfo?.referral_code);
+				messageApi.info({
+					type: "info",
+					content: `Referral code ${userInfo?.referral_code} has been copied to clipboard!`,
+					duration: 1.5,
+				});
+			} catch (err) {
+				console.error("Error copying URL to clipboard:", err);
+				// window.prompt(
+				//   "Press Ctrl+C or Command+C to copy the URL",
+				//   window.location.href
+				// );
+			}
+		}
+	};
 
-    if (screenWidth < 640) {
-      setUseDrawer(true);
-    } else {
-      setUseDrawer(false);
-    }
+	//Check ScreenWidth to check what element to render
+	useEffect(() => {
+		function handleResize() {
+			setScreenWidth(window.innerWidth);
+		}
 
-    window.addEventListener("resize", handleResize);
-    return () => {
-      window.removeEventListener("resize", handleResize);
-    };
-  }, [screenWidth]);
+		if (screenWidth < 640) {
+			setUseDrawer(true);
+		} else {
+			setUseDrawer(false);
+		}
 
-  //VALIDATE BUTTON BEFORE CLICK
-  const isValid =
-    fromCity !== "Set your current city" &&
-    toCity !== "Set your destination" &&
-    destination !== "Select destination bus stop" &&
-    start !== "Select start bus stop";
+		window.addEventListener("resize", handleResize);
+		return () => {
+			window.removeEventListener("resize", handleResize);
+		};
+	}, [screenWidth]);
 
-  useEffect(() => {
-    if (!availableTripData) {
-      dispatch(getAllAvailableTripAction());
-    }
-  }, [availableTripData, dispatch]);
+	//VALIDATE BUTTON BEFORE CLICK
+	const isValid =
+		fromCity !== "Set your current city" &&
+		toCity !== "Set your destination" &&
+		destination !== "Select destination bus stop" &&
+		start !== "Select start bus stop";
 
-  useEffect(() => {
-    if (!cities.length) {
-      dispatch(getAllCityAction());
-    }
-  }, [cities, dispatch]);
+	useEffect(() => {
+		if (!availableTripData) {
+			dispatch(getAllAvailableTripAction());
+		}
+	}, [availableTripData, dispatch]);
 
-  return (
-    <Layout title="Fraser - Book a ride">
-      <div className="relative h-24 bg-black -z-10 lg:h-32">
-        <GeometricPatterns />
-      </div>
-      <div className="flex-col items-center justify-center overflow-y-scroll duration-300 ease-in-out lg:flex scroll-behavior-smooth">
-        {/* COLUMN */}
+	useEffect(() => {
+		if (!cities.length) {
+			dispatch(getAllCityAction());
+		}
+	}, [cities, dispatch]);
 
-        <div className="fixed w-full -mt-16 rounded-md lg:w-4/12 lg:mt-0 lg:mx-16 lg:my-32 lg:fixed lg:top-0 lg:left-0">
-          <div className="mx-4 mb-2 lg:mb-0 lg:mx-0">
-            <div
-              className={
-                whereToToggle === true
-                  ? "lg:hidden py-6 px-6 lg:px-12 lg:mr-12 bg-white rounded-t-md border-b border-[#EFF3EF] flex space-between items-center justify-between"
-                  : "lg:hidden py-6 px-6 lg:px-12 lg:mr-12 bg-white rounded-md border-b border-[#EFF3EF] flex space-between items-center justify-between"
-              }
-            >
-              {" "}
-              <h3 className="w-1/2 text-lg font-semibold">Where to?</h3>{" "}
-              {!whereToToggle ? (
-                <BsChevronDown
-                  onClick={whereToToggleClick}
-                  className="cursor-pointer stroke-2 lg:hidden"
-                />
-              ) : (
-                <BsChevronUp
-                  onClick={whereToToggleClick}
-                  className="cursor-pointer stroke-2 lg:hidden"
-                />
-              )}
-            </div>
-          </div>
-          <div className="flex-col w-full h-full lg:flex">
-            {/* LEFT COLUMN */}
-            <div className="w-full">
-              <div
-                className="mx-4 lg:w-4/12 lg:mx-16 lg:my-32 lg:fixed lg:top-0 lg:left-0 "
-                //
-              >
-                <div
-                  className={
-                    whereToToggle === true
-                      ? "pb-12 pt-8 px-6 lg:px-12 lg:mr-12 bg-white ease-in-out lg:pt-16 duration-300 rounded-b-md lg:rounded-md border-b border-[#EFF3EF]"
-                      : "hidden lg:block pb-12 pt-8 px-12 lg:mr-12  ease-in-out lg:pt-16 duration-300 bg-white lg:rounded-md rounded-b-md border-b border-[#EFF3EF]"
-                  }
-                >
-                  {/* CITY SELECTION */}
-                  <div className="relative z-50 inline w-full text-left duration-300 ease-in-out">
-                    <label className="ml-2 text-sm text-gray-600">
-                      Pickup City
-                    </label>
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                      onClick={() => {
-                        setStartCityIsOpen(!startCityIsOpen);
-                      }}
-                    >
-                      {fromCity}
-                      <FaCaretDown className="ml-auto" />
-                    </button>
+	return (
+		<Layout
+			title="Book Intercity Bus Rides in Nigeria with Fraser | RideFraser.com"
+			pageDescription="Find the best intercity bus transportation options in Nigeria with Fraser. Book your ride today on RideFraser.com and travel in comfort and style."
+			pageKeywords="Fraser, intercity bus, Nigeria, ride booking, transportation, travel, comfort, style, RideFraser.com, intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser">
+			{contextHolder}
 
-                    {startCityIsOpen && (
-                      <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-                        {cities
-                          .filter(
-                            (city: City_interface) => city?.city !== toCity
-                          )
-                          ?.map((city: City_interface) => {
-                            return (
-                              <a
-                                key={city?._id}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  setFromCity(city?.city);
-                                  setStartBusStopList(city?.bus_stops);
-                                  setStartCityIsOpen(!startCityIsOpen);
-                                }}
-                              >
-                                {city?.city}
-                              </a>
-                            );
-                          })}
-                      </div>
-                    )}
-                  </div>
+			<div className="relative h-24 bg-black -z-10 lg:h-32">
+				<GeometricPatterns />
+			</div>
+			<div className="flex-col items-center justify-center overflow-y-scroll duration-300 ease-in-out lg:flex scroll-behavior-smooth">
+				{/* COLUMN */}
 
-                  {/* AFTER START CITY SELECTION */}
-                  <div
-                    className={`ease-in-out duration-300 relative w-full inline text-left z-40 `}
-                  >
-                    <label className="ml-2 text-sm text-gray-600">
-                      Pickup Station
-                    </label>
+				<div className="fixed w-full -mt-16 rounded-md lg:w-4/12 lg:mt-0 lg:mx-16 lg:my-32 lg:fixed lg:top-0 lg:left-0">
+					<div className="mx-4 mb-2 lg:mb-0 lg:mx-0">
+						<div
+							className={
+								whereToToggle === true
+									? "lg:hidden py-6 px-6 lg:px-12 lg:mr-12 bg-white rounded-t-md border-b border-[#EFF3EF] flex space-between items-center justify-between"
+									: "lg:hidden py-6 px-6 lg:px-12 lg:mr-12 bg-white rounded-md border-b border-[#EFF3EF] flex space-between items-center justify-between"
+							}>
+							{" "}
+							<h3 className="w-1/2 text-lg font-semibold">Where to?</h3>{" "}
+							{!whereToToggle ? (
+								<BsChevronDown
+									onClick={whereToToggleClick}
+									className="cursor-pointer stroke-2 lg:hidden"
+								/>
+							) : (
+								<BsChevronUp
+									onClick={whereToToggleClick}
+									className="cursor-pointer stroke-2 lg:hidden"
+								/>
+							)}
+						</div>
+					</div>
+					<div className="flex-col w-full h-full lg:flex">
+						{/* LEFT COLUMN */}
+						<div className="w-full">
+							<div
+								className="mx-4 lg:w-4/12 lg:mx-16 lg:my-32 lg:fixed lg:top-0 lg:left-0 "
+								//
+							>
+								<div
+									className={
+										whereToToggle === true
+											? "pb-12 pt-8 px-6 lg:px-12 lg:mr-12 bg-white ease-in-out lg:pt-16 duration-300 rounded-b-md lg:rounded-md border-b border-[#EFF3EF]"
+											: "hidden lg:block pb-12 pt-8 px-12 lg:mr-12  ease-in-out lg:pt-16 duration-300 bg-white lg:rounded-md rounded-b-md border-b border-[#EFF3EF]"
+									}>
+									{/* CITY SELECTION */}
+									<div className="relative z-50 inline w-full text-left duration-300 ease-in-out">
+										<label className="ml-2 text-sm text-gray-600">
+											Pickup City
+										</label>
+										<button
+											type="button"
+											className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+											onClick={() => {
+												setStartCityIsOpen(!startCityIsOpen);
+											}}>
+											{fromCity}
+											<FaCaretDown className="ml-auto" />
+										</button>
 
-                    {/* START BUSSTOP */}
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                      onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
-                    >
-                      {start}
-                      <FaCaretDown className="ml-auto" />
-                    </button>
+										{startCityIsOpen && (
+											<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+												{cities
+													.filter(
+														(city: City_interface) => city?.city !== toCity
+													)
+													?.map((city: City_interface) => {
+														return (
+															<a
+																key={city?._id}
+																href="#"
+																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																onClick={() => {
+																	setFromCity(city?.city);
+																	setStartBusStopList(city?.bus_stops);
+																	setStartCityIsOpen(!startCityIsOpen);
+																}}>
+																{city?.city}
+															</a>
+														);
+													})}
+											</div>
+										)}
+									</div>
 
-                    {startBusStopIsOpen && (
-                      <div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-                        {!startBusStopList ? (
-                          <div className="flex px-6 py-2 space-x-4 animate-pulse">
-                            <div className="flex-1 py-1 space-y-6">
-                              <div className="h-2 rounded bg-slate-200"></div>
-                              <div className="space-y-3">
-                                <div className="grid grid-cols-3 gap-4">
-                                  <div className="h-2 col-span-2 rounded bg-slate-200"></div>
-                                  <div className="h-2 col-span-1 rounded bg-slate-200"></div>
-                                </div>
-                                <div className="h-2 rounded bg-slate-200"></div>
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          startBusStopList?.map((stops: string) => {
-                            return (
-                              <a
-                                key={stops}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  setstart(stops);
-                                  setFrom(stops);
-                                  setStartBusStopIsOpen(!startBusStopIsOpen);
-                                }}
-                              >
-                                {stops}
-                              </a>
-                            );
-                          })
-                        )}
-                      </div>
-                    )}
-                  </div>
+									{/* AFTER START CITY SELECTION */}
+									<div
+										className={`ease-in-out duration-300 relative w-full inline text-left z-40 `}>
+										<label className="ml-2 text-sm text-gray-600">
+											Pickup Station
+										</label>
 
-                  {/* DESTINATION */}
+										{/* START BUSSTOP */}
+										<button
+											type="button"
+											className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+											onClick={() =>
+												setStartBusStopIsOpen(!startBusStopIsOpen)
+											}>
+											{start}
+											<FaCaretDown className="ml-auto" />
+										</button>
 
-                  <div className="relative z-30 inline w-full text-left duration-300 ease-in-out">
-                    <label className="ml-2 text-sm text-gray-600">
-                      Desitnation City
-                    </label>
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                      onClick={() => {
-                        setDestinationCityIsOpen(!destinationCityIsOpen);
-                      }}
-                    >
-                      {toCity}
-                      <FaCaretDown className="ml-auto" />
-                    </button>
-                    {destinationCityIsOpen && (
-                      <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-                        {cities
-                          ?.filter(
-                            (city: City_interface) => city?.city !== fromCity
-                          )
-                          ?.map((city: City_interface) => {
-                            return (
-                              <a
-                                key={city?._id}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  setToCity(city?.city);
-                                  setDestinationCityIsOpen(
-                                    !destinationCityIsOpen
-                                  );
-                                  setDestinationBusStopList(city?.bus_stops);
-                                }}
-                              >
-                                {city?.city}
-                              </a>
-                            );
-                          })}
-                      </div>
-                    )}
-                  </div>
+										{startBusStopIsOpen && (
+											<div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+												{!startBusStopList ? (
+													<div className="flex px-6 py-2 space-x-4 animate-pulse">
+														<div className="flex-1 py-1 space-y-6">
+															<div className="h-2 rounded bg-slate-200"></div>
+															<div className="space-y-3">
+																<div className="grid grid-cols-3 gap-4">
+																	<div className="h-2 col-span-2 rounded bg-slate-200"></div>
+																	<div className="h-2 col-span-1 rounded bg-slate-200"></div>
+																</div>
+																<div className="h-2 rounded bg-slate-200"></div>
+															</div>
+														</div>
+													</div>
+												) : (
+													startBusStopList?.map((stops: string) => {
+														return (
+															<a
+																key={stops}
+																href="#"
+																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																onClick={() => {
+																	setstart(stops);
+																	setFrom(stops);
+																	setStartBusStopIsOpen(!startBusStopIsOpen);
+																}}>
+																{stops}
+															</a>
+														);
+													})
+												)}
+											</div>
+										)}
+									</div>
 
-                  {/* AFTER DESTINATION CITY SELECTION */}
-                  <div
-                    className={`ease-in-out duration-300 relative w-full inline text-left z-20 ${
-                      destinationCity === "Set your destination"
-                        ? "hidden "
-                        : ""
-                    }`}
-                  >
-                    <label className="ml-2 text-sm text-gray-600">
-                      Destination Bus Stop
-                    </label>
+									{/* DESTINATION */}
 
-                    {/* START BUSSTOP */}
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 mt-1 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                      onClick={() =>
-                        setDestinationBusStopIsOpen(!destinationBusStopIsOpen)
-                      }
-                    >
-                      {destination}
-                      <FaCaretDown className="ml-auto" />
-                    </button>
+									<div className="relative z-30 inline w-full text-left duration-300 ease-in-out">
+										<label className="ml-2 text-sm text-gray-600">
+											Desitnation City
+										</label>
+										<button
+											type="button"
+											className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+											onClick={() => {
+												setDestinationCityIsOpen(!destinationCityIsOpen);
+											}}>
+											{toCity}
+											<FaCaretDown className="ml-auto" />
+										</button>
+										{destinationCityIsOpen && (
+											<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+												{cities
+													?.filter(
+														(city: City_interface) => city?.city !== fromCity
+													)
+													?.map((city: City_interface) => {
+														return (
+															<a
+																key={city?._id}
+																href="#"
+																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																onClick={() => {
+																	setToCity(city?.city);
+																	setDestinationCityIsOpen(
+																		!destinationCityIsOpen
+																	);
+																	setDestinationBusStopList(city?.bus_stops);
+																}}>
+																{city?.city}
+															</a>
+														);
+													})}
+											</div>
+										)}
+									</div>
 
-                    {destinationBusStopIsOpen && (
-                      <div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-                        {!desinationBusStopList ? (
-                          <div className="flex px-6 py-2 space-x-4 animate-pulse">
-                            <div className="flex-1 py-1 space-y-6">
-                              <div className="h-2 rounded bg-slate-200"></div>
-                              <div className="space-y-3">
-                                <div className="grid grid-cols-3 gap-4">
-                                  <div className="h-2 col-span-2 rounded bg-slate-200"></div>
-                                  <div className="h-2 col-span-1 rounded bg-slate-200"></div>
-                                </div>
-                                <div className="h-2 rounded bg-slate-200"></div>
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          desinationBusStopList?.map((stops: string) => {
-                            return (
-                              <a
-                                key={stops}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  setdestination(stops);
-                                  setTo(stops);
-                                  setDestinationBusStopIsOpen(
-                                    !destinationBusStopIsOpen
-                                  );
-                                }}
-                              >
-                                {stops}
-                              </a>
-                            );
-                          })
-                        )}
-                      </div>
-                    )}
-                  </div>
+									{/* AFTER DESTINATION CITY SELECTION */}
+									<div
+										className={`ease-in-out duration-300 relative w-full inline text-left z-20 ${
+											destinationCity === "Set your destination"
+												? "hidden "
+												: ""
+										}`}>
+										<label className="ml-2 text-sm text-gray-600">
+											Destination Bus Stop
+										</label>
 
-                  <FraserButton
-                    title="Search Trips"
-                    loader={availableTripLoading}
-                    size="regular"
-                    className="w-full mt-8"
-                    active={isValid}
-                    onClick={FindAvailableTrip}
-                  />
-                </div>
-              </div>
-            </div>
+										{/* START BUSSTOP */}
+										<button
+											type="button"
+											className="inline-flex w-full px-4 py-2 mt-1 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+											onClick={() =>
+												setDestinationBusStopIsOpen(!destinationBusStopIsOpen)
+											}>
+											{destination}
+											<FaCaretDown className="ml-auto" />
+										</button>
 
-            {/* RIGHT COLUMN */}
-            <div className="fixed w-full mt-4 overflow-y-scroll rounded-md lg:w-7/12 h-5/6 lg:mt-40 lg:mx-16 lg:my-32 scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0">
-              <div className="fixed w-full ">
-                <div className="mx-4 -mt-1 lg:w-7/12 rounded-t-md lg:mx-16 lg:my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center lg:fixed lg:top-0 lg:right-0">
-                  <h1 className="pt-4 mx-6 text-lg font-semibold lg:ml-12 lg:mt-2">
-                    Available Trips
-                  </h1>
-                </div>
-              </div>
-              <div className="mx-4 lg:mx-0 ">
-                {/* HEADER */}
+										{destinationBusStopIsOpen && (
+											<div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+												{!desinationBusStopList ? (
+													<div className="flex px-6 py-2 space-x-4 animate-pulse">
+														<div className="flex-1 py-1 space-y-6">
+															<div className="h-2 rounded bg-slate-200"></div>
+															<div className="space-y-3">
+																<div className="grid grid-cols-3 gap-4">
+																	<div className="h-2 col-span-2 rounded bg-slate-200"></div>
+																	<div className="h-2 col-span-1 rounded bg-slate-200"></div>
+																</div>
+																<div className="h-2 rounded bg-slate-200"></div>
+															</div>
+														</div>
+													</div>
+												) : (
+													desinationBusStopList?.map((stops: string) => {
+														return (
+															<a
+																key={stops}
+																href="#"
+																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																onClick={() => {
+																	setdestination(stops);
+																	setTo(stops);
+																	setDestinationBusStopIsOpen(
+																		!destinationBusStopIsOpen
+																	);
+																}}>
+																{stops}
+															</a>
+														);
+													})
+												)}
+											</div>
+										)}
+									</div>
 
-                <div className="w-full px-8 py-4 pb-24 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
-                  {availableTripLoading && (
-                    <div className="flex px-6 py-2 mb-8 space-x-4 animate-pulse">
-                      <div className="flex-1 py-1 space-y-6">
-                        <div className="h-2 rounded bg-slate-200"></div>
-                        <div className="space-y-3">
-                          <div className="grid grid-cols-3 gap-4">
-                            <div className="h-2 col-span-2 rounded bg-slate-200"></div>
-                            <div className="h-2 col-span-1 rounded bg-slate-200"></div>
-                          </div>
-                          <div className="h-2 rounded bg-slate-200"></div>
-                        </div>
-                      </div>
-                    </div>
-                  )}
-                  {availableTripError && (
-                    <Alert
-                      message="An error occured"
-                      description={availableTripError}
-                      type="error"
-                      showIcon
-                    />
-                  )}{" "}
-                  {availableTripData?.length === 0 && (
-                    <Alert
-                      type="info"
-                      message="Sorry there are no available trips to the destination selected"
-                    />
-                  )}
-                  {availableTripData?.map((trip: Trip_interface) => {
-                    return (
-                      <BookingCard
-                        key={trip?._id}
-                        from={trip?.travel_destination?.from?.start_busstop}
-                        to={trip?.travel_destination?.to?.stop_busstop}
-                        takeOffTime={trip?.take_off_time}
-                        takeOffDate={trip?.take_off_date}
-                        price={trip?.price}
-                        arrivalTime={trip?.arrival_time}
-                        arrivalDate={trip?.arrival_date}
-                        onClick={() => {
-                          handleOpenModal(trip, "howmanytickets");
-                        }}
-                      />
-                    );
-                  })}
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+									<FraserButton
+										title="Search Trips"
+										loader={availableTripLoading}
+										size="regular"
+										className="w-full mt-8"
+										active={isValid}
+										onClick={FindAvailableTrip}
+									/>
+								</div>
+							</div>
+						</div>
 
-      {useDrawer && flip === BookingViews.NOOFTICKETS && modalVisible && (
-        <Drawer
-          title={
-            <div>
-              <div className="mt-8 text-lg font-medium boder-b">
-                Number of Tickets
-              </div>
-              <div className="text-[#929292] font-light text-xs mt-1">
-                {" "}
-                Available Seats:
-                {modalData?.bus?.capacity - modalData?.bookings?.length}
-              </div>
-              <div className="flex-row justify-between px-6 py-4 mt-6 bg-black rounded-lg lg:flex lg:px-8">
-                <div className="flex lg:w-4/5">
-                  <div className="w-1/2 lg:w-1/3">
-                    <h3 className="mr-8 text-lg md:text-base lg:h-20 lg:mr-0 text-primary-100">
-                      {modalData?.travel_destination?.from?.start_busstop}
-                    </h3>
-                  </div>
+						{/* RIGHT COLUMN */}
+						<div className="fixed w-full mt-4 overflow-y-scroll rounded-md lg:w-7/12 h-5/6 lg:mt-40 lg:mx-16 lg:my-32 scroll-behavior-smooth lg:fixed lg:top-0 lg:right-0">
+							<div className="fixed w-full ">
+								<div className="mx-4 -mt-1 lg:w-7/12 rounded-t-md lg:mx-16 lg:my-32 h-16 bg-[#ffffff] border-b z-10 justify-center items-center lg:fixed lg:top-0 lg:right-0">
+									<h1 className="pt-4 mx-6 text-lg font-semibold lg:ml-12 lg:mt-2">
+										Available Trips
+									</h1>
+								</div>
+							</div>
+							<div className="mx-4 lg:mx-0 ">
+								{/* HEADER */}
 
-                  <BsArrowRight className="top-0 mt-1 mr-8 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
-                  <div className="w-1/2 lg:w-1/3 ">
-                    <h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
-                      {modalData?.travel_destination?.to?.stop_busstop}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          }
-          placement="bottom"
-          closable={false}
-          onClose={handleCancel}
-          open={modalVisible}
-          key="bottom"
-          className="rounded-t-xl"
-          height="60vh"
-        >
-          <div className="flex items-center mx-6 justify-evenly">
-            <FaMinusCircle
-              size={32}
-              onClick={minusItem}
-              className="cursor-pointer"
-            />
-            <div className="w-full my-12 place-content-center">
-              <input
-                type="number"
-                value={value}
-                onChange={handleChange}
-                placeholder="0"
-                className=" w-full text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
-              />
-            </div>
-            <FaPlusCircle
-              size={32}
-              onClick={addItem}
-              className="cursor-pointer"
-            />
-          </div>
-          <FraserButton
-            title="Continue"
-            size="regular"
-            onClick={() => {
-              dispatch(
-                addToMyBookinAction({ ...modalData, no_of_ticket: value })
-              );
-              navigate("/checkout");
-            }}
-          />
-        </Drawer>
-      )}
+								<div className="w-full px-8 py-4 pb-24 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
+									{availableTripLoading && (
+										<div className="flex px-6 py-2 mb-8 space-x-4 animate-pulse">
+											<div className="flex-1 py-1 space-y-6">
+												<div className="h-2 rounded bg-slate-200"></div>
+												<div className="space-y-3">
+													<div className="grid grid-cols-3 gap-4">
+														<div className="h-2 col-span-2 rounded bg-slate-200"></div>
+														<div className="h-2 col-span-1 rounded bg-slate-200"></div>
+													</div>
+													<div className="h-2 rounded bg-slate-200"></div>
+												</div>
+											</div>
+										</div>
+									)}
+									{availableTripError && (
+										<Alert
+											message="An error occured"
+											description={availableTripError}
+											type="error"
+											showIcon
+										/>
+									)}{" "}
+									{availableTripData?.length === 0 && (
+										// <Alert
+										//   type="info"
+										//   message="Sorry there are no available trips to the destination selected"
+										// />
+										<div>
+											<Alert
+												type="info"
+												message="Routes will be open on the 27th of March, Kindly Check Back."
+											/>
+											<div>
+												<div className="items-center mt-12 flex justify-center text-center leading-loose">
+													<div className="w-2/3 ">
+														Share your referral code{" "}
+														<span className="bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1">
+															{userInfo.referral_code}
+														</span>{" "}
+														with a friend and get 25% discount on your next trip
+													</div>
+												</div>
+												<div className="mt-8 justify-center flex place-items-center">
+													<FraserButton
+														title={"Share"}
+														size={"regular"}
+														onClick={share}
+													/>
+												</div>
+											</div>
+										</div>
+									)}
+									{availableTripData?.map((trip: Trip_interface) => {
+										return (
+											<div>
+												<Alert
+													type="info"
+													message="Routes will be open on the 27th of March, Kindly Check Back."
+												/>
+												<div>
+													<div className="items-center mt-12 flex justify-center text-center leading-loose">
+														<div className="w-2/3 ">
+															Share your referral code{" "}
+															<span className="bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1">
+																{userInfo.referral_code}
+															</span>{" "}
+															with a friend and get 25% discount on your next
+															trip
+														</div>
+													</div>
+													<div className="mt-8 justify-center flex place-items-center">
+														<FraserButton
+															title={"Share"}
+															size={"regular"}
+															onClick={share}
+														/>
+													</div>
+												</div>
+											</div>
+											// <BookingCard
+											//   key={trip?._id}
+											//   from={trip?.travel_destination?.from?.start_busstop}
+											//   to={trip?.travel_destination?.to?.stop_busstop}
+											//   takeOffTime={trip?.take_off_time}
+											//   takeOffDate={trip?.take_off_date}
+											//   price={trip?.price}
+											//   arrivalTime={trip?.arrival_time}
+											//   arrivalDate={trip?.arrival_date}
+											//   onClick={() => {
+											//     handleOpenModal(trip, "howmanytickets");
+											//   }}
+											// />
+										);
+									})}
+								</div>
+							</div>
+						</div>
+					</div>
+				</div>
+			</div>
 
-      {!useDrawer && flip === BookingViews.NOOFTICKETS && modalVisible && (
-        <Modal
-          title={
-            <div>
-              <div className="mt-8 text-lg font-medium boder-b">
-                Number of Tickets
-              </div>
-              <div className="text-[#929292] font-light text-xs mt-1">
-                {" "}
-                Available Seats:{" "}
-                {modalData?.bus?.capacity - modalData?.bookings?.length}
-              </div>
-              <div className="flex-row px-6 py-4 mt-6 text-center bg-black rounded-lg justify-evenly lg:flex lg:px-8">
-                <div className="flex lg:w-4/5">
-                  <div className="w-1/2 lg:w-1/3">
-                    <h3 className="mr-8 text-lg md:text-base lg:mr-0 text-primary-100">
-                      {modalData?.travel_destination?.from?.start_busstop}
-                    </h3>
-                  </div>
+			{useDrawer && flip === BookingViews.NOOFTICKETS && modalVisible && (
+				<Drawer
+					title={
+						<div>
+							<div className="mt-8 text-lg font-medium boder-b">
+								Number of Tickets
+							</div>
+							<div className="text-[#929292] font-light text-xs mt-1">
+								{" "}
+								Available Seats:
+								{modalData?.bus?.capacity - modalData?.bookings?.length}
+							</div>
+							<div className="flex-row justify-between px-6 py-4 mt-6 bg-black rounded-lg lg:flex lg:px-8">
+								<div className="flex lg:w-4/5">
+									<div className="w-1/2 lg:w-1/3">
+										<h3 className="mr-8 text-lg md:text-base lg:h-20 lg:mr-0 text-primary-100">
+											{modalData?.travel_destination?.from?.start_busstop}
+										</h3>
+									</div>
 
-                  <BsArrowRight className="top-0 mt-1 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
-                  <div className="w-1/2 lg:w-1/3 ">
-                    <h3 className="text-lg md:text-base text-primary-100 ">
-                      {modalData?.travel_destination?.to?.stop_busstop}
-                    </h3>
-                  </div>
-                </div>
-              </div>
-            </div>
-          }
-          onOk={handleOk}
-          onCancel={handleCancel}
-          open={modalVisible}
-          centered={true}
-          footer={false}
-          closable={true}
-          //   width="240px"
-        >
-          <div className="flex items-center mt-6 justify-evenly">
-            <FaMinusCircle
-              size={32}
-              onClick={minusItem}
-              className="cursor-pointer"
-            />
-            <div className="w-full my-8 place-content-center">
-              <input
-                type="number"
-                value={value}
-                onChange={handleChange}
-                placeholder="0"
-                className=" w-full text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
-              />
-            </div>
-            <FaPlusCircle
-              size={32}
-              onClick={addItem}
-              className="cursor-pointer"
-            />
-          </div>
-          <FraserButton
-            title="Continue"
-            size="regular"
-            className="w-full mt-8"
-            onClick={() => {
-              dispatch(
-                addToMyBookinAction({ ...modalData, no_of_ticket: value })
-              );
-              navigate("/checkout");
-            }}
-          />
-        </Modal>
-      )}
-    </Layout>
-  );
+									<BsArrowRight className="top-0 mt-1 mr-8 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
+									<div className="w-1/2 lg:w-1/3 ">
+										<h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
+											{modalData?.travel_destination?.to?.stop_busstop}
+										</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+					placement="bottom"
+					closable={false}
+					onClose={handleCancel}
+					open={modalVisible}
+					key="bottom"
+					className="rounded-t-xl"
+					height="60vh">
+					<div className="flex items-center mx-6 justify-evenly">
+						<FaMinusCircle
+							size={32}
+							onClick={minusItem}
+							className="cursor-pointer"
+						/>
+						<div className="w-full my-12 place-content-center">
+							<input
+								type="number"
+								value={value}
+								onChange={handleChange}
+								placeholder="0"
+								className=" w-full text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
+							/>
+						</div>
+						<FaPlusCircle
+							size={32}
+							onClick={addItem}
+							className="cursor-pointer"
+						/>
+					</div>
+					<FraserButton
+						title="Continue"
+						size="regular"
+						onClick={() => {
+							dispatch(
+								addToMyBookinAction({ ...modalData, no_of_ticket: value })
+							);
+							navigate("/checkout");
+						}}
+					/>
+				</Drawer>
+			)}
+
+			{!useDrawer && flip === BookingViews.NOOFTICKETS && modalVisible && (
+				<Modal
+					title={
+						<div>
+							<div className="mt-8 text-lg font-medium boder-b">
+								Number of Tickets
+							</div>
+							<div className="text-[#929292] font-light text-xs mt-1">
+								{" "}
+								Available Seats:{" "}
+								{modalData?.bus?.capacity - modalData?.bookings?.length}
+							</div>
+							<div className="flex-row px-6 py-4 mt-6 text-center bg-black rounded-lg justify-evenly lg:flex lg:px-8">
+								<div className="flex lg:w-4/5">
+									<div className="w-1/2 lg:w-1/3">
+										<h3 className="mr-8 text-lg md:text-base lg:mr-0 text-primary-100">
+											{modalData?.travel_destination?.from?.start_busstop}
+										</h3>
+									</div>
+
+									<BsArrowRight className="top-0 mt-1 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
+									<div className="w-1/2 lg:w-1/3 ">
+										<h3 className="text-lg md:text-base text-primary-100 ">
+											{modalData?.travel_destination?.to?.stop_busstop}
+										</h3>
+									</div>
+								</div>
+							</div>
+						</div>
+					}
+					onOk={handleOk}
+					onCancel={handleCancel}
+					open={modalVisible}
+					centered={true}
+					footer={false}
+					closable={true}
+					//   width="240px"
+				>
+					<div className="flex items-center mt-6 justify-evenly">
+						<FaMinusCircle
+							size={32}
+							onClick={minusItem}
+							className="cursor-pointer"
+						/>
+						<div className="w-full my-8 place-content-center">
+							<input
+								type="number"
+								value={value}
+								onChange={handleChange}
+								placeholder="0"
+								className=" w-full text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
+							/>
+						</div>
+						<FaPlusCircle
+							size={32}
+							onClick={addItem}
+							className="cursor-pointer"
+						/>
+					</div>
+					<FraserButton
+						title="Continue"
+						size="regular"
+						className="w-full mt-8"
+						onClick={() => {
+							dispatch(
+								addToMyBookinAction({ ...modalData, no_of_ticket: value })
+							);
+							navigate("/checkout");
+						}}
+					/>
+				</Modal>
+			)}
+		</Layout>
+	);
 };
 
 export default Bookings;
