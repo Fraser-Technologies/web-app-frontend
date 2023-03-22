@@ -209,7 +209,11 @@ const Bookings = () => {
   }, [cities, dispatch]);
 
   return (
-    <Layout title="Fraser - Book a ride">
+    <Layout
+      title="Book Intercity Bus Rides in Nigeria with Fraser | RideFraser.com"
+      pageDescription="Find the best intercity bus transportation options in Nigeria with Fraser. Book your ride today on RideFraser.com and travel in comfort and style."
+      pageKeywords="Fraser, intercity bus, Nigeria, ride booking, transportation, travel, comfort, style, RideFraser.com, intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser"
+    >
       <div className="relative h-24 bg-black -z-10 lg:h-32">
         <GeometricPatterns />
       </div>
