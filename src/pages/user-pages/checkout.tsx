@@ -128,7 +128,11 @@ const Checkout = () => {
   }
 
   return (
-    <Layout title="Checkout - Fraser">
+    <Layout
+      title="Book Affordable Intercity Bus Rides in Nigeria | RideFraser.com | Checkout"
+      pageDescription="Book affordable and comfortable intercity bus rides in Nigeria on RideFraser.com. Our buses are equipped with modern amenities to make your journey pleasant."
+      pageKeywords="intercity bus booking, affordable bus rides, comfortable journey, modern amenities, Nigeria transportation, online booking, RideFraser.com, Fraser, intercity bus, Nigeria, ride booking, transportation, travel, comfort, style, RideFraser.com, intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser"
+    >
       {contextHolder}
       <div className="relative h-24 bg-black -z-10 lg:h-40">
         <GeometricPatterns />
@@ -299,14 +303,13 @@ const Checkout = () => {
             </div>
             {/* {payment button} */}
 
-			<FraserButton
-			title="Proceed to Payments"
-			size="regular"
-			onClick={payWithPaystack}
-			className={"w-full mt-8"}
+            <FraserButton
+              title="Proceed to Payments"
+              size="regular"
+              onClick={payWithPaystack}
+              className={"w-full mt-8"}
+            />
 
-			/>
-            
             <Modal
               open={open}
               onClose={handleClose}
