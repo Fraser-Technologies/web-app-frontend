@@ -99,7 +99,7 @@ const Waitlist = () => {
             </button>
           </div>
 
-          <div className="h-[30vh] md:h-[50vh] mt-0 md:mt-12 lg:mt-0 lg:h-full overflow-hidden">
+          <div className="h-[30vh] md:h-[40vh] mt-0 md:mt-12 lg:mt-0 overflow-hidden">
             <div className="image-container ">
               <div className="image-bg-left">
                 <div className="image-bg">
