@@ -129,7 +129,7 @@ const BookRide = () => {
         last_name: lastName,
         email: email,
         phone: "+234" + phone,
-        referred_by,
+        referred_by: referred_by,
       })
     );
   };
@@ -510,6 +510,18 @@ const BookRide = () => {
                     value={email}
                     required={true}
                     onChange={(e) => setEmail(e.target.value)}
+                  />
+                </div>
+                <div className="mb-6">
+                  <div className="mb-1">
+                    <label className="text-gray-500">Referral Code</label>
+                  </div>
+                  <Input
+                    className="w-full h-12 hover:border-green-500 active:border-green-600"
+                    placeholder="Referral Code"
+                    value={referred_by}
+                    required={true}
+                    onChange={(e) => setReferred_by(e.target.value)}
                   />
                 </div>
 
