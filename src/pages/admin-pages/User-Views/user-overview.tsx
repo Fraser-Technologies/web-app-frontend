@@ -48,8 +48,8 @@ const UserOverview: React.FC = () => {
   const endIndex = startIndex + itemsPerPage;
   // const items = users.slice(startIndex, endIndex); // items to display on the current page
   const items = [...users]
-    .sort((a, b) => a.first_name.localeCompare(b.first_name))
-    .slice(startIndex, endIndex); // items to display on the current page
+  .sort((a, b) => (a.first_name || '').localeCompare(b.first_name || ''))
+  .slice(startIndex, endIndex);
 
   // ROW ACTION MENU
   const [menuVisible, setMenuVisible] = useState(false);
