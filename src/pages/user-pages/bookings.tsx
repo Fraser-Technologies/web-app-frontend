@@ -474,6 +474,31 @@ const Bookings = () => {
                   )}
                   {availableTripData?.map((trip: Trip_interface) => {
                     return (
+                      // <div>
+                      //   <Alert
+                      //     type="info"
+                      //     message="Routes will be open on the 27th of March, Kindly Check Back."
+                      //   />
+                      //   <div>
+                      //     <div className="items-center mt-12 flex justify-center text-center leading-loose">
+                      //       <div className="w-2/3 ">
+                      //         Share your referral code{" "}
+                      //         <span className="bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1">
+                      //           {userInfo.referral_code}
+                      //         </span>{" "}
+                      //         with a friend and get 25% discount on your next
+                      //         trip
+                      //       </div>
+                      //     </div>
+                      //     <div className="mt-8 justify-center flex place-items-center">
+                      //       <FraserButton
+                      //         title={"Share"}
+                      //         size={"regular"}
+                      //         onClick={share}
+                      //       />
+                      //     </div>
+                      //   </div>
+                      // </div>
                       <BookingCard
                         key={trip?._id}
                         from={trip?.travel_destination?.from?.start_busstop}
