@@ -505,7 +505,8 @@ const CreateTripFormComponent = () => {
         loader={loading}
         title={"Create Trip"}
         size={"regular"}
-        className={"w-full"}
+        className={"w-full mt-4"}
+        onClick={CreateThisTrip}
       />
     </div>
   );
