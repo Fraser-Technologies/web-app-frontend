@@ -170,7 +170,11 @@ const BookRide = () => {
   }, [dispatch]);
 
   return (
-    <Layout title="Book a Ride">
+    <Layout
+      title="Book Intercity Bus Rides in Nigeria | RideFraser"
+      pageDescription="Book affordable and comfortable intercity bus rides in Nigeria with Fraser on ridefraser. Choose from multiple routes and travel dates. Book your ride now!"
+      pageKeywords="intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
+    >
       {contextHolder}
       <div className="relative h-24 bg-black -z-10 lg:h-32">
         <GeometricPatterns />
@@ -301,7 +305,6 @@ const BookRide = () => {
                 <label className="ml-2 text-sm text-gray-600">
                   Destination City
                 </label>
-				
 
                 <button
                   type="button"
@@ -349,7 +352,7 @@ const BookRide = () => {
                 </label>
 
                 {/* START BUSSTOP */}
-               
+
                 <button
                   type="button"
                   className="inline-flex w-full px-4 py-2 mt-1 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
