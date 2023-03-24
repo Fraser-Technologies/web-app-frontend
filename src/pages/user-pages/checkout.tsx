@@ -34,13 +34,13 @@ const couponCodes = [
   },
   {
     Description: "Referral",
-    Code: "DEF456",
+    Code: "REF210",
     value: 25,
   },
   {
     Description: "Easter",
-    Code: "GHI789",
-    value: 20,
+    Code: "EA124",
+    value: 25,
   },
 ];
 
@@ -381,11 +381,12 @@ const Checkout = () => {
                 <div className="flex">
                   <p className="text-base ">Discounts</p>
 
-                  {alertMessage === "success" && (
-                    <div className="ml-2 bg-[#ffefc1] text-[#756031] border border-[#ffe28d] rounded-md px-2 py-1 text-sm">
-                      {couponDescription}
-                    </div>
-                  )}
+                  {alertMessage === "success" &&
+                    couponDescription !== "Coupon code not found" && (
+                      <div className="ml-2 bg-[#ffefc1] text-[#756031] border border-[#ffe28d] rounded-md px-2 py-1 text-sm">
+                        {couponDescription}
+                      </div>
+                    )}
                 </div>
                 <p className="text-base">
                   {currency_formatter(
