@@ -105,7 +105,7 @@ const DriverSignUp = () => {
         },
       })
       .then(({ data }: any) => {
-        console.log("the res ", data);
+        
         setProfile(data?.image);
         setUploadingProfile(false);
       })

@@ -17,7 +17,6 @@ import { AppThunk } from "../redux-store";
 export const addToMyBookinAction =
 	(trip: any): AppThunk =>
 	(dispatch) => {
-		console.log("the  trip data is ", trip);
 		dispatch(addToBooking(trip));
 	};
 
@@ -34,7 +33,7 @@ export const emptyMyBooking = (): AppThunk => (dispatch) => {
 export const verifyPaymentAction =
 	(trip: any, passengers: any): AppThunk =>
 	async (dispatch, getState) => {
-		console.log("the trip data is ", trip);
+		
 		try {
 			dispatch(verifyPaymentRequest());
 			const {

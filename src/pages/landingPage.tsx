@@ -25,7 +25,7 @@ const LandingPage = () => {
 
   useEffect(() => {
     if (userInfo?._id) {
-      navigate(_paths_.BOOKRIDE);
+      navigate(_paths_.LANDING_PAGE);
     }
   }, [navigate, userInfo]);
 
@@ -52,7 +52,7 @@ const LandingPage = () => {
             <FraserButton
               title="Book a Ride"
               size="regular"
-              onClick={() => navigate(_paths_.BOOKRIDE)}
+              onClick={() => navigate(_paths_.LANDING_PAGE)}
             />
           </div>
         </div>
@@ -73,7 +73,7 @@ const LandingPage = () => {
               <FraserButton
                 size="regular"
                 title="Book a ride"
-                onClick={() => navigate(_paths_.BOOKRIDE)}
+                onClick={() => navigate(_paths_.LANDING_PAGE)}
               />
             </span>
 
@@ -81,7 +81,7 @@ const LandingPage = () => {
               <FraserButton
                 size="regular"
                 title="Partner with us"
-                onClick={() => navigate(_paths_.BOOKRIDE)}
+                onClick={() => navigate(_paths_.LANDING_PAGE)}
               />
             </span>
           </div>
@@ -144,7 +144,7 @@ const LandingPage = () => {
           <FraserButton
             size="regular"
             title="Get Started"
-            onClick={() => navigate(_paths_.BOOKRIDE)}
+            onClick={() => navigate(_paths_.LANDING_PAGE)}
           />
         </div>
 
@@ -174,7 +174,7 @@ const LandingPage = () => {
           <FraserButton
             size="regular"
             title="Get Started"
-            onClick={() => navigate(_paths_.BOOKRIDE)}
+            onClick={() => navigate(_paths_.LANDING_PAGE)}
           />
         </div>
       </div>

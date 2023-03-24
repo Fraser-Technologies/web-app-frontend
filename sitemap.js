@@ -11,7 +11,7 @@ const landingPage = "/";
 const availableTrip = "/bookings";
 const signIn = "/signin";
 const signUp = "/signup";
-const bookARide = "/bookaride";
+// const bookARide = "/bookaride";
 const checkOut = "/checkout";
 const notFound = "*";
 const termsOfService = "/termsofservice";
@@ -68,12 +68,12 @@ const gzip = createGzip();
 // Pipe the sitemap stream to the gzip and then to the write stream
 pipeline(sitemap, gzip, writeStream, (err) => {
   if (err) {
-    console.error(err);
+    
     process.exit(1);
   }
 });
 
 writeStream.on("finish", () => {
   // Log a success message
-  console.log("Sitemap generated successfully!");
+  
 });

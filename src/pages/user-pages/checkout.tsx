@@ -21,10 +21,6 @@ interface FormData {
   name: string;
   phone: string;
 }
-interface Coupon {
-  Code: string;
-  value: number;
-}
 
 const couponCodes = [
   {
@@ -120,7 +116,7 @@ const Checkout = () => {
   const onSuccess = () => {
     dispatch(verifyPaymentAction(myBooking, formData));
     message.info("Your ride has been booked successfully!");
-    navigate("/bookaride");
+    navigate("/");
     dispatch(emptyMyBooking());
   };
 
@@ -345,9 +341,7 @@ const Checkout = () => {
                 <p className="mr-2 text-[14px] font-medium text-gray-700 ">
                   Don't have a discount code?
                 </p>
-                <a
-                  type="link"
-                  href="#"
+                <div
                   className="text-blue-500"
                   onClick={() => {
                     navigator.clipboard.writeText(`${userInfo?.referral_code}`);
@@ -358,7 +352,7 @@ const Checkout = () => {
                 >
                   {" "}
                   Share
-                </a>
+                </div>
               </div>
 
               <p className="text-[12px] text-gray-500 mt-1 ">

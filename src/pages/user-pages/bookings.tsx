@@ -22,7 +22,7 @@ import { RootState } from "../../state/redux-store";
 import { FraserButton } from "../../components/Button";
 
 const Bookings = () => {
-  const { userInfo } = useAppSelector((state: any) => state.userLogin);
+  // const { userInfo } = useAppSelector((state: any) => state.userLogin);
   enum BookingViews {
     NOOFTICKETS = "howmanytickets",
   }
@@ -82,8 +82,6 @@ const Bookings = () => {
     trips: availableTripData,
   } = useAppSelector((state: any) => state.availableTrip);
 
-  console.log("the available trip is ", availableTripData);
-
   const FindAvailableTrip = () => {
     whereToToggleClick();
     if (from && to) {
@@ -134,47 +132,7 @@ const Bookings = () => {
     if (value > 1) setValue(value - 1);
   };
 
-  // const share = async () => {
-  //   try {
-  //     await navigator.share({
-  //       title: "Fraser Intercity Bus Transportation",
-  //       text: `Signup on Fraser with my code ${userInfo.referral_code} and get 25% discounts on your trips for the next month`,
-  //       url: window.location.href,
-  //     });
-  //     console.log("Content shared successfully!");
-  //   } catch (err) {
-  //     console.error("Error sharing content:", err);
-  //   }
-  // };
-  const share = async () => {
-    if (navigator.share) {
-      try {
-        await navigator.share({
-          title: "Fraser Intercity Bus Transportation",
-          text: `Signup on Fraser with my code ${userInfo.referral_code} and get 25% discounts on your trips for the next month`,
-          url: window.location.href,
-        });
-        console.log("Content shared successfully!");
-      } catch (err) {
-        console.error("Error sharing content:", err);
-      }
-    } else {
-      try {
-        navigator.clipboard.writeText(userInfo?.referral_code);
-        messageApi.info({
-          type: "info",
-          content: `Referral code ${userInfo?.referral_code} has been copied to clipboard!`,
-          duration: 1.5,
-        });
-      } catch (err) {
-        console.error("Error copying URL to clipboard:", err);
-        // window.prompt(
-        //   "Press Ctrl+C or Command+C to copy the URL",
-        //   window.location.href
-        // );
-      }
-    }
-  };
+
 
   //Check ScreenWidth to check what element to render
   useEffect(() => {
