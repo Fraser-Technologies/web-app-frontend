@@ -99,7 +99,7 @@ const Waitlist = () => {
 							onClick={() => {
 								navigate(_paths_.BOOKRIDE);
 							}}>
-							Get Early Access 👀
+							Get Early Access
 						</button>
 					</div>
 
