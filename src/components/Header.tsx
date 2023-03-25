@@ -168,9 +168,9 @@ export const Header = () => {
 					</div>
 				</div>
 				<div className="items-center justify-between hidden space-x-12 md:flex">
-					{/* <Link to="/" className="text-white ">
+					<Link to="/" className="text-white ">
 						Home
-					</Link> */}
+					</Link>
 					{userInfo && (
 						<>
 							<Dropdown menu={{ items }} trigger={["click"]}>
