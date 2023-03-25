@@ -48,7 +48,7 @@ const BookRide = () => {
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [phone, setPhone] = useState<string>("");
-  const [flip, setFlip] = useState<boolean>(false);
+  const [flip, setFlip] = useState("signin");
   const overlayRef = useRef(null);
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [from, setFrom] = useState<string>("");
@@ -152,7 +152,7 @@ const BookRide = () => {
         type: "error",
         content: loginError,
       });
-      setFlip(true);
+      setFlip("signin");
     }
   }, [loginError, messageApi, userInfo]);
 
@@ -425,25 +425,84 @@ const BookRide = () => {
 
         {/* MODAL BACKDROP */}
 
-        <div>
-          <div
-            ref={overlayRef}
-            className={`fixed top-0 left-0 w-full h-full bg-black opacity-90 z-50 ${
-              isModalOpen ? "" : "hidden"
-            }`}
-          ></div>
-
-          {/* MODAL */}
+        {/* MODAL */}
+        {flip === "signin" && (
           <Modal
             title={
               <div>
-                <h1 className="pt-2 text-xl">
-                  {flip ? "Let's get you started" : "Welcome Back"}
-                </h1>
+                <h1 className="pt-2 text-xl">Welcome Back</h1>
                 <p className="pt-1 text-sm font-light text-gray-500">
-                  {flip
-                    ? "You're almost there, create an account in just one simple step. "
-                    : "Please enter your phone number to continue"}
+                  Please enter your phone number to continue
+                </p>
+
+                {loginError && (
+                  <Alert
+                    message={
+                      loginError === "user doesn't exist please sign in"
+                        ? "Can't find the account, maybe sign up?"
+                        : loginError
+                    }
+                    type="warning"
+                    showIcon
+                    className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
+                  />
+                )}
+              </div>
+            }
+            open={isModalOpen}
+            centered={true}
+            footer={false}
+            closable={false}
+          >
+            <div>
+              <div className="pt-8 mt-3 mb-3">
+                <Input
+                  className="w-full h-12 hover:border-green-500 active:border-green-600"
+                  placeholder="903 123 1234"
+                  value={phone}
+                  prefix={"+234"}
+                  type="number"
+                  required={true}
+                  onChange={(e) => {
+                    setPhone(
+                      e.target.value.startsWith("0")
+                        ? e.target.value.slice(1)
+                        : e.target.value
+                    );
+                  }}
+                />
+              </div>
+
+              {/* USER LOGIN */}
+
+              <FraserButton
+                title={"Continue"}
+                size={"regular"}
+                active={loginValid}
+                className={"w-full mt-4"}
+                loader={userLoginLoading}
+                onClick={() => loginValid && LoginUser()}
+              />
+
+              <FraserButton
+                title={"I don't have an account"}
+                buttonType={"tertiary"}
+                size={"regular"}
+                className={"w-full mt-2"}
+                onClick={() => setFlip("signup")}
+              />
+            </div>
+          </Modal>
+        )}
+
+        {flip === "signup" && (
+          <Modal
+            title={
+              <div>
+                <h1 className="pt-2 text-xl">Let's get you started</h1>
+                <p className="pt-1 text-sm font-light text-gray-500">
+                  You're almost there, create an account in just one simple
+                  step.
                 </p>
 
                 <div>
@@ -451,7 +510,7 @@ const BookRide = () => {
                     <Alert
                       message={
                         loginError === "user doesn't exist please sign in"
-                          ? "Can't find the account, maybe sign up?"
+                          ? "User not found"
                           : loginError
                       }
                       type="warning"
@@ -467,148 +526,105 @@ const BookRide = () => {
             footer={false}
             closable={false}
           >
-            {flip ? (
-              <div>
-                {registerUserError && (
-                  <Alert
-                    message={registerUserError}
-                    description={registerUserError}
-                    type="warning"
-                    showIcon
-                  />
-                )}
-                <div className="mt-8 mb-6">
-                  <div className="mb-1">
-                    <label className="text-gray-500">First Name</label>
-                  </div>
-                  <Input
-                    className="w-full h-12 hover:border-green-500 active:border-green-600"
-                    placeholder="Please enter your first name"
-                    value={firstName}
-                    required={true}
-                    onChange={(e) => setFirstName(e.target.value)}
-                  />
+            <div>
+              {registerUserError && (
+                <Alert
+                  message={registerUserError}
+                  description={registerUserError}
+                  type="warning"
+                  showIcon
+                />
+              )}
+              <div className="mt-8 mb-6">
+                <div className="mb-1">
+                  <label className="text-gray-500">First Name</label>
                 </div>
-
-                <div className="mb-6">
-                  <div className="mb-1">
-                    <label className="text-gray-500">Last Name</label>
-                  </div>
-                  <Input
-                    className="w-full h-12 hover:border-green-500 active:border-green-600"
-                    placeholder="Last name"
-                    value={lastName}
-                    required={true}
-                    onChange={(e) => setLastName(e.target.value)}
-                  />
-                </div>
-
-                <div className="mb-6">
-                  <div className="mb-1">
-                    <label className="text-gray-500">Email Address</label>
-                  </div>
-                  <Input
-                    className="w-full h-12 hover:border-green-500 active:border-green-600"
-                    placeholder="Email"
-                    value={email}
-                    required={true}
-                    onChange={(e) => setEmail(e.target.value)}
-                  />
-                </div>
-                <div className="mb-6">
-                  <div className="mb-1">
-                    <label className="text-gray-500">Referral Code</label>
-                  </div>
-                  <Input
-                    className="w-full h-12 hover:border-green-500 active:border-green-600"
-                    placeholder="Referral Code"
-                    value={referred_by}
-                    required={true}
-                    onChange={(e) => setReferred_by(e.target.value)}
-                  />
-                </div>
-
-                <div className="mb-6">
-                  <div className="mb-1">
-                    <label className="text-gray-500">Phone Number</label>
-                  </div>
-                  <Input
-                    className="w-full h-12 hover:border-green-500 active:border-green-600"
-                    placeholder="901 1234 123"
-                    type="number"
-                    value={phone}
-                    prefix={"+234"}
-                    required={true}
-                    onChange={(e) => {
-                      setPhone(
-                        e.target.value.startsWith("0")
-                          ? e.target.value.slice(1)
-                          : e.target.value
-                      );
-                    }}
-                  />
-                </div>
-
-                <div>
-                  <FraserButton
-                    title={"Continue"}
-                    size={"small"}
-                    active={signUpValid === false ? false : true}
-                    className={"w-full mt-4"}
-                    onClick={() => signUpValid && CreateUser()}
-                    loader={userRegisterLoading}
-                  />
-                  <FraserButton
-                    title={"I have an account"}
-                    buttonType={"tertiary"}
-                    size={"regular"}
-                    className={"w-full mt-2"}
-                    onClick={() => setFlip(!flip)}
-                  />
-                </div>
+                <Input
+                  className="w-full h-12 hover:border-green-500 active:border-green-600"
+                  placeholder="Please enter your first name"
+                  value={firstName}
+                  required={true}
+                  onChange={(e) => setFirstName(e.target.value)}
+                />
               </div>
-            ) : (
-              <div>
-                <div className="pt-8 mt-3 mb-3">
-                  <Input
-                    className="w-full h-12 hover:border-green-500 active:border-green-600"
-                    placeholder="903 123 1234"
-                    value={phone}
-                    prefix={"+234"}
-                    type="number"
-                    required={true}
-                    onChange={(e) => {
-                      setPhone(
-                        e.target.value.startsWith("0")
-                          ? e.target.value.slice(1)
-                          : e.target.value
-                      );
-                    }}
-                  />
-                </div>
 
-                {/* USER LOGIN */}
-                <div>
-                  <FraserButton
-                    title={"Continue"}
-                    size={"regular"}
-                    active={loginValid}
-                    className={"w-full mt-4"}
-                    loader={userLoginLoading}
-                    onClick={() => loginValid && LoginUser()}
-                  />
-                  <FraserButton
-                    title={"I don't have an account"}
-                    buttonType={"tertiary"}
-                    size={"regular"}
-                    className={"w-full mt-2"}
-                    onClick={() => setFlip(!flip)}
-                  />
+              <div className="mb-6">
+                <div className="mb-1">
+                  <label className="text-gray-500">Last Name</label>
                 </div>
+                <Input
+                  className="w-full h-12 hover:border-green-500 active:border-green-600"
+                  placeholder="Last name"
+                  value={lastName}
+                  required={true}
+                  onChange={(e) => setLastName(e.target.value)}
+                />
               </div>
-            )}
+
+              <div className="mb-6">
+                <div className="mb-1">
+                  <label className="text-gray-500">Email Address</label>
+                </div>
+                <Input
+                  className="w-full h-12 hover:border-green-500 active:border-green-600"
+                  placeholder="Email"
+                  value={email}
+                  required={true}
+                  onChange={(e) => setEmail(e.target.value)}
+                />
+              </div>
+              <div className="mb-6">
+                <div className="mb-1">
+                  <label className="text-gray-500">Referral Code</label>
+                </div>
+                <Input
+                  className="w-full h-12 hover:border-green-500 active:border-green-600"
+                  placeholder="Referral Code"
+                  value={referred_by}
+                  required={true}
+                  onChange={(e) => setReferred_by(e.target.value)}
+                />
+              </div>
+
+              <div className="mb-6">
+                <div className="mb-1">
+                  <label className="text-gray-500">Phone Number</label>
+                </div>
+                <Input
+                  className="w-full h-12 hover:border-green-500 active:border-green-600"
+                  placeholder="901 1234 123"
+                  type="number"
+                  value={phone}
+                  prefix={"+234"}
+                  required={true}
+                  onChange={(e) => {
+                    setPhone(
+                      e.target.value.startsWith("0")
+                        ? e.target.value.slice(1)
+                        : e.target.value
+                    );
+                  }}
+                />
+              </div>
+
+              <FraserButton
+                title={"Continue"}
+                size={"small"}
+                active={signUpValid === false ? false : true}
+                className={"w-full mt-4"}
+                onClick={() => signUpValid && CreateUser()}
+                loader={userRegisterLoading}
+              />
+              <FraserButton
+                title={"I have an account"}
+                buttonType={"tertiary"}
+                size={"regular"}
+                className={"w-full mt-2"}
+                onClick={() => setFlip("signin")}
+              />
+            </div>
           </Modal>
-        </div>
+        )}
       </div>
     </Layout>
   );
