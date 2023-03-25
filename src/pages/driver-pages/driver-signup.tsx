@@ -204,7 +204,7 @@ const DriverSignUp = () => {
     setVehicleInsuranceImageLoading(false);
   };
 
-  let DriverData = {
+  const DriverData = {
     first_name: fName,
     last_name: lName,
     email: email,
@@ -212,6 +212,20 @@ const DriverSignUp = () => {
     location: locationName,
     image: profile,
     phone: "+234" + phone,
+  };
+
+  const DriverAccount = {
+    bank_name: bankFilter,
+    account_number: accountNo,
+    account_name: accountName,
+  };
+
+  const DriverBus = {
+    make,
+    model,
+    driver: userInfo?._id,
+    capacity: vehicleCapacity,
+    registration_number: registrationNumber,
   };
 
   const goToNextPage = () => {
@@ -237,7 +251,6 @@ const DriverSignUp = () => {
         setErrorMessage("All fields are required");
         return;
       }
-      dispatch(registerAsADriverAction(DriverData));
       setShowError(false);
       goToNextPage();
     }
@@ -248,16 +261,6 @@ const DriverSignUp = () => {
         setErrorMessage("All fields are required");
         return;
       }
-      dispatch(
-        createBusAction({
-          make,
-          model,
-          driver: userInfo?._id,
-          capacity: vehicleCapacity,
-          registration_number: registrationNumber,
-        })
-      );
-
       setShowError(false);
       goToNextPage();
     }
@@ -268,34 +271,34 @@ const DriverSignUp = () => {
         setErrorMessage("Upload all relevant documents");
         return;
       }
-
       setShowError(false);
       goToNextPage();
     }
   };
 
   const [submitLoading, setLoading] = useState(false);
-  const handleSubmit = () => {
-    setLoading(!submitLoading);
-    if (!bankFilter || !accountName || !accountNo) {
-      setShowError(true);
-      setErrorMessage("Add your payment information");
-      return;
-    }
-    dispatch(
-      addAccountAction(userInfo?.user_token, {
-        bank_name: bankFilter,
-        account_number: accountNo,
-        account_name: accountName,
-      })
-    ).finally(() => {
-      setLoading(!submitLoading);
-    });
+  const handleSubmit = async () => {
+    setLoading(true);
 
-    setCurrentPage(5);
+    try {
+      if (!bankFilter || !accountName || !accountNo) {
+        setShowError(true);
+        setErrorMessage("Please add your payment information.");
+        return;
+      }
+      await dispatch(registerAsADriverAction(DriverData));
+      await dispatch(createBusAction(DriverBus));
+      await dispatch(addAccountAction(userInfo?.user_token, DriverAccount));
+
+      setCurrentPage(5);
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setLoading(false);
+    }
   };
 
-  // useEffect(() => {}, []);
+  
 
   return (
     <div className="bg-black flex flex-col items-center w-full h-screen">
