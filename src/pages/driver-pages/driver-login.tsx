@@ -15,7 +15,7 @@ const DriverLogin = () => {
   const dispatch = useAppDispatch();
   const { userInfo, loading, error } = useAppSelector(
     (state: RootState) => state.userLogin
-  );
+  ); 
   const [phone, setPhone] = useState<string>("");
   const [flip, setFlip] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
