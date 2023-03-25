@@ -126,7 +126,7 @@ export const Header = () => {
 		<div className="fixed top-0 z-50 flex flex-col w-full h-auto ">
 			{contextHolder}
 
-			<div className="px-4 w-full bg-white flex flex-row justify-end py-3 md:px-16 z-50">
+			{/* <div className="px-4 w-full bg-white flex flex-row justify-end py-3 md:px-16 z-50">
 				<p className="mr-4 text-gray-500 md:text-[13px] text-[12px]">
 					Partner with Fraser as a
 				</p>
@@ -143,7 +143,7 @@ export const Header = () => {
 				<p className="text-[#22B11E] cursor-pointer md:text-[12px] text-[10px]">
 					Ticket Outlet
 				</p>
-			</div>
+			</div> */}
 			<div className="flex items-center justify-between w-full px-4 py-3 bg-black md:px-16">
 				<div className="flex items-center space-x-2 md:block md:space-x-0 md:items-start">
 					<HiMenu
