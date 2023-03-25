@@ -2,6 +2,7 @@ export const busTypes = [
     {
       make: "Toyota",
       models: [
+        "Sienna",
         "Hiace",
         "Coaster",
         "Regius",
