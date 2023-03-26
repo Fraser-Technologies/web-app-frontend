@@ -37,16 +37,10 @@ const DriverSignUp = () => {
 				account: {},
 		  };
 
-	console.log("the new driver is ", newDriver);
-
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
 	const { bus, error: createBusError } = useAppSelector(
 		(state: RootState) => state.createBus
 	);
-	const { balance } = useAppSelector((state: RootState) => state.createAccount);
-
-	console.log("the created bus is ", bus);
-	console.log("the balance is ", balance);
 
 	const { loading, error, image } = useAppSelector(
 		(state: RootState) => state.uploadFile
