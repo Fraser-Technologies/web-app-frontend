@@ -43,6 +43,10 @@ const DriverSignUp = () => {
 	const { bus, error: createBusError } = useAppSelector(
 		(state: RootState) => state.createBus
 	);
+	const { balance } = useAppSelector((state: RootState) => state.createAccount);
+
+	console.log("the created bus is ", bus);
+	console.log("the balance is ", balance);
 
 	const { loading, error, image } = useAppSelector(
 		(state: RootState) => state.uploadFile
@@ -58,7 +62,7 @@ const DriverSignUp = () => {
 		newDriver?.user_metadata?.last_name || ""
 	);
 	const [phone, setPhone] = useState<string>(
-		newDriver?.user_metadata?.phone.slice(3) || ""
+		newDriver?.user_metadata?.phone?.slice(3) || ""
 	);
 	const [accountName, setAccountName] = useState<string>(
 		newDriver?.account?.account_name || ""
@@ -146,6 +150,7 @@ const DriverSignUp = () => {
 				setUploadingProfile(false);
 			})
 			.catch((error) => {
+				console.log("the errror is ", error?.message);
 				setUploadProfilePicError(RequestError(error));
 				setProfile("");
 				setUploadingProfile(false);
@@ -240,16 +245,6 @@ const DriverSignUp = () => {
 		setVehicleInsuranceImageLoading(false);
 	};
 
-	// let DriverData = {
-	// 	first_name: fName,
-	// 	last_name: lName,
-	// 	email: email,
-	// 	driver_license_number: licenseNumber,
-	// 	location: locationName,
-	// 	image: profile,
-	// 	phone: "+234" + phone,
-	// };
-
 	const goToNextPage = () => {
 		if (currentPage < pages.length) {
 			setCurrentPage(currentPage + 1);
@@ -340,56 +335,6 @@ const DriverSignUp = () => {
 			setShowError(false);
 			goToNextPage();
 		}
-
-		// if (currentPage === 1) {
-		// 	if (
-		// 		!fName ||
-		// 		!lName ||
-		// 		!email ||
-		// 		!licenseNumber ||
-		// 		!locationName ||
-		// 		!profile ||
-		// 		!phone
-		// 	) {
-		// 		setShowError(true);
-		// 		setErrorMessage("All fields are required");
-		// 		return;
-		// 	}
-		// 	dispatch(registerAsADriverAction(DriverData));
-		// 	setShowError(false);
-		// 	goToNextPage();
-		// }
-
-		// if (currentPage === 2) {
-		// 	if (!make || !model || !vehicleCapacity || !registrationNumber) {
-		// 		setShowError(true);
-		// 		setErrorMessage("All fields are required");
-		// 		return;
-		// 	}
-		// 	dispatch(
-		// 		createBusAction({
-		// 			make,
-		// 			model,
-		// 			driver: userInfo?._id,
-		// 			capacity: vehicleCapacity,
-		// 			registration_number: registrationNumber,
-		// 		})
-		// 	);
-
-		// 	setShowError(false);
-		// 	goToNextPage();
-		// }
-
-		// if (currentPage === 3) {
-		// 	if (!driverLicense || !roadWorthiness || !roadWorthiness) {
-		// 		setShowError(true);
-		// 		setErrorMessage("Upload all relevant documents");
-		// 		return;
-		// 	}
-
-		// 	setShowError(false);
-		// 	goToNextPage();
-		// }
 	};
 
 	const [submitLoading, setLoading] = useState(false);
@@ -427,7 +372,6 @@ const DriverSignUp = () => {
 			.finally(() => {
 				dispatch(
 					addAccountAction({
-						user: userInfo?._id,
 						...newDriver?.account,
 					})
 				).finally(() => {
@@ -435,7 +379,6 @@ const DriverSignUp = () => {
 				});
 			});
 
-		localStorage.removeItem("newDriver");
 		setCurrentPage(5);
 	};
 
@@ -643,9 +586,9 @@ const DriverSignUp = () => {
 									onChange={uploadProfilePics}
 								/>
 							</div>
-							{/* {uploadingProfile && (
-                <p className="text-blue-500">Uploading Please wait...</p>
-              )} */}
+							{uploadingProfile && (
+								<p className="text-blue-500">Uploading Please wait...</p>
+							)}
 							{profile && (
 								<div className="flex justify-between w-full bg-green-200 align-center rounded-md p-[2px]">
 									<img alt="" src={profile} className="w-[30px] h-[30px]" />
@@ -986,6 +929,7 @@ const DriverSignUp = () => {
 								className={`items-center justify-center w-full p-3 font-medium rounded-md border border-[#000000] hover:border-[#929292]`}
 								onClick={() => {
 									navigate(_paths_.DRIVER_PORTAL);
+									localStorage.removeItem("newDriver");
 								}}>
 								{/* <LoadingWheel param={.}/> */}
 								Continue to Dashboard
