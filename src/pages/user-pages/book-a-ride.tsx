@@ -138,10 +138,14 @@ const BookRide = () => {
 	};
 
 	useEffect(() => {
+		// if (!userInfo?._id) {
+		// 	setIsModalOpen(true);
+		// } else {
+		// 	setIsModalOpen(false);
+		// }
+
 		if (!userInfo?._id) {
-			setIsModalOpen(true);
-		} else {
-			setIsModalOpen(false);
+			navigate(_paths_.SIGNIN);
 		}
 	}, [dispatch, navigate, userInfo]);
 

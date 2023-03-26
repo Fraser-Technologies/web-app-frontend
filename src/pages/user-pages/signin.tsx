@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { FraserButton } from "../../components/Button";
 import Layout from "../../components/layouts/SignInLayout";
 import "react-phone-number-input/style.css";
@@ -9,15 +9,19 @@ import { useNavigate } from "react-router-dom";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { RootState } from "../../state/redux-store";
 import {
-	getOtpAction,
-	VerifyOtpAction,
 	resetGetOtpAction,
 	resetVerifyOtpAction,
+	getOtpEmailAction,
+	VerifyEmailOtpAction,
 } from "../../state/action/otp.action";
 import { _paths_ } from "../../utils/routes";
-import { userLoginAction } from "../../state/action/user.action";
+import {
+	userLoginAction,
+	userLoginWithEmailAction,
+} from "../../state/action/user.action";
 import { useSelector } from "react-redux";
-import { message } from "antd";
+import { Input, message } from "antd";
+import { resolve } from "path";
 
 const SignIn = () => {
 	const dispatch = useAppDispatch();
@@ -25,30 +29,43 @@ const SignIn = () => {
 	const {
 		loading: getOtpLoading,
 		error: getOtpError,
-		otp: otpMessage,
+		message: otpMessage,
+		data: getOtpData,
 	} = useAppSelector((state: RootState) => state.getotp);
-	const { userInfo } = useSelector((state: RootState) => state.userLogin);
+	const { userInfo, error } = useSelector(
+		(state: RootState) => state.userLogin
+	);
 
 	const {
 		loading: verifyOtpLoading,
 		error: verifyOtpError,
-		otp: verifyOtp,
+		message: verifyOtpMessage,
+		data: verifyOtpData,
 	} = useAppSelector((state: RootState) => state.verifyOtp);
 
-	const [phone, setPhone] = React.useState<any>("");
-	const [isView, setIsView] = React.useState<boolean>(false);
-	const [otp, setOtp] = React.useState<any>("");
-	const [phoneError, setPhoneError] = React.useState<any>("");
+	console.log("the verify data is ", verifyOtpData);
+
+	const [phone, setPhone] = useState<any>("");
+	const [email, setEmail] = useState<string>("");
+	const [isView, setIsView] = useState<boolean>(false);
+	const [otp, setOtp] = useState<any>("");
+	const [phoneError, setPhoneError] = useState<any>("");
 	const [messageApi, contextHolder] = message.useMessage();
 
 	const handleSignIn = () => {
-		if (phone) {
-			setIsView(true);
-		} else {
-			setPhoneError("Please enter your phone number");
+		// if (phone) {
+		// 	setIsView(true);
+		// } else {
+		// 	setPhoneError("Please enter your phone number");
+		// }
+
+		if (!email) {
+			setPhoneError("Please enter your email");
+			return;
 		}
 
-		dispatch(getOtpAction(phone));
+		dispatch(getOtpEmailAction(email));
+		setIsView(!isView);
 	};
 
 	const handleChange = (enteredOtp: any) => {
@@ -56,34 +73,38 @@ const SignIn = () => {
 	};
 
 	const handleVerify = () => {
-		dispatch(VerifyOtpAction({ otp: otp, phone: phone }));
+		dispatch(VerifyEmailOtpAction({ otp: otp, email: email }));
 	};
 
 	useEffect(() => {
-		if (verifyOtp) {
-			dispatch(userLoginAction(phone));
-			// dispatch( resetOtp)
+		if (verifyOtpData) {
+			messageApi.open({
+				type: "success",
+				content: verifyOtpMessage,
+			});
+
+			console.log("now let login");
+
+			dispatch(userLoginWithEmailAction(email));
 		}
-	}, [dispatch, phone, verifyOtp]);
+	}, [dispatch, messageApi, verifyOtpLoading, verifyOtpData, verifyOtpMessage]);
 
 	useEffect(() => {
 		if (userInfo?._id) {
 			navigate(_paths_.BOOKRIDE);
-			dispatch(resetGetOtpAction());
-			dispatch(resetVerifyOtpAction());
 		}
 	}, [dispatch, navigate, userInfo]);
 
 	useEffect(() => {
-		if (otpMessage) {
+		if (getOtpData) {
 			messageApi.open({
 				type: "success",
 				content: otpMessage,
 			});
-
-			dispatch(resetGetOtpAction());
 		}
-	}, [dispatch, messageApi, otpMessage]);
+	}, [dispatch, getOtpData, messageApi, otpMessage]);
+
+	useEffect(() => {}, [dispatch]);
 
 	return (
 		<Layout
@@ -106,7 +127,7 @@ const SignIn = () => {
 						</div>
 
 						<div className="w-full">
-							<PhoneInput
+							{/* <PhoneInput
 								placeholder="Enter phone number"
 								value={phone}
 								onChange={setPhone}
@@ -118,13 +139,30 @@ const SignIn = () => {
 								withCountryCallingCode={true}
 								required
 							/>
+							*/}
+
 							{phoneError && (
 								<div className="mt-2 text-sm text-red-500">{phoneError}</div>
 							)}
 							{getOtpError && (
 								<div className="mt-2 text-sm text-red-500">{getOtpError}</div>
 							)}
+
+							<label
+								htmlFor="email"
+								className="text-[#949292] text-sm md:text-base font-normal">
+								Email Address
+							</label>
+							<Input
+								// {...register("email", { required: true })}
+								className="px-3 py-3 border border-[#BDBDBD] rounded"
+								type={"email"}
+								placeholder="your@email.com"
+								value={email}
+								onChange={(e) => setEmail(e.target.value)}
+							/>
 						</div>
+						<br />
 						<FraserButton
 							title="Proceed"
 							type="submit"
@@ -157,7 +195,7 @@ const SignIn = () => {
 						</div>
 
 						{verifyOtpError && <p className="text-red-600">{verifyOtpError}</p>}
-
+						{error && <p className="text-red-600">{error}</p>}
 						<div className="flex items-center justify-center w-full mt-3">
 							<OtpInput
 								value={otp}
@@ -168,7 +206,7 @@ const SignIn = () => {
 								// });
 								isInputNum={true}
 								shouldAutoFocus={true}
-								onSubmit={handleVerify}
+								onSubmit={() => handleVerify}
 								inputStyle={{
 									width: "3rem",
 									height: "3rem",
@@ -184,12 +222,13 @@ const SignIn = () => {
 								}}
 							/>
 						</div>
+						<br />
 						<FraserButton
 							title="Verify"
 							size="regular"
 							type="submit"
 							loader={verifyOtpLoading}
-							onClick={handleVerify}
+							onClick={() => handleVerify}
 						/>
 					</div>
 				</div>
