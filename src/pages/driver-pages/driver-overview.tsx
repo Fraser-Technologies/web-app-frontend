@@ -488,9 +488,7 @@ const DriverOverview = () => {
                 <Alert
                   type="info"
                   message="You haven't completed any trips yet"
-                  onClick={() => {
-                    console.log(trips.length);
-                  }}
+                  
                   className="w-full"
                 />
               ) : (
@@ -618,9 +616,7 @@ const DriverOverview = () => {
                   <Alert
                     type="info"
                     message="You have no upcoming trips"
-                    onClick={() => {
-                      console.log(trips.length);
-                    }}
+                    
                     className="w-full"
                   />
                 )}

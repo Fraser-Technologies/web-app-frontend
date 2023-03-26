@@ -80,7 +80,6 @@ export const addAccountAction =
 export const withdrawBalanceAction =
 	(amount: number): AppThunk =>
 	async (dispatch, getState) => {
-		console.log("the amount is ", amount);
 		try {
 			const {
 				userLogin: { userInfo },

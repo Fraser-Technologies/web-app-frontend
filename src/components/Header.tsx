@@ -22,7 +22,7 @@ export const Header = () => {
 
 	const logOutUser = () => {
 		dispatch(logoutUserAction());
-		navigate(_paths_.BOOKRIDE);
+		navigate(_paths_.LANDING_PAGE);
 		setOpenNavBar(false);
 	};
 
@@ -36,7 +36,7 @@ export const Header = () => {
 					/>
 				</div>
 				<div className="flex-col items-center justify-center w-full mt-24 space-y-8 text-white">
-					<Link to="/bookaride">
+					<Link to="/">
 						<h1 className="mb-4 text-[20px] font-semibold ">Home</h1>
 					</Link>
 					<h1
@@ -126,7 +126,7 @@ export const Header = () => {
 		<div className="fixed top-0 z-50 flex flex-col w-full h-auto ">
 			{contextHolder}
 
-			<div className="px-4 w-full bg-white flex flex-row justify-end py-3 md:px-16 z-50">
+			{/* <div className="px-4 w-full bg-white flex flex-row justify-end py-3 md:px-16 z-50">
 				<p className="mr-4 text-gray-500 md:text-[13px] text-[12px]">
 					Partner with Fraser as a
 				</p>
@@ -143,7 +143,7 @@ export const Header = () => {
 				<p className="text-[#22B11E] cursor-pointer md:text-[12px] text-[10px]">
 					Ticket Outlet
 				</p>
-			</div>
+			</div> */}
 			<div className="flex items-center justify-between w-full px-4 py-3 bg-black md:px-16">
 				<div className="flex items-center space-x-2 md:block md:space-x-0 md:items-start">
 					<HiMenu
@@ -158,7 +158,7 @@ export const Header = () => {
 						{getList()}
 					</Drawer>
 					<div>
-						<Link to="/bookaride" className="text-white ">
+						<Link to="/" className="text-white ">
 							<img
 								src="/assets/images/fraser-white-logo.svg"
 								alt="Fraser Logo"
@@ -168,7 +168,7 @@ export const Header = () => {
 					</div>
 				</div>
 				<div className="items-center justify-between hidden space-x-12 md:flex">
-					<Link to="/bookaride" className="text-white ">
+					<Link to="/" className="text-white ">
 						Home
 					</Link>
 					{userInfo && (
@@ -185,7 +185,7 @@ export const Header = () => {
 						size="regular"
 						type="submit"
 						onClick={() => {
-							navigate(_paths_.BOOKRIDE);
+							navigate(_paths_.LANDING_PAGE);
 						}}
 					/>
 				</div>
