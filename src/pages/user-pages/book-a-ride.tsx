@@ -438,9 +438,7 @@ const BookRide = () => {
                 {loginError && (
                   <Alert
                     message={
-                      loginError === "user doesn't exist please sign in"
-                        ? "Can't find the account, maybe sign up?"
-                        : loginError
+                      loginError
                     }
                     type="warning"
                     showIcon
@@ -506,12 +504,10 @@ const BookRide = () => {
                 </p>
 
                 <div>
-                  {loginError && (
+                  {registerUserError && (
                     <Alert
                       message={
-                        loginError === "user doesn't exist please sign in"
-                          ? "User not found"
-                          : loginError
+                        registerUserError
                       }
                       type="warning"
                       showIcon
