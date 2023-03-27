@@ -87,19 +87,19 @@ const Waitlist = () => {
 					</p>
 
 					<div className="mt-14 mb-12 mx-16 md:w-1/3 lg:w-1/3 md:mx-auto">
-						<button
+						{/* <button
 							className="py-4 md:py-6 lg:py-8 lg:px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4 lg:mb-6"
 							onClick={() => {
 								openModal(true);
 							}}>
 							Join Waitlist
-						</button>
+						</button> */}
 						<button
-							className="py-4 md:py-6 lg:py-8 md:px-16 w-full rounded-xl text-[18px] border border-[#ffffff] hover:border-[#e3e3e3] hover:text-[#e3e3e3] text-white"
+							className="py-4 md:py-6 lg:py-8 lg:px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4 lg:mb-6"
 							onClick={() => {
 								navigate(_paths_.BOOKRIDE);
 							}}>
-							Get Early Access
+							Book a ride
 						</button>
 					</div>
 
