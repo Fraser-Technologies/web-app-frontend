@@ -11,7 +11,6 @@ import EndDateField from "./endDateField";
 import EndTimePicker from "./endTimePicker";
 import { resetCreateTrip } from "../../state/slices/trip.slice";
 import { User_interface } from "../../interfaces/user.interface";
-import LoadingWheel from "../loading-svg";
 import { FraserButton } from "../Button";
 
 // FORM TO CREATE A TRIP

@@ -54,7 +54,7 @@ const DriverRevenueOverview = () => {
 		(state: RootState) => state.verifyOtp
 	);
 
-	console.log("the verified otp is ", verifiedOtp);
+	
 
 	const [flip, setFlip] = useState<"" | DriverRevenueView>("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -232,9 +232,7 @@ const DriverRevenueOverview = () => {
 							<Alert
 								type="info"
 								message="You have not made any transactions yet!"
-								onClick={() => {
-									// console.log(trips.length);
-								}}
+								
 								className="w-full"
 							/>
 						)}
@@ -266,7 +264,7 @@ const DriverRevenueOverview = () => {
 									second: "2-digit",
 									hour12: true,
 								});
-								// console.log(timeString);
+							
 								return (
 									<div className="flex items-center border-b px-4 py-3 mb-6 rounded-md">
 										<div className="flex mr-auto items-center">
@@ -583,9 +581,7 @@ const DriverRevenueOverview = () => {
 							<Alert
 								type="info"
 								message="You have not made any transactions yet!"
-								onClick={() => {
-									// console.log(trips.length);
-								}}
+								
 								className="w-full"
 							/>
 						)}
@@ -616,7 +612,7 @@ const DriverRevenueOverview = () => {
 									second: "2-digit",
 									hour12: true,
 								});
-								// console.log(timeString);
+								
 
 								return (
 									<div className="flex items-center border-b px-4 py-3 mb-6 rounded-md">

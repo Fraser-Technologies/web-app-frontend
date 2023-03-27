@@ -3,7 +3,7 @@ export const _paths_ = {
 	AVAILABLE_TRIP: "/bookings",
 	SIGNIN: "signin",
 	SIGNUP: "/signup",
-	BOOKRIDE: "/bookaride",
+	// BOOKRIDE: "/bookaride",
 	// BOOKRIDE: "/book-a-ride",
 	CHECKOUT: "/checkout",
 	NOTFOUND: "*",

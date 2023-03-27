@@ -20,10 +20,8 @@ import { FaCaretDown } from "react-icons/fa";
 import { City_interface } from "../../interfaces/city_interface";
 import { getAllCityAction } from "../../state/action/city.action";
 import { RootState } from "../../state/redux-store";
-import { _paths_ } from "../../utils/routes";
-import LoadingWheel from "../../components/loading-svg";
+// import { _paths_ } from "../../utils/routes";
 import { FraserButton } from "../../components/Button";
-import { FraserDropDown } from "../../components/drop-drown";
 
 const BookRide = () => {
   enum TripValidOption {
@@ -55,7 +53,6 @@ const BookRide = () => {
   const [to, setTo] = useState<string>("");
   const [referred_by, setReferred_by] = useState<string>("");
   const [messageApi, contextHolder] = message.useMessage();
-  const [loading, setLoading] = useState(false);
   const [startCityIsOpen, setStartCityIsOpen] = useState(false);
   const [startBusStopIsOpen, setStartBusStopIsOpen] = useState(false);
   const [destinationCityIsOpen, setDestinationCityIsOpen] = useState(false);
@@ -248,7 +245,7 @@ const BookRide = () => {
                     type="button"
                     className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
                     onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
-                    // onClick={() => console.log(startBusStopList)}
+                    
                     onChange={handleStartBusStop}
                   >
                     {startBusStop}

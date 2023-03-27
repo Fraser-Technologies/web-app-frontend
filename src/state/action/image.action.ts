@@ -41,7 +41,7 @@ export const deleteFileAction =
 	async (dispatch) => {
 		try {
 			dispatch(deleteFileRequest());
-			console.log("the file is ", file);
+			
 			const { data } = await api.delete(`/image/${file}`);
 			dispatch(deleteFileSuccess(data));
 		} catch (error: any) {

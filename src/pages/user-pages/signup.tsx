@@ -1,7 +1,7 @@
-import React, { useEffect } from "react";
+import { useEffect } from "react";
 import { FraserButton } from "../../components/Button";
 import Layout from "../../components/layouts/SignInLayout";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { registerUserAction } from "../../state/action/user.action";
@@ -34,7 +34,7 @@ const SignUp = () => {
 
 	useEffect(() => {
 		if (userInfo?._id) {
-			navigate(_paths_.BOOKRIDE);
+			navigate(_paths_.LANDING_PAGE);
 		}
 	}, [navigate, userInfo]);
 
