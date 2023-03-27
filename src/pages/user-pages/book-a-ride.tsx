@@ -28,8 +28,8 @@ const BookRide = () => {
   enum TripValidOption {
     startCityOption = "Current City",
     destinationCityOption = "Where to?",
-    destinationBusStopOption = "Destination bus stop",
-    startBusStopOption = "Start bus stop",
+    destinationBusStopOption = "Station",
+    startBusStopOption = "Station",
   }
 
   const {
@@ -173,15 +173,15 @@ const BookRide = () => {
       pageKeywords="intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
     >
       {contextHolder}
-      <div className="bg-[#000000] overflow-hidden">
-        <div className="flex flex-col py-24 mx-32">
-          <h1 className="leading-tight bg-gradient-to-b from-[#00ff6a] to-[#FFEFC1] text-transparent bg-clip-text md:text-[4rem] font-semibold">
+      <div className="bg-[#000000] -mt-16 md:mt-0 w-full">
+        <div className="flex flex-col py-24 mx-6 md:mx-16 lg:mx-32">
+          <h1 className="mt-16 md:mt-0 leading-tight bg-gradient-to-b from-[#00ff6a] to-[#FFEFC1] text-transparent bg-clip-text text-[2.6rem] md:text-[4rem] font-semibold">
             Move Freely <br /> between cities
           </h1>
-          <h3 className="text-white text-[14px] lg:text-[15px] mt-2 font-light">
+          <h3 className="text-white text-[16px] md:text-[15px] mt-2 font-light">
             Get started by simply inputting your location and destination
           </h3>
-          <div className="absolute top-32 z-0 right-96 bg-[#00FF6A] rounded-[100px] p-4">
+          <div className="absolute top-32 z-0 right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
             <img
               src="/assets/images/paper-airplane.png"
               className=" h-4 z-0 filter hue-rotate-90"
@@ -197,7 +197,7 @@ const BookRide = () => {
             />
           </div>
 
-          <div className="absolute top-56 right-40 bg-[#FFE28D] p-4 rounded-[100px]">
+          <div className="absolute top-56 lg:top-56 -right-12 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
             {" "}
             <img
               src="/assets/images/bus.png"
@@ -211,10 +211,12 @@ const BookRide = () => {
             alt=""
           />
 
-          <div className="z-10 px-8 py-8 bg-white rounded-lg mt-12">
-            <div className="mb-4 flex ">
-              <div className="relative z-20 inline w-full text-left duration-300 ease-in-out mr-6">
-                <label className="ml-2 text-gray-600">Pickup City</label>
+          <div className="z-50 lg:z-10 md:pt-6 px-4 py-4 md:px-4 lg:px-8 lg:py-8 bg-white rounded-lg mt-12">
+            <div className="mb-4 md:flex">
+              <div className="relative z-50 lg:z-20 inline w-full text-left duration-300 ease-in-out mr-4 lg:mr-6">
+                <label className="ml-2 text-gray-600 md:text-[13px]">
+                  Pickup City
+                </label>
                 <button
                   type="button"
                   className="h-12 items-center mt-2 inline-flex w-full px-4 py-2 mt-1 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
@@ -226,7 +228,7 @@ const BookRide = () => {
                   <FaCaretDown className="ml-auto" />
                 </button>
                 {startCityIsOpen && (
-                  <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                  <div className="absolute z-50 lg:z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     {cities
                       ?.filter(
                         (city: City_interface) => city?.city !== destinationCity
@@ -252,11 +254,13 @@ const BookRide = () => {
 
               {/* AFTER START CITY SELECTION */}
               <div
-                className={`ease-in-out duration-300 relative w-full inline text-left z-20 mr-6 ${
+                className={`ease-in-out duration-300 relative w-full inline text-left z-20 mr-4 lg:mr-6 ${
                   startCity === "Current City" ? "hidden " : ""
                 }`}
               >
-                <label className="ml-2 text-gray-600">Station</label>
+                <label className="ml-2 text-gray-600 md:text-[13px]">
+                  Station
+                </label>
 
                 {/* START BUSSTOP */}
                 <button
@@ -308,8 +312,10 @@ const BookRide = () => {
                   </div>
                 )}
               </div>
-              <div className="relative z-10 inline w-full text-left duration-300 ease-in-out mr-6">
-                <label className="ml-2 text-gray-600">Destination City</label>
+              <div className="relative z-10 inline w-full text-left duration-300 ease-in-out mr-4 lg:mr-6">
+                <label className="ml-2 text-gray-600 md:text-[13px]">
+                  Destination City
+                </label>
 
                 <button
                   type="button"
@@ -350,7 +356,9 @@ const BookRide = () => {
                   destinationCity === "Where to?" ? "hidden " : ""
                 }`}
               >
-                <label className="ml-2 text-gray-600">Station</label>
+                <label className="ml-2 text-gray-600 md:text-[13px]">
+                  Station
+                </label>
 
                 {/* START BUSSTOP */}
 
@@ -423,21 +431,21 @@ const BookRide = () => {
         </div>
       </div>
       <div className="flex">
-        <div className="pt-[64px] my-24 mx-32 bg-[#fffff] mb-24">
-          <h1 className="text-[#353535] mb-16 w-2/3 text-[2rem] md:text-left text-center font-semibold leading-tight spacing-[normal]  ">
+        <div className="pt-[16px] md:pt-[24px] lg:pt-[40px] md:my-16 lg:my-24 mx-12 md:mx-16 lg:mx-32 bg-[#fffff] mb-24">
+          <h1 className="text-[#353535] mb-16 md:w-full lg:w-2/3 text-[2rem] md:text-left text-center font-semibold leading-tight spacing-[normal]  ">
             Experience Comfortable and Affordable Intercity Bus Travel with
             Fraser
           </h1>
 
-          <div className="mb-24 flex flex-row flex-wrap w-full mt-10 md:flex-nowrap">
+          <div className="mb-24 lg:flex w-full mt-10">
             <Offeringcard
-              classname="mr-4"
+              classname="mr-4 mb-4 lg:mb-0"
               title="Safe"
               subtitleClassname="text-[#8E8E93]"
               subtitle="Travel with peace of mind knowing your safety is our top priority. Our experienced drivers and quality buses ensure a safe journey."
             />
             <Offeringcard
-              classname="mr-4 bg-primary-100"
+              classname="mr-4 bg-primary-100 mb-4 lg:mb-0"
               title="Comfy"
               subtitleClassname="text-[#353535]"
               subtitle="Enjoy a comfortable journey with free Wi-Fi and entertainment. Book your ticket today and experience stress-free travel."
@@ -451,38 +459,49 @@ const BookRide = () => {
         </div>
       </div>
 
-      <div className="bg-[#1B1B1B] flex pt-24 mx-auto">
-        <img
-          src="/assets/images/phone.png"
-          alt=""
-          className="object-cover flex h-[50vh]"
-        />
-
-        <div className="mx-32">
-          <h1 className="mt-4 text-[2rem] font-medium text-[#e3e3e3] leading-tight">
+      <div className="bg-[#000000] pt-24">
+        <div className="md:mx-24 lg:mx-32">
+          <h1 className="lg:col-start-1 lg:col-end-6 text-[2rem] font-medium text-[#e3e3e3] leading-tight">
             Book a ride in three steps
           </h1>
+          <div className="lg:grid lg:grid-cols-12 lg:flex lg:mx-auto lg:mt-12">
+            <div className="hidden lg:block mt-6 col-start-1 col-end-6">
+              <img
+                src="/assets/images/phone.png"
+                alt=""
+                className="object-cover flex h-[75vh] ml-4"
+              />
+            </div>
 
-          <div className="mb-24 w-full flex mt-[50px] justify-between flex-wrap">
-            <StepComp
-              stepNumber="1"
-              stepTitle="Sign up"
-              stepSubtitle="This is easy – we only need a few details and then you can get started. It only takes a minute to fill in your details!"
-              classname="mb-6"
-            />
-            <StepComp
-              stepNumber="2"
-              stepTitle="Book a trip"
-              classname="mb-6"
-              stepSubtitle="Booking a bus ticket is easy. You can easily buy your tickets in advance and have them delivered straight to your smartphone - register via the mobile app or on the website!"
-            />
-            <StepComp
-              stepNumber="3"
-              stepTitle="Ride"
-              stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
-            />
+            <div className="lg:-mt-12 lg:mx-16 col-start-6 col-end-13 pb-24">
+              <div className="w-full flex mt-16 lg:mt-32 justify-between flex-col">
+                <StepComp
+                  stepNumber="1"
+                  stepTitle="Sign up"
+                  stepSubtitle="This is easy – we only need a few details and then you can get started. It only takes a minute to fill in your details!"
+                  classname="mb-6"
+                  cardclassname="bg-primary-100"
+                />
+                <StepComp
+                  stepNumber="2"
+                  stepTitle="Book a trip"
+                  classname="mb-6"
+                  cardclassname="bg-white"
+                  stepSubtitle="Booking a bus ticket is easy. You can easily buy your tickets in advance and have them delivered straight to your smartphone - register via the mobile app or on the website!"
+                />
+                <StepComp
+                  stepNumber="3"
+                  stepTitle="Ride"
+                  stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
+                />
+              </div>
+              {/* <FraserButton
+                size="regular"
+                title="Get Started"
+                onClick={() => {}}
+              /> */}
+            </div>
           </div>
-          <FraserButton size="regular" title="Get Started" onClick={() => {}} />
         </div>
       </div>
 
