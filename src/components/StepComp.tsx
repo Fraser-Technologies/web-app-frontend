@@ -1,32 +1,37 @@
 import React from "react";
 
+type StepCompProps = {
+  stepNumber: string;
+  stepTitle: string;
+  stepSubtitle: string;
+  classname?: string;
+};
+
 const StepComp = ({
-	stepNumber,
-	stepTitle,
-	stepSubtitle,
-}: {
-	stepNumber: string;
-	stepTitle: string;
-	stepSubtitle: string;
-}) => {
-	return (
-		<>
-			<div className="md:mt-0 mb-[50px] m-3">
-				{/* <Steps_counter value={stepNumber} /> */}
-				<p className="bg-[#00FF6a] rounded-full md:h-[40px] md:w-[40px]  h-[30px] w-[30px] flex justify-center items-center ">
-					{stepNumber}
-				</p>
-				<div className=" mt-[30px]">
-					<h4 className="font-semibold md:text-[20px] text-[15px] ">
-						{stepTitle}
-					</h4>
-					<p className="mt-[15px] text-[#949292] font-light md:text-[15px] text-[12px]">
-						{stepSubtitle}
-					</p>
-				</div>
-			</div>
-		</>
-	);
+  stepNumber,
+  stepSubtitle,
+  stepTitle,
+  classname = "",
+}: StepCompProps) => {
+  return (
+    <div className={`${classname}`}>
+      <div className="flex">
+        <div className="w-12 mr-6">
+          <div className="bg-[#00FF6a] rounded-full  h-12 w-12 flex justify-center items-center ">
+            {stepNumber}
+          </div>
+        </div>
+        <div className="w-full">
+          <h4 className="font-semibold text-[#ffffff] text-[24px]">
+            {stepTitle}
+          </h4>
+          <p className="mt-[15px] w-4/6 text-[#8E8E93] font-light md:text-[15px] text-[12px]">
+            {stepSubtitle}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default StepComp;
