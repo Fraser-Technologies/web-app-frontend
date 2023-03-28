@@ -1,32 +1,39 @@
 import React from "react";
 
+type StepCompProps = {
+  stepNumber: string;
+  stepTitle: string;
+  stepSubtitle: string;
+  classname?: string;
+  cardclassname?: string;
+};
+
 const StepComp = ({
-	stepNumber,
-	stepTitle,
-	stepSubtitle,
-}: {
-	stepNumber: string;
-	stepTitle: string;
-	stepSubtitle: string;
-}) => {
-	return (
-		<>
-			<div className="md:mt-0 mb-[50px] m-3">
-				{/* <Steps_counter value={stepNumber} /> */}
-				<p className="bg-[#00FF6a] rounded-full md:h-[40px] md:w-[40px]  h-[30px] w-[30px] flex justify-center items-center ">
-					{stepNumber}
-				</p>
-				<div className=" mt-[30px]">
-					<h4 className="font-semibold md:text-[20px] text-[15px] ">
-						{stepTitle}
-					</h4>
-					<p className="mt-[15px] text-[#949292] font-light md:text-[15px] text-[12px]">
-						{stepSubtitle}
-					</p>
-				</div>
-			</div>
-		</>
-	);
+  stepNumber,
+  stepSubtitle,
+  stepTitle,
+  classname = "",
+  cardclassname = "",
+}: StepCompProps) => {
+  return (
+    <div className={`${classname}`}>
+      <div className="flex">
+        <div className=" w-8 lg:w-12 mr-4">
+          <div className="bg-[#00FF6a] rounded-full w-8 h-8 lg:h-12 lg:w-12 flex justify-center items-center ">
+            {stepNumber}
+          </div>
+        </div>
+        <div className={`w-full ${cardclassname} bg-white hover:bg-primary-100 px-6 pt-4 pb-6 lg:px-8 lg:pt-8 lg:pb-8 rounded-md`}>
+          <h4 className="font-medium text-[#000000] text-[18px]">
+            {stepTitle}
+          </h4>
+          <p className="mt-[12px] text-[#353535] font-light md:text-[0.9rem] text-[0.9rem]">
+            {stepSubtitle}
+          </p>
+        </div>
+      </div>
+    </div>
+  );
 };
 
 export default StepComp;

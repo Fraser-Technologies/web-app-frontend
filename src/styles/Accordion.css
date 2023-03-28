@@ -18,7 +18,7 @@
 
 .accordion {
   color: #000000;
-  width: 600px;
+  width: 50vh;
   margin: auto;
 }
 
@@ -39,7 +39,7 @@
   transition: all 0.5s cubic-bezier(0, 0.82, 0, 1);
 }
 .show {
-  padding-top: 32px;
+  padding-top: 20px;
   color: var(--secondaryBlack);
   height: auto;
   max-height: 9999;
@@ -48,7 +48,7 @@
 .iconshow {
   transform: rotate(180deg);
   transition: ease all;
-  color: var(--secGreen);
+  color: var(--primaryBlack);
 }
 
 .accordion-button {
