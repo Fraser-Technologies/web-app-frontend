@@ -14,12 +14,10 @@ import {
   getAllAvailableTripAction,
   getAvailableTripAction,
 } from "../../state/action/trip.action";
-import GeometricPatterns from "../../components/GeometricPatterns";
 import { FaCaretDown } from "react-icons/fa";
 import { City_interface } from "../../interfaces/city_interface";
 import { getAllCityAction } from "../../state/action/city.action";
 import { RootState } from "../../state/redux-store";
-// import { _paths_ } from "../../utils/routes";
 import { FraserButton } from "../../components/Button";
 import Offeringcard from "../../components/offeringcard";
 import StepComp from "../../components/StepComp";
@@ -435,7 +433,7 @@ const BookRide = () => {
       </div>
       <div className="flex">
         <div className="pt-[40px] md:my-16 lg:my-24 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
-          <h1 className="text-black text-left lg:text-center mb-8 lg:mb-16 md:w-full lg:w-2/3 text-[1.65rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
+          <h1 className="text-black text-left md:text-center mb-8 lg:mb-16 md:w-full text-[1.65rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
             Experience Comfortable and Affordable Intercity Bus Travel with
             Fraser
           </h1>
@@ -527,7 +525,7 @@ const BookRide = () => {
 
           {/* All abour session */}
 
-          <div className="px-8 lg:mx-32 w-full bg-black py-[100px] flex-col ">
+          <div className="px-8 lg:px-32 w-full bg-black py-[100px] flex-col ">
             <h1 className="text-[#00ff6a]  md:text-[55px] text-[25px] font-semibold ">
               All aboard
             </h1>
