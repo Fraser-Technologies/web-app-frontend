@@ -21,7 +21,6 @@ import {
 } from "../../state/action/user.action";
 import { useSelector } from "react-redux";
 import { Input, message } from "antd";
-import { resolve } from "path";
 
 const SignIn = () => {
 	const dispatch = useAppDispatch();
@@ -83,11 +82,10 @@ const SignIn = () => {
 				content: verifyOtpMessage,
 			});
 
-			console.log("now let login");
-
 			dispatch(userLoginWithEmailAction(email));
+			dispatch(resetVerifyOtpAction());
 		}
-	}, [dispatch, messageApi, verifyOtpLoading, verifyOtpData, verifyOtpMessage]);
+	}, [dispatch, messageApi, verifyOtpData, verifyOtpMessage]);
 
 	useEffect(() => {
 		if (userInfo?._id) {
@@ -101,10 +99,15 @@ const SignIn = () => {
 				type: "success",
 				content: otpMessage,
 			});
+
+			dispatch(resetGetOtpAction());
 		}
 	}, [dispatch, getOtpData, messageApi, otpMessage]);
 
-	useEffect(() => {}, [dispatch]);
+	useEffect(() => {
+		dispatch(resetGetOtpAction());
+		dispatch(resetVerifyOtpAction());
+	}, [dispatch]);
 
 	return (
 		<Layout
@@ -206,7 +209,7 @@ const SignIn = () => {
 								// });
 								isInputNum={true}
 								shouldAutoFocus={true}
-								onSubmit={() => handleVerify}
+								onSubmit={() => handleVerify()}
 								inputStyle={{
 									width: "3rem",
 									height: "3rem",
@@ -228,7 +231,7 @@ const SignIn = () => {
 							size="regular"
 							type="submit"
 							loader={verifyOtpLoading}
-							onClick={() => handleVerify}
+							onClick={() => handleVerify()}
 						/>
 					</div>
 				</div>

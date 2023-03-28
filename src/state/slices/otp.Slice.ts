@@ -4,7 +4,7 @@ interface otp_interface {
 	message: string | any;
 	error: string;
 	loading: boolean;
-	data?: boolean;
+	data: boolean;
 }
 
 const initialState: otp_interface = {
@@ -19,16 +19,18 @@ export const getOtpSlice = createSlice({
 	reducers: {
 		getOtpRequest: (state) => {
 			state.loading = false;
+			state.data = false;
 		},
 		getOtpSuccess: (state, { payload }) => {
 			state.message = payload?.message;
 			state.loading = false;
-			state.data = payload?.data;
+			state.data = payload.data;
 		},
 		getOtpFailed: (state, { payload }) => {
 			state.error = payload?.error;
 			state.loading = false;
-			state.data = payload?.data;
+			state.data = payload.data;
+			state.message = payload.message;
 		},
 
 		clearOtp: () => {
@@ -47,16 +49,17 @@ export const VerifyOtpSlice = createSlice({
 	reducers: {
 		verifyOtpRequest: (state) => {
 			state.loading = false;
+			state.data = false;
 		},
 		verifyOtpSuccess: (state, { payload }) => {
 			state.message = payload?.message;
 			state.loading = false;
-			state.data = payload?.data;
+			state.data = payload.data;
 		},
 		verifyOtpFailed: (state, { payload }) => {
 			state.error = payload?.error;
 			state.loading = false;
-			state.data = payload?.data;
+			state.data = payload.data;
 		},
 
 		clearVerifyOtp: () => {
