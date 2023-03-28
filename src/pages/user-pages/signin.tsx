@@ -125,8 +125,8 @@ const SignIn = () => {
 				<div className="w-11/12 sm:w-3/5 lg:w-2/5">
 					<div className="w-full px-8 py-12 bg-white rounded-md">
 						<div className="text-sm font-normal leading-6 tracking-tighter lg:text-base">
-							<h1>Enter your mobile number.</h1>
-							<h1>You'll get an OTP to confirm your number</h1>
+							<h1>Enter your email address.</h1>
+							<h1>You'll get an OTP to confirm your email</h1>
 						</div>
 
 						<div className="w-full">
