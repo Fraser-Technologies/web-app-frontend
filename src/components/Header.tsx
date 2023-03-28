@@ -22,7 +22,7 @@ export const Header = () => {
 
   const logOutUser = () => {
     dispatch(logoutUserAction());
-    navigate(_paths_.LANDING_PAGE);
+    navigate("/");
     setOpenNavBar(false);
   };
 

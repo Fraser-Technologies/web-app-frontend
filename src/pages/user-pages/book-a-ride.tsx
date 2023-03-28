@@ -23,6 +23,9 @@ import { RootState } from "../../state/redux-store";
 import { FraserButton } from "../../components/Button";
 import Offeringcard from "../../components/offeringcard";
 import StepComp from "../../components/StepComp";
+import Accordion from "../../components/Accordion";
+import { _paths_ } from "../../utils/routes";
+import Footer from "../../components/footer";
 
 const BookRide = () => {
   enum TripValidOption {
@@ -173,12 +176,12 @@ const BookRide = () => {
       pageKeywords="intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
     >
       {contextHolder}
-      <div className="bg-[#000000] -mt-16 md:mt-0 w-full">
-        <div className="flex flex-col py-24 mx-6 md:mx-16 lg:mx-32">
+      <div className="bg-[#000000] -mt-16 md:mt-0 w-full overflow-hidden">
+        <div className="flex flex-col py-24 mx-6 md:mx-16 lg:mx-32 overflow-hidden">
           <h1 className="mt-16 md:mt-0 leading-tight bg-gradient-to-b from-[#00ff6a] to-[#FFEFC1] text-transparent bg-clip-text text-[2.6rem] md:text-[4rem] font-semibold">
             Move Freely <br /> between cities
           </h1>
-          <h3 className="text-white text-[16px] md:text-[15px] mt-2 font-light">
+          <h3 className="text-white text-[14px] w-10/12 text-gray-400 md:text-[15px] mt-2 font-light">
             Get started by simply inputting your location and destination
           </h3>
           <div className="absolute top-32 z-0 right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
@@ -197,7 +200,7 @@ const BookRide = () => {
             />
           </div>
 
-          <div className="absolute top-56 lg:top-56 -right-12 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
+          <div className="absolute top-96 md:top-56 lg:top-56 -right-0 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
             {" "}
             <img
               src="/assets/images/bus.png"
@@ -207,13 +210,13 @@ const BookRide = () => {
           </div>
           <img
             src="/assets/images/bg-overlay-white.png"
-            className="absolute z-0 opacity-5 overflow-hidden h-[40vh]"
+            className="absolute z-0 opacity-5 overflow-hidden h-[18vh] lg:h-[40vh]"
             alt=""
           />
 
-          <div className="z-50 lg:z-10 md:pt-6 px-4 py-4 md:px-4 lg:px-8 lg:py-8 bg-white rounded-lg mt-12">
+          <div className="z-40 md:pt-6 px-4 py-4 md:px-4 lg:px-8 lg:py-8 bg-white rounded-lg mt-12">
             <div className="mb-4 md:flex">
-              <div className="relative z-50 lg:z-20 inline w-full text-left duration-300 ease-in-out mr-4 lg:mr-6">
+              <div className="relative z-50 w-full text-left duration-300 ease-in-out mb-2 lg:mb-0 mr-4 lg:mr-6">
                 <label className="ml-2 text-gray-600 md:text-[13px]">
                   Pickup City
                 </label>
@@ -228,7 +231,7 @@ const BookRide = () => {
                   <FaCaretDown className="ml-auto" />
                 </button>
                 {startCityIsOpen && (
-                  <div className="absolute z-50 lg:z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                  <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     {cities
                       ?.filter(
                         (city: City_interface) => city?.city !== destinationCity
@@ -237,7 +240,7 @@ const BookRide = () => {
                         return (
                           <a
                             href="#"
-                            className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            className="inline-block z-20 w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                             onClick={() => {
                               setStartCity(city?.city);
                               setStartBusStopList(city?.bus_stops);
@@ -254,7 +257,7 @@ const BookRide = () => {
 
               {/* AFTER START CITY SELECTION */}
               <div
-                className={`ease-in-out duration-300 relative w-full inline text-left z-20 mr-4 lg:mr-6 ${
+                className={`ease-in-out duration-300 relative w-full text-left z-40 mb-6 lg:mb-0 mr-4 lg:mr-6 ${
                   startCity === "Current City" ? "hidden " : ""
                 }`}
               >
@@ -265,7 +268,7 @@ const BookRide = () => {
                 {/* START BUSSTOP */}
                 <button
                   type="button"
-                  className="h-12 items-center mt-2 inline-flex w-full px-4 py-2 mt-1 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                  className="z-10 h-12 items-center mt-2 inline-flex w-full px-4 py-2 mt-1 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
                   onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
                   onChange={handleStartBusStop}
                 >
@@ -312,7 +315,8 @@ const BookRide = () => {
                   </div>
                 )}
               </div>
-              <div className="relative z-10 inline w-full text-left duration-300 ease-in-out mr-4 lg:mr-6">
+
+              <div className="relative z-30 w-full text-left duration-300 ease-in-out mb-2 lg:mb-0 mr-4 lg:mr-6">
                 <label className="ml-2 text-gray-600 md:text-[13px]">
                   Destination City
                 </label>
@@ -352,7 +356,7 @@ const BookRide = () => {
                 )}
               </div>
               <div
-                className={`ease-in-out duration-300 relative w-full inline text-left z-10 mr-6 ${
+                className={`ease-in-out duration-300 relative w-full text-left z-20 mr-6 ${
                   destinationCity === "Where to?" ? "hidden " : ""
                 }`}
               >
@@ -413,31 +417,30 @@ const BookRide = () => {
                   </div>
                 )}
               </div>
-              <div>
-                <FraserButton
-                  title="Search"
-                  size="regular"
-                  className="w-full mt-8"
-                  active={TripValid}
-                  onClick={() => {
-                    if (TripValid) {
-                      handleAvailableTrips();
-                    }
-                  }}
-                />
-              </div>
+
+              <FraserButton
+                title="Search"
+                size="regular"
+                className="w-full mt-8"
+                active={TripValid}
+                onClick={() => {
+                  if (TripValid) {
+                    handleAvailableTrips();
+                  }
+                }}
+              />
             </div>
           </div>
         </div>
       </div>
       <div className="flex">
-        <div className="pt-[16px] md:pt-[24px] lg:pt-[40px] md:my-16 lg:my-24 mx-12 md:mx-16 lg:mx-32 bg-[#fffff] mb-24">
-          <h1 className="text-[#353535] mb-16 md:w-full lg:w-2/3 text-[2rem] md:text-left text-center font-semibold leading-tight spacing-[normal]  ">
+        <div className="pt-[40px] md:my-16 lg:my-24 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
+          <h1 className="text-black text-left lg:text-center mb-8 lg:mb-16 md:w-full lg:w-2/3 text-[1.65rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
             Experience Comfortable and Affordable Intercity Bus Travel with
             Fraser
           </h1>
 
-          <div className="mb-24 lg:flex w-full mt-10">
+          <div className="mb-0 lg:mb-24 lg:flex w-full mt-4 lg:mt-10">
             <Offeringcard
               classname="mr-4 mb-4 lg:mb-0"
               title="Safe"
@@ -459,9 +462,9 @@ const BookRide = () => {
         </div>
       </div>
 
-      <div className="bg-[#000000] pt-24">
-        <div className="md:mx-24 lg:mx-32">
-          <h1 className="lg:col-start-1 lg:col-end-6 text-[2rem] font-medium text-[#e3e3e3] leading-tight">
+      <div className="bg-[#000000] pt-12 md:pt-24">
+        <div className="mx-8 md:mx-16 lg:mx-32">
+          <h1 className="lg:col-start-1 lg:col-end-6 text-[1.65rem] md:text-[2rem] font-medium text-[#e3e3e3] leading-tight">
             Book a ride in three steps
           </h1>
           <div className="lg:grid lg:grid-cols-12 lg:flex lg:mx-auto lg:mt-12">
@@ -469,7 +472,7 @@ const BookRide = () => {
               <img
                 src="/assets/images/phone.png"
                 alt=""
-                className="object-cover flex h-[75vh] ml-4"
+                className="object-cover flex h-[65vh] ml-4"
               />
             </div>
 
@@ -479,13 +482,13 @@ const BookRide = () => {
                   stepNumber="1"
                   stepTitle="Sign up"
                   stepSubtitle="This is easy – we only need a few details and then you can get started. It only takes a minute to fill in your details!"
-                  classname="mb-6"
+                  classname="mb-8"
                   cardclassname="bg-primary-100"
                 />
                 <StepComp
                   stepNumber="2"
                   stepTitle="Book a trip"
-                  classname="mb-6"
+                  classname="mb-8"
                   cardclassname="bg-white"
                   stepSubtitle="Booking a bus ticket is easy. You can easily buy your tickets in advance and have them delivered straight to your smartphone - register via the mobile app or on the website!"
                 />
@@ -503,6 +506,40 @@ const BookRide = () => {
             </div>
           </div>
         </div>
+        <div className="bg-white">
+          <div className="flex items-center justify-center w-full bg-center ">
+            <img
+              alt=""
+              src={"/assets/images/withfriends.051522d885873700dacd.png"}
+              className="mt-12 md:mt-40 w-[90%] md:w-[70%] w-full md:h-[60%] h-full object-contain rounded-lg "
+            />
+          </div>
+
+          <div className="landingpageSessionPadding mt-[20px] md:mt-[30px] md:py-[40px] py-[24px] justify-center items-center">
+            <h1 className="text-black text-[1.65rem] md:text-[2rem] lg:text-[3rem] mb-[32px] md:mb-[72px] text-[25px] text-center font-semibold  spacing-[normal]  ">
+              Ride with friends and <br />
+              enjoy multiple benefits
+            </h1>
+            <div className="md:mx-12 lg:mx-40">
+              <Accordion />
+            </div>
+          </div>
+
+          {/* All abour session */}
+
+          <div className="px-8 lg:mx-32 w-full bg-black py-[100px] flex-col ">
+            <h1 className="text-[#00ff6a]  md:text-[55px] text-[25px] font-semibold ">
+              All aboard
+            </h1>
+            <br />
+            <FraserButton
+              size="regular"
+              title="Get Started"
+              onClick={() => navigate(_paths_.LANDING_PAGE)}
+            />
+          </div>
+        </div>
+        <Footer />
       </div>
 
       {flip === "signin" && (
