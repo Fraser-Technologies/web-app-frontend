@@ -87,6 +87,19 @@ export const userLoginAction =
 		}
 	};
 
+export const userLoginWithEmailAction =
+	(email: string): AppThunk =>
+	async (dispatch) => {
+		try {
+			dispatch(loginRequest());
+			const { data } = await api.post("/user/login", { email });
+			Cookie.set("userInfo", JSON.stringify(data));
+			dispatch(loginSuccess(data));
+		} catch (error: any) {
+			dispatch(loginFailed(RequestError(error)));
+		}
+	};
+
 export const updateUserAction =
 	(id: string, update: any): AppThunk =>
 	async (dispatch, getState) => {
