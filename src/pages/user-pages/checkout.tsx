@@ -22,6 +22,34 @@ interface FormData {
   phone: string;
 }
 
+const couponCodes = [
+  {
+    Description: "First Ride",
+    Code: "NEW15",
+    value: 25,
+  },
+  {
+    Description: "Referral",
+    Code: "REF210",
+    value: 25,
+  },
+  {
+    Description: "Easter",
+    Code: "EA124",
+    value: 25,
+  },
+];
+
+function getCouponValue(couponCode: string): number | "error" {
+  const coupon = couponCodes.find((c) => c.Code === couponCode);
+  return coupon ? coupon.value : "error";
+}
+
+function getCouponDescription(couponCode: string): string {
+  const coupon = couponCodes.find((coupon) => coupon.Code === couponCode);
+  return coupon ? coupon.Description : "Coupon code not found";
+}
+
 const Checkout = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -34,6 +62,34 @@ const Checkout = () => {
   const { myBooking } = useAppSelector((state: RootState) => state.booking);
   const [formData, setFormData] = useState<FormData[]>([]);
 
+  const [couponCode, setCouponCode] = useState("");
+  const [discountPercentage, setDiscountPercentage] = useState(0);
+  const couponDescription = getCouponDescription(couponCode);
+
+  const newUser = userInfo?.bookings?.length === 0;
+  useEffect(() => {
+    if (newUser) {
+      setCouponCode("NEW15");
+      setDiscountPercentage(15);
+    }
+  }, [newUser]);
+
+  const [discountalert, showDiscountAlert] = useState(false);
+  const [alertMessage, showAlertType] = useState("success");
+
+  const applyCoupon = () => {
+    const couponValue = getCouponValue(couponCode);
+    showDiscountAlert(true);
+    if (couponValue !== "error") {
+      showAlertType("success");
+      setDiscountPercentage(couponValue);
+    } else {
+      showAlertType("error");
+      setDiscountPercentage(0);
+      // handle invalid coupon code error
+    }
+  };
+
   const handleClose = () => {
     setOpen(false);
   };
@@ -45,7 +101,13 @@ const Checkout = () => {
   const config = {
     reference: new Date().getTime().toString(),
     email: userInfo?.email || "contact@ridefrser.com",
-    amount: Number(myBooking?.no_of_ticket * myBooking?.price) * 100,
+    amount:
+      Number(
+        myBooking?.no_of_ticket * myBooking?.price -
+          myBooking?.no_of_ticket *
+            myBooking?.price *
+            (discountPercentage / 100)
+      ) * 100,
     publicKey: process.env.REACT_APP_PAYSTACK_KEY,
   };
 
@@ -54,7 +116,7 @@ const Checkout = () => {
   const onSuccess = () => {
     dispatch(verifyPaymentAction(myBooking, formData));
     message.info("Your ride has been booked successfully!");
-    navigate("/bookaride");
+    navigate("/");
     dispatch(emptyMyBooking());
   };
 
@@ -128,7 +190,11 @@ const Checkout = () => {
   }
 
   return (
-    <Layout title="Checkout - Fraser">
+    <Layout
+      title="Book Affordable Intercity Bus Rides in Nigeria | RideFraser.com | Checkout"
+      pageDescription="Book affordable and comfortable intercity bus rides in Nigeria on RideFraser.com. Our buses are equipped with modern amenities to make your journey pleasant."
+      pageKeywords="intercity bus booking, affordable bus rides, comfortable journey, modern amenities, Nigeria transportation, online booking, RideFraser.com, Fraser, intercity bus, Nigeria, ride booking, transportation, travel, comfort, style, RideFraser.com, intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser"
+    >
       {contextHolder}
       <div className="relative h-24 bg-black -z-10 lg:h-40">
         <GeometricPatterns />
@@ -242,13 +308,86 @@ const Checkout = () => {
                 <div>{`${myBooking?.travel_destination?.to?.stop_busstop}, ${myBooking?.travel_destination?.to?.city?.city}`}</div>
               </div>
             </div>
+
+            <div className="my-6 mr-8">
+              <div className="flex">
+                <Input
+                  className="w-full h-10 hover:border-green-500 active:border-green-600 mr-4"
+                  placeholder="Discount Code"
+                  value={couponCode}
+                  required={true}
+                  onChange={(e) => setCouponCode(e.target.value)}
+                />
+                <FraserButton
+                  title={"Apply"}
+                  size={"small"}
+                  active={couponCode !== ""}
+                  onClick={applyCoupon}
+                />
+              </div>
+              {discountalert && (
+                <Alert
+                  type={alertMessage === "success" ? "success" : "error"}
+                  closable={true}
+                  className="mt-4"
+                  message={
+                    alertMessage === "success"
+                      ? `You have applied a ${discountPercentage}% discount`
+                      : "Invalid Coupon Code"
+                  }
+                />
+              )}
+              <div className="flex text-[14px] mt-4 ">
+                <p className="mr-2 text-[14px] font-medium text-gray-700 ">
+                  Don't have a discount code?
+                </p>
+                <div
+                  className="text-blue-500"
+                  onClick={() => {
+                    navigator.clipboard.writeText(`${userInfo?.referral_code}`);
+                    alert(
+                      `Referral code ${userInfo?.referral_code} has been copied to clipboard!`
+                    );
+                  }}
+                >
+                  {" "}
+                  Share
+                </div>
+              </div>
+
+              <p className="text-[12px] text-gray-500 mt-1 ">
+                Share your code with friends and get up to 25% discount when
+                they signup.
+              </p>
+            </div>
+
             {/* {discount, subtotal and VAT} */}
-            <div className="border-b border-[#EFF3EF] pb-6">
+            <div className="border-y border-[#EFF3EF] pb-6">
               <div className="flex justify-between mt-4 mr-8">
                 <p className="text-base ">Subtotal</p>
                 <p className="text-base">
                   {currency_formatter(
                     myBooking?.no_of_ticket * myBooking?.price
+                  )}
+                </p>
+              </div>
+              <div className="flex justify-between mt-4 mr-8">
+                <div className="flex">
+                  <p className="text-base ">Discounts</p>
+
+                  {alertMessage === "success" &&
+                    couponDescription !== "Coupon code not found" && (
+                      <div className="ml-2 bg-[#ffefc1] text-[#756031] border border-[#ffe28d] rounded-md px-2 py-1 text-sm">
+                        {couponDescription}
+                      </div>
+                    )}
+                </div>
+                <p className="text-base">
+                  {currency_formatter(
+                    (myBooking?.no_of_ticket *
+                      myBooking?.price *
+                      discountPercentage) /
+                      100
                   )}
                 </p>
               </div>
@@ -258,7 +397,13 @@ const Checkout = () => {
             <div className="flex justify-between mt-4 border-b border-[#EFF3EF] pb-8 mr-8">
               <p className="text-lg font-bold md:text-lg">Total</p>
               <p className="text-lg font-bold md:text-lg">
-                {currency_formatter(myBooking?.no_of_ticket * myBooking?.price)}
+                {currency_formatter(
+                  myBooking?.no_of_ticket * myBooking?.price -
+                    (myBooking?.no_of_ticket *
+                      myBooking?.price *
+                      discountPercentage) /
+                      100
+                )}
               </p>
             </div>
           </div>
@@ -299,14 +444,13 @@ const Checkout = () => {
             </div>
             {/* {payment button} */}
 
-			<FraserButton
-			title="Proceed to Payments"
-			size="regular"
-			onClick={payWithPaystack}
-			className={"w-full mt-8"}
+            <FraserButton
+              title="Proceed to Payments"
+              size="regular"
+              onClick={payWithPaystack}
+              className={"w-full mt-8"}
+            />
 
-			/>
-            
             <Modal
               open={open}
               onClose={handleClose}

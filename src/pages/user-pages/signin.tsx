@@ -90,6 +90,8 @@ const SignIn = () => {
 	useEffect(() => {
 		if (userInfo?._id) {
 			navigate(_paths_.BOOKRIDE);
+			dispatch(resetGetOtpAction());
+			dispatch(resetVerifyOtpAction());
 		}
 	}, [dispatch, navigate, userInfo]);
 

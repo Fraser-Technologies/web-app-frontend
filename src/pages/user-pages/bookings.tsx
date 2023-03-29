@@ -11,7 +11,7 @@ import {
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
-import { Alert, Drawer, Modal } from "antd";
+import { Alert, Drawer, Input, message, Modal } from "antd";
 import { addToMyBookinAction } from "../../state/action/booking.action";
 import GeometricPatterns from "../../components/GeometricPatterns";
 import { FaCaretDown, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
@@ -20,22 +20,33 @@ import { getAllCityAction } from "../../state/action/city.action";
 import { Trip_interface } from "../../interfaces/trip_interface";
 import { RootState } from "../../state/redux-store";
 import { FraserButton } from "../../components/Button";
+import {
+  registerUserAction,
+  userLoginAction,
+} from "../../state/action/user.action";
 
 const Bookings = () => {
-  enum BookingViews {
-    NOOFTICKETS = "howmanytickets",
-  }
+  // const { userInfo } = useAppSelector((state: any) => state.userLogin);
+
+  const {
+    userInfo,
+    error: loginError,
+    loading: userLoginLoading,
+  } = useAppSelector((state: RootState) => state.userLogin);
+  const { error: registerUserError, loading: userRegisterLoading } =
+    useAppSelector((state: RootState) => state.registerUser);
 
   const { cities } = useAppSelector((state: RootState) => state.allCity);
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("");
-  const [flip, setFlip] = useState<"" | BookingViews>("");
+  const [flip, setFlip] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [value, setValue] = useState<number>(1);
   const [screenWidth, setScreenWidth] = useState(window.innerWidth);
   const [useDrawer, setUseDrawer] = useState(false);
+  const [messageApi, contextHolder] = message.useMessage();
 
   //PASSING DATA USING STATE
   const location = useLocation();
@@ -65,6 +76,40 @@ const Bookings = () => {
   const [desinationBusStopList, setDestinationBusStopList] = useState<string[]>(
     []
   );
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [referred_by, setReferred_by] = useState<string>("");
+  // const [flip, setFlip] = useState("signin");
+
+  const loginValid = phone !== "" && phone.length === 10;
+
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const signUpValid =
+    firstName !== "" &&
+    lastName !== "" &&
+    email !== "" &&
+    phone !== "" &&
+    phone.length === 10 &&
+    email.match(emailRegex);
+
+  const CreateUser = () => {
+    return dispatch(
+      registerUserAction({
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: "+234" + phone,
+        referred_by: referred_by,
+      })
+    );
+  };
+
+  const LoginUser = () => {
+    return dispatch(userLoginAction("+234" + phone));
+  };
 
   //RESPONSIVENESS
   //WHERE TO||LEFT COLUMN
@@ -73,14 +118,11 @@ const Bookings = () => {
     setwhereToToggle(!whereToToggle);
   };
 
-  //
   const {
     loading: availableTripLoading,
     error: availableTripError,
     trips: availableTripData,
   } = useAppSelector((state: any) => state.availableTrip);
-
-  console.log("the available trip is ", availableTripData);
 
   const FindAvailableTrip = () => {
     whereToToggleClick();
@@ -94,7 +136,7 @@ const Bookings = () => {
   const [modalData, setModalData] = useState<Trip_interface | any>(
     availableTripData
   );
-  const handleOpenModal = (data: Trip_interface, flipValue: any) => {
+  const handleOpenModal = (data: any, flipValue: any) => {
     setFlip(flipValue);
     setModalData(data);
     setModalVisible(true);
@@ -132,6 +174,41 @@ const Bookings = () => {
     if (value > 1) setValue(value - 1);
   };
 
+  //VALIDATE BUTTON BEFORE CLICK
+  const isValid =
+    fromCity !== "Set your current city" &&
+    toCity !== "Set your destination" &&
+    destination !== "Select destination bus stop" &&
+    start !== "Select start bus stop";
+
+  useEffect(() => {
+    if (!userInfo?._id) {
+      setModalVisible(true);
+    } else {
+      setModalVisible(false);
+    }
+  }, [dispatch, navigate, userInfo]);
+
+  useEffect(() => {
+    if (!userInfo && loginError) {
+      messageApi.open({
+        type: "error",
+        content: loginError,
+      });
+      setFlip("signin");
+      // handleOpenModal(undefined, "signin");
+    }
+  }, [loginError, messageApi, userInfo]);
+
+  useEffect(() => {
+    if (userInfo?._id) {
+      setFirstName("");
+      setLastName("");
+      setEmail("");
+      setPhone("");
+    }
+  }, [userInfo]);
+
   //Check ScreenWidth to check what element to render
   useEffect(() => {
     function handleResize() {
@@ -150,13 +227,6 @@ const Bookings = () => {
     };
   }, [screenWidth]);
 
-  //VALIDATE BUTTON BEFORE CLICK
-  const isValid =
-    fromCity !== "Set your current city" &&
-    toCity !== "Set your destination" &&
-    destination !== "Select destination bus stop" &&
-    start !== "Select start bus stop";
-
   useEffect(() => {
     if (!availableTripData) {
       dispatch(getAllAvailableTripAction());
@@ -169,8 +239,43 @@ const Bookings = () => {
     }
   }, [cities, dispatch]);
 
+  // useEffect(() => {
+  //   if (!userInfo?._id || loginError) {
+  //     setModalVisible(true);
+  //     setFlip("signin");
+  //   } else {
+  //     setModalVisible(false);
+  //   }
+  // }, [dispatch, navigate, userInfo]);
+
+  // useEffect(() => {
+  //   if (!userInfo && loginError) {
+  //     messageApi.open({
+  //       type: "error",
+  //       content: loginError,
+  //     });
+  //     setFlip("signin");
+  //     // handleOpenModal(undefined, "signin");
+  //   }
+  // }, [loginError, messageApi, userInfo, dispatch, navigate]);
+
+  // useEffect(() => {
+  //   if (userInfo?._id) {
+  //     setFirstName("");
+  //     setLastName("");
+  //     setEmail("");
+  //     setPhone("");
+  //   }
+  // }, [userInfo]);
+
   return (
-    <Layout title="Fraser - Book a ride">
+    <Layout
+      title="Book Intercity Bus Rides in Nigeria with Fraser | RideFraser.com"
+      pageDescription="Find the best intercity bus transportation options in Nigeria with Fraser. Book your ride today on RideFraser.com and travel in comfort and style."
+      pageKeywords="Fraser, intercity bus, Nigeria, ride booking, transportation, travel, comfort, style, RideFraser.com, intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser"
+    >
+      {contextHolder}
+
       <div className="relative h-24 bg-black -z-10 lg:h-32">
         <GeometricPatterns />
       </div>
@@ -457,38 +562,55 @@ const Bookings = () => {
                         </div>
                       </div>
                     </div>
+                  )}{" "}
+                  {!availableTripLoading && availableTripData?.length === 0 && (
+                    <div>
+                      <Alert
+                        type="info"
+                        message="Sorry there are no available trips to the destination selected"
+                      />
+                      <p className="mt-4 text-[14px] text-gray-500">
+                        Request a route or
+                        <a href={`tel:09076736877`}>
+                          <span className="text-blue-500"> contact us</span>
+                        </a>
+                      </p>
+                    </div>
                   )}
-                  {availableTripError && (
+                  {!availableTripLoading &&
+                    availableTripData?.map((trip: Trip_interface) => {
+                      return (
+                        <div>
+                          <BookingCard
+                            key={trip?._id}
+                            from={trip?.travel_destination?.from?.start_busstop}
+                            to={trip?.travel_destination?.to?.stop_busstop}
+                            takeOffTime={trip?.take_off_time}
+                            takeOffDate={trip?.take_off_date}
+                            price={trip?.price}
+                            arrivalTime={trip?.arrival_time}
+                            arrivalDate={trip?.arrival_date}
+                            onClick={() => {
+                              handleOpenModal(trip, "howmanytickets");
+                            }}
+                          />
+                          <p className="mt-4 text-[14px] text-gray-500">
+                            Request a route or
+                            <a href={`tel:09076736877`}>
+                              <span className="text-blue-500"> contact us</span>
+                            </a>
+                          </p>
+                        </div>
+                      );
+                    })}
+                  {!availableTripLoading && availableTripError && (
                     <Alert
                       message="An error occured"
                       description={availableTripError}
                       type="error"
                       showIcon
                     />
-                  )}{" "}
-                  {availableTripData?.length === 0 && (
-                    <Alert
-                      type="info"
-                      message="Sorry there are no available trips to the destination selected"
-                    />
                   )}
-                  {availableTripData?.map((trip: Trip_interface) => {
-                    return (
-                      <BookingCard
-                        key={trip?._id}
-                        from={trip?.travel_destination?.from?.start_busstop}
-                        to={trip?.travel_destination?.to?.stop_busstop}
-                        takeOffTime={trip?.take_off_time}
-                        takeOffDate={trip?.take_off_date}
-                        price={trip?.price}
-                        arrivalTime={trip?.arrival_time}
-                        arrivalDate={trip?.arrival_date}
-                        onClick={() => {
-                          handleOpenModal(trip, "howmanytickets");
-                        }}
-                      />
-                    );
-                  })}
                 </div>
               </div>
             </div>
@@ -496,7 +618,7 @@ const Bookings = () => {
         </div>
       </div>
 
-      {useDrawer && flip === BookingViews.NOOFTICKETS && modalVisible && (
+      {useDrawer && flip === "howmanytickets" && modalVisible && (
         <Drawer
           title={
             <div>
@@ -568,7 +690,7 @@ const Bookings = () => {
         </Drawer>
       )}
 
-      {!useDrawer && flip === BookingViews.NOOFTICKETS && modalVisible && (
+      {!useDrawer && flip === "howmanytickets" && modalVisible && (
         <Modal
           title={
             <div>
@@ -638,6 +760,197 @@ const Bookings = () => {
               navigate("/checkout");
             }}
           />
+        </Modal>
+      )}
+
+      {flip === "signin" && modalVisible && (
+        <Modal
+          title={
+            <div>
+              <h1 className="pt-2 text-xl">You need to login to continue</h1>
+              <p className="pt-1 text-sm font-light text-gray-500">
+                Please enter your phone number to continue
+              </p>
+
+              {loginError && (
+                <Alert
+                  message={loginError}
+                  type="warning"
+                  showIcon
+                  className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
+                />
+              )}
+            </div>
+          }
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={false}
+        >
+          <div>
+            <div className="pt-8 mt-3 mb-3">
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="903 123 1234"
+                value={phone}
+                prefix={"+234"}
+                type="number"
+                required={true}
+                onChange={(e) => {
+                  setPhone(
+                    e.target.value.startsWith("0")
+                      ? e.target.value.slice(1)
+                      : e.target.value
+                  );
+                }}
+              />
+            </div>
+
+            {/* USER LOGIN */}
+
+            <FraserButton
+              title={"Continue"}
+              size={"regular"}
+              active={loginValid}
+              className={"w-full mt-4"}
+              loader={userLoginLoading}
+              onClick={() => loginValid && LoginUser()}
+            />
+
+            <FraserButton
+              title={"I don't have an account"}
+              buttonType={"tertiary"}
+              size={"regular"}
+              className={"w-full mt-2"}
+              onClick={() => setFlip("signup")}
+            />
+          </div>
+        </Modal>
+      )}
+
+      {flip === "signup" && modalVisible && (
+        <Modal
+          title={
+            <div>
+              <h1 className="pt-2 text-xl">Let's get you started</h1>
+              <p className="pt-1 text-sm font-light text-gray-500">
+                You're almost there, create an account in just one simple step.
+              </p>
+
+              <div>
+                {registerUserError && (
+                  <Alert
+                    message={registerUserError}
+                    type="warning"
+                    showIcon
+                    className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
+                  />
+                )}
+              </div>
+            </div>
+          }
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={false}
+        >
+          <div>
+            {registerUserError && (
+              <Alert
+                message={registerUserError}
+                description={registerUserError}
+                type="warning"
+                showIcon
+              />
+            )}
+            <div className="mt-8 mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">First Name</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="Please enter your first name"
+                value={firstName}
+                required={true}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">Last Name</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="Last name"
+                value={lastName}
+                required={true}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">Email Address</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="Email"
+                value={email}
+                required={true}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">Referral Code</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="Referral Code"
+                value={referred_by}
+                required={true}
+                onChange={(e) => setReferred_by(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">Phone Number</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="901 1234 123"
+                type="number"
+                value={phone}
+                prefix={"+234"}
+                required={true}
+                onChange={(e) => {
+                  setPhone(
+                    e.target.value.startsWith("0")
+                      ? e.target.value.slice(1)
+                      : e.target.value
+                  );
+                }}
+              />
+            </div>
+
+            <FraserButton
+              title={"Continue"}
+              size={"small"}
+              active={signUpValid === false ? false : true}
+              className={"w-full mt-4"}
+              onClick={() => signUpValid && CreateUser()}
+              loader={userRegisterLoading}
+            />
+            <FraserButton
+              title={"I have an account"}
+              buttonType={"tertiary"}
+              size={"regular"}
+              className={"w-full mt-2"}
+              onClick={() => setFlip("signin")}
+            />
+          </div>
         </Modal>
       )}
     </Layout>
