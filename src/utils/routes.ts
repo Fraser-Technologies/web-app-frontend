@@ -1,10 +1,9 @@
 export const _paths_ = {
 	LANDING_PAGE: "/",
 	AVAILABLE_TRIP: "/bookings",
-	SIGNIN: "signin",
+	SIGNIN: "/signin",
 	SIGNUP: "/signup",
-	// BOOKRIDE: "/bookaride",
-	// BOOKRIDE: "/book-a-ride",
+	BOOKRIDE: "/bookaride",
 	CHECKOUT: "/checkout",
 	NOTFOUND: "*",
 	TERMS_OF_SERVICE: "/termsofservice",

@@ -19,7 +19,19 @@ export const getOtpAction =
 	async (dispatch) => {
 		dispatch(getOtpRequest());
 		try {
-			const { data } = await api.post("/otp/getotp", { phone: phone });
+			const { data } = await api.post("/otp/getotp", { phone });
+			dispatch(getOtpSuccess(data));
+		} catch (error: any) {
+			dispatch(getOtpFailed(RequestError(error)));
+		}
+	};
+
+export const getOtpEmailAction =
+	(email: string): AppThunk =>
+	async (dispatch) => {
+		dispatch(getOtpRequest());
+		try {
+			const { data } = await api.post("/otp/getotp", { email });
 			dispatch(getOtpSuccess(data));
 		} catch (error: any) {
 			dispatch(getOtpFailed(RequestError(error)));
@@ -36,8 +48,33 @@ export const VerifyOtpAction =
 		dispatch(verifyOtpRequest());
 		try {
 			const { data } = await api.post("/otp/verifyotp", {
-				phone: phone,
-				otp: otp,
+				phone,
+				otp,
+			});
+
+			if (data) {
+				dispatch(verifyOtpSuccess(data));
+				if (data?._id) {
+					dispatch(loginSuccess(data));
+
+					Cookie.set("userInfo", JSON.stringify(data));
+				}
+			} else {
+				dispatch(verifyOtpSuccess(data));
+			}
+		} catch (error: any) {
+			dispatch(verifyOtpFailed(RequestError(error)));
+		}
+	};
+
+export const VerifyEmailOtpAction =
+	({ otp, email }: { otp: string; email: string }): AppThunk =>
+	async (dispatch) => {
+		dispatch(verifyOtpRequest());
+		try {
+			const { data } = await api.post("/otp/verifyotp", {
+				email,
+				otp,
 			});
 
 			if (data) {

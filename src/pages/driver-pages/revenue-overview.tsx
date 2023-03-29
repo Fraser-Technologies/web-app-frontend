@@ -47,14 +47,14 @@ const DriverRevenueOverview = () => {
 		error: withdrawError,
 	} = useAppSelector((state: RootState) => state.withdrawBalance);
 
-	const { error, loading, otp } = useAppSelector(
+	const { error, loading, message, data } = useAppSelector(
 		(state: RootState) => state.getotp
 	);
-	const { loading: verifyingOtp, otp: verifiedOtp } = useAppSelector(
-		(state: RootState) => state.verifyOtp
-	);
-
-	
+	const {
+		loading: verifyingOtp,
+		message: verifiedOtpMessage,
+		data: verifyOtpData,
+	} = useAppSelector((state: RootState) => state.verifyOtp);
 
 	const [flip, setFlip] = useState<"" | DriverRevenueView>("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
@@ -113,42 +113,15 @@ const DriverRevenueOverview = () => {
 		}
 	};
 
-	// useEffect(() => {
-	// 	if (withdrawError !== "") {
-	// 		messageApi.open({
-	// 			type: "error",
-	// 			content: withdrawError,
-	// 		});
-	// 	}
-	// }, [messageApi, withdrawError]);
 
-	// useEffect(() => {
-	// 	if (error) {
-	// 		messageApi.open({
-	// 			type: "error",
-	// 			content: error,
-	// 		});
-	// 	}
-	// }, [error, messageApi]);
-
-	// useEffect(() => {
-	// 	if (otp) {
-	// 		messageApi.open({
-	// 			type: "info",
-	// 			content: otp,
-	// 		});
-
-	// 		dispatch(resetGetOtpAction());
-	// 	}
-	// }, [otp, messageApi, dispatch]);
 
 	useEffect(() => {
-		if (verifiedOtp) {
+		if (verifyOtpData) {
 			dispatch(withdrawBalanceAction(Number(value)));
 			setValue("");
 			dispatch(resetVerifyOtpAction());
 		}
-	}, [dispatch, verifiedOtp]);
+	}, [dispatch, verifyOtpData]);
 
 	useEffect(() => {
 		if (withdraw?._id) {
