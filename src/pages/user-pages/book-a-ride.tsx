@@ -23,6 +23,7 @@ import { RootState } from "../../state/redux-store";
 import { _paths_ } from "../../utils/routes";
 import LoadingWheel from "../../components/loading-svg";
 import { FraserButton } from "../../components/Button";
+import { FraserDropDown } from "../../components/drop-drown";
 
 const BookRide = () => {
 	enum TripValidOption {
@@ -128,7 +129,7 @@ const BookRide = () => {
 				last_name: lastName,
 				email: email,
 				phone: "+234" + phone,
-				referred_by,
+				referred_by: referred_by,
 			})
 		);
 	};
@@ -138,14 +139,10 @@ const BookRide = () => {
 	};
 
 	useEffect(() => {
-		// if (!userInfo?._id) {
-		// 	setIsModalOpen(true);
-		// } else {
-		// 	setIsModalOpen(false);
-		// }
-
 		if (!userInfo?._id) {
-			navigate(_paths_.SIGNIN);
+			setIsModalOpen(true);
+		} else {
+			setIsModalOpen(false);
 		}
 	}, [dispatch, navigate, userInfo]);
 
@@ -173,7 +170,10 @@ const BookRide = () => {
 	}, [dispatch]);
 
 	return (
-		<Layout title="Book a Ride">
+		<Layout
+			title="Book Intercity Bus Rides in Nigeria | RideFraser"
+			pageDescription="Book affordable and comfortable intercity bus rides in Nigeria with Fraser on ridefraser. Choose from multiple routes and travel dates. Book your ride now!"
+			pageKeywords="intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser">
 			{contextHolder}
 			<div className="relative h-24 bg-black -z-10 lg:h-32">
 				<GeometricPatterns />
@@ -299,6 +299,7 @@ const BookRide = () => {
 								<label className="ml-2 text-sm text-gray-600">
 									Destination City
 								</label>
+
 								<button
 									type="button"
 									className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
@@ -342,6 +343,7 @@ const BookRide = () => {
 								</label>
 
 								{/* START BUSSTOP */}
+
 								<button
 									type="button"
 									className="inline-flex w-full px-4 py-2 mt-1 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
@@ -500,6 +502,18 @@ const BookRide = () => {
 										onChange={(e) => setEmail(e.target.value)}
 									/>
 								</div>
+								<div className="mb-6">
+									<div className="mb-1">
+										<label className="text-gray-500">Referral Code</label>
+									</div>
+									<Input
+										className="w-full h-12 hover:border-green-500 active:border-green-600"
+										placeholder="Referral Code"
+										value={referred_by}
+										required={true}
+										onChange={(e) => setReferred_by(e.target.value)}
+									/>
+								</div>
 
 								<div className="mb-6">
 									<div className="mb-1">
@@ -523,24 +537,21 @@ const BookRide = () => {
 								</div>
 
 								<div>
-									<button
-										className={`items-center justify-center flex w-full p-3 mt-6 font-medium rounded-lg ${
-											signUpValid
-												? "bg-[#00ff6a] hover:bg-[#58FF9E]"
-												: "bg-[#f5f5f5]"
-										} `}
-										onClick={() => signUpValid && CreateUser()}>
-										{userRegisterLoading && (
-											<LoadingWheel param={userRegisterLoading} />
-										)}
-										Continue
-									</button>
-
-									<button
-										className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
-										onClick={() => setFlip(!flip)}>
-										I have an account
-									</button>
+									<FraserButton
+										title={"Continue"}
+										size={"small"}
+										active={signUpValid === false ? false : true}
+										className={"w-full mt-4"}
+										onClick={() => signUpValid && CreateUser()}
+										loader={userRegisterLoading}
+									/>
+									<FraserButton
+										title={"I have an account"}
+										buttonType={"tertiary"}
+										size={"regular"}
+										className={"w-full mt-2"}
+										onClick={() => setFlip(!flip)}
+									/>
 								</div>
 							</div>
 						) : (
@@ -565,24 +576,21 @@ const BookRide = () => {
 
 								{/* USER LOGIN */}
 								<div>
-									<button
-										className={`w-full p-3 mt-6 font-medium rounded-lg ${
-											loginValid
-												? "bg-[#00ff6a] hover:bg-[#58FF9E]"
-												: "bg-[#f5f5f5]"
-										} `}
-										onClick={() => loginValid && LoginUser()}>
-										{userLoginLoading && (
-											<LoadingWheel param={userLoginLoading} />
-										)}
-										Continue
-									</button>
-
-									<button
-										className="flex items-center justify-center w-full py-2 mt-4 text-gray-600 font-normal hover:text-[#22B11E] rounded-full"
-										onClick={() => setFlip(!flip)}>
-										I don't have an account
-									</button>
+									<FraserButton
+										title={"Continue"}
+										size={"regular"}
+										active={loginValid}
+										className={"w-full mt-4"}
+										loader={userLoginLoading}
+										onClick={() => loginValid && LoginUser()}
+									/>
+									<FraserButton
+										title={"I don't have an account"}
+										buttonType={"tertiary"}
+										size={"regular"}
+										className={"w-full mt-2"}
+										onClick={() => setFlip(!flip)}
+									/>
 								</div>
 							</div>
 						)}

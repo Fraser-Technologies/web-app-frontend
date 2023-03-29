@@ -12,6 +12,7 @@ import EndTimePicker from "./endTimePicker";
 import { resetCreateTrip } from "../../state/slices/trip.slice";
 import { User_interface } from "../../interfaces/user.interface";
 import LoadingWheel from "../loading-svg";
+import { FraserButton } from "../Button";
 
 // FORM TO CREATE A TRIP
 const CreateTripFormComponent = () => {
@@ -500,17 +501,12 @@ const CreateTripFormComponent = () => {
         </div>
       </div>
 
-      <button
-        className={`w-full p-3 mt-8 mb-2 text-sm rounded-lg ${
-          true ? "bg-[#00ff6a] hover:bg-[#58FF9E]" : "bg-[#f5f5f5]"
-        } `}
-        onClick={CreateThisTrip}
-      >
-        {loading && (
-         <LoadingWheel param={loading}/>
-        )}
-        Create Trip
-      </button>
+      <FraserButton
+        loader={loading}
+        title={"Create Trip"}
+        size={"regular"}
+        className={"w-full"}
+      />
     </div>
   );
 };

@@ -119,8 +119,6 @@ const SignIn = () => {
 				<meta charSet="utf-8" />
 				<title>Sign In - Fraser</title>
 			</Helmet>
-			{contextHolder}
-
 			{isView === false ? (
 				<div className="w-11/12 sm:w-3/5 lg:w-2/5">
 					<div className="w-full px-8 py-12 bg-white rounded-md">
