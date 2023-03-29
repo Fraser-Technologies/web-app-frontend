@@ -1,3 +1,4 @@
+import { Footer } from "antd/es/layout/layout";
 import React from "react";
 import { Helmet } from "react-helmet";
 import { Header } from "../Header";
@@ -33,6 +34,7 @@ const Layout = ({
         <Header />
         <div className="h-[70px]"></div>
         <div className={`${childClass}`}>{children}</div>
+        <Footer/>
       </div>
     </div>
   );
