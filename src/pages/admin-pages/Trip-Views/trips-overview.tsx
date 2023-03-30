@@ -524,7 +524,7 @@ const TripsOverview: React.FC = () => {
                 className=" font-normal text-[#22B11E] mt-2 cursor-pointer"
                 onClick={() => {
                   openManifest("manifest");
-                  console.log("the modal data", modalData);
+                  
                 }}
               >
                 {" "}

@@ -1,15 +1,17 @@
 import { createSlice } from "@reduxjs/toolkit";
 
 interface otp_interface {
-	otp: string | any;
+	message: string | any;
 	error: string;
 	loading: boolean;
+	data: boolean;
 }
 
 const initialState: otp_interface = {
-	otp: "",
+	message: "",
 	error: "",
 	loading: false,
+	data: false,
 };
 export const getOtpSlice = createSlice({
 	name: "get otp",
@@ -17,14 +19,18 @@ export const getOtpSlice = createSlice({
 	reducers: {
 		getOtpRequest: (state) => {
 			state.loading = false;
+			state.data = false;
 		},
 		getOtpSuccess: (state, { payload }) => {
-			state.otp = payload as any;
+			state.message = payload?.message;
 			state.loading = false;
+			state.data = payload.data;
 		},
 		getOtpFailed: (state, { payload }) => {
-			state.error = payload as unknown as string;
+			state.error = payload?.error;
 			state.loading = false;
+			state.data = payload.data;
+			state.message = payload.message;
 		},
 
 		clearOtp: () => {
@@ -43,14 +49,17 @@ export const VerifyOtpSlice = createSlice({
 	reducers: {
 		verifyOtpRequest: (state) => {
 			state.loading = false;
+			state.data = false;
 		},
 		verifyOtpSuccess: (state, { payload }) => {
-			state.otp = payload as any;
+			state.message = payload?.message;
 			state.loading = false;
+			state.data = payload.data;
 		},
 		verifyOtpFailed: (state, { payload }) => {
-			state.error = payload as unknown as string;
+			state.error = payload?.error;
 			state.loading = false;
+			state.data = payload.data;
 		},
 
 		clearVerifyOtp: () => {

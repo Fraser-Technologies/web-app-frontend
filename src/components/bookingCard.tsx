@@ -1,6 +1,4 @@
-import React from "react";
 import { BsArrowRight } from "react-icons/bs";
-import { FaChevronRight } from "react-icons/fa";
 import { FraserButton } from "./Button";
 
 interface BookingCardInterface {
