@@ -113,34 +113,7 @@ const DriverRevenueOverview = () => {
 		}
 	};
 
-	// useEffect(() => {
-	// 	if (withdrawError !== "") {
-	// 		messageApi.open({
-	// 			type: "error",
-	// 			content: withdrawError,
-	// 		});
-	// 	}
-	// }, [messageApi, withdrawError]);
 
-	// useEffect(() => {
-	// 	if (error) {
-	// 		messageApi.open({
-	// 			type: "error",
-	// 			content: error,
-	// 		});
-	// 	}
-	// }, [error, messageApi]);
-
-	// useEffect(() => {
-	// 	if (otp) {
-	// 		messageApi.open({
-	// 			type: "info",
-	// 			content: otp,
-	// 		});
-
-	// 		dispatch(resetGetOtpAction());
-	// 	}
-	// }, [otp, messageApi, dispatch]);
 
 	useEffect(() => {
 		if (verifyOtpData) {
@@ -232,9 +205,7 @@ const DriverRevenueOverview = () => {
 							<Alert
 								type="info"
 								message="You have not made any transactions yet!"
-								onClick={() => {
-									// console.log(trips.length);
-								}}
+								
 								className="w-full"
 							/>
 						)}
@@ -266,7 +237,7 @@ const DriverRevenueOverview = () => {
 									second: "2-digit",
 									hour12: true,
 								});
-								// console.log(timeString);
+							
 								return (
 									<div className="flex items-center border-b px-4 py-3 mb-6 rounded-md">
 										<div className="flex mr-auto items-center">
@@ -583,9 +554,7 @@ const DriverRevenueOverview = () => {
 							<Alert
 								type="info"
 								message="You have not made any transactions yet!"
-								onClick={() => {
-									// console.log(trips.length);
-								}}
+								
 								className="w-full"
 							/>
 						)}
@@ -616,7 +585,7 @@ const DriverRevenueOverview = () => {
 									second: "2-digit",
 									hour12: true,
 								});
-								// console.log(timeString);
+								
 
 								return (
 									<div className="flex items-center border-b px-4 py-3 mb-6 rounded-md">

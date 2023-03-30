@@ -19,7 +19,7 @@ const Accordion = () => {
         {accordiondata?.map((accordiondata, i) => (
           <div className="item" onClick={() => toggle(i)}>
             <div className="flex items-center justify-between w-full">
-              <h2 className="font-semibold lg:text-[25px] md:text-[16px] text-[12px] blackText">
+              <h2 className="font-semibold lg:text-[1.7rem] md:text-[1.5rem] text-[1.3rem] blackText">
                 {" "}
                 {accordiondata?.topline}{" "}
               </h2>
@@ -31,7 +31,7 @@ const Accordion = () => {
               </span>
             </div>
             <div className={selected === i ? "show" : "content"}>
-              <p className="md:text-[15px] text-[12px]">{accordiondata.text}</p>
+              <p className="md:text-[0.9rem] text-[0.9rem] text-gray-500">{accordiondata.text}</p>
 
               {/* <div className="mt-5">
 								<Button name={"Get Started"} />

@@ -66,41 +66,41 @@ const Waitlist = () => {
 
 	return (
 		// <Layout title="Waitlist">
-		<div className="w-full text-white bg-black">
+		<div className="w-full bg-black text-white">
 			<div className="w-full h-[100vh] overflow-y-scroll">
 				<div className="text-center">
-					<div className="fixed top-0 flex items-center justify-center w-full text-center bg-black">
+					<div className="fixed top-0 bg-black w-full items-center flex justify-center text-center">
 						<h1 className="my-8 text-[32px] flex justify-center">Fraser</h1>
 					</div>
 
 					<div className="px-4 mt-40 md:mt-40 lg:mt-40 mb-6 text-[64px] md:text-[80px] lg:text-[80px] font-medium md:font-semibold leading-none md:leading-12 md:tracking-tight">
-						<div className="justify-center text-center md:flex">
+						<div className="md:flex text-center justify-center">
 							{" "}
-							<div className="mb-2 text-primary-100 md:mr-6">Move </div>
-							<div className="mb-2 text-primary-100">freely </div>
+							<div className="text-primary-100 mb-2 md:mr-6">Move </div>
+							<div className="text-primary-100 mb-2">freely </div>
 						</div>
 						<div className="w-full">between cities</div>
 					</div>
-					<p className="w-full px-4 mb-8 text-gray-400 md:w-3/6 lg:w-1/3 md:mx-auto md:mb-16 lg:mb-8 ">
+					<p className="px-4 w-full md:w-3/6 lg:w-1/3 md:mx-auto mb-8 md:mb-16 lg:mb-8 text-gray-400 ">
 						Travel comfortably, conveniently and affordably between cities with
 						Fraser.
 					</p>
 
-					<div className="mx-16 mb-12 mt-14 md:w-1/3 lg:w-1/3 md:mx-auto">
-						<button
+					<div className="mt-14 mb-12 mx-16 md:w-1/3 lg:w-1/3 md:mx-auto">
+						{/* <button
 							className="py-4 md:py-6 lg:py-8 lg:px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4 lg:mb-6"
 							onClick={() => {
-								openModal(true);
+								navigate(_paths_.LANDING_PAGE);
 							}}>
-							Join Waitlist
+							Book a ride
 						</button>
-						<button
+						{/* <button
 							className="py-4 md:py-6 lg:py-8 md:px-16 w-full rounded-xl text-[18px] border border-[#ffffff] hover:border-[#e3e3e3] hover:text-[#e3e3e3] text-white"
 							onClick={() => {
-								navigate(_paths_.BOOKRIDE);
+								navigate(_paths_.LANDING_PAGE);
 							}}>
 							Get Early Access 👀
-						</button>
+						</button> */}
 					</div>
 
 					<div className="h-[30vh] md:h-[40vh] mt-0 md:mt-12 lg:mt-0 overflow-hidden">
@@ -195,41 +195,7 @@ const Waitlist = () => {
 					</form>
 				</Modal>
 			)}
-			{/* <div className="Patterns-dots Landing-dots Patterns_animatedIn__2wrQM">
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div> */}
 		</div>
-
-		// </Layout>
 	);
 };
 

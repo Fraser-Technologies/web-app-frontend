@@ -1,4 +1,3 @@
-import { CircularProgress } from "@mui/material";
 import { Alert, Modal } from "antd";
 import React, { useEffect, useState } from "react";
 import {
@@ -21,7 +20,7 @@ import { FraserButton } from "../../../components/Button";
 
 const UserOverview: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { users, loading, error } = useAppSelector(
+  const { users } = useAppSelector(
     (state: any) => state.allUser
   );
   const { user: blockUser } = useAppSelector((state: any) => state.blockUser);
@@ -48,8 +47,8 @@ const UserOverview: React.FC = () => {
   const endIndex = startIndex + itemsPerPage;
   // const items = users.slice(startIndex, endIndex); // items to display on the current page
   const items = [...users]
-    .sort((a, b) => a.first_name.localeCompare(b.first_name))
-    .slice(startIndex, endIndex); // items to display on the current page
+  .sort((a, b) => (a.first_name || '').localeCompare(b.first_name || ''))
+  .slice(startIndex, endIndex);
 
   // ROW ACTION MENU
   const [menuVisible, setMenuVisible] = useState(false);
@@ -69,11 +68,6 @@ const UserOverview: React.FC = () => {
     setModalVisible(true);
   };
 
-  const handleOpenDeactivateModal = (data: any) => {
-    setFlip("deactivate");
-    // setStateModalVisible(true);
-    // setModalData(data);
-  };
 
   const handleOk = () => {
     setModalVisible(false);
