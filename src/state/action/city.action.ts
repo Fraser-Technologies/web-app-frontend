@@ -23,8 +23,9 @@ export const createCityAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.post(
+			const { data } = await api(app_type).post(
 				"/city",
 				{ ...input },
 				{
@@ -39,10 +40,13 @@ export const createCityAction =
 		}
 	};
 
-export const getAllCityAction = (): AppThunk => async (dispatch) => {
+export const getAllCityAction = (): AppThunk => async (dispatch, getState) => {
 	try {
 		dispatch(getAllCityRequest());
-		const { data } = await api.get("/city");
+		const {
+			appState: { app_type },
+		} = getState();
+		const { data } = await api(app_type).get("/city");
 		dispatch(getAllCitySuccess(data));
 	} catch (error: any) {
 		dispatch(getAllCityFailed(RequestError(error)));
@@ -56,8 +60,9 @@ export const updateCityAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.put(
+			const { data } = await api(app_type).put(
 				`/city/${id}`,
 				{ input },
 				{
@@ -80,8 +85,9 @@ export const deleteCity =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.delete(`/city/${id}`, {
+			const { data } = await api(app_type).delete(`/city/${id}`, {
 				headers: {
 					Authorization: `Bearer ${userInfo?.user_token}`,
 				},

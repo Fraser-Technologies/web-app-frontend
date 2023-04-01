@@ -10,7 +10,6 @@ import {
 	registerAsADriverAction,
 	updateUserAction,
 } from "../../state/action/user.action";
-import { api } from "../../utils/api";
 import { deleteFileAction } from "../../state/action/image.action";
 import { MdCancel } from "react-icons/md";
 import { RequestError } from "../../utils/requestError";
@@ -23,6 +22,7 @@ import { availableCities } from "../../utils/availableCitiesData";
 import { banks } from "../../utils/banksData";
 import { busTypes } from "../../utils/busTypesData";
 import { FraserButton } from "../../components/Button";
+import { api } from "../../utils/api";
 
 const DriverSignUp = () => {
 	const dispatch = useAppDispatch();
@@ -41,6 +41,7 @@ const DriverSignUp = () => {
 	const { bus, error: createBusError } = useAppSelector(
 		(state: RootState) => state.createBus
 	);
+	const { app_type } = useAppSelector((state: RootState) => state.appState);
 
 	const { loading, error, image } = useAppSelector(
 		(state: RootState) => state.uploadFile
@@ -132,7 +133,7 @@ const DriverSignUp = () => {
 		let formData = new FormData();
 		formData.append("image", fileObj);
 		setUploadingProfile(true);
-		await api
+		await api(app_type)
 			.post("/image", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
@@ -163,7 +164,7 @@ const DriverSignUp = () => {
 		formData.append("image", fileObj);
 
 		setDriverLicenseImageLoading(true);
-		await api
+		await api(app_type)
 			.post("/image", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
@@ -190,7 +191,7 @@ const DriverSignUp = () => {
 		let formData = new FormData();
 		formData.append("image", fileObj);
 		setRoadWorthinessLoading(true);
-		await api
+		await api(app_type)
 			.post("/image", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",
@@ -221,7 +222,7 @@ const DriverSignUp = () => {
 		formData.append("image", fileObj);
 		setVehicleInsuranceImageLoading(true);
 
-		await api
+		await api(app_type)
 			.post("/image", formData, {
 				headers: {
 					"Content-Type": "multipart/form-data",

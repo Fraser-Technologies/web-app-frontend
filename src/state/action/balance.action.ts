@@ -22,9 +22,10 @@ export const getAllUserBalance = (): AppThunk => async (dispatch, getState) => {
 		dispatch(getAllUserBalanceRequest());
 		const {
 			userLogin: { userInfo },
+			appState: { app_type },
 		} = getState();
 
-		const { data } = await api.get("/balance", {
+		const { data } = await api(app_type).get("/balance", {
 			headers: {
 				Authorization: `Bearer ${userInfo?.user_token}`,
 			},
@@ -41,8 +42,9 @@ export const getBalanceByUserAction =
 			dispatch(getBalanceByUserRequest());
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.get(
+			const { data } = await api(app_type).get(
 				`/balance/user/${userInfo?._id}`,
 				requestHeader(userInfo)
 			);
@@ -58,10 +60,11 @@ export const addAccountAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
 			dispatch(addAccountRequest());
 
-			const { data } = await api.post(
+			const { data } = await api(app_type).post(
 				`/balance/addbank`,
 				{ ...accountDetails },
 				{
@@ -83,11 +86,12 @@ export const withdrawBalanceAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
 
 			dispatch(withdrawRequest());
 
-			const { data } = await api.post(
+			const { data } = await api(app_type).post(
 				"/balance/withdraw",
 				{ amount: amount },
 				{
