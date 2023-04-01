@@ -53,9 +53,12 @@ export const getBalanceByUserAction =
 	};
 
 export const addAccountAction =
-	(token: string, accountDetails: any): AppThunk =>
-	async (dispatch) => {
+	(accountDetails: any): AppThunk =>
+	async (dispatch, getState) => {
 		try {
+			const {
+				userLogin: { userInfo },
+			} = getState();
 			dispatch(addAccountRequest());
 
 			const { data } = await api.post(
@@ -63,7 +66,7 @@ export const addAccountAction =
 				{ ...accountDetails },
 				{
 					headers: {
-						Authorization: `Bearer ${token}`,
+						Authorization: `Bearer ${userInfo?.user_token}`,
 					},
 				}
 			);

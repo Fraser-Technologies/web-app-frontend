@@ -87,7 +87,7 @@ const Waitlist = () => {
 					</p>
 
 					<div className="mt-14 mb-12 mx-16 md:w-1/3 lg:w-1/3 md:mx-auto">
-						<button
+						{/* <button
 							className="py-4 md:py-6 lg:py-8 lg:px-16 w-full rounded-xl text-[18px] bg-[#00ff6a] hover:bg-[#0be466] text-black mb-4 lg:mb-6"
 							onClick={() => {
 								navigate(_paths_.LANDING_PAGE);
@@ -135,7 +135,7 @@ const Waitlist = () => {
 					footer={false}
 					closable={true}>
 					<form onSubmit={handleSubmit}>
-						<div className="form-field mb-6 mt-8">
+						<div className="mt-8 mb-6 form-field">
 							<label className="form-label" htmlFor="name">
 								First name
 							</label>
@@ -150,7 +150,7 @@ const Waitlist = () => {
 							/>
 						</div>
 
-						<div className="form-field mb-6">
+						<div className="mb-6 form-field">
 							<label className="form-label" htmlFor="name">
 								Last name
 							</label>
@@ -165,7 +165,7 @@ const Waitlist = () => {
 							/>
 						</div>
 
-						<div className="form-field mb-6">
+						<div className="mb-6 form-field">
 							<label className="form-label" htmlFor="email">
 								Email
 							</label>
@@ -195,41 +195,7 @@ const Waitlist = () => {
 					</form>
 				</Modal>
 			)}
-			{/* <div className="Patterns-dots Landing-dots Patterns_animatedIn__2wrQM">
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div> */}
 		</div>
-
-		// </Layout>
 	);
 };
 
