@@ -16,26 +16,30 @@ import {
 	removeBusStopFromCitySuccess,
 } from "../slices/busstop.slice";
 
-export const getAllBusStopAction = (): AppThunk => async (dispatch) => {
-	try {
-		dispatch(getAllBusStopRequest());
-		const { data } = await api.get("/busstop");
-		dispatch(getAllbusStopSuccess(data));
-	} catch (error) {
-		dispatch(getAllBusStopFailed(RequestError(error)));
-	}
-};
+export const getAllBusStopAction =
+	(): AppThunk => async (dispatch, getState) => {
+		try {
+			dispatch(getAllBusStopRequest());
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).get("/busstop");
+			dispatch(getAllbusStopSuccess(data));
+		} catch (error) {
+			dispatch(getAllBusStopFailed(RequestError(error)));
+		}
+	};
 
 export const addBusStopToCityAction =
 	(id: string, busStop: string): AppThunk =>
 	async (dispatch, getState) => {
-		
 		try {
 			dispatch(addBusStopFromCityRequest());
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.post(
+			const { data } = await api(app_type).post(
 				`/city/addbusstop/${id}`,
 				{
 					busStop: busStop,
@@ -55,13 +59,13 @@ export const addBusStopToCityAction =
 export const removeBusStopToCityAction =
 	(id: string, busStop: string): AppThunk =>
 	async (dispatch, getState) => {
-		
 		dispatch(removeBusStopFromCityRequest());
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.post(
+			const { data } = await api(app_type).post(
 				`/city/removebusstop/${id}`,
 				{
 					busStop: busStop,

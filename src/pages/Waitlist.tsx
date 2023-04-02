@@ -135,7 +135,7 @@ const Waitlist = () => {
 					footer={false}
 					closable={true}>
 					<form onSubmit={handleSubmit}>
-						<div className="form-field mb-6 mt-8">
+						<div className="mt-8 mb-6 form-field">
 							<label className="form-label" htmlFor="name">
 								First name
 							</label>
@@ -150,7 +150,7 @@ const Waitlist = () => {
 							/>
 						</div>
 
-						<div className="form-field mb-6">
+						<div className="mb-6 form-field">
 							<label className="form-label" htmlFor="name">
 								Last name
 							</label>
@@ -165,7 +165,7 @@ const Waitlist = () => {
 							/>
 						</div>
 
-						<div className="form-field mb-6">
+						<div className="mb-6 form-field">
 							<label className="form-label" htmlFor="email">
 								Email
 							</label>
@@ -195,41 +195,7 @@ const Waitlist = () => {
 					</form>
 				</Modal>
 			)}
-			{/* <div className="Patterns-dots Landing-dots Patterns_animatedIn__2wrQM">
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-        <div>
-          <span></span>
-          <span></span>
-          <span></span>
-          <span></span>
-        </div>
-      </div> */}
 		</div>
-
-		// </Layout>
 	);
 };
 

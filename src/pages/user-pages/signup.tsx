@@ -2,7 +2,6 @@ import React, { useEffect, useState } from "react";
 import { FraserButton } from "../../components/Button";
 import Layout from "../../components/layouts/SignInLayout";
 import { useNavigate } from "react-router-dom";
-import { useForm, SubmitHandler } from "react-hook-form";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { registerUserAction } from "../../state/action/user.action";
 import { RootState } from "../../state/redux-store";
@@ -93,7 +92,7 @@ const SignUp = () => {
 
 	useEffect(() => {
 		if (userInfo?._id) {
-			navigate(_paths_.LANDING_PAGE);
+			navigate(_paths_.BOOKRIDE);
 		}
 	}, [error, navigate, userInfo]);
 

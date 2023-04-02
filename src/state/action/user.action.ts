@@ -7,7 +7,6 @@ import {
 import { requestHeader } from "../../utils/requestHeader";
 import { RequestError } from "../../utils/requestError";
 import Cookie from "js-cookie";
-import { api } from "../../utils/api";
 import { AppThunk } from "../redux-store";
 import {
 	allDriverFailed,
@@ -40,14 +39,16 @@ import {
 	updateUserRequest,
 	updateUserSuccess,
 } from "../slices/user.slice";
+import { api } from "../../utils/api";
 
 export const getAllUserAction = (): AppThunk => async (dispatch, getState) => {
 	dispatch(getAllUserRequest());
 	try {
 		const {
 			userLogin: { userInfo },
+			appState: { app_type },
 		} = getState();
-		const { data } = await api.get("/user", {
+		const { data } = await api(app_type).get("/user", {
 			headers: {
 				Authorization: `Bearer ${userInfo?.user_token}`,
 			},
@@ -61,10 +62,13 @@ export const getAllUserAction = (): AppThunk => async (dispatch, getState) => {
 
 export const registerUserAction =
 	(input: any): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		try {
 			dispatch(registerRequest());
-			const { data } = await api.post("/user/signup", { ...input });
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).post("/user/signup", { ...input });
 
 			Cookie.set("userInfo", JSON.stringify(data));
 			dispatch(loginSuccess(data));
@@ -76,10 +80,13 @@ export const registerUserAction =
 
 export const userLoginAction =
 	(phone: string): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		try {
 			dispatch(loginRequest());
-			const { data } = await api.post("/user/login", { phone });
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).post("/user/login", { phone });
 			Cookie.set("userInfo", JSON.stringify(data));
 			dispatch(loginSuccess(data));
 		} catch (error: any) {
@@ -89,10 +96,13 @@ export const userLoginAction =
 
 export const userLoginWithEmailAction =
 	(email: string): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		try {
 			dispatch(loginRequest());
-			const { data } = await api.post("/user/login", { email });
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).post("/user/login", { email });
 			Cookie.set("userInfo", JSON.stringify(data));
 			dispatch(loginSuccess(data));
 		} catch (error: any) {
@@ -107,8 +117,9 @@ export const updateUserAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.put(
+			const { data } = await api(app_type).put(
 				`/user/update/${id}`,
 				{ ...update },
 				requestHeader(userInfo)
@@ -133,8 +144,9 @@ export const blockUserAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.post(
+			const { data } = await api(app_type).post(
 				`/user/block/${id}`,
 				{},
 				{
@@ -160,8 +172,9 @@ export const unblockUserAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.post(
+			const { data } = await api(app_type).post(
 				`/user/unblock/${id}`,
 				{},
 				{
@@ -180,15 +193,19 @@ export const clearUnblockUserAction = (): AppThunk => (dispatch) => {
 	dispatch(clearUnBlockUser());
 };
 
-export const getAllDriverAction = (): AppThunk => async (dispatch) => {
-	try {
-		dispatch(allDriverRequest());
-		const { data } = await api.get("/user/drivers");
-		dispatch(allDriverSuccess(data));
-	} catch (error: any) {
-		dispatch(allDriverFailed(RequestError(error)));
-	}
-};
+export const getAllDriverAction =
+	(): AppThunk => async (dispatch, getState) => {
+		try {
+			dispatch(allDriverRequest());
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).get("/user/drivers");
+			dispatch(allDriverSuccess(data));
+		} catch (error: any) {
+			dispatch(allDriverFailed(RequestError(error)));
+		}
+	};
 
 export const becomeADriverAction =
 	(): AppThunk => async (dispatch, getState) => {
@@ -196,8 +213,11 @@ export const becomeADriverAction =
 			dispatch(becomeADriverRequest());
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.post(`/user/becomedriver/${userInfo?._id}`);
+			const { data } = await api(app_type).post(
+				`/user/becomedriver/${userInfo?._id}`
+			);
 			Cookie.set("userInfo", JSON.stringify(data));
 			dispatch(loginSuccess(data));
 			dispatch(becomeADriverSuccess(data));
@@ -208,10 +228,13 @@ export const becomeADriverAction =
 
 export const registerAsADriverAction =
 	(driverData: any): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		try {
 			dispatch(registerAsDriverRequest());
-			const { data } = await api.post(
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).post(
 				"/user/registerasdriver",
 				{
 					...driverData,
@@ -237,8 +260,9 @@ export const AdminUpdateUserAction =
 			dispatch(adminUpdateUserRequest());
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.put(
+			const { data } = await api(app_type).put(
 				`/user/admin/update/${id}`,
 				{
 					...update,

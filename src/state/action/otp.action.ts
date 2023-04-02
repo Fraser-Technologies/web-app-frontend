@@ -16,10 +16,13 @@ import { AppThunk } from "../redux-store";
 
 export const getOtpAction =
 	(phone: string): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		dispatch(getOtpRequest());
 		try {
-			const { data } = await api.post("/otp/getotp", { phone });
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).post("/otp/getotp", { phone });
 			dispatch(getOtpSuccess(data));
 		} catch (error: any) {
 			dispatch(getOtpFailed(RequestError(error)));
@@ -28,10 +31,13 @@ export const getOtpAction =
 
 export const getOtpEmailAction =
 	(email: string): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		dispatch(getOtpRequest());
 		try {
-			const { data } = await api.post("/otp/getotp", { email });
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).post("/otp/getotp", { email });
 			dispatch(getOtpSuccess(data));
 		} catch (error: any) {
 			dispatch(getOtpFailed(RequestError(error)));
@@ -44,10 +50,13 @@ export const resetGetOtpAction = (): AppThunk => async (dispatch) => {
 
 export const VerifyOtpAction =
 	({ otp, phone }: { otp: string; phone: string }): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		dispatch(verifyOtpRequest());
 		try {
-			const { data } = await api.post("/otp/verifyotp", {
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).post("/otp/verifyotp", {
 				phone,
 				otp,
 			});
@@ -69,10 +78,13 @@ export const VerifyOtpAction =
 
 export const VerifyEmailOtpAction =
 	({ otp, email }: { otp: string; email: string }): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		dispatch(verifyOtpRequest());
 		try {
-			const { data } = await api.post("/otp/verifyotp", {
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).post("/otp/verifyotp", {
 				email,
 				otp,
 			});

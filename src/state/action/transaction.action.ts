@@ -20,8 +20,9 @@ export const getAllTransactionAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.get("/transaction", {
+			const { data } = await api(app_type).get("/transaction", {
 				headers: {
 					Authorization: `Bearer ${userInfo?.user_token}`,
 				},
@@ -39,8 +40,9 @@ export const getAllTransactionByIdAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.get(`/transaction/${id}`, {
+			const { data } = await api(app_type).get(`/transaction/${id}`, {
 				headers: {
 					Authorization: `Bearer ${userInfo?.user_token}`,
 				},
@@ -58,9 +60,10 @@ export const verifyPaymentStatusAction =
 		try {
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
 
-			const { data } = await api.put(
+			const { data } = await api(app_type).put(
 				`/transaction/verifypayment/${id}`,
 				{},
 				{
