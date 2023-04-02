@@ -27,7 +27,7 @@ export const getApp = () => {
 	const app =
 		APPS.find((app) => checkSubDommain === app?.subdomain) ||
 		APPS.find((app) => {
-			if (subdomains[0] === "test" && subdomains.includes(app?.subdomain))
+			if (subdomains.includes("test") && subdomains.includes(app?.subdomain))
 				return APPS.find((app) => subdomains.includes(app?.subdomain));
 		});
 
