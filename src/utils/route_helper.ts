@@ -1,21 +1,18 @@
 import { APPS } from "./route_constant";
 
-const getSubdomain = (location: string) => {
+const getSubdomain = (location: string): string[] => {
 	const locationParts = location.split(".");
+	return locationParts;
+};
 
-	// const isLocalhost = () => {
-	// 	if (process.env.production) {
-	// 		return locationParts[1];
-	// 	} else {
-	// 		return locationParts[1];
-	// 	}
-	// };
-
-	return locationParts[0];
+const getTestDomain = (location: string): string[] => {
+	const allParts = location.split(".");
+	return allParts;
 };
 
 export const getApp = () => {
-	const subdomain = getSubdomain(window.location.hostname);
+	const subdomains = getSubdomain(window.location.hostname);
+	const checkSubDommain = subdomains[0];
 
 	const main = APPS.find((app) => app?.main);
 
@@ -23,15 +20,26 @@ export const getApp = () => {
 		throw new Error("Must have a main app");
 	}
 
-	if (subdomain === "") {
+	if (checkSubDommain === "") {
 		return main?.app;
 	}
 
-	const app = APPS.find((app) => subdomain === app?.subdomain);
+	const app =
+		APPS.find((app) => checkSubDommain === app?.subdomain) ||
+		APPS.find((app) => {
+			if (subdomains[0] === "test" && subdomains.includes(app?.subdomain))
+				return APPS.find((app) => subdomains.includes(app?.subdomain));
+		});
 
 	if (!app) {
 		return main.app;
 	}
 
 	return app.app;
+};
+
+export const checkForTest = () => {
+	const subdomains = getSubdomain(window.location.hostname);
+	const checkSubDommain = subdomains[0];
+	if (checkSubDommain === "test") return "test";
 };

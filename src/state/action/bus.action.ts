@@ -14,10 +14,13 @@ import {
 	updateBusSuccess,
 } from "../slices/bus.slice";
 
-export const getAllBusAction = (): AppThunk => async (dispatch) => {
+export const getAllBusAction = (): AppThunk => async (dispatch, getState) => {
 	try {
 		dispatch(getAllBusRequest());
-		const { data } = await api.get("/bus");
+		const {
+			appState: { app_type },
+		} = getState();
+		const { data } = await api(app_type).get("/bus");
 		dispatch(getAllBusSuccess(data));
 	} catch (error: any) {
 		dispatch(getAllBusFailed(RequestError(error)));
@@ -31,8 +34,9 @@ export const createBusAction =
 			dispatch(createBusRequest());
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.post(
+			const { data } = await api(app_type).post(
 				"/bus",
 				{ ...input },
 				{
@@ -54,8 +58,9 @@ export const updateBusAction =
 			dispatch(updateBusRequest());
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
-			const { data } = await api.put(
+			const { data } = await api(app_type).put(
 				`/bus/${bus_id}`,
 				{ ...update },
 				{

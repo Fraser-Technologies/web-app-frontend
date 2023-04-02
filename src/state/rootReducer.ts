@@ -60,6 +60,7 @@ import {
 	getTransactionByIdReducer,
 	verifyPaymentStatusReducer,
 } from "./slices/transactionSlice";
+import { appStateReducer } from "./slices/appState.slice";
 
 const rootReducer = combineReducers({
 	getotp: getOtpReducer,
@@ -131,6 +132,8 @@ const rootReducer = combineReducers({
 	allTransaction: getAllTransactionReducer,
 	transactionById: getTransactionByIdReducer,
 	verifyPaymentStatus: verifyPaymentStatusReducer,
+
+	appState: appStateReducer,
 });
 
 export default rootReducer;

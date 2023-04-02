@@ -13,10 +13,13 @@ import { AppThunk } from "./../redux-store";
 
 export const uploadFileAction =
 	(file: any): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		try {
 			dispatch(uploadFileRequest());
-			const { data } = await api.post(
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).post(
 				"/image",
 				{ ...file },
 				{
@@ -38,11 +41,14 @@ export const resetUploadFileAction = (): AppThunk => (dispatch) => {
 
 export const deleteFileAction =
 	(file: string): AppThunk =>
-	async (dispatch) => {
+	async (dispatch, getState) => {
 		try {
 			dispatch(deleteFileRequest());
-			
-			const { data } = await api.delete(`/image/${file}`);
+			const {
+				appState: { app_type },
+			} = getState();
+
+			const { data } = await api(app_type).delete(`/image/${file}`);
 			dispatch(deleteFileSuccess(data));
 		} catch (error: any) {
 			dispatch(deleteFileFailed(RequestError(error)));
