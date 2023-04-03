@@ -20,7 +20,9 @@ import { FraserButton } from "../../../components/Button";
 
 const UserOverview: React.FC = () => {
   const dispatch = useAppDispatch();
-  const { users } = useAppSelector((state: any) => state.allUser);
+  const { users } = useAppSelector(
+    (state: any) => state.allUser
+  );
   const { user: blockUser } = useAppSelector((state: any) => state.blockUser);
   const { user: unblockUser } = useAppSelector((state: any) => state.blockUser);
   const { bookings } = useAppSelector((state: any) => state.allBooking);
@@ -45,8 +47,8 @@ const UserOverview: React.FC = () => {
   const endIndex = startIndex + itemsPerPage;
   // const items = users.slice(startIndex, endIndex); // items to display on the current page
   const items = [...users]
-    .sort((a, b) => (a.first_name || "").localeCompare(b.first_name || ""))
-    .slice(startIndex, endIndex);
+  .sort((a, b) => (a.first_name || '').localeCompare(b.first_name || ''))
+  .slice(startIndex, endIndex);
 
   // ROW ACTION MENU
   const [menuVisible, setMenuVisible] = useState(false);
@@ -65,6 +67,7 @@ const UserOverview: React.FC = () => {
     setFlip(flipValue);
     setModalVisible(true);
   };
+
 
   const handleOk = () => {
     setModalVisible(false);
@@ -125,15 +128,6 @@ const UserOverview: React.FC = () => {
             nextLabel={">"}
           />
         </div>
-        {/* {[...users]
-          .sort((a, b) =>
-            (a.first_name || "").localeCompare(b.first_name || "")
-          )
-
-          .map((user: User_interface, index: Number) => {
-            return <div>{user.last_name}</div>;
-          })} */}
-
         {/* BUSSTOPS LIST - TABLE */}
         <table className="w-full text-left text-white">
           <thead className="bg-black">
@@ -161,7 +155,6 @@ const UserOverview: React.FC = () => {
           </thead>
 
           {/* //TABLE ROWS */}
-
           <tbody className="">
             {items?.map((user: User_interface, index: Number) => {
               return (
