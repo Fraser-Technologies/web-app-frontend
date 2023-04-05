@@ -24,6 +24,7 @@ import StepComp from "../../components/StepComp";
 import Accordion from "../../components/Accordion";
 import { _paths_ } from "../../utils/routes";
 import Footer from "../../components/footer";
+import allState from "../../utils/allState";
 
 const BookRide = () => {
 	enum TripValidOption {
@@ -53,6 +54,7 @@ const BookRide = () => {
 	const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
 	const [from, setFrom] = useState<string>("");
 	const [to, setTo] = useState<string>("");
+	const [homeState, setHomeState] = useState<string>("");
 	const [messageApi, contextHolder] = message.useMessage();
 	const [startCityIsOpen, setStartCityIsOpen] = useState(false);
 	const [startBusStopIsOpen, setStartBusStopIsOpen] = useState(false);
@@ -123,11 +125,12 @@ const BookRide = () => {
 	const CreateUser = () => {
 		return dispatch(
 			registerUserAction({
-				first_name: firstName,
-				last_name: lastName,
-				email: email,
-				phone: "+234" + phone,
-				referred_by: referred_by,
+				first_name: firstName.trim(),
+				last_name: lastName.trim(),
+				email: email.trim(),
+				phone: "+234" + phone.trim(),
+				referred_by: referred_by.trim(),
+				home_state: homeState,
 			})
 		);
 	};
@@ -245,6 +248,7 @@ const BookRide = () => {
 															setStartCity(city?.city);
 															setStartBusStopList(city?.bus_stops);
 															setStartCityIsOpen(false);
+															setFrom(city?.city);
 														}}>
 														{city?.city}
 													</a>
@@ -301,7 +305,7 @@ const BookRide = () => {
 														className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 														onClick={() => {
 															handleStartBusStop(stops);
-															setFrom(stops);
+															// setFrom(stops);
 														}}>
 														{stops}
 													</a>
@@ -341,6 +345,7 @@ const BookRide = () => {
 															setDestinationBusStopList(city?.bus_stops);
 															setDestinationCityIsOpen(!destinationCityIsOpen);
 															setDestinationCity(city?.city);
+															setTo(city?.city);
 														}}>
 														{city?.city}
 													</a>
@@ -398,7 +403,7 @@ const BookRide = () => {
 														className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 														onClick={() => {
 															handleDestinationBusStop(stops);
-															setTo(stops);
+															// setTo(stops);
 														}}>
 														{stops}
 													</a>
@@ -669,6 +674,34 @@ const BookRide = () => {
 								onChange={(e) => setEmail(e.target.value)}
 							/>
 						</div>
+
+						<div className="mb-6">
+							<div className="mb-1">
+								<label className="text-gray-500">Home State</label>
+							</div>
+							<select
+								className="  w-full h-12 hover:border-green-500 bg-transparent border outline-none rounded-md active:border-
+							active:border-green-600"
+								onChange={(e) => setHomeState(e.target.value)}>
+								<option>Select State</option>
+								{allState.map((s: string) => {
+									return (
+										<option key={s} value={s}>
+											{s}
+										</option>
+									);
+								})}
+							</select>
+
+							{/* <Input
+								className="w-full h-12 hover:border-green-500 active:border-green-600"
+								placeholder="Email"
+								value={homeState}
+								required={true}
+								onChange={(e) => setHomeState(e.target.value)}
+							/> */}
+						</div>
+
 						<div className="mb-6">
 							<div className="mb-1">
 								<label className="text-gray-500">Referral Code</label>
