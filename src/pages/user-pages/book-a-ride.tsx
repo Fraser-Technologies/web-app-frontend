@@ -167,9 +167,9 @@ const BookRide = () => {
 		dispatch(getAllCityAction());
 	}, [dispatch]);
 
-	useEffect(() => {
-		if (!userInfo?._id) navigate(_paths_.SIGNIN);
-	}, [navigate, userInfo]);
+	// useEffect(() => {
+	// 	if (!userInfo?._id) navigate(_paths_.SIGNIN);
+	// }, [navigate, userInfo]);
 
 	return (
 		<Layout

@@ -42,11 +42,12 @@ export const createBookingAction =
 			dispatch(createBookingRequest());
 			const {
 				userLogin: { userInfo },
+				appState: { app_type },
 			} = getState();
 
 			let bookings: any = {};
 
-			const { data } = await api.post(
+			const { data } = await api(app_type).post(
 				`/booking`,
 				{
 					trip: trip?._id,
@@ -66,12 +67,16 @@ export const createBookingAction =
 		}
 	};
 
-export const getAllBookingAction = (): AppThunk => async (dispatch) => {
-	try {
-		dispatch(getAllBookingRequest());
-		const { data } = await api.get("/booking");
-		dispatch(getAllBookingSuccess(data));
-	} catch (error: any) {
-		dispatch(getAllBookingFailed(RequestError(error)));
-	}
-};
+export const getAllBookingAction =
+	(): AppThunk => async (dispatch, getState) => {
+		try {
+			dispatch(getAllBookingRequest());
+			const {
+				appState: { app_type },
+			} = getState();
+			const { data } = await api(app_type).get("/booking");
+			dispatch(getAllBookingSuccess(data));
+		} catch (error: any) {
+			dispatch(getAllBookingFailed(RequestError(error)));
+		}
+	};
