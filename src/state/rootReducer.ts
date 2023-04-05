@@ -53,6 +53,7 @@ import {
 	allBookingReducer,
 	bookingReducer,
 	verifyPaymentReducer,
+	createBookingReducer
 } from "./slices/booking.slice";
 import {
 	getAllTransactionReducer,
@@ -89,6 +90,7 @@ const rootReducer = combineReducers({
 	// booking reducer
 	booking: bookingReducer,
 	allBooking: allBookingReducer,
+	createBooking: createBookingReducer,
 
 	adminPage: adminPageReducer,
 

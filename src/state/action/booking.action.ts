@@ -1,6 +1,9 @@
 import { RequestError } from "./../../utils/requestError";
 import {
 	addToBooking,
+	createBookingFailed,
+	createBookingRequest,
+	createBookingSuccess,
 	emptyBooking,
 	getAllBookingFailed,
 	getAllBookingRequest,
@@ -30,34 +33,36 @@ export const emptyMyBooking = (): AppThunk => (dispatch) => {
 	dispatch(emptyBooking());
 };
 
-export const verifyPaymentAction =
-	(trip: any, passengers: any): AppThunk =>
+export const createBookingAction =
+	(trip: any, passengers: any, reference: string): AppThunk =>
 	async (dispatch, getState) => {
-		
+		console.log(reference)
 		try {
-			dispatch(verifyPaymentRequest());
+			// dispatch(verifyPaymentRequest());
+			dispatch(createBookingRequest());
 			const {
 				userLogin: { userInfo },
 			} = getState();
 
-			let bookings = [];
+			let bookings: any = {};
 
 			const { data } = await api.post(
 				`/booking`,
 				{
 					trip: trip?._id,
 					no_of_ticket: trip?.no_of_ticket,
-					comfirmed_payment: true,
+					reference,
 					passengers
 				},
 				requestHeader(userInfo)
 			);
 
-			bookings.push(data);
+			bookings = data;
 
-			dispatch(verifyPaymentSuccess(bookings));
+			dispatch(createBookingSuccess(bookings));
+			dispatch(verifyPaymentRequest());
 		} catch (error: any) {
-			dispatch(verifyPaymentFailed(RequestError(error)));
+			dispatch(createBookingFailed(RequestError(error)));
 		}
 	};
 

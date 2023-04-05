@@ -8,14 +8,15 @@ import SeatReservation from "../../components/SeatReservation";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Alert, Form, Input, message } from "antd";
 import {
+  createBookingAction,
   emptyMyBooking,
-  verifyPaymentAction,
 } from "../../state/action/booking.action";
 import { useNavigate } from "react-router-dom";
 import GeometricPatterns from "../../components/GeometricPatterns";
 import { RootState } from "../../state/redux-store";
 import { currency_formatter } from "../../utils/currency-formatter";
 import { FraserButton } from "../../components/Button";
+import { clearVerifyPayment, verifyPaymentSuccess } from "../../state/slices/booking.slice";
 
 interface FormData {
   name: string;
@@ -60,7 +61,12 @@ const Checkout = () => {
   const [open, setOpen] = React.useState(false);
   const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
   const { myBooking } = useAppSelector((state: RootState) => state.booking);
+  const { createBooking, loading: createBookingLoading }: any = useAppSelector((state: RootState) => state.createBooking);
+  const { loading: startPayment } = useAppSelector((state: RootState) => state.verifyPayment);
   const [formData, setFormData] = useState<FormData[]>([]);
+
+  console.log(createBooking)
+  console.log(startPayment)
 
   const [couponCode, setCouponCode] = useState("");
   const [discountPercentage, setDiscountPercentage] = useState(0);
@@ -99,7 +105,7 @@ const Checkout = () => {
   };
 
   const config = {
-    reference: new Date().getTime().toString(),
+    reference: createBooking?._id,
     email: userInfo?.email || "contact@ridefrser.com",
     amount:
       Number(
@@ -111,16 +117,25 @@ const Checkout = () => {
     publicKey: process.env.REACT_APP_PAYSTACK_KEY,
   };
 
+  console.log(config)
+
   const initializePayment = usePaystackPayment(config as any);
 
+  useEffect(()=> {
+    if(startPayment){
+      initializePayment(onSuccess, onClose);
+    }
+  }, [startPayment])
+
   const onSuccess = () => {
-    dispatch(verifyPaymentAction(myBooking, formData));
+    dispatch(verifyPaymentSuccess());
     message.info("Your ride has been booked successfully!");
     navigate("/");
     dispatch(emptyMyBooking());
   };
 
   const onClose = () => {
+    dispatch(clearVerifyPayment());
     messageApi.open({
       type: "error",
       content: "An error occured while trying to pay",
@@ -131,7 +146,7 @@ const Checkout = () => {
     if (!check) {
       return setShowAlert(true);
     }
-    initializePayment(onSuccess, onClose);
+    dispatch(createBookingAction(myBooking, formData, config.reference));
   };
 
   useEffect(() => {
@@ -445,6 +460,7 @@ const Checkout = () => {
             {/* {payment button} */}
 
             <FraserButton
+              loader={createBookingLoading}
               title="Proceed to Payments"
               size="regular"
               onClick={payWithPaystack}

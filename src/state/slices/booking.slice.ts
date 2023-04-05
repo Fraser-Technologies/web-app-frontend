@@ -7,7 +7,6 @@ export const verifyPaymentSlice = createSlice({
 	initialState: {
 		loading: false,
 		error: "",
-		verifyPayment: {},
 	},
 
 	reducers: {
@@ -15,18 +14,15 @@ export const verifyPaymentSlice = createSlice({
 			state.loading = true;
 		},
 
-		verifyPaymentSuccess: (state, { payload }) => {
-			state.verifyPayment = payload as any;
+		verifyPaymentSuccess: (state) => {
 			state.loading = false;
 		},
-		verifyPaymentFailed: (state, { payload }) => {
-			state.error = payload as any;
+		verifyPaymentFailed: (state) => {
 			state.loading = false;
 		},
 		clearVerifyPayment: (state) => {
 			state.loading = false;
 			state.error = "";
-			state.verifyPayment = {};
 		},
 	},
 });
@@ -38,6 +34,43 @@ export const {
 	clearVerifyPayment,
 } = verifyPaymentSlice.actions;
 export const verifyPaymentReducer = verifyPaymentSlice.reducer;
+
+export const createBookingSlice = createSlice({
+	name: "verify payment",
+	initialState: {
+		loading: false,
+		error: "",
+		createBooking: {},
+	},
+
+	reducers: {
+		createBookingRequest: (state) => {
+			state.loading = true;
+		},
+
+		createBookingSuccess: (state, { payload }) => {
+			state.createBooking = payload as any;
+			state.loading = false;
+		},
+		createBookingFailed: (state, { payload }) => {
+			state.error = payload as any;
+			state.loading = false;
+		},
+		clearcreateBooking: (state) => {
+			state.loading = false;
+			state.error = "";
+			state.createBooking = {};
+		},
+	},
+});
+
+export const {
+	createBookingRequest,
+	createBookingSuccess,
+	createBookingFailed,
+	clearcreateBooking,
+} = createBookingSlice.actions;
+export const createBookingReducer = createBookingSlice.reducer;
 
 const myBooking = Cookie.get("myBookings")
 	? JSON.parse(Cookie.get("myBookings") as string)
