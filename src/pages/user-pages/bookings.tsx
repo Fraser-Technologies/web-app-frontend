@@ -417,7 +417,7 @@ const Bookings = () => {
 
 									<div className="relative z-30 inline w-full text-left duration-300 ease-in-out">
 										<label className="ml-2 text-sm text-gray-600">
-											Desitnation City
+											Destination City
 										</label>
 										<button
 											type="button"
