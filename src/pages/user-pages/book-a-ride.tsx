@@ -10,10 +10,7 @@ import {
 	registerUserAction,
 	userLoginAction,
 } from "../../state/action/user.action";
-import {
-	getAllAvailableTripAction,
-	getAvailableTripAction,
-} from "../../state/action/trip.action";
+import { getAvailableTripAction } from "../../state/action/trip.action";
 import { FaCaretDown } from "react-icons/fa";
 import { City_interface } from "../../interfaces/city_interface";
 import { getAllCityAction } from "../../state/action/city.action";
@@ -42,6 +39,10 @@ const BookRide = () => {
 	const { error: registerUserError, loading: userRegisterLoading } =
 		useAppSelector((state: RootState) => state.registerUser);
 	const { cities } = useAppSelector((state: any) => state.allCity);
+
+	const { trips: availableTripData } = useAppSelector(
+		(state: any) => state.availableTrip
+	);
 
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
@@ -92,9 +93,8 @@ const BookRide = () => {
 	const handleAvailableTrips = () => {
 		if (from && to) {
 			dispatch(getAvailableTripAction({ from: from, to: to }));
-		} else {
-			dispatch(getAllAvailableTripAction());
 		}
+
 		navigate("/bookings", {
 			state: {
 				startCity,
@@ -169,6 +169,8 @@ const BookRide = () => {
 	useEffect(() => {
 		dispatch(getAllCityAction());
 	}, [dispatch]);
+
+	console.log("the available trip is ", availableTripData);
 
 	// useEffect(() => {
 	// 	if (!userInfo?._id) navigate(_paths_.SIGNIN);

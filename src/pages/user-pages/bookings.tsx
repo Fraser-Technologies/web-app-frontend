@@ -26,8 +26,6 @@ import {
 } from "../../state/action/user.action";
 
 const Bookings = () => {
-	// const { userInfo } = useAppSelector((state: any) => state.userLogin);
-
 	const {
 		userInfo,
 		error: loginError,
@@ -126,11 +124,19 @@ const Bookings = () => {
 
 	const FindAvailableTrip = () => {
 		whereToToggleClick();
+
+		if (location?.state) {
+			dispatch(
+				getAvailableTripAction({ from: startCity, to: destinationCity })
+			);
+		}
+
 		if (from && to) {
 			dispatch(getAvailableTripAction({ from: from, to: to }));
-		} else {
-			dispatch(getAllAvailableTripAction());
 		}
+		// else {
+		// 	dispatch(getAllAvailableTripAction());
+		// }
 	};
 
 	const [modalData, setModalData] = useState<Trip_interface | any>(
@@ -227,11 +233,11 @@ const Bookings = () => {
 		};
 	}, [screenWidth]);
 
-	useEffect(() => {
-		if (!availableTripData) {
-			dispatch(getAllAvailableTripAction());
-		}
-	}, [availableTripData, dispatch]);
+	// useEffect(() => {
+	// 	if (!availableTripData) {
+	// 		dispatch(getAllAvailableTripAction());
+	// 	}
+	// }, [availableTripData, dispatch]);
 
 	useEffect(() => {
 		if (!cities.length) {
@@ -350,6 +356,7 @@ const Bookings = () => {
 																	setFromCity(city?.city);
 																	setStartBusStopList(city?.bus_stops);
 																	setStartCityIsOpen(!startCityIsOpen);
+																	setFrom(city.city);
 																}}>
 																{city?.city}
 															</a>
@@ -401,7 +408,7 @@ const Bookings = () => {
 																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																onClick={() => {
 																	setstart(stops);
-																	setFrom(stops);
+																	// setFrom(stops);
 																	setStartBusStopIsOpen(!startBusStopIsOpen);
 																}}>
 																{stops}
@@ -446,6 +453,7 @@ const Bookings = () => {
 																		!destinationCityIsOpen
 																	);
 																	setDestinationBusStopList(city?.bus_stops);
+																	setTo(city?.city);
 																}}>
 																{city?.city}
 															</a>
@@ -501,7 +509,7 @@ const Bookings = () => {
 																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																onClick={() => {
 																	setdestination(stops);
-																	setTo(stops);
+																	// setTo(stops);
 																	setDestinationBusStopIsOpen(
 																		!destinationBusStopIsOpen
 																	);
