@@ -23,4 +23,9 @@ export interface User_interface extends Mongo_extra {
 	bus: Bus_interface;
 	balance: Balance_interface;
 	home_state: string;
+	discount_code?: {
+		code: string;
+		discount_percent: number;
+		active: boolean;
+	};
 }

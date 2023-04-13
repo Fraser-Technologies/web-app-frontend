@@ -61,6 +61,10 @@ import {
 	verifyPaymentStatusReducer,
 } from "./slices/transactionSlice";
 import { appStateReducer } from "./slices/appState.slice";
+import {
+	deactivateCodeReducer,
+	discountCodeReducer,
+} from "./slices/discountSlice";
 
 const rootReducer = combineReducers({
 	getotp: getOtpReducer,
@@ -132,6 +136,10 @@ const rootReducer = combineReducers({
 	allTransaction: getAllTransactionReducer,
 	transactionById: getTransactionByIdReducer,
 	verifyPaymentStatus: verifyPaymentStatusReducer,
+
+	// discount reducer
+	createDiscountCode: discountCodeReducer,
+	deactivateCode: deactivateCodeReducer,
 
 	appState: appStateReducer,
 });
