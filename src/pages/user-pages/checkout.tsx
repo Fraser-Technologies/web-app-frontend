@@ -75,8 +75,6 @@ const Checkout = () => {
 		dispatch(getUserByDiscountCodeAction(couponCode));
 	};
 
-	console.log("the coupeon user is ", couponOwner);
-
 	const handleClose = () => {
 		setOpen(false);
 	};
