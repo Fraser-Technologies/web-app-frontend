@@ -8,6 +8,10 @@ import {
 	deactivateDiscountFailed,
 	deactivateDiscountRequest,
 	deactivateDiscountSuccess,
+	getUserByDiscountCodeFailed,
+	getUserByDiscountCodeRequest,
+	getUserByDiscountCodeSuccess,
+	resetDiscountCodeUser,
 } from "../slices/discountSlice";
 
 export const createDiscountCodeAction =
@@ -21,7 +25,7 @@ export const createDiscountCodeAction =
 			} = getState();
 
 			const { data } = await api(app_type).post(
-				`/referral/${id}`,
+				`/discount/${id}`,
 				{ ...input },
 				{
 					headers: {
@@ -46,13 +50,46 @@ export const deactivateDiscountCodeAction =
 				userLogin: { userInfo },
 			} = getState();
 
-			const { data } = await api(app_type).post(`/referral/deactivate/${id}`, {
-				headers: {
-					Authorization: `Bearer ${userInfo?.user_token}`,
-				},
-			});
+			const { data } = await api(app_type).post(
+				`/discount/deactivate/${id}`,
+				{},
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
 			dispatch(deactivateDiscountSuccess(data));
 		} catch (error) {
 			dispatch(deactivateDiscountFailed(RequestError(error)));
+		}
+	};
+
+export const resetDiscountCodeUserAction = (): AppThunk => (dispatch) => {
+	dispatch(resetDiscountCodeUser());
+};
+
+export const getUserByDiscountCodeAction =
+	(code: string): AppThunk =>
+	async (dispatch, getState) => {
+		dispatch(getUserByDiscountCodeRequest());
+		try {
+			const {
+				appState: { app_type },
+				userLogin: { userInfo },
+			} = getState();
+			const { data } = await api(app_type).post(
+				"/discount/code",
+				{ code },
+				{
+					headers: {
+						Authorization: `Bearer ${userInfo?.user_token}`,
+					},
+				}
+			);
+
+			dispatch(getUserByDiscountCodeSuccess(data));
+		} catch (error: any) {
+			dispatch(getUserByDiscountCodeFailed(RequestError(error)));
 		}
 	};

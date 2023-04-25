@@ -1,4 +1,4 @@
-import { Alert, Input, Modal } from "antd";
+import { Alert, Input, Modal, message } from "antd";
 import React, { useEffect, useState } from "react";
 import {
 	FaBus,
@@ -20,23 +20,36 @@ import { FraserButton } from "../../../components/Button";
 import {
 	createDiscountCodeAction,
 	deactivateDiscountCodeAction,
+	resetDiscountCodeUserAction,
 } from "../../../state/action/discountAction";
+import { RootState } from "../../../state/redux-store";
 
 const UserOverview: React.FC = () => {
 	const dispatch = useAppDispatch();
-	const { users } = useAppSelector((state: any) => state.allUser);
-	const { user: blockUser } = useAppSelector((state: any) => state.blockUser);
-	const { user: unblockUser } = useAppSelector((state: any) => state.blockUser);
+	const { users } = useAppSelector((state: RootState) => state.allUser);
+	const { userInfo: blockUser } = useAppSelector(
+		(state: RootState) => state.blockUser
+	);
+	const { userInfo: unblockUser } = useAppSelector(
+		(state: RootState) => state.blockUser
+	);
 	const {
 		loading: discountLoading,
 		error: discountError,
 		user: discountUser,
-	} = useAppSelector((state: any) => state.createDiscountCode);
-	const { bookings } = useAppSelector((state: any) => state.allBooking);
+	} = useAppSelector((state: RootState) => state.createDiscountCode);
+	const {
+		loading: deactivateDiscount,
+		error: deactivateDiscountError,
+		user: deactivateDiscountUser,
+	} = useAppSelector((state: RootState) => state.deactivateCode);
+	const { bookings } = useAppSelector((state: RootState) => state.allBooking);
 	const [flip, setFlip] = useState("");
 	const [discountPercent, setDiscountPercent] = useState("");
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 	// const [visible, setStateModalVisible] = useState<boolean>(false);
+	const [showDiscountError, setShowDiscountError] = useState<string>("");
+	const [messageApi, contextHolder] = message.useMessage();
 
 	const [currentPage, setCurrentPage] = useState(0); // current page
 	const itemsPerPage = 10; // number of items per page
@@ -101,28 +114,42 @@ const UserOverview: React.FC = () => {
 	}, [blockUser, dispatch, unblockUser]);
 
 	useEffect(() => {
-		if (discountUser) dispatch(getAllUserAction());
+		if (discountUser?._id) {
+			dispatch(resetDiscountCodeUserAction());
+			dispatch(getAllUserAction());
+			message.info("Your Discount code have been created");
+		}
 	}, [discountUser, dispatch]);
+
+	useEffect(() => {
+		if (deactivateDiscountUser?._id) {
+			dispatch(getAllUserAction());
+			dispatch(resetDiscountCodeUserAction());
+			message.info("Your Discount code have been deativated");
+		}
+	}, [deactivateDiscountUser, dispatch]);
 
 	return (
 		<div>
-			<h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xl font-medium">
+			{contextHolder}
+
+			<h2 className="fixed w-full py-8 pl-4 mb-4 text-xl font-medium bg-white border-b top-24">
 				Users{" "}
 			</h2>
 			<div className="px-4">
 				{/* DATA */}
-				<div className="bg-black rounded-md mt-24 py-3 px-4 my-4 ">
-					<div className="justify-evenly mb-4 pt-6 flex w-full">
+				<div className="px-4 py-3 my-4 mt-24 bg-black rounded-md ">
+					<div className="flex w-full pt-6 mb-4 justify-evenly">
 						<div className="text-center">
-							<p className=" text-gray-400">Total Number of Users </p>
+							<p className="text-gray-400 ">Total Number of Users </p>
 							<p className="text-white ">{users.length}</p>
 						</div>
 						{/* <div className="text-center">
-              <p className=" text-gray-400">Total Active Users</p>
+              <p className="text-gray-400 ">Total Active Users</p>
               <p className="text-white ">20,000</p>
             </div> */}
 						<div className="text-center">
-							<p className=" text-gray-400"> Total Tickets Booked</p>
+							<p className="text-gray-400 "> Total Tickets Booked</p>
 							<p className="text-white ">{bookings.length}</p>
 						</div>
 					</div>
@@ -159,22 +186,22 @@ const UserOverview: React.FC = () => {
 				<table className="w-full text-left text-white">
 					<thead className="bg-black">
 						<tr className="w-full">
-							<th scope="col" className="px-4 py-4 font-normal  rounded-l-md">
+							<th scope="col" className="px-4 py-4 font-normal rounded-l-md">
 								First Name
 							</th>
-							<th scope="col" className="px-2 py-4 font-normal  text-center ">
+							<th scope="col" className="px-2 py-4 font-normal text-center ">
 								Last Name
 							</th>
-							<th scope="col" className="px-2 py-4 font-normal  text-center">
+							<th scope="col" className="px-2 py-4 font-normal text-center">
 								Phone Number
 							</th>
-							<th scope="col" className="px-2 py-4 font-normal  pl-16">
+							<th scope="col" className="px-2 py-4 pl-16 font-normal">
 								Email
 							</th>
-							<th scope="col" className="px-2 py-4 font-normal  pl-16">
+							<th scope="col" className="px-2 py-4 pl-16 font-normal">
 								Discount Code
 							</th>
-							<th scope="col" className="px-2 py-4 font-normal  pl-16">
+							<th scope="col" className="px-2 py-4 pl-16 font-normal">
 								Is Blocked
 							</th>
 							<th
@@ -194,7 +221,7 @@ const UserOverview: React.FC = () => {
 											setSelectedUser(user);
 											handleOpenModal("openUser");
 										}}
-										className="px-4 py-6  text-gray-700">
+										className="px-4 py-6 text-gray-700">
 										{user?.first_name}
 									</td>
 									<td
@@ -202,7 +229,7 @@ const UserOverview: React.FC = () => {
 											setSelectedUser(user);
 											handleOpenModal("openUser");
 										}}
-										className=" text-center text-gray-700 ">
+										className="text-center text-gray-700 ">
 										{user?.last_name}
 									</td>
 									<td
@@ -210,7 +237,7 @@ const UserOverview: React.FC = () => {
 											setSelectedUser(user);
 											handleOpenModal("openUser");
 										}}
-										className="px-4  text-center text-gray-700">
+										className="px-4 text-center text-gray-700">
 										{user?.phone}
 									</td>
 
@@ -219,7 +246,7 @@ const UserOverview: React.FC = () => {
 											setSelectedUser(user);
 											handleOpenModal("openUser");
 										}}
-										className="px-4 pl-16  text-gray-700">
+										className="px-4 pl-16 text-gray-700">
 										{user?.email}
 									</td>
 
@@ -228,7 +255,7 @@ const UserOverview: React.FC = () => {
 											setSelectedUser(user);
 											handleOpenModal("openUser");
 										}}
-										className="px-4 pl-16  text-gray-700">
+										className="px-4 pl-16 text-gray-700">
 										{user?.discount_code?.code
 											? user?.discount_code?.code
 											: "-"}
@@ -239,11 +266,11 @@ const UserOverview: React.FC = () => {
 											setSelectedUser(user);
 											handleOpenModal("openUser");
 										}}
-										className="px-4 pl-16  text-gray-700">
+										className="px-4 pl-16 text-gray-700">
 										{`${user?.is_blocked}`}
 									</td>
 									<td
-										className=" font-normal  text-gray-700"
+										className="font-normal text-gray-700 "
 										onClick={() => {
 											handleSetMenuToggle(index.toString());
 										}}>
@@ -258,7 +285,7 @@ const UserOverview: React.FC = () => {
 																setSelectedUser(user);
 																handleOpenModal("openUser");
 															}}
-															className="px-4 py-2  font-medium text-gray-700 border-b hover:bg-gray-100">
+															className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100">
 															View
 														</li>
 
@@ -268,7 +295,7 @@ const UserOverview: React.FC = () => {
 																	setSelectedUser(user);
 																	handleOpenModal("activate");
 																}}
-																className="px-4 py-2  font-medium text-gray-700 border-b hover:bg-gray-100">
+																className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100">
 																Activate
 															</li>
 														) : (
@@ -277,7 +304,7 @@ const UserOverview: React.FC = () => {
 																	setSelectedUser(user);
 																	handleOpenModal("deactivate");
 																}}
-																className="px-4 py-2  font-medium text-gray-700 border-b hover:bg-gray-100">
+																className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100">
 																Deactivate
 															</li>
 														)}
@@ -312,8 +339,8 @@ const UserOverview: React.FC = () => {
 					footer={false}
 					closable={true}>
 					<div className="h-5/6">
-						<div className="text-center mt-4 mb-6">
-							<div className="text-lg font-medium mb-1">
+						<div className="mt-4 mb-6 text-center">
+							<div className="mb-1 text-lg font-medium">
 								{`${selectedUser?.first_name} ${selectedUser?.last_name}`}
 							</div>
 							<div className="text-[#949292]">{selectedUser?.email}</div>
@@ -321,20 +348,20 @@ const UserOverview: React.FC = () => {
 						</div>
 
 						<div>
-							<div className="text-xs font-medium mb-2">Trip History</div>
+							<div className="mb-2 text-xs font-medium">Trip History</div>
 							{!selectedUser?.bookings?.length && (
 								<Alert type="info" message={"No history available"} />
 							)}
 
 							{selectedUser?.bookings?.map((book: Booking_interface) => {
 								return (
-									<div className="flex overflow-hidden justify-between border-b py-2 my-4 text-gray-800">
+									<div className="flex justify-between py-2 my-4 overflow-hidden text-gray-800 border-b">
 										<div className="flex">
 											<div className="mt-2 mr-4">
 												<FaBus />
 											</div>
 											<div>
-												<div className="truncate text-base">
+												<div className="text-base truncate">
 													{book?.trip?.travel_destination?.from?.city?.city}
 													to
 													{book?.trip?.travel_destination?.to?.city?.city}
@@ -469,20 +496,27 @@ const UserOverview: React.FC = () => {
 					centered={true}
 					footer={false}
 					closable={true}
-					width={240}>
-					<div className="text-center mt-4 mb-6 ">
-						<div className="mb-[20px] text-[20px]">Generate Discount code</div>
-						<div className="text-lg font-medium mb-1">
+					// width={350}
+				>
+					<div className="flex flex-col justify-center mt-4 mb-6 text-center ">
+						<div className="mb-[20px] text-[20px]">
+							Generate Discount code for {selectedUser?.first_name}{" "}
+							{selectedUser?.last_name}
+						</div>
+						<div className="mb-1 text-lg font-medium">
 							{`${selectedUser?.first_name} ${selectedUser?.last_name}`}
 						</div>
 
-						<div className="text-lg font-medium mb-1">
+						<div className="mb-1 text-lg font-medium">
 							{selectedUser?.discount_code?.code}
 						</div>
+						{showDiscountError && (
+							<p className="text-red-600">{showDiscountError}</p>
+						)}
 
 						<Input
 							type="number"
-							placeholder="Enter percent for discount"
+							placeholder="Enter percent for discount e.g 0.5"
 							value={discountPercent}
 							onChange={(e) => setDiscountPercent(e.target.value)}
 							className="mb-[20px]"
@@ -505,11 +539,21 @@ const UserOverview: React.FC = () => {
 							size={"small"}
 							loader={discountLoading}
 							onClick={() => {
+								if (!discountPercent) {
+									setShowDiscountError(
+										"Enter a valid discount percentage e.g 0.4"
+									);
+									return;
+								}
+
+								setShowDiscountError("");
 								dispatch(
 									createDiscountCodeAction(selectedUser?._id || "", {
 										discount_percent: discountPercent,
 									})
 								);
+								setDiscountPercent("");
+								handleCancel();
 							}}
 						/>
 						<br />
@@ -517,9 +561,10 @@ const UserOverview: React.FC = () => {
 						<FraserButton
 							title={"Deactivate  Code"}
 							size={"small"}
-							loader={discountLoading}
+							loader={deactivateDiscount}
 							onClick={() => {
 								dispatch(deactivateDiscountCodeAction(selectedUser?._id || ""));
+								handleCancel();
 							}}
 						/>
 					</div>
