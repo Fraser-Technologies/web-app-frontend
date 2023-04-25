@@ -56,11 +56,15 @@ import {
 } from "./slices/booking.slice";
 import {
 	getAllTransactionReducer,
-	getAllTransactionSlice,
 	getTransactionByIdReducer,
 	verifyPaymentStatusReducer,
 } from "./slices/transactionSlice";
 import { appStateReducer } from "./slices/appState.slice";
+import {
+	deactivateCodeReducer,
+	discountCodeReducer,
+	getUserByDiscountCodeReducer,
+} from "./slices/discountSlice";
 
 const rootReducer = combineReducers({
 	getotp: getOtpReducer,
@@ -132,6 +136,11 @@ const rootReducer = combineReducers({
 	allTransaction: getAllTransactionReducer,
 	transactionById: getTransactionByIdReducer,
 	verifyPaymentStatus: verifyPaymentStatusReducer,
+
+	// discount reducer
+	createDiscountCode: discountCodeReducer,
+	deactivateCode: deactivateCodeReducer,
+	userByDiscountCode: getUserByDiscountCodeReducer,
 
 	appState: appStateReducer,
 });
