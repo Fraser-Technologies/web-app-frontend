@@ -571,7 +571,7 @@ const Bookings = () => {
                       />
                       <p className="mt-4 text-[14px] text-gray-500">
                         Request a route or
-                        <a href={`tel:09076736877`}>
+                        <a href={`tel:07045533534`}>
                           <span className="text-blue-500"> contact us</span>
                         </a>
                       </p>
@@ -596,7 +596,7 @@ const Bookings = () => {
                           />
                           <p className="mt-4 text-[14px] text-gray-500">
                             Request a route or
-                            <a href={`tel:09076736877`}>
+                            <a href={`tel:07045533534`}>
                               <span className="text-blue-500"> contact us</span>
                             </a>
                           </p>
