@@ -133,7 +133,7 @@ const UserOverview: React.FC = () => {
 		<div>
 			{contextHolder}
 
-			<h2 className="fixed w-full py-8 pl-4 mb-4 text-xl font-medium bg-white border-b top-24">
+			<h2 className="fixed w-full pt-16 py-8 pl-4 mb-4 text-xl font-medium bg-white border-b top-16">
 				Users{" "}
 			</h2>
 			<div className="px-4">

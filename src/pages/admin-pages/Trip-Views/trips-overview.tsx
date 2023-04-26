@@ -88,8 +88,8 @@ const TripsOverview: React.FC = () => {
   // calculate the start and end index of the items to display on the current page
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
-  const items = trips
-    ?.filter((trip: Trip_interface) => trip?.completed_status === false)
+  const items = trips ? 
+    trips?.filter((trip: Trip_interface) => trip?.completed_status === false)
     .sort(
       (
         a: { take_off_date: any; take_off_time: any },
@@ -100,7 +100,7 @@ const TripsOverview: React.FC = () => {
         return dateA.getTime() - dateB.getTime();
       }
     )
-    .slice(startIndex, endIndex); // items to display on the current page
+    .slice(startIndex, endIndex) : trips; // items to display on the current page
 
   const handleOpenModal = (data: any, flipValue: any) => {
     setFlip(flipValue);

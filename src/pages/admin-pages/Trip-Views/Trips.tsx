@@ -9,7 +9,7 @@ const Trips: React.FC = () => {
 	};
 
 	return (
-		<div className="h-full col-start-2 mt-24 col-end-8 bg-white ">
+		<div className="h-full col-start-2 mt-40 col-end-8 bg-white ">
 			<div className="w-full fixed bg-white py-6 pt-12 border-b px-4 ">
 				<div className="inline-flex rounded-md" role="group">
 					<button
