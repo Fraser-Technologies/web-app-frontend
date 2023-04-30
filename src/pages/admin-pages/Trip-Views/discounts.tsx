@@ -1,5 +1,5 @@
 import { Input, Modal } from "antd";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   FaCheckCircle,
   FaEllipsisV,
@@ -14,11 +14,22 @@ const Discounts = () => {
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [couponName, setCouponName] = useState("");
   const [couponCode, setCouponCode] = useState("");
+  const [referralCode, setReferralCode] = useState("");
   const [couponPercent, setCouponPercent] = useState("");
   const [userAllocation, setUserAllocation] = useState("");
   const [modalData, setModalData] = useState();
 
   const [menuToggle, setMenuToggle] = useState("");
+  const [randomString, setRandomString] = useState("");
+
+  const handleClick = () => {
+    const letters = "0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+    let result = "";
+    for (let i = 0; i < 5; i++) {
+      result += letters.charAt(Math.floor(Math.random() * letters.length));
+    }
+    setRandomString(result);
+  };
 
   const handleOk = () => {
     setModalVisible(false);
@@ -56,6 +67,10 @@ const Discounts = () => {
   const endIndex = startIndex + itemsPerPage;
   const items = 1; // items to display on the current page
 
+  useEffect(() => {
+    setReferralCode(randomString)
+  },[randomString]);
+
   return (
     <div className="px-4 pt-12">
       <div>
@@ -67,8 +82,11 @@ const Discounts = () => {
             size="regular"
             onClick={() => {
               handleOpenModal(null, "create");
+              handleClick();
+              setReferralCode(randomString);
+              // {randomString && <p>{randomString}</p>}
             }}
-            title={"Create Discount Code"}
+            title={"Create new entity"}
           />
         </div>
 
@@ -276,9 +294,9 @@ const Discounts = () => {
             </div>
             <FraserButton
               title={"Mark Paid"}
-              size={"small"}
-              buttonType="secondary"
-              secondaryColor="black"
+              size={"regular"}
+              // buttonType="secondary"
+              // secondaryColor="black"
               className="mt-8 mb-4 w-full"
               onClick={() => {
                 //reset Amount Earned to zero and increase amount paid out
@@ -298,7 +316,7 @@ const Discounts = () => {
           closable={true}
           width={"380px"}
         >
-          <div className="mt-12">
+          <div className="mt-6">
             <div className="mt-4">
               <div className="mb-2">
                 <label className="text-gray-500  ml-2">
@@ -317,7 +335,9 @@ const Discounts = () => {
             </div>
             <div className="mt-4">
               <div className="mb-2">
-                <label className="text-gray-500  ml-2">Coupon Code</label>
+                <label className="text-gray-500  ml-2">
+                  Discount Coupon Code
+                </label>
               </div>
               <Input
                 className="hover:border-green-500 focus:border-green-600 h-10 w-full"
@@ -326,6 +346,20 @@ const Discounts = () => {
                 required={true}
                 onChange={(e) => {
                   setCouponCode(e.target.value);
+                }}
+              />
+            </div>
+            <div className="mt-4">
+              <div className="mb-2">
+                <label className="text-gray-500  ml-2">Referral Code</label>
+              </div>
+              <Input
+                className="hover:border-green-500 focus:border-green-600 h-10 w-full"
+                placeholder="Referral Code"
+                value={referralCode}
+                required={true}
+                onChange={(e) => {
+                  setReferralCode(e.target.value);
                 }}
               />
             </div>
