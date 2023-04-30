@@ -44,8 +44,12 @@ const UserOverview: React.FC = () => {
 		user: deactivateDiscountUser,
 	} = useAppSelector((state: RootState) => state.deactivateCode);
 	const { bookings } = useAppSelector((state: RootState) => state.allBooking);
+	const [selectedUser, setSelectedUser] = useState<User_interface>();
+
 	const [flip, setFlip] = useState("");
-	const [discountPercent, setDiscountPercent] = useState("");
+	const [discountPercent, setDiscountPercent] = useState<number>(
+		selectedUser?.discount_code?.discount_percent || 0
+	);
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 	// const [visible, setStateModalVisible] = useState<boolean>(false);
 	const [showDiscountError, setShowDiscountError] = useState<string>("");
@@ -57,7 +61,6 @@ const UserOverview: React.FC = () => {
 	const marginPagesDisplayed = 2; // number of pages to display on either side of the current page
 	const totalItems = users.length; // total number of items
 	const pageCount = Math.ceil(totalItems / itemsPerPage); // total number of pages
-	const [selectedUser, setSelectedUser] = useState<User_interface>();
 	// function to handle page clicks
 	const handlePageClick = (data: any) => {
 		setCurrentPage(data.selected); // update the current page
@@ -518,7 +521,7 @@ const UserOverview: React.FC = () => {
 							type="number"
 							placeholder="Enter percent for discount e.g 0.5"
 							value={discountPercent}
-							onChange={(e) => setDiscountPercent(e.target.value)}
+							onChange={(e) => setDiscountPercent(Number(e.target.value))}
 							className="mb-[20px]"
 						/>
 
@@ -552,7 +555,7 @@ const UserOverview: React.FC = () => {
 										discount_percent: discountPercent,
 									})
 								);
-								setDiscountPercent("");
+								setDiscountPercent(0);
 								handleCancel();
 							}}
 						/>
