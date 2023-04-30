@@ -16,6 +16,7 @@ const Discounts = () => {
   const [couponCode, setCouponCode] = useState("");
   const [couponPercent, setCouponPercent] = useState("");
   const [userAllocation, setUserAllocation] = useState("");
+  const [modalData, setModalData] = useState();
 
   const [menuToggle, setMenuToggle] = useState("");
 
@@ -45,6 +46,11 @@ const Discounts = () => {
     setCurrentPage(data.selected); // update the current page
   };
 
+  const handleOpenModal = (modalData: any, flipValue: any) => {
+    setFlip(flipValue);
+    setModalVisible(true);
+    setModalData(modalData);
+  };
   // calculate the start and end index of the items to display on the current page
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
@@ -60,8 +66,7 @@ const Discounts = () => {
             type="submit"
             size="regular"
             onClick={() => {
-              setFlip("create");
-              setModalVisible(true);
+              handleOpenModal(null, "create");
             }}
             title={"Create Discount Code"}
           />
@@ -97,7 +102,10 @@ const Discounts = () => {
               Name
             </th>
             <th scope="col" className="py-4 font-normal ">
-              Code
+              Discount Code
+            </th>
+            <th scope="col" className="py-4 font-normal ">
+              Referral Code
             </th>
             <th scope="col" className="py-4 font-normal ">
               Discount %
@@ -105,12 +113,15 @@ const Discounts = () => {
             <th scope="col" className="py-4 font-normal ">
               User %
             </th>
-            <th scope="col" className="py-4 font-normal ">
-              Amount Earned
+            {/* <th scope="col" className="py-4 font-normal ">
+              Earning
             </th>
             <th scope="col" className="px-4 py-4 font-normal text-center">
-              Usage (Number)
+              Discount
             </th>
+            <th scope="col" className="px-4 py-4 font-normal text-center">
+              Referral
+            </th> */}
             <th scope="col" className="px-2 py-4 font-normal text-center">
               Status
             </th>
@@ -121,45 +132,68 @@ const Discounts = () => {
         {/* //TABLE ROWS */}
         <tbody className="">
           <tr className="bg-white border-b cursor-pointer border-slate-100 hover:bg-gray-50">
-            <td onClick={() => {}} className="py-6 pl-4 text-gray-700">
+            <td
+              className="py-6 pl-4 text-gray-700"
+              onClick={() => {
+                // setModalData here
+                handleOpenModal(modalData, "couponInfo");
+              }}
+            >
               {" "}
               Mellanby Hall
             </td>
-            <td onClick={() => {}} className="py-4 text-gray-700 ">
+            <td
+              className="py-4 text-gray-700 "
+              onClick={() => {
+                // setModalData here
+                handleOpenModal(modalData, "couponInfo");
+              }}
+            >
               MELLANBY68
             </td>
-            <td onClick={() => {}} className="text-center text-gray-700 ">
+            <td
+              className="py-4 text-gray-700 "
+              onClick={() => {
+                // setModalData here
+                handleOpenModal(modalData, "couponInfo");
+              }}
+            >
+              MELLANBY68
+            </td>
+            <td
+              className="text-center text-gray-700 "
+              onClick={() => {
+                // setModalData here
+                handleOpenModal(modalData, "couponInfo");
+              }}
+            >
               15%
             </td>
-
             <td
-              onClick={() => {}}
               className="px-4 py-4 text-center text-gray-700"
+              onClick={() => {
+                // setModalData here
+                handleOpenModal(modalData, "couponInfo");
+              }}
             >
               5%
             </td>
+            {/* <td className="px-4 py-4 text-center text-gray-700">28,750</td>
+            <td className="px-4 py-4 text-center text-gray-700">230</td>
+            <td className="px-4 py-4 text-center text-gray-700">230</td> */}
             <td
-              onClick={() => {}}
-              className="px-4 py-4 text-center text-gray-700"
-            >
-              28,750
-            </td>
-            <td
-              onClick={() => {}}
-              className="px-4 py-4 text-center text-gray-700"
-            >
-              230
-            </td>
-            <td
-              onClick={() => {}}
-              className="px-4 py-4 text-center text-gray-700 flex"
+              className=" px-4 py-4 text-center justify-center text-gray-700 flex m-auto item-center"
+              onClick={() => {
+                // setModalData here
+                handleOpenModal(modalData, "couponInfo");
+              }}
             >
               <div className="ml-2 bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1 text-sm">
                 Active
               </div>
-              <div className="ml-2 bg-[#ffc1c1] text-[#753131] border border-[#ff8d8d] rounded-md px-2 py-1 text-sm">
+              {/* <div className="ml-2 bg-[#ffc1c1] text-[#753131] border border-[#ff8d8d] rounded-md px-2 py-1 text-sm">
                 Inactive
-              </div>
+              </div> */}
             </td>
             <td
               className="px-4 py-4 text-gray-700"
@@ -174,10 +208,7 @@ const Discounts = () => {
               {/* ?  */}
               {menuVisible && (
                 <ul className="absolute right-12 right-12 z-10 py-2 mt-2 bg-white border rounded-md shadow-md">
-                  <li
-                    onClick={() => {}}
-                    className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100"
-                  >
+                  <li className="px-4 py-2 font-medium text-gray-700 border-b hover:bg-gray-100">
                     Edit
                   </li>
                   <li
@@ -197,6 +228,65 @@ const Discounts = () => {
       </table>
       {/* MODALS */}
 
+      {flip === "couponInfo" && modalVisible && (
+        <Modal
+          title={"View Coupon Details"}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          open={modalVisible}
+          centered={true}
+          footer={false}
+          closable={true}
+          width={"460px"}
+        >
+          <div>
+            <div className="mt-8">Coupon Code</div>
+            <div className="flex">
+              {" "}
+              <div className="text-lg font-semibold ">MELLANBY68</div>
+              <div className="ml-2 bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1 text-sm">
+                Active
+              </div>
+            </div>
+            {/* <div className="ml-2 bg-[#ffc1c1] text-[#753131] border border-[#ff8d8d] rounded-md px-2 py-1 text-sm">
+                Inactive
+              </div> */}
+            <div className="mt-6 mb-3 border-b pb-2">Usage Statistics</div>
+            <div className="flex">
+              <div className="bg-black rounded-md p-4 w-1/2 mr-2">
+                <div className="text-gray-300">Discount Code Usage</div>
+                <div className="text-lg font-semibold text-white">100</div>
+              </div>
+              <div className="bg-black rounded-md p-4 w-1/2">
+                <div className="text-gray-300">Referral Code Usage</div>
+                <div className="text-lg font-semibold text-white">100</div>
+              </div>
+            </div>
+
+            <div className="mt-6 mb-3 border-b pb-2">Earning Statistics</div>
+            <div className="flex">
+              <div className="bg-black rounded-md p-4 w-1/2 mr-2">
+                <div className="text-gray-300">Amount Earned</div>
+                <div className="text-lg font-semibold text-white">27,650</div>
+              </div>
+              <div className="bg-black rounded-md p-4 w-1/2">
+                <div className="text-gray-300">Amount Paid Out</div>
+                <div className="text-lg font-semibold text-white">10,000</div>
+              </div>
+            </div>
+            <FraserButton
+              title={"Mark Paid"}
+              size={"small"}
+              buttonType="secondary"
+              secondaryColor="black"
+              className="mt-8 mb-4 w-full"
+              onClick={() => {
+                //reset Amount Earned to zero and increase amount paid out
+              }}
+            />
+          </div>
+        </Modal>
+      )}
       {flip === "create" && modalVisible && (
         <Modal
           title={"Create a Discount Coupon"}
