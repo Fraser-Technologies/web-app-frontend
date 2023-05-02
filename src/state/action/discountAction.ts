@@ -11,7 +11,7 @@ import {
 	getUserByDiscountCodeFailed,
 	getUserByDiscountCodeRequest,
 	getUserByDiscountCodeSuccess,
-	resetDiscountCodeUser,
+	resetDiscountCodeUser
 } from "../slices/discountSlice";
 
 export const createDiscountCodeAction =
@@ -21,7 +21,7 @@ export const createDiscountCodeAction =
 			dispatch(createDiscountRequest());
 			const {
 				appState: { app_type },
-				userLogin: { userInfo },
+				userLogin: { userInfo }
 			} = getState();
 
 			const { data } = await api(app_type).post(
@@ -29,8 +29,8 @@ export const createDiscountCodeAction =
 				{ ...input },
 				{
 					headers: {
-						Authorization: `Bearer ${userInfo?.user_token}`,
-					},
+						Authorization: `Bearer ${userInfo?.user_token}`
+					}
 				}
 			);
 			dispatch(createDiscountSuccess(data));
@@ -47,7 +47,7 @@ export const deactivateDiscountCodeAction =
 
 			const {
 				appState: { app_type },
-				userLogin: { userInfo },
+				userLogin: { userInfo }
 			} = getState();
 
 			const { data } = await api(app_type).post(
@@ -55,8 +55,8 @@ export const deactivateDiscountCodeAction =
 				{},
 				{
 					headers: {
-						Authorization: `Bearer ${userInfo?.user_token}`,
-					},
+						Authorization: `Bearer ${userInfo?.user_token}`
+					}
 				}
 			);
 			dispatch(deactivateDiscountSuccess(data));
@@ -70,21 +70,21 @@ export const resetDiscountCodeUserAction = (): AppThunk => (dispatch) => {
 };
 
 export const getUserByDiscountCodeAction =
-	(code: string): AppThunk =>
+	(input: any): AppThunk =>
 	async (dispatch, getState) => {
 		dispatch(getUserByDiscountCodeRequest());
 		try {
 			const {
 				appState: { app_type },
-				userLogin: { userInfo },
+				userLogin: { userInfo }
 			} = getState();
 			const { data } = await api(app_type).post(
 				"/discount/code",
-				{ code },
+				{ input },
 				{
 					headers: {
-						Authorization: `Bearer ${userInfo?.user_token}`,
-					},
+						Authorization: `Bearer ${userInfo?.user_token}`
+					}
 				}
 			);
 

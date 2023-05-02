@@ -9,7 +9,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { Alert, Form, Input, message } from "antd";
 import {
 	emptyMyBooking,
-	verifyPaymentAction,
+	verifyPaymentAction
 } from "../../state/action/booking.action";
 import { useNavigate } from "react-router-dom";
 import GeometricPatterns from "../../components/GeometricPatterns";
@@ -72,7 +72,13 @@ const Checkout = () => {
 	const [alertType, setAlertType] = useState<"success" | "error">("success");
 
 	const applyCoupon = () => {
-		dispatch(getUserByDiscountCodeAction(couponCode));
+		dispatch(
+			getUserByDiscountCodeAction({
+				code: couponCode,
+				ticket_amount: myBooking?.price,
+				number_of_booking: myBooking?.no_of_ticket
+			})
+		);
 	};
 
 	const handleClose = () => {
@@ -91,7 +97,7 @@ const Checkout = () => {
 				myBooking?.no_of_ticket * myBooking?.price -
 					myBooking?.no_of_ticket * myBooking?.price * discountPercentage
 			) * 100,
-		publicKey: process.env.REACT_APP_PAYSTACK_KEY,
+		publicKey: process.env.REACT_APP_PAYSTACK_KEY
 	};
 
 	const initializePayment = usePaystackPayment(config as any);
@@ -106,7 +112,7 @@ const Checkout = () => {
 	const onClose = () => {
 		messageApi.open({
 			type: "error",
-			content: "An error occured while trying to pay",
+			content: "An error occured while trying to pay"
 		});
 	};
 
@@ -153,7 +159,7 @@ const Checkout = () => {
 		const data = [...formData];
 		data[index] = {
 			...data[index],
-			[e.target.name]: e.target.value,
+			[e.target.name]: e.target.value
 		};
 		setFormData(data);
 	};
