@@ -80,7 +80,7 @@ export const getUserByDiscountCodeAction =
 			} = getState();
 			const { data } = await api(app_type).post(
 				"/discount/code",
-				{ input },
+				{ ...input },
 				{
 					headers: {
 						Authorization: `Bearer ${userInfo?.user_token}`
