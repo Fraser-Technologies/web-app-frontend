@@ -951,6 +951,7 @@ const Bookings = () => {
 			)}
 		</Layout>
 	);
+
 };
 
 export default Bookings;
