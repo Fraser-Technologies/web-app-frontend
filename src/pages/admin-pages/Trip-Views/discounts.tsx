@@ -90,7 +90,7 @@ const Discounts = () => {
 		dispatch(
 			createEntityAction({
 				name: couponName,
-				referral_code: couponCode,
+				referral_code: { code: referralCode },
 				discount_code: {
 					code: couponCode,
 					discount_percent: couponPercent / 100
