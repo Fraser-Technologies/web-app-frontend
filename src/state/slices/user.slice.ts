@@ -128,13 +128,14 @@ export const allUserReducer = allUserSlice.reducer;
 type userType = {
 	loading: boolean;
 	error: string;
-	userInfo: User_interface | { user_type: "user" | "driver" };
+	userInfo: User_interface | { user_type: "user" | "driver"; _id: "" };
 };
 const userState: userType = {
 	loading: false,
 	error: "",
 	userInfo: {
 		user_type: "user",
+		_id: "",
 	},
 };
 const blockUserSlice = createSlice({
@@ -156,7 +157,7 @@ const blockUserSlice = createSlice({
 		clearBlockUser: (state) => {
 			state.loading = false;
 			state.error = "";
-			state.userInfo = { user_type: "user" };
+			state.userInfo = { user_type: "user", _id: "" };
 		},
 	},
 });
@@ -183,11 +184,11 @@ const unBlockUserSlice = createSlice({
 		},
 
 		unBlockUserFailed: (state) => {
-			state.userInfo = { user_type: "user" };
+			state.userInfo = { user_type: "user", _id: "" };
 			state.loading = false;
 		},
 		clearUnBlockUser: (state) => {
-			state.userInfo = { user_type: "user" } || {};
+			state.userInfo = { user_type: "user", _id: "" } || {};
 			state.loading = false;
 			state.error = "";
 		},

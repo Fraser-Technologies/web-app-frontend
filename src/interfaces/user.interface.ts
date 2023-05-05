@@ -22,4 +22,10 @@ export interface User_interface extends Mongo_extra {
 	driver_verification_status?: boolean;
 	bus: Bus_interface;
 	balance: Balance_interface;
+	home_state: string;
+	discount_code?: {
+		code: string;
+		discount_percent: number;
+		active: boolean;
+	};
 }

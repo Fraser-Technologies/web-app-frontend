@@ -3,18 +3,18 @@ import {
 	addAccountReducer,
 	allUserBalances,
 	balanceByUserReducer,
-	withdrawReducer,
+	withdrawReducer
 } from "./slices/balance.slice";
 import {
 	allBusReducer,
 	createBusReducer,
-	updateBusSliceReducer,
+	updateBusSliceReducer
 } from "./slices/bus.slice";
 import {
 	createCityReducer,
 	deleteCityReducer,
 	getAllCityReducer,
-	updateCityReducer,
+	updateCityReducer
 } from "./slices/city.slice";
 import { adminPageReducer } from "./slices/adminPageSlice";
 import { verifyOtpReducer, getOtpReducer } from "./slices/otp.Slice";
@@ -29,12 +29,12 @@ import {
 	unblockUserReducer,
 	updateUserReducer,
 	userLoginReducer,
-	userRegisterReducer,
+	userRegisterReducer
 } from "./slices/user.slice";
 import {
 	addBusStopReducer,
 	getAllBusStopReducer,
-	removeBusStopReducer,
+	removeBusStopReducer
 } from "./slices/busstop.slice";
 import {
 	allTripReducer,
@@ -47,20 +47,31 @@ import {
 	getTripByDriverReducer,
 	unverifyPassengerOnBoardReducer,
 	updateTripReducer,
-	verifyPassengerOnBoardReducer,
+	verifyPassengerOnBoardReducer
 } from "./slices/trip.slice";
 import {
 	allBookingReducer,
 	bookingReducer,
-	verifyPaymentReducer,
+	verifyPaymentReducer
 } from "./slices/booking.slice";
 import {
 	getAllTransactionReducer,
-	getAllTransactionSlice,
 	getTransactionByIdReducer,
-	verifyPaymentStatusReducer,
+	verifyPaymentStatusReducer
 } from "./slices/transactionSlice";
 import { appStateReducer } from "./slices/appState.slice";
+import {
+	deactivateCodeReducer,
+	discountCodeReducer,
+	getUserByDiscountCodeReducer
+} from "./slices/discountSlice";
+import {
+	createEntityReducer,
+	deleteEntityByReducer,
+	editEntityByReducer,
+	getAllEntityReducer,
+	getEntityByIdReducer
+} from "./slices/entity.slice";
 
 const rootReducer = combineReducers({
 	getotp: getOtpReducer,
@@ -133,7 +144,19 @@ const rootReducer = combineReducers({
 	transactionById: getTransactionByIdReducer,
 	verifyPaymentStatus: verifyPaymentStatusReducer,
 
-	appState: appStateReducer,
+	// discount reducer
+	createDiscountCode: discountCodeReducer,
+	deactivateCode: deactivateCodeReducer,
+	userByDiscountCode: getUserByDiscountCodeReducer,
+
+	//entity reducer
+	createEntity: createEntityReducer,
+	getEntityById: getEntityByIdReducer,
+	getAllEntity: getAllEntityReducer,
+	deleteEntity: deleteEntityByReducer,
+	editEntity: editEntityByReducer,
+
+	appState: appStateReducer
 });
 
 export default rootReducer;

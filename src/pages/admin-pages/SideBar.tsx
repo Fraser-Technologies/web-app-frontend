@@ -44,7 +44,7 @@ const LeftSidebar: React.FC = () => {
 	return (
 		<div className="fixed w-2/12 h-screen col-start-1 col-end-2">
 			<div className="bg-white border-r h-full">
-				<ul className="pt-8 px-4">
+				<ul className="pt-24 px-4">
 					{menuItems.map((item: any, i: number) => {
 						return (
 							<li

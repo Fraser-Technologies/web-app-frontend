@@ -89,18 +89,20 @@ const TripsOverview: React.FC = () => {
   const startIndex = currentPage * itemsPerPage;
   const endIndex = startIndex + itemsPerPage;
   const items = trips
-    ?.filter((trip: Trip_interface) => trip?.completed_status === false)
-    .sort(
-      (
-        a: { take_off_date: any; take_off_time: any },
-        b: { take_off_date: any; take_off_time: any }
-      ) => {
-        const dateA = new Date(`${a?.take_off_date} ${a?.take_off_time}`);
-        const dateB = new Date(`${b?.take_off_date} ${b?.take_off_time}`);
-        return dateA.getTime() - dateB.getTime();
-      }
-    )
-    .slice(startIndex, endIndex); // items to display on the current page
+    ? trips
+        ?.filter((trip: Trip_interface) => trip?.completed_status === false)
+        .sort(
+          (
+            a: { take_off_date: any; take_off_time: any },
+            b: { take_off_date: any; take_off_time: any }
+          ) => {
+            const dateA = new Date(`${a?.take_off_date} ${a?.take_off_time}`);
+            const dateB = new Date(`${b?.take_off_date} ${b?.take_off_time}`);
+            return dateA.getTime() - dateB.getTime();
+          }
+        )
+        .slice(startIndex, endIndex)
+    : trips; // items to display on the current page
 
   const handleOpenModal = (data: any, flipValue: any) => {
     setFlip(flipValue);
@@ -373,7 +375,7 @@ const TripsOverview: React.FC = () => {
                   </div>
                   {menuToggle === index.toString()
                     ? menuVisible && (
-                        <ul className="absolute z-10 py-2 mt-2 bg-white border rounded-md shadow-md">
+                        <ul className="absolute right-12 z-10 py-2 mt-2 bg-white border rounded-md shadow-md">
                           <li
                             onClick={() => {
                               handleOpenModal(trip, "info");
@@ -437,50 +439,51 @@ const TripsOverview: React.FC = () => {
           closable={true}
         >
           <div className="mt-8 h-[70vh] overflow-y-scroll">
-          {trips
-            ?.filter((trip: Trip_interface) => trip?.completed_status === true)
-            .sort(
-              (
-                a: { take_off_date: any; take_off_time: any },
-                b: { take_off_date: any; take_off_time: any }
-              ) => {
-                const dateA = new Date(
-                  `${a?.take_off_date} ${a?.take_off_time}`
-                );
-                const dateB = new Date(
-                  `${b?.take_off_date} ${b?.take_off_time}`
-                );
-                return dateA.getTime() - dateB.getTime();
-              }
-            )
-            .map((trip: Trip_interface, index: Number) => {
-              return (
-                <div className="mb-2 border-b pb-4">
-                  <div className="flex">
-                    <div className="text-lg mr-2">
-                      {trip?.travel_destination?.from?.city?.city} to{" "}
-                      {trip?.travel_destination?.to?.city?.city}
-                    </div>
-                    {/* <div className="items-center flex bg-[#C1D2FF] border border-[#8D98FF] text-[#314075] px-3 rounded-md">
+            {trips
+              ?.filter(
+                (trip: Trip_interface) => trip?.completed_status === true
+              )
+              .sort(
+                (
+                  a: { take_off_date: any; take_off_time: any },
+                  b: { take_off_date: any; take_off_time: any }
+                ) => {
+                  const dateA = new Date(
+                    `${a?.take_off_date} ${a?.take_off_time}`
+                  );
+                  const dateB = new Date(
+                    `${b?.take_off_date} ${b?.take_off_time}`
+                  );
+                  return dateA.getTime() - dateB.getTime();
+                }
+              )
+              .map((trip: Trip_interface, index: Number) => {
+                return (
+                  <div className="mb-2 border-b pb-4">
+                    <div className="flex">
+                      <div className="text-lg mr-2">
+                        {trip?.travel_destination?.from?.city?.city} to{" "}
+                        {trip?.travel_destination?.to?.city?.city}
+                      </div>
+                      {/* <div className="items-center flex bg-[#C1D2FF] border border-[#8D98FF] text-[#314075] px-3 rounded-md">
                       {" "}
                       Completed{" "}
                     </div> */}
-                  </div>
-                  <div className="flex text-[#929292] items-center">
-                    <div className="flex items-center">
-                      <div className="mr-2">{trip?.arrival_date} </div>
-                      <div className="h-1 w-1 bg-[#353535] rounded-md mr-2"></div>{" "}
-                      <div className="mr-2">{
-                      trip?.arrival_time}</div>
                     </div>
-                    <div className="h-1 w-1 bg-[#353535] rounded-md mr-2"></div>
-                    <div className="">
-                      {`${trip?.driver?.first_name} ${trip?.driver?.last_name} `}
+                    <div className="flex text-[#929292] items-center">
+                      <div className="flex items-center">
+                        <div className="mr-2">{trip?.arrival_date} </div>
+                        <div className="h-1 w-1 bg-[#353535] rounded-md mr-2"></div>{" "}
+                        <div className="mr-2">{trip?.arrival_time}</div>
+                      </div>
+                      <div className="h-1 w-1 bg-[#353535] rounded-md mr-2"></div>
+                      <div className="">
+                        {`${trip?.driver?.first_name} ${trip?.driver?.last_name} `}
+                      </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
+                );
+              })}
           </div>
           {/* <CreateTripFormComponent /> */}
         </Modal>
@@ -524,7 +527,6 @@ const TripsOverview: React.FC = () => {
                 className=" font-normal text-[#22B11E] mt-2 cursor-pointer"
                 onClick={() => {
                   openManifest("manifest");
-                  
                 }}
               >
                 {" "}

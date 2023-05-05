@@ -210,7 +210,7 @@ const VehicleOverview: React.FC = () => {
 											<FaEllipsisV />
 										</div>
 										{menuVisible && (
-											<ul className="absolute z-10 py-2 mt-2 bg-white border rounded-md shadow-md">
+											<ul className="absolute right-12 z-10 py-2 mt-2 bg-white border rounded-md shadow-md">
 												<li
 													onClick={() => {
 														handleOpenModal(bus);
