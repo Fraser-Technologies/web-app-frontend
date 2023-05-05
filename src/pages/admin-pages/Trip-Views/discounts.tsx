@@ -87,6 +87,7 @@ const Discounts = () => {
 	const items = 1; // items to display on the current page
 
 	const createEntity = () => {
+		
 		dispatch(
 			createEntityAction({
 				name: couponName,
@@ -109,7 +110,7 @@ const Discounts = () => {
 		dispatch(getAllEntityAction());
 	}, [dispatch, entity]);
 
-	console.log("the modal data is ", modalData);
+	// console.log("the modal data is ", modalData);
 
 	return (
 		<div className="px-4 pt-12">
