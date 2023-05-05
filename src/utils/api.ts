@@ -8,7 +8,7 @@ export const api = (appState: string) => {
 				? "https://fraser-api.onrender.com/api/v1"
 				: "https://fraser-test-api.onrender.com/api/v1",
 		headers: {
-			"X-Authorization": appState,
-		},
+			"X-Authorization": appState
+		}
 	});
 };
