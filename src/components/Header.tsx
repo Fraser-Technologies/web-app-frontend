@@ -15,7 +15,9 @@ import {
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { _paths_ } from "../utils/routes";
 import { FaCopy } from "react-icons/fa";
+
 import { RootState } from "../state/redux-store";
+import allState from "../utils/allState";
 
 export const Header = () => {
   const {
@@ -35,6 +37,7 @@ export const Header = () => {
   const [flip, setFlip] = useState("signin");
   const [referred_by, setReferred_by] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [homeState, setHomeState] = useState<string>("");
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -59,21 +62,24 @@ export const Header = () => {
   const { error: registerUserError, loading: userRegisterLoading } =
     useAppSelector((state: RootState) => state.registerUser);
 
-  const CreateUser = () => {
-    return dispatch(
-      registerUserAction({
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        phone: "+234" + phone,
-        referred_by: referred_by,
-      })
-    );
-  };
+    const CreateUser = () => {
+      return dispatch(
+        registerUserAction({
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          email: email.trim(),
+          phone: "+234" + phone.trim(),
+          referred_by: referred_by.trim(),
+          home_state: homeState,
+        })
+      ).finally(
+        registerUserError ? setIsModalOpen(true) : setIsModalOpen(false)
+      );;
+    };
 
   const LoginUser = () => {
     return dispatch(userLoginAction("+234" + phone)).finally(
-      !loginError && setIsModalOpen(false)
+      loginError ? setIsModalOpen(true) : setIsModalOpen(false)
     );
   };
 
@@ -139,33 +145,50 @@ export const Header = () => {
           </h1>
         </div>
 
-        <div className="absolute bottom-12 text-[16px] text-white hover:cursor-pointer">
-          <span
-            className="flex mb-2"
-            onClick={() => {
-              navigator.clipboard.writeText(`${userInfo?.referral_code}`);
-              messageApi.info({
-                type: "info",
-                content: `Referral code ${userInfo?.referral_code} has been copied to clipboard!`,
-                duration: 1.5,
-              });
-            }}
-          >
-            Referral Code: {userInfo?.referral_code} <FaCopy className="ml-2" />
-          </span>
-          <div className="mb-8 border-b pb-8">
-            {/* Total Referrals: {userInfo.referrals.length} */}
-          </div>
+        <div className="absolute bottom-12 hover:cursor-pointer">
+          {userInfo?._id && (
+            <div className="text-white text-[16px]">
+              <span
+                className="flex mb-2"
+                onClick={() => {
+                  navigator.clipboard.writeText(`${userInfo?.referral_code}`);
+                  messageApi.info({
+                    type: "info",
+                    content: `Referral code ${userInfo?.referral_code} has been copied to clipboard!`,
+                    duration: 1.5,
+                  });
+                }}
+              >
+                Referral Code: {userInfo?.referral_code}{" "}
+                <FaCopy className="ml-2" />
+              </span>
+              <div className="mb-8 border-b pb-8">
+                {/* Total Referrals: {userInfo.referrals.length} */}
+              </div>
 
-          <div
-            className="flex flex-row items-center font-medium"
-            onClick={() => logOutUser()}
-          >
-            Logout
-            <span className="ml-[10px]">
-              <AiOutlinePoweroff />
-            </span>
-          </div>
+              <div
+                className="flex flex-row items-center font-medium"
+                onClick={() => logOutUser()}
+              >
+                Logout
+                <span className="ml-[10px]">
+                  <AiOutlinePoweroff />
+                </span>
+              </div>
+            </div>
+          )}
+          {!userInfo?._id && (
+            <FraserButton
+              title="Sign in"
+              size="regular"
+              type="submit"
+              onClick={() => {
+                setIsModalOpen(true);
+                setFlip("signin");
+                setOpenNavBar(false)
+              }}
+            />
+          )}
         </div>
       </div>
     );
@@ -428,6 +451,32 @@ export const Header = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+            <div className="mb-6">
+							<div className="mb-1">
+								<label className="text-gray-500">Home State</label>
+							</div>
+							<select
+								className="  w-full h-12 hover:border-green-500 bg-transparent border outline-none rounded-md active:border-
+							active:border-green-600"
+								onChange={(e) => setHomeState(e.target.value)}>
+								<option>Select State</option>
+								{allState.map((s: string) => {
+									return (
+										<option key={s} value={s}>
+											{s}
+										</option>
+									);
+								})}
+							</select>
+
+							{/* <Input
+								className="w-full h-12 hover:border-green-500 active:border-green-600"
+								placeholder="Email"
+								value={homeState}
+								required={true}
+								onChange={(e) => setHomeState(e.target.value)}
+							/> */}
+						</div>
             <div className="mb-6">
               <div className="mb-1">
                 <label className="text-gray-500">Referral Code</label>
