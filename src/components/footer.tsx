@@ -69,7 +69,7 @@ const Footer = () => {
                 </a>
               </li>
               <li className="mb-8">
-                <a href="tel:09076736877">Call</a>
+                <a href="tel:07045533534">Call</a>
               </li>
               <li className="mb-8">
                 <a href="https://chat.whatsapp.com/Lo53CNTd3D2L1AobyzRREa">

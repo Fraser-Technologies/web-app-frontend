@@ -1,30 +1,105 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { HiMenu } from "react-icons/hi";
 import { AiOutlineClose, AiOutlinePoweroff } from "react-icons/ai";
 import { Drawer } from "@mui/material";
 import { Link, useNavigate } from "react-router-dom";
 import { FraserButton } from "./Button";
 import { useAppDispatch, useAppSelector } from "../state/hooks";
-import { Dropdown, message } from "antd";
+import { Alert, Dropdown, Input, Modal, message } from "antd";
 import type { MenuProps } from "antd";
-import { logoutUserAction } from "../state/action/user.action";
+import {
+  logoutUserAction,
+  registerUserAction,
+  userLoginAction,
+} from "../state/action/user.action";
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { _paths_ } from "../utils/routes";
 import { FaCopy } from "react-icons/fa";
+import { RootState } from "../state/redux-store";
 
 export const Header = () => {
-  const { userInfo } = useAppSelector((state: any) => state.userLogin);
+  const {
+    userInfo,
+    error: loginError,
+    loading: userLoginLoading,
+  } = useAppSelector((state: any) => state.userLogin);
   const navigate = useNavigate();
   const dispatch = useAppDispatch();
   const [openNavBar, setOpenNavBar] = useState(false);
   const [openOptions, setOpenOptions] = useState(false);
   const [messageApi, contextHolder] = message.useMessage();
+  const [firstName, setFirstName] = useState<string>("");
+  const [lastName, setLastName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+  const [phone, setPhone] = useState<string>("");
+  const [flip, setFlip] = useState("signin");
+  const [referred_by, setReferred_by] = useState<string>("");
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+
+  const handleOk = () => {
+    setIsModalOpen(false);
+  };
+
+  const handleCancel = () => {
+    setIsModalOpen(false);
+    setFlip("");
+  };
+
+  const loginValid = phone !== "" && phone.length === 10;
+  const emailRegex =
+    /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+  const signUpValid =
+    firstName !== "" &&
+    lastName !== "" &&
+    email !== "" &&
+    phone !== "" &&
+    phone.length === 10 &&
+    email.match(emailRegex);
+
+  const { error: registerUserError, loading: userRegisterLoading } =
+    useAppSelector((state: RootState) => state.registerUser);
+
+  const CreateUser = () => {
+    return dispatch(
+      registerUserAction({
+        first_name: firstName,
+        last_name: lastName,
+        email: email,
+        phone: "+234" + phone,
+        referred_by: referred_by,
+      })
+    );
+  };
+
+  const LoginUser = () => {
+    return dispatch(userLoginAction("+234" + phone)).finally(
+      !loginError && setIsModalOpen(false)
+    );
+  };
 
   const logOutUser = () => {
     dispatch(logoutUserAction());
     navigate("/");
     setOpenNavBar(false);
   };
+
+  // useEffect(() => {
+  //   if (!userInfo?._id) {
+  //     setIsModalOpen(true);
+  //   } else {
+  //     setIsModalOpen(false);
+  //   }
+  // }, [dispatch, navigate, userInfo]);
+
+  // useEffect(() => {
+  //   if (!userInfo && loginError) {
+  //     messageApi.open({
+  //       type: "error",
+  //       content: loginError,
+  //     });
+  //     setFlip("signin");
+  //   }
+  // }, [loginError, messageApi, userInfo]);
 
   const getList = () => {
     return (
@@ -187,16 +262,224 @@ export const Header = () => {
             </div>
           </Dropdown>
 
-          <FraserButton
-            title="Book a ride"
-            size="regular"
-            type="submit"
-            onClick={() => {
-              navigate(_paths_.LANDING_PAGE);
-            }}
-          />
+          {!userInfo?._id && (
+            <FraserButton
+              title="Sign in"
+              size="regular"
+              type="submit"
+              onClick={() => {
+                setIsModalOpen(true);
+                setFlip("signin");
+              }}
+            />
+          )}
+          {userInfo?._id && (
+            <FraserButton
+              title="Book a ride"
+              size="regular"
+              type="submit"
+              onClick={() => {
+                navigate(_paths_.BOOKRIDE);
+              }}
+            />
+          )}
         </div>
       </div>
+
+      {flip === "signin" && (
+        <Modal
+          title={
+            <div>
+              <h1 className="pt-2 text-xl">Welcome Back</h1>
+              <p className="pt-1 text-sm font-light text-gray-500">
+                Please enter your phone number to continue
+              </p>
+
+              {loginError && (
+                <Alert
+                  message={loginError}
+                  type="warning"
+                  showIcon
+                  className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
+                />
+              )}
+            </div>
+          }
+          open={isModalOpen}
+          centered={true}
+          footer={false}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          // closable={false}
+        >
+          <div>
+            <div className="pt-8 mt-3 mb-3">
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="903 123 1234"
+                value={phone}
+                prefix={"+234"}
+                type="number"
+                required={true}
+                onChange={(e) => {
+                  setPhone(
+                    e.target.value.startsWith("0")
+                      ? e.target.value.slice(1)
+                      : e.target.value
+                  );
+                }}
+              />
+            </div>
+
+            {/* USER LOGIN */}
+
+            <FraserButton
+              title={"Continue"}
+              size={"regular"}
+              active={loginValid}
+              className={"w-full mt-4"}
+              loader={userLoginLoading}
+              onClick={() => loginValid && LoginUser()}
+            />
+
+            <FraserButton
+              title={"I don't have an account"}
+              buttonType={"tertiary"}
+              size={"regular"}
+              className={"w-full mt-2"}
+              onClick={() => setFlip("signup")}
+            />
+          </div>
+        </Modal>
+      )}
+
+      {flip === "signup" && (
+        <Modal
+          title={
+            <div>
+              <h1 className="pt-2 text-xl">Let's get you started</h1>
+              <p className="pt-1 text-sm font-light text-gray-500">
+                You're almost there, create an account in just one simple step.
+              </p>
+
+              <div>
+                {registerUserError && (
+                  <Alert
+                    message={registerUserError}
+                    type="warning"
+                    showIcon
+                    className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
+                  />
+                )}
+              </div>
+            </div>
+          }
+          open={isModalOpen}
+          centered={true}
+          footer={false}
+          onOk={handleOk}
+          onCancel={handleCancel}
+          // closable={false}
+        >
+          <div>
+            {registerUserError && (
+              <Alert
+                message={registerUserError}
+                description={registerUserError}
+                type="warning"
+                showIcon
+              />
+            )}
+            <div className="mt-8 mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">First Name</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="Please enter your first name"
+                value={firstName}
+                required={true}
+                onChange={(e) => setFirstName(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">Last Name</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="Last name"
+                value={lastName}
+                required={true}
+                onChange={(e) => setLastName(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">Email Address</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="Email"
+                value={email}
+                required={true}
+                onChange={(e) => setEmail(e.target.value)}
+              />
+            </div>
+            <div className="mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">Referral Code</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="Referral Code"
+                value={referred_by}
+                required={true}
+                onChange={(e) => setReferred_by(e.target.value)}
+              />
+            </div>
+
+            <div className="mb-6">
+              <div className="mb-1">
+                <label className="text-gray-500">Phone Number</label>
+              </div>
+              <Input
+                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                placeholder="901 1234 123"
+                type="number"
+                value={phone}
+                prefix={"+234"}
+                required={true}
+                onChange={(e) => {
+                  setPhone(
+                    e.target.value.startsWith("0")
+                      ? e.target.value.slice(1)
+                      : e.target.value
+                  );
+                }}
+              />
+            </div>
+
+            <FraserButton
+              title={"Continue"}
+              size={"small"}
+              active={signUpValid === false ? false : true}
+              className={"w-full mt-4"}
+              onClick={() => signUpValid && CreateUser()}
+              loader={userRegisterLoading}
+            />
+            <FraserButton
+              title={"I have an account"}
+              buttonType={"tertiary"}
+              size={"regular"}
+              className={"w-full mt-2"}
+              onClick={() => setFlip("signin")}
+            />
+          </div>
+        </Modal>
+      )}
     </div>
   );
 };
