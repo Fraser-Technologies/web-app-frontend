@@ -139,33 +139,50 @@ export const Header = () => {
           </h1>
         </div>
 
-        <div className="absolute bottom-12 text-[16px] text-white hover:cursor-pointer">
-          <span
-            className="flex mb-2"
-            onClick={() => {
-              navigator.clipboard.writeText(`${userInfo?.referral_code}`);
-              messageApi.info({
-                type: "info",
-                content: `Referral code ${userInfo?.referral_code} has been copied to clipboard!`,
-                duration: 1.5,
-              });
-            }}
-          >
-            Referral Code: {userInfo?.referral_code} <FaCopy className="ml-2" />
-          </span>
-          <div className="mb-8 border-b pb-8">
-            {/* Total Referrals: {userInfo.referrals.length} */}
-          </div>
+        <div className="absolute bottom-12 hover:cursor-pointer">
+          {userInfo?._id && (
+            <div className="text-white text-[16px]">
+              <span
+                className="flex mb-2"
+                onClick={() => {
+                  navigator.clipboard.writeText(`${userInfo?.referral_code}`);
+                  messageApi.info({
+                    type: "info",
+                    content: `Referral code ${userInfo?.referral_code} has been copied to clipboard!`,
+                    duration: 1.5,
+                  });
+                }}
+              >
+                Referral Code: {userInfo?.referral_code}{" "}
+                <FaCopy className="ml-2" />
+              </span>
+              <div className="mb-8 border-b pb-8">
+                {/* Total Referrals: {userInfo.referrals.length} */}
+              </div>
 
-          <div
-            className="flex flex-row items-center font-medium"
-            onClick={() => logOutUser()}
-          >
-            Logout
-            <span className="ml-[10px]">
-              <AiOutlinePoweroff />
-            </span>
-          </div>
+              <div
+                className="flex flex-row items-center font-medium"
+                onClick={() => logOutUser()}
+              >
+                Logout
+                <span className="ml-[10px]">
+                  <AiOutlinePoweroff />
+                </span>
+              </div>
+            </div>
+          )}
+          {!userInfo?._id && (
+            <FraserButton
+              title="Sign in"
+              size="regular"
+              type="submit"
+              onClick={() => {
+                setIsModalOpen(true);
+                setFlip("signin");
+                setOpenNavBar(false)
+              }}
+            />
+          )}
         </div>
       </div>
     );
