@@ -250,34 +250,34 @@ const Bookings = () => {
 		}
 	}, [cities, dispatch]);
 
-	// useEffect(() => {
-	//   if (!userInfo?._id || loginError) {
-	//     setModalVisible(true);
-	//     setFlip("signin");
-	//   } else {
-	//     setModalVisible(false);
-	//   }
-	// }, [dispatch, navigate, userInfo]);
+	useEffect(() => {
+	  if (!userInfo?._id || loginError) {
+	    setModalVisible(true);
+	    setFlip("signin");
+	  } else {
+	    setModalVisible(false);
+	  }
+	}, [dispatch, navigate, userInfo]);
 
-	// useEffect(() => {
-	//   if (!userInfo && loginError) {
-	//     messageApi.open({
-	//       type: "error",
-	//       content: loginError,
-	//     });
-	//     setFlip("signin");
-	//     // handleOpenModal(undefined, "signin");
-	//   }
-	// }, [loginError, messageApi, userInfo, dispatch, navigate]);
+	useEffect(() => {
+	  if (!userInfo && loginError) {
+	    messageApi.open({
+	      type: "error",
+	      content: loginError,
+	    });
+	    setFlip("signin");
+	    // handleOpenModal(undefined, "signin");
+	  }
+	}, [loginError, messageApi, userInfo, dispatch, navigate]);
 
-	// useEffect(() => {
-	//   if (userInfo?._id) {
-	//     setFirstName("");
-	//     setLastName("");
-	//     setEmail("");
-	//     setPhone("");
-	//   }
-	// }, [userInfo]);
+	useEffect(() => {
+	  if (userInfo?._id) {
+	    setFirstName("");
+	    setLastName("");
+	    setEmail("");
+	    setPhone("");
+	  }
+	}, [userInfo]);
 
 	return (
 		<Layout

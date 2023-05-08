@@ -72,12 +72,14 @@ export const Header = () => {
           referred_by: referred_by.trim(),
           home_state: homeState,
         })
-      );
+      ).finally(
+        registerUserError ? setIsModalOpen(true) : setIsModalOpen(false)
+      );;
     };
 
   const LoginUser = () => {
     return dispatch(userLoginAction("+234" + phone)).finally(
-      !loginError && setIsModalOpen(false)
+      loginError ? setIsModalOpen(true) : setIsModalOpen(false)
     );
   };
 
