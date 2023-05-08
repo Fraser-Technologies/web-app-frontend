@@ -24,6 +24,7 @@ import {
 	registerUserAction,
 	userLoginAction,
 } from "../../state/action/user.action";
+import allState from "../../utils/allState";
 
 const Bookings = () => {
 	const {
@@ -45,6 +46,7 @@ const Bookings = () => {
 	const [screenWidth, setScreenWidth] = useState(window.innerWidth);
 	const [useDrawer, setUseDrawer] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
+	const [homeState, setHomeState] = useState<string>("");
 
 	//PASSING DATA USING STATE
 	const location = useLocation();
@@ -93,17 +95,18 @@ const Bookings = () => {
 		phone.length === 10 &&
 		email.match(emailRegex);
 
-	const CreateUser = () => {
-		return dispatch(
-			registerUserAction({
-				first_name: firstName,
-				last_name: lastName,
-				email: email,
-				phone: "+234" + phone,
-				referred_by: referred_by,
-			})
-		);
-	};
+		const CreateUser = () => {
+			return dispatch(
+				registerUserAction({
+					first_name: firstName.trim(),
+					last_name: lastName.trim(),
+					email: email.trim(),
+					phone: "+234" + phone.trim(),
+					referred_by: referred_by.trim(),
+					home_state: homeState,
+				})
+			);
+		};
 
 	const LoginUser = () => {
 		return dispatch(userLoginAction("+234" + phone));
@@ -896,6 +899,32 @@ const Bookings = () => {
 								required={true}
 								onChange={(e) => setEmail(e.target.value)}
 							/>
+						</div>
+						<div className="mb-6">
+							<div className="mb-1">
+								<label className="text-gray-500">Home State</label>
+							</div>
+							<select
+								className="  w-full h-12 hover:border-green-500 bg-transparent border outline-none rounded-md active:border-
+							active:border-green-600"
+								onChange={(e) => setHomeState(e.target.value)}>
+								<option>Select State</option>
+								{allState.map((s: string) => {
+									return (
+										<option key={s} value={s}>
+											{s}
+										</option>
+									);
+								})}
+							</select>
+
+							{/* <Input
+								className="w-full h-12 hover:border-green-500 active:border-green-600"
+								placeholder="Email"
+								value={homeState}
+								required={true}
+								onChange={(e) => setHomeState(e.target.value)}
+							/> */}
 						</div>
 						<div className="mb-6">
 							<div className="mb-1">

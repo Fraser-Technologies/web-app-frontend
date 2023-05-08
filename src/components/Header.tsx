@@ -15,7 +15,9 @@ import {
 import { IoMdArrowDropdown, IoMdArrowDropup } from "react-icons/io";
 import { _paths_ } from "../utils/routes";
 import { FaCopy } from "react-icons/fa";
+
 import { RootState } from "../state/redux-store";
+import allState from "../utils/allState";
 
 export const Header = () => {
   const {
@@ -35,6 +37,7 @@ export const Header = () => {
   const [flip, setFlip] = useState("signin");
   const [referred_by, setReferred_by] = useState<string>("");
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  const [homeState, setHomeState] = useState<string>("");
 
   const handleOk = () => {
     setIsModalOpen(false);
@@ -59,17 +62,18 @@ export const Header = () => {
   const { error: registerUserError, loading: userRegisterLoading } =
     useAppSelector((state: RootState) => state.registerUser);
 
-  const CreateUser = () => {
-    return dispatch(
-      registerUserAction({
-        first_name: firstName,
-        last_name: lastName,
-        email: email,
-        phone: "+234" + phone,
-        referred_by: referred_by,
-      })
-    );
-  };
+    const CreateUser = () => {
+      return dispatch(
+        registerUserAction({
+          first_name: firstName.trim(),
+          last_name: lastName.trim(),
+          email: email.trim(),
+          phone: "+234" + phone.trim(),
+          referred_by: referred_by.trim(),
+          home_state: homeState,
+        })
+      );
+    };
 
   const LoginUser = () => {
     return dispatch(userLoginAction("+234" + phone)).finally(
@@ -445,6 +449,32 @@ export const Header = () => {
                 onChange={(e) => setEmail(e.target.value)}
               />
             </div>
+            <div className="mb-6">
+							<div className="mb-1">
+								<label className="text-gray-500">Home State</label>
+							</div>
+							<select
+								className="  w-full h-12 hover:border-green-500 bg-transparent border outline-none rounded-md active:border-
+							active:border-green-600"
+								onChange={(e) => setHomeState(e.target.value)}>
+								<option>Select State</option>
+								{allState.map((s: string) => {
+									return (
+										<option key={s} value={s}>
+											{s}
+										</option>
+									);
+								})}
+							</select>
+
+							{/* <Input
+								className="w-full h-12 hover:border-green-500 active:border-green-600"
+								placeholder="Email"
+								value={homeState}
+								required={true}
+								onChange={(e) => setHomeState(e.target.value)}
+							/> */}
+						</div>
             <div className="mb-6">
               <div className="mb-1">
                 <label className="text-gray-500">Referral Code</label>

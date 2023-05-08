@@ -342,7 +342,7 @@ const Discounts = () => {
               <div className="bg-black rounded-md p-4 w-1/2">
                 <div className="text-gray-300">Referral Code Usage</div>
                 <div className="text-lg font-semibold text-white">
-                  {modalData?.referral_code?.usage}
+                  {modalData?.referrals?.length}
                 </div>
               </div>
             </div>
@@ -352,15 +352,15 @@ const Discounts = () => {
               <div className="bg-black rounded-md p-4 w-1/2 mr-2">
                 <div className="text-gray-300">Amount Earned</div>
                 <div className="text-lg font-semibold text-white">
-                  {modalData?.discount_code?.amount_earned} +
-                  {modalData?.referral_code?.amount_earned}
+                  {Number(modalData?.discount_code?.amount_earned) +
+                  Number(modalData?.referral_code?.amount_earned)}
                 </div>
               </div>
               <div className="bg-black rounded-md p-4 w-1/2">
                 <div className="text-gray-300">Amount Paid Out</div>
                 <div className="text-lg font-semibold text-white">
-                  {modalData?.discount_code?.amount_paid} +
-                  {modalData?.referral_code?.amount_paid}
+                  {Number(modalData?.discount_code?.amount_paid) +
+                  Number(modalData?.referral_code?.amount_paid)}
                 </div>
               </div>
             </div>
@@ -371,6 +371,9 @@ const Discounts = () => {
               // secondaryColor="black"
               className="mt-8 mb-4 w-full"
               onClick={() => {
+				//LEKAN
+				//post amount_paid === amount_paid + amount_earned
+				//use a finally function to post 0 to the amount_earned
                 //reset Amount Earned to zero and increase amount paid out
               }}
             />
