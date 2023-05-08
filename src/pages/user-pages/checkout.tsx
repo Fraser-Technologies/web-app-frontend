@@ -52,6 +52,7 @@ const Checkout = () => {
 	const [alertMessage, setAlertMessage] = useState<string>("");
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
 	const { myBooking } = useAppSelector((state: RootState) => state.booking);
+	const { app_type } = useAppSelector((state: RootState) => state.appState);
 	const { user: couponOwner, loading: getCouponLoading } = useAppSelector(
 		(state: RootState) => state.userByDiscountCode
 	);
@@ -97,7 +98,10 @@ const Checkout = () => {
 				myBooking?.no_of_ticket * myBooking?.price -
 					myBooking?.no_of_ticket * myBooking?.price * discountPercentage
 			) * 100,
-		publicKey: process.env.REACT_APP_PAYSTACK_KEY
+		publicKey:
+			app_type === "production"
+				? process.env.REACT_APP_PAYSTACK_KEY
+				: process.env.REACT_APP_PAYSTACK_TEST_KEY
 	};
 
 	const initializePayment = usePaystackPayment(config as any);
