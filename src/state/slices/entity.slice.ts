@@ -166,3 +166,33 @@ export const editEntitySlice = createSlice({
 export const { editEntityFailure, editEntityRequest, editEntitySuccess } =
 	editEntitySlice.actions;
 export const editEntityByReducer = editEntitySlice.reducer;
+
+export const markAsPaidSlice = createSlice({
+	name: "mark as paid",
+	initialState: {
+		loading: false,
+		error: "",
+		entity: {}
+	},
+	reducers: {
+		markAsPaidRequest: (state) => {
+			state.loading = true;
+			state.error = "";
+			state.entity = {};
+		},
+		markAsPaidSuccess: (state, action) => {
+			state.loading = false;
+			state.entity = action.payload;
+			state.error = "";
+		},
+		markAsPaidFailed: (state, action) => {
+			state.loading = false;
+			state.entity = {};
+			state.error = action.payload;
+		}
+	}
+});
+
+export const { markAsPaidFailed, markAsPaidRequest, markAsPaidSuccess } =
+	markAsPaidSlice.actions;
+export const markAsPaidReducer = markAsPaidSlice.reducer;
