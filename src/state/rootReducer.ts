@@ -70,7 +70,8 @@ import {
 	deleteEntityByReducer,
 	editEntityByReducer,
 	getAllEntityReducer,
-	getEntityByIdReducer
+	getEntityByIdReducer,
+	markAsPaidReducer
 } from "./slices/entity.slice";
 
 const rootReducer = combineReducers({
@@ -155,6 +156,7 @@ const rootReducer = combineReducers({
 	getAllEntity: getAllEntityReducer,
 	deleteEntity: deleteEntityByReducer,
 	editEntity: editEntityByReducer,
+	markAsPaid: markAsPaidReducer,
 
 	appState: appStateReducer
 });
