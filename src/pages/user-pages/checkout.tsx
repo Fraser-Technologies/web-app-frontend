@@ -139,7 +139,7 @@ const Checkout = () => {
 			showDiscountAlert(true);
 			setAlertType("success");
 			setAlertMessage(
-				`You have applied a coupen of ${
+				`You have applied a coupon of ${
 					couponOwner?.discount_code?.discount_percent * 100
 				}% discount`
 			);
