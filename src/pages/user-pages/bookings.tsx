@@ -1,11 +1,10 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../../components/bookingCard";
 import Layout from "../../components/layouts/SignInLayout";
 import {
-	getAllAvailableTripAction,
 	getAvailableTripAction,
 } from "../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
@@ -257,7 +256,7 @@ const Bookings = () => {
 	  } else {
 	    setModalVisible(false);
 	  }
-	}, [dispatch, navigate, userInfo]);
+	}, [dispatch, loginError, navigate, userInfo]);
 
 	useEffect(() => {
 	  if (!userInfo && loginError) {

@@ -1,14 +1,48 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Layout from "../../components/layouts/SignInLayout";
-import { FaCaretDown, FaChevronRight } from "react-icons/fa";
+import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import { FraserButton } from "../../components/Button";
 import allState from "../../utils/allState";
 import BookingCard from "../../components/bookingCard";
+import { Drawer } from "antd";
+import { BsArrowRight } from "react-icons/bs";
+import { useNavigate } from "react-router-dom";
+import { useAppDispatch } from "../../state/hooks";
+import { addToMyBookinAction } from "../../state/action/booking.action";
 
 const AiesecPage = () => {
+  const dispatch = useAppDispatch();
   const [isOpen, setisOpen] = useState(false);
-  const [pickUp, setpickUp] = useState("");
   const [stateFilter, setStateFilter] = useState("");
+  const [flip, setFlip] = useState("");
+  const [modalVisible, setModalVisible] = useState<boolean>(false);
+  const [value, setValue] = useState<number>(1);
+  const navigate = useNavigate();
+
+  const handleCancel = () => {
+    setModalVisible(false);
+    setFlip("");
+  };
+
+  const handleChange = (e: any) => {
+    const inputValue = e.target.value;
+    setValue(inputValue);
+  };
+
+  const addItem = () => {
+    if (value >= 1) {
+      setValue(value + 1);
+    }
+  };
+
+  const minusItem = () => {
+    if (value > 1) setValue(value - 1);
+  };
+
+  const handleOpenModal = (data: any, flipValue: any) => {
+    setFlip(flipValue);
+    setModalVisible(true);
+  };
 
   return (
     <Layout
@@ -39,7 +73,11 @@ const AiesecPage = () => {
               />
 
               {isOpen && (
-                <div className={`absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg overflow-y-scroll ${stateFilter === "" && "h-80"}`}>
+                <div
+                  className={`absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg overflow-y-scroll ${
+                    stateFilter === "" && "h-80"
+                  }`}
+                >
                   {allState
                     ?.filter((e) =>
                       e.toLowerCase().includes(stateFilter.toLowerCase())
@@ -77,14 +115,82 @@ const AiesecPage = () => {
               takeOffTime={""}
               takeOffDate={""}
               price={0}
+              //Set Price from Corresponding DataSet
               arrivalTime={""}
+              //Set Price from Corresponding DataSet
               arrivalDate={""}
-              onClick={function (): void {
-                throw new Error("Function not implemented.");
+              //Set Price from Corresponding DataSet
+              onClick={() => {
+                handleOpenModal(null, "howmanytickets");
               }}
             />
           )}
         </div>
+        {flip === "howmanytickets" && modalVisible && (
+          <Drawer
+            title={
+              <div>
+                <div className="mt-8 text-lg font-medium boder-b">
+                  Number of Tickets
+                </div>
+                <div className="flex-row justify-between px-6 py-4 mt-6 bg-black rounded-lg lg:flex lg:px-8">
+                  <div className="flex lg:w-4/5">
+                    <div className="w-1/2 lg:w-1/3">
+                      <h3 className="mr-8 text-lg md:text-base lg:h-20 lg:mr-0 text-primary-100">
+                        {/* {modalData?.travel_destination?.from?.start_busstop} */}
+                        Ibadan
+                      </h3>
+                    </div>
+                    <BsArrowRight className="top-0 mt-1 mr-8 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
+                    <div className="w-1/2 lg:w-1/3 ">
+                      <h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
+                        {/* {modalData?.travel_destination?.to?.stop_busstop} */}
+                        {stateFilter}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+            placement="bottom"
+            closable={false}
+            onClose={handleCancel}
+            open={modalVisible}
+            key="bottom"
+            className="rounded-t-xl"
+            height="60vh"
+          >
+            <div className="flex items-center mx-6 justify-evenly">
+              <FaMinusCircle
+                size={32}
+                onClick={minusItem}
+                className="cursor-pointer"
+              />
+              <div className="w-full my-12 place-content-center">
+                <input
+                  type="number"
+                  value={value}
+                  onChange={handleChange}
+                  placeholder="0"
+                  className=" w-full text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
+                />
+              </div>
+              <FaPlusCircle
+                size={32}
+                onClick={addItem}
+                className="cursor-pointer"
+              />
+            </div>
+            <FraserButton
+              title="Continue"
+              size="regular"
+              onClick={() => {
+               
+                navigate("/checkout");
+              }}
+            />
+          </Drawer>
+        )}
       </div>
     </Layout>
   );

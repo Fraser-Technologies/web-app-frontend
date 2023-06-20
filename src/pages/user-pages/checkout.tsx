@@ -61,7 +61,7 @@ const Checkout = () => {
 	const [couponCode, setCouponCode] = useState("");
 	const [discountPercentage, setDiscountPercentage] = useState(0);
 
-	const newUser = userInfo?.bookings?.length === 0;
+	// const newUser = userInfo?.bookings?.length === 0;
 	// useEffect(() => {
 	// 	if (newUser) {
 	// 		setCouponCode("NEW15");
