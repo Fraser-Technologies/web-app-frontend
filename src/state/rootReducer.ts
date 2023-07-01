@@ -73,6 +73,14 @@ import {
 	getEntityByIdReducer,
 	markAsPaidReducer
 } from "./slices/entity.slice";
+import {
+	allNYSCTripReducer,
+	availableNYSCTripReducer,
+	createNYSCTripReducer,
+	deleteNYSCTripByIdReducer,
+	endNYSCTripReducer,
+	updateNYSCTripReducer
+} from "./NYSC_STATE/nysc_slices/nysc_trip_slice";
 
 const rootReducer = combineReducers({
 	getotp: getOtpReducer,
@@ -158,7 +166,16 @@ const rootReducer = combineReducers({
 	editEntity: editEntityByReducer,
 	markAsPaid: markAsPaidReducer,
 
-	appState: appStateReducer
+	appState: appStateReducer,
+
+	//NYSC TRIP STATE
+	availableNYSCTrip: availableNYSCTripReducer,
+	allAvailableNYSCTrip: getAllAvailableTripReducer,
+	allNYSCTrip: allNYSCTripReducer,
+	createNYSCTrip: createNYSCTripReducer,
+	updateNYSCTrip: updateNYSCTripReducer,
+	endNYSCTrip: endNYSCTripReducer,
+	deleteNYSCTrip: deleteNYSCTripByIdReducer
 });
 
 export default rootReducer;
