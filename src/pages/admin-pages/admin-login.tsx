@@ -1,13 +1,12 @@
 import { Input } from "antd";
 import { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import Layout from "../../components/layouts/SignInLayout";
 import { userLoginAction } from "../../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { RootState } from "../../state/redux-store";
 import { _paths_ } from "../../utils/routes";
-import LoadingWheel from "../../components/loading-svg";
 import { FraserButton } from "../../components/Button";
+import AdminLayout from "../../components/layouts/AdminLayout";
 
 const AdminLogin = () => {
 	const navigate = useNavigate();
@@ -31,7 +30,7 @@ const AdminLogin = () => {
 	}, [navigate, userInfo]);
 
 	return (
-		<Layout title="Admin Login">
+		<AdminLayout title="Admin Login">
 			<div className="flex items-center h-screen text-sm">
 				<div className="z-20 w-4/12 m-auto">
 					<div className="flex items-center m-auto mb-6">
@@ -85,7 +84,7 @@ const AdminLogin = () => {
         <img src="/assets/images/driver-login.png" alt="" className="w-1/2" />
       </div> */}
 			</div>
-		</Layout>
+		</AdminLayout>
 	);
 };
 

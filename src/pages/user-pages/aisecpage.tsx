@@ -8,11 +8,9 @@ import { Drawer } from "antd";
 import { BsArrowRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
 import { useAppDispatch } from "../../state/hooks";
-import { addToMyBookinAction } from "../../state/action/booking.action";
-import { getAvailableNYSCTripAction } from "../../state/NYSC_STATE/nysc_actions/nysc_trip_slice";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/redux-store";
-import { NYSCTrip_interface } from "../../interfaces/NYSC_INTERFACES/nysc_trip_interface";
+import { Trip_interface } from "../../interfaces/trip_interface";
 
 const AiesecPage = () => {
 	const dispatch = useAppDispatch();
@@ -22,9 +20,7 @@ const AiesecPage = () => {
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 	const [value, setValue] = useState<number>(1);
 	const navigate = useNavigate();
-	const { loading, error, trips } = useSelector(
-		(state: RootState) => state.availableNYSCTrip
-	);
+	const { trips } = useSelector((state: RootState) => state.allTrip);
 
 	const handleCancel = () => {
 		setModalVisible(false);
@@ -50,15 +46,6 @@ const AiesecPage = () => {
 		setFlip(flipValue);
 		setModalVisible(true);
 	};
-
-	useEffect(() => {
-		dispatch(
-			getAvailableNYSCTripAction({
-				from: "Oyo",
-				to: stateFilter
-			})
-		);
-	}, [stateFilter]);
 
 	return (
 		<Layout
@@ -121,10 +108,10 @@ const AiesecPage = () => {
               iconposition="right"
             /> */}
 					</div>
-					{trips?.map((trip: NYSCTrip_interface) => (
+					{trips?.map((trip: Trip_interface) => (
 						<BookingCard
 							key={trip?._id}
-							from={"Oyo"}
+							from={trip?.travel_destination?.from?.state?._id}
 							to={stateFilter}
 							takeOffTime={trip?.take_off_time}
 							takeOffDate={trip?.take_off_date}

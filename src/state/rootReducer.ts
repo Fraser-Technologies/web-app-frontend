@@ -11,11 +11,11 @@ import {
 	updateBusSliceReducer
 } from "./slices/bus.slice";
 import {
-	createCityReducer,
-	deleteCityReducer,
-	getAllCityReducer,
-	updateCityReducer
-} from "./slices/city.slice";
+	createStateReducer,
+	deleteStateReducer,
+	getAllStateReducer,
+	updateStateReducer
+} from "./slices/state.slice";
 import { adminPageReducer } from "./slices/adminPageSlice";
 import { verifyOtpReducer, getOtpReducer } from "./slices/otp.Slice";
 import { combineReducers } from "@reduxjs/toolkit";
@@ -73,14 +73,6 @@ import {
 	getEntityByIdReducer,
 	markAsPaidReducer
 } from "./slices/entity.slice";
-import {
-	allNYSCTripReducer,
-	availableNYSCTripReducer,
-	createNYSCTripReducer,
-	deleteNYSCTripByIdReducer,
-	endNYSCTripReducer,
-	updateNYSCTripReducer
-} from "./NYSC_STATE/nysc_slices/nysc_trip_slice";
 
 const rootReducer = combineReducers({
 	getotp: getOtpReducer,
@@ -123,11 +115,11 @@ const rootReducer = combineReducers({
 	// trip reducers
 	verifyPayment: verifyPaymentReducer,
 
-	// city
-	createCity: createCityReducer,
-	allCity: getAllCityReducer,
-	deleteCity: deleteCityReducer,
-	updateCity: updateCityReducer,
+	// State
+	createState: createStateReducer,
+	allState: getAllStateReducer,
+	deleteState: deleteStateReducer,
+	updateState: updateStateReducer,
 	removeBusStop: removeBusStopReducer,
 	addBusStop: addBusStopReducer,
 
@@ -166,16 +158,7 @@ const rootReducer = combineReducers({
 	editEntity: editEntityByReducer,
 	markAsPaid: markAsPaidReducer,
 
-	appState: appStateReducer,
-
-	//NYSC TRIP STATE
-	availableNYSCTrip: availableNYSCTripReducer,
-	allAvailableNYSCTrip: getAllAvailableTripReducer,
-	allNYSCTrip: allNYSCTripReducer,
-	createNYSCTrip: createNYSCTripReducer,
-	updateNYSCTrip: updateNYSCTripReducer,
-	endNYSCTrip: endNYSCTripReducer,
-	deleteNYSCTrip: deleteNYSCTripByIdReducer
+	appState: appStateReducer
 });
 
 export default rootReducer;

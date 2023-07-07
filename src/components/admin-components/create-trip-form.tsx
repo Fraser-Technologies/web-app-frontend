@@ -2,7 +2,7 @@
 import { useEffect, useState } from "react";
 import { Alert, Input, message } from "antd";
 import { FaCaretDown } from "react-icons/fa";
-import { City_interface } from "../../interfaces/city_interface";
+import { State_interface } from "../../interfaces/state_interface";
 import { createTripAction } from "../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import DateField from "./datefield";
@@ -13,15 +13,19 @@ import { resetCreateTrip } from "../../state/slices/trip.slice";
 import { User_interface } from "../../interfaces/user.interface";
 import { FraserButton } from "../Button";
 import TripTypes from "../../utils/allTripType";
+import AllState from "../../utils/allState";
 
 // FORM TO CREATE A TRIP
 const CreateTripFormComponent = () => {
 	const dispatch = useAppDispatch();
-	const { cities } = useAppSelector((state: any) => state?.allCity);
+	const { states } = useAppSelector((state: any) => state?.allState);
 	const { drivers } = useAppSelector((state: any) => state?.allDriver);
 	const { loading, trip, error } = useAppSelector(
 		(state: any) => state?.createTrip
 	);
+
+	console.log("the trip type is ", TripTypes);
+	console.log("the state is ", AllState);
 
 	// the trip variable
 	const [bus, setBus] = useState<string>("");
@@ -43,8 +47,6 @@ const CreateTripFormComponent = () => {
 	const [stopCityBusStopList, setStopCityBusStopList] = useState<string[]>([]);
 
 	const [messageApi, contextHolder] = message.useMessage();
-
-	console.log("all the trip type is ", TripTypes);
 
 	//   START CITY CONTROLLERS
 	const [startCityOpen, setStartCityIsOpen] = useState(false);
@@ -196,12 +198,12 @@ const CreateTripFormComponent = () => {
 							</button>
 
 							{tripTypeOpen && (
-								<div className="absolute w-full mt-2 rounded-md shadow-lg z-10">
+								<div className="absolute w-full mt-2 rounded-md shadow-lg z-50">
 									<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs ">
 										{TripTypes?.map((tripType: string) => {
 											return (
 												<a
-													// key={tripType}
+													key={tripType}
 													href="#"
 													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
@@ -226,7 +228,7 @@ const CreateTripFormComponent = () => {
 
 				<div className="flex items-center w-full mt-2">
 					<div className="w-1/4 px-4 py-2 mr-2 text-sm text-white bg-black rounded-md ">
-						City
+						State
 					</div>
 
 					<div className="relative z-50 w-full text-left">
@@ -242,27 +244,27 @@ const CreateTripFormComponent = () => {
 						{startCityOpen && (
 							<div className="absolute w-full mt-2 rounded-md shadow-lg">
 								<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{cities
-										.filter(
-											(city: City_interface) =>
-												city.city !== destinationCityDisplayText
+									{states
+										?.filter(
+											(state: State_interface) =>
+												state.state !== destinationCityDisplayText
 										)
-										.map((city: City_interface) => {
+										.map((state: State_interface) => {
 											return (
 												<a
-													key={city?._id}
+													key={state?._id}
 													href="#"
 													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
-														setStartBusStopDisplayText(city?.city);
+														setStartBusStopDisplayText(state?.state);
 														setStartCityIsOpen(!startCityOpen);
-														setStartCity(city?._id);
-														setStartCityBusStopList(city?.bus_stops);
+														setStartCity(state?._id);
+														setStartCityBusStopList(state?.bus_stops);
 														setStartBusStop("");
 														setStartBusStopDisplayText("Select Start Bus Stop");
-														setStartCityDisplayText(city?.city);
+														setStartCityDisplayText(state?.state);
 													}}>
-													{city?.city}
+													{state?.state}
 												</a>
 											);
 										})}
@@ -317,7 +319,7 @@ const CreateTripFormComponent = () => {
 				<p className="w-full text-sm text-gray-500 ">Destination</p>
 				<div className="flex items-center w-full mt-2">
 					<div className="w-1/4 px-4 py-2 mr-2 text-sm text-white bg-black rounded-md ">
-						City
+						State
 					</div>
 					<div className="relative z-30 inline w-full text-left">
 						<button
@@ -332,27 +334,27 @@ const CreateTripFormComponent = () => {
 						{destinationCityOpen && (
 							<div className="absolute w-full mt-2 rounded-md shadow-lg">
 								<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{cities
+									{states
 										.filter(
-											(city: City_interface) =>
-												city.city !== startCityDisplayText
+											(state: State_interface) =>
+												state.state !== startCityDisplayText
 										)
-										?.map((city: City_interface) => {
+										?.map((state: State_interface) => {
 											return (
 												<a
-													key={city?._id}
+													key={state?._id}
 													href="#"
 													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
-														setDestinationCityDisplayText(city.city);
-														setEndCity(city?._id);
-														setStopCityBusStopList(city?.bus_stops);
+														setDestinationCityDisplayText(state?.state);
+														setEndCity(state?._id);
+														setStopCityBusStopList(state?.bus_stops);
 														setDestinationBusStopDisplayText(
 															"Select Destination Bus Stop"
 														);
 														setDestinationCityIsOpen(!destinationCityOpen);
 													}}>
-													{city?.city}
+													{state?.state}
 												</a>
 											);
 										})}

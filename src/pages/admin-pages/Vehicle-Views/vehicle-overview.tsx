@@ -281,8 +281,8 @@ const VehicleOverview: React.FC = () => {
 											</div>
 											<div>
 												<div className="text-base truncate">
-													{trip?.travel_destination?.from?.city?.city} to{" "}
-													{trip?.travel_destination?.to?.city?.city}
+													{trip?.travel_destination?.from?.state?.state} to{" "}
+													{trip?.travel_destination?.to?.state?.state}
 												</div>
 												<div className="text-[#949292] ">
 													{trip?.take_off_date}
