@@ -21,8 +21,6 @@ const AdminLogin = () => {
 		dispatch(userLoginAction("+234" + phone));
 	};
 
-	console.log("the user info is ", userInfo);
-
 	useEffect(() => {
 		if (userInfo?.is_admin) {
 			return navigate(_paths_.ADMIN_DASHBOARD);

@@ -242,8 +242,6 @@ const Bookings = () => {
 	useEffect(() => {
 		if (!states.length) {
 			dispatch(getAllStateAction());
-
-			console.log("i am the function tht is running up and down");
 		}
 	}, [states, dispatch]);
 

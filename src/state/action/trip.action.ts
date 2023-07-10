@@ -35,10 +35,14 @@ import {
 	verifyPassengerOnBoardSuccess,
 	endTripFailed,
 	endTripRequest,
-	endTripSuccess
+	endTripSuccess,
+	getAvailableNYSCTripFailed,
+	getAvailableNYSCTripRequest,
+	getAvailableNYSCTripSuccess
 } from "../slices/trip.slice";
 import { resetDeleteState } from "../slices/state.slice";
 import { api } from "../../utils/api";
+import { requestHeader } from "../../utils/requestHeader";
 
 export const getAvailableTripAction =
 	({ from, to }: { from: string; to: string }): AppThunk =>
@@ -275,5 +279,23 @@ export const unverifyPassengerOnboardAction =
 			dispatch(unverifyPassengerOnBoardSuccess(data));
 		} catch (error: any) {
 			dispatch(unverifyPassengerOnBoardFailed(RequestError(error)));
+		}
+	};
+
+export const getAvailableNYSCTripAction =
+	({ from, to }: { from: string; to: string }): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			const {
+				appState: { app_type }
+			} = getState();
+
+			dispatch(getAvailableNYSCTripRequest());
+			const { data } = await api(app_type).get(
+				`/trip/availableNYSCTrip?from=${from}&to=${to}`
+			);
+			dispatch(getAvailableNYSCTripSuccess(data));
+		} catch (error: any) {
+			dispatch(getAvailableNYSCTripFailed(RequestError(error)));
 		}
 	};

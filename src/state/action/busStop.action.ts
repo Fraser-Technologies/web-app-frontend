@@ -3,17 +3,17 @@ import { RequestError } from "../../utils/requestError";
 import { api } from "../../utils/api";
 
 import {
-	addBusStopFromCityFailed,
-	addBusStopFromCityRequest,
-	addBusStopFromCityReset,
-	addBusStopFromCitySuccess,
+	addBusStopFromStateFailed,
+	addBusStopFromStateRequest,
+	addBusStopFromStateReset,
+	addBusStopFromStateSuccess,
 	getAllBusStopFailed,
 	getAllBusStopRequest,
 	getAllbusStopSuccess,
-	removeBusStopFromCityFailed,
-	removeBusStopFromCityRequest,
-	removeBusStopFromCityReset,
-	removeBusStopFromCitySuccess,
+	removeBusStopFromStateFailed,
+	removeBusStopFromStateRequest,
+	removeBusStopFromStateReset,
+	removeBusStopFromStateSuccess
 } from "../slices/busstop.slice";
 
 export const getAllBusStopAction =
@@ -21,7 +21,7 @@ export const getAllBusStopAction =
 		try {
 			dispatch(getAllBusStopRequest());
 			const {
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).get("/busstop");
 			dispatch(getAllbusStopSuccess(data));
@@ -30,63 +30,63 @@ export const getAllBusStopAction =
 		}
 	};
 
-export const addBusStopToCityAction =
+export const addBusStopToStateAction =
 	(id: string, busStop: string): AppThunk =>
 	async (dispatch, getState) => {
 		try {
-			dispatch(addBusStopFromCityRequest());
+			dispatch(addBusStopFromStateRequest());
 			const {
 				userLogin: { userInfo },
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).post(
-				`/city/addbusstop/${id}`,
+				`/State/addbusstop/${id}`,
 				{
-					busStop: busStop,
+					busStop: busStop
 				},
 				{
 					headers: {
-						Authorization: `Bearer ${userInfo?.user_token}`,
-					},
+						Authorization: `Bearer ${userInfo?.user_token}`
+					}
 				}
 			);
-			dispatch(addBusStopFromCitySuccess(data));
+			dispatch(addBusStopFromStateSuccess(data));
 		} catch (error: any) {
-			dispatch(addBusStopFromCityFailed(RequestError(error)));
+			dispatch(addBusStopFromStateFailed(RequestError(error)));
 		}
 	};
 
-export const removeBusStopToCityAction =
+export const removeBusStopToStateAction =
 	(id: string, busStop: string): AppThunk =>
 	async (dispatch, getState) => {
-		dispatch(removeBusStopFromCityRequest());
+		dispatch(removeBusStopFromStateRequest());
 		try {
 			const {
 				userLogin: { userInfo },
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).post(
-				`/city/removebusstop/${id}`,
+				`/State/removebusstop/${id}`,
 				{
-					busStop: busStop,
+					busStop: busStop
 				},
 				{
 					headers: {
-						Authorization: `Bearer ${userInfo?.user_token}`,
-					},
+						Authorization: `Bearer ${userInfo?.user_token}`
+					}
 				}
 			);
 
-			dispatch(removeBusStopFromCitySuccess(data));
+			dispatch(removeBusStopFromStateSuccess(data));
 		} catch (error: any) {
-			dispatch(removeBusStopFromCityFailed(RequestError(error)));
+			dispatch(removeBusStopFromStateFailed(RequestError(error)));
 		}
 	};
 
-export const clearRemoveBusStopFromCityAction = (): AppThunk => (dispatch) => {
-	dispatch(removeBusStopFromCityReset());
+export const clearRemoveBusStopFromStateAction = (): AppThunk => (dispatch) => {
+	dispatch(removeBusStopFromStateReset());
 };
 
-export const clearAddBusStopFromCityAction = (): AppThunk => (dispatch) => {
-	dispatch(addBusStopFromCityReset());
+export const clearAddBusStopFromStateAction = (): AppThunk => (dispatch) => {
+	dispatch(addBusStopFromStateReset());
 };

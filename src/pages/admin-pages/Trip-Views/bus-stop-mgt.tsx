@@ -6,24 +6,31 @@ import { useState } from "react";
 import { FaCheckCircle, FaExclamationCircle, FaTrash } from "react-icons/fa";
 import { State_interface } from "../../../interfaces/state_interface";
 import {
-	addBusStopToCityAction,
-	removeBusStopToCityAction
+	addBusStopToStateAction,
+	removeBusStopToStateAction
 } from "../../../state/action/busStop.action";
 import {
 	createStateAction,
+	deleteState,
 	getAllStateAction
 } from "../../../state/action/state.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { FraserButton } from "../../../components/Button";
 import LoadingWheel from "../../../components/loading-svg";
+import { useSelector } from "react-redux";
+import { RootState } from "../../../state/redux-store";
 
 const BusStopManagement = () => {
 	const [flip, setFlip] = useState("");
 	const dispatch = useAppDispatch();
-	const { loading, error } = useAppSelector((state: any) => state?.createState);
-	const { loading: createBusStopLoading, city: addBusStopToCity } =
+	const { loading, error, state } = useAppSelector(
+		(state: any) => state?.createState
+	);
+	const { loading: createBusStopLoading, state: addBusStopToCity } =
 		useAppSelector((state: any) => state?.addBusStop);
-	const { state } = useAppSelector((state: any) => state?.createState);
+	const { state: deletedState } = useSelector(
+		(state: RootState) => state.deleteState
+	);
 
 	type deleteBusStopType = {
 		id: string;
@@ -81,10 +88,26 @@ const BusStopManagement = () => {
 	};
 
 	useEffect(() => {
-		if (state?._id || addBusStopToCity?._id) {
+		if (state?._id) {
 			dispatch(getAllStateAction());
 		}
-	}, [addBusStopToCity, state, dispatch]);
+	}, [state, dispatch]);
+
+	useEffect(() => {
+		if (addBusStopToCity?._id || deletedState?._id) {
+			dispatch(getAllStateAction());
+		}
+	}, [addBusStopToCity?._id, deletedState?._id, dispatch]);
+
+	useEffect(() => {
+		if (states) {
+			setCityModalData(
+				states.find(
+					(state: State_interface) => state?._id === cityModalData?._id
+				)
+			);
+		}
+	}, [states, cityModalData]);
 
 	return (
 		<div className="pt-12 px-4 pb-12">
@@ -224,6 +247,8 @@ const BusStopManagement = () => {
 							onClick={() => {
 								// setFlip("createBusStop");
 								//LEKAN WE'LL NEED TO FIX THIS
+								dispatch(deleteState(cityModalData?._id || ""));
+								setFlip("");
 							}}>
 							Delete State
 						</button>
@@ -257,7 +282,7 @@ const BusStopManagement = () => {
 						size="regular"
 						onClick={() => {
 							dispatch(
-								removeBusStopToCityAction(
+								removeBusStopToStateAction(
 									deleteBusStop?.id || "",
 									deleteBusStop?.busstop || ""
 								)
@@ -345,7 +370,7 @@ const BusStopManagement = () => {
 						onClick={() => {
 							if (busStop) {
 								dispatch(
-									addBusStopToCityAction(cityModalData?._id || "", busStop)
+									addBusStopToStateAction(cityModalData?._id || "", busStop)
 								);
 								setFlip("city");
 								setCityName("");

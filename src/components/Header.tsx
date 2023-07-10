@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useState } from "react";
 import { HiMenu } from "react-icons/hi";
 import { AiOutlineClose, AiOutlinePoweroff } from "react-icons/ai";
 import { Drawer } from "@mui/material";

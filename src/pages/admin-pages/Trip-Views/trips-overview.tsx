@@ -286,8 +286,12 @@ const TripsOverview: React.FC = () => {
 						<th scope="col" className="px-2 py-4 pl-4 font-normal rounded-l-md">
 							Date
 						</th>
+
 						<th scope="col" className="py-4 font-normal ">
 							Departure
+						</th>
+						<th scope="col" className="py-4 font-normal ">
+							Trip Type
 						</th>
 						<th scope="col" className="px-4 py-4 font-normal text-center">
 							Start
@@ -319,12 +323,20 @@ const TripsOverview: React.FC = () => {
 									className="py-6 pl-4 text-gray-700">
 									{trip?.take_off_date}
 								</td>
+
 								<td
 									onClick={() => {
 										handleOpenModal(trip, "info");
 									}}
 									className="py-4 text-gray-700 ">
 									{trip?.take_off_time}
+								</td>
+								<td
+									onClick={() => {
+										handleOpenModal(trip, "info");
+									}}
+									className="py-6 pl-4 text-gray-700">
+									{trip?.type_of_trip}
 								</td>
 								<td
 									onClick={() => {

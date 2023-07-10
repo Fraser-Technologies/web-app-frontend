@@ -2,13 +2,13 @@ import { State_interface } from "../../interfaces/state_interface";
 import { createSlice } from "@reduxjs/toolkit";
 
 type createStateType = {
-	state: State_interface | {};
+	state: State_interface | { _id: string };
 	loading: boolean;
 	error: string;
 };
 
 export const createStateInitialState: createStateType = {
-	state: {},
+	state: { _id: "" },
 	loading: false,
 	error: ""
 };
@@ -75,11 +75,7 @@ export const getAllStateReducer = getAllStateSlice.reducer;
 // delete State
 const deleteStateSlice = createSlice({
 	name: "delete State",
-	initialState: {
-		state: {},
-		loading: false,
-		error: ""
-	},
+	initialState: createStateInitialState,
 	reducers: {
 		deleteStateRequest: (state) => {
 			state.loading = true;
@@ -92,13 +88,10 @@ const deleteStateSlice = createSlice({
 			state.loading = false;
 			state.error = payload as unknown as string;
 		},
-		resetDeleteState: (state) => {
-			state.loading = false;
-			state.error = "";
-			state.state = {};
-		}
+		resetDeleteState: (state) => createStateInitialState
 	}
 });
+
 export const {
 	deleteStateFailed,
 	deleteStateRequest,

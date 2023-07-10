@@ -101,13 +101,6 @@ const UserOverview: React.FC = () => {
 		setFlip("");
 	};
 
-	console.log(
-		"the vale from the discount creation",
-		discountLoading,
-		discountError,
-		discountUser
-	);
-
 	useEffect(() => {
 		if (blockUser?._id || unblockUser?._id) {
 			dispatch(getAllUserAction());

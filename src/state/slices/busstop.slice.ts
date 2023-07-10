@@ -40,65 +40,61 @@ export const {
 } = busSlice.actions;
 export const getAllBusStopReducer = busSlice.reducer;
 
-const removeBusStopFromCitySlice = createSlice({
-	name: "remove busstop from city",
+const removeBusStopFromStateSlice = createSlice({
+	name: "remove busstop from State",
 	initialState: createStateInitialState,
 	reducers: {
-		removeBusStopFromCityRequest: (state) => {
+		removeBusStopFromStateRequest: (state) => {
 			state.loading = true;
 			state.error = "";
 		},
-		removeBusStopFromCitySuccess: (state, { payload }) => {
+		removeBusStopFromStateSuccess: (state, { payload }) => {
 			state.loading = false;
 			state.state = payload as unknown as State_interface;
 		},
-		removeBusStopFromCityFailed: (state, { payload }) => {
+		removeBusStopFromStateFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload as unknown as string;
 		},
 
-		removeBusStopFromCityReset: () => createStateInitialState
+		removeBusStopFromStateReset: () => createStateInitialState
 	}
 });
 
 export const {
-	removeBusStopFromCitySuccess,
-	removeBusStopFromCityRequest,
-	removeBusStopFromCityFailed,
-	removeBusStopFromCityReset
-} = removeBusStopFromCitySlice.actions;
-export const removeBusStopReducer = removeBusStopFromCitySlice.reducer;
+	removeBusStopFromStateSuccess,
+	removeBusStopFromStateRequest,
+	removeBusStopFromStateFailed,
+	removeBusStopFromStateReset
+} = removeBusStopFromStateSlice.actions;
+export const removeBusStopReducer = removeBusStopFromStateSlice.reducer;
 
-const addBusStopFromCitySlice = createSlice({
-	name: "add busstop from city",
+const addBusStopFromStateSlice = createSlice({
+	name: "add busstop from State",
 	initialState: createStateInitialState,
 	reducers: {
-		addBusStopFromCityRequest: (state) => {
+		addBusStopFromStateRequest: (state) => {
 			state.loading = true;
 			state.error = "";
 		},
-		addBusStopFromCitySuccess: (state, { payload }) => {
+		addBusStopFromStateSuccess: (state, { payload }) => {
 			state.loading = false;
 			state.state = payload as unknown as State_interface;
 			state.error = "";
 		},
-		addBusStopFromCityFailed: (state, { payload }) => {
+		addBusStopFromStateFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload as unknown as string;
 		},
 
-		addBusStopFromCityReset: (state) => {
-			state.loading = false;
-			state.error = "";
-			state.state = {};
-		}
+		addBusStopFromStateReset: (state) => createStateInitialState
 	}
 });
 
 export const {
-	addBusStopFromCitySuccess,
-	addBusStopFromCityRequest,
-	addBusStopFromCityFailed,
-	addBusStopFromCityReset
-} = addBusStopFromCitySlice.actions;
-export const addBusStopReducer = addBusStopFromCitySlice.reducer;
+	addBusStopFromStateSuccess,
+	addBusStopFromStateRequest,
+	addBusStopFromStateFailed,
+	addBusStopFromStateReset
+} = addBusStopFromStateSlice.actions;
+export const addBusStopReducer = addBusStopFromStateSlice.reducer;

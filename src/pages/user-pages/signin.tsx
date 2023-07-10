@@ -12,12 +12,12 @@ import {
 	resetGetOtpAction,
 	resetVerifyOtpAction,
 	getOtpEmailAction,
-	VerifyEmailOtpAction,
+	VerifyEmailOtpAction
 } from "../../state/action/otp.action";
 import { _paths_ } from "../../utils/routes";
 import {
 	userLoginAction,
-	userLoginWithEmailAction,
+	userLoginWithEmailAction
 } from "../../state/action/user.action";
 import { useSelector } from "react-redux";
 import { Input, message } from "antd";
@@ -29,7 +29,7 @@ const SignIn = () => {
 		loading: getOtpLoading,
 		error: getOtpError,
 		message: otpMessage,
-		data: getOtpData,
+		data: getOtpData
 	} = useAppSelector((state: RootState) => state.getotp);
 	const { userInfo, error } = useSelector(
 		(state: RootState) => state.userLogin
@@ -39,10 +39,8 @@ const SignIn = () => {
 		loading: verifyOtpLoading,
 		error: verifyOtpError,
 		message: verifyOtpMessage,
-		data: verifyOtpData,
+		data: verifyOtpData
 	} = useAppSelector((state: RootState) => state.verifyOtp);
-
-	console.log("the verify data is ", verifyOtpData);
 
 	const [phone, setPhone] = useState<any>("");
 	const [email, setEmail] = useState<string>("");
@@ -79,7 +77,7 @@ const SignIn = () => {
 		if (verifyOtpData) {
 			messageApi.open({
 				type: "success",
-				content: verifyOtpMessage,
+				content: verifyOtpMessage
 			});
 
 			dispatch(userLoginWithEmailAction(email));
@@ -99,7 +97,7 @@ const SignIn = () => {
 		if (getOtpData) {
 			messageApi.open({
 				type: "success",
-				content: otpMessage,
+				content: otpMessage
 			});
 
 			dispatch(resetGetOtpAction());
@@ -218,12 +216,12 @@ const SignIn = () => {
 									borderRadius: "6px",
 									border: "1px solid rgba(0, 0, 0, 0.3)",
 									outline: "#000",
-									marginRight: "0.5rem",
+									marginRight: "0.5rem"
 								}}
 								containerStyle={{
 									width: "100%",
 									display: "flex",
-									justifyContent: "space-between",
+									justifyContent: "space-between"
 								}}
 							/>
 						</div>

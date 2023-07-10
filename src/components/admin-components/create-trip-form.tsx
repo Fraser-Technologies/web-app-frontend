@@ -1,6 +1,6 @@
 /* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
-import { Alert, Input, message } from "antd";
+import { Alert, Dropdown, Input, message } from "antd";
 import { FaCaretDown } from "react-icons/fa";
 import { State_interface } from "../../interfaces/state_interface";
 import { createTripAction } from "../../state/action/trip.action";
@@ -23,9 +23,6 @@ const CreateTripFormComponent = () => {
 	const { loading, trip, error } = useAppSelector(
 		(state: any) => state?.createTrip
 	);
-
-	console.log("the trip type is ", TripTypes);
-	console.log("the state is ", AllState);
 
 	// the trip variable
 	const [bus, setBus] = useState<string>("");
@@ -55,12 +52,10 @@ const CreateTripFormComponent = () => {
 	);
 
 	//   START BUSSTOP CONTROLLERS
-	const [startBusStopOpen, setStartBusStopIsOpen] = useState(false);
 	const [startBusStopDisplayText, setStartBusStopDisplayText] = useState(
 		"Select Start Bus Stop" || ""
 	);
 
-	const [tripTypeOpen, setTripTypeOpen] = useState(false);
 	const [tripTypeDisplayText, setTripTypeDisplayText] = useState(
 		"Select a trip type" || ""
 	);
@@ -75,12 +70,6 @@ const CreateTripFormComponent = () => {
 	const [destinationBusStopOpen, setDestinationBusStopIsOpen] = useState(false);
 	const [destinationBuStopDisplayText, setDestinationBusStopDisplayText] =
 		useState("Select Destination Bus Stop" || "");
-
-	// //   VEHICLE CONTROLLERS
-	// const [vehicleOpen, setVehicleIsOpen] = useState(false);
-	// const [vehicleDisplayText, setVehicleDisplayText] = useState(
-	//   "Select Vehicle" || ""
-	// );
 
 	//   DRIVER  CONTROLLERS
 	const [driverOpen, setDriverIsOpen] = useState(false);
@@ -99,11 +88,11 @@ const CreateTripFormComponent = () => {
 		type_of_trip,
 		travel_destination: {
 			from: {
-				city: startCity,
+				state: startCity,
 				start_busstop: startBusStop
 			},
 			to: {
-				city: endCity,
+				state: endCity,
 				stop_busstop: stopBusStop
 			}
 		}
@@ -188,37 +177,29 @@ const CreateTripFormComponent = () => {
 						</div>
 
 						<div className="relative z-50 w-full text-left">
-							<button
-								className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-								onClick={() => {
-									setTripTypeOpen(!tripTypeOpen);
-								}}>
-								{tripTypeDisplayText}
-								<FaCaretDown className="ml-auto" />
-							</button>
-
-							{tripTypeOpen && (
-								<div className="absolute w-full mt-2 rounded-md shadow-lg z-50">
-									<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs ">
-										{TripTypes?.map((tripType: string) => {
-											return (
+							<Dropdown
+								menu={{
+									items: TripTypes?.map((tripType: string) => {
+										return {
+											label: (
 												<a
-													key={tripType}
-													href="#"
-													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
 														setTripTypeDisplayText(tripType);
-														setTripTypeOpen(!tripTypeOpen);
-														setStartCityIsOpen(!startCityOpen);
 														setType_of_trip(tripType);
 													}}>
-													{tripTypeDisplayText}
+													{tripType}
 												</a>
-											);
-										})}
-									</div>
-								</div>
-							)}
+											),
+											key: `${tripType}`
+										};
+									})
+								}}
+								trigger={["click"]}>
+								<button className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800">
+									{tripTypeDisplayText}
+									<FaCaretDown className="ml-auto" />
+								</button>
+							</Dropdown>
 						</div>
 					</div>
 				</div>
@@ -232,45 +213,40 @@ const CreateTripFormComponent = () => {
 					</div>
 
 					<div className="relative z-50 w-full text-left">
-						<button
-							className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={() => {
-								setStartCityIsOpen(!startCityOpen);
-							}}>
-							{startCityDisplayText}
-							<FaCaretDown className="ml-auto" />
-						</button>
-
-						{startCityOpen && (
-							<div className="absolute w-full mt-2 rounded-md shadow-lg">
-								<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{states
-										?.filter(
-											(state: State_interface) =>
-												state.state !== destinationCityDisplayText
-										)
-										.map((state: State_interface) => {
-											return (
-												<a
-													key={state?._id}
-													href="#"
-													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-													onClick={() => {
-														setStartBusStopDisplayText(state?.state);
-														setStartCityIsOpen(!startCityOpen);
-														setStartCity(state?._id);
-														setStartCityBusStopList(state?.bus_stops);
-														setStartBusStop("");
-														setStartBusStopDisplayText("Select Start Bus Stop");
-														setStartCityDisplayText(state?.state);
-													}}>
-													{state?.state}
-												</a>
-											);
-										})}
-								</div>
-							</div>
-						)}
+						<Dropdown
+							menu={{
+								items: states.map((state: State_interface) => {
+									return {
+										label: (
+											<a
+												key={Math.random() * 1000}
+												href="#"
+												className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+												onClick={() => {
+													setStartBusStopDisplayText(state?.state);
+													setStartCity(state?._id);
+													setStartCityBusStopList(state?.bus_stops);
+													setStartBusStop("");
+													setStartBusStopDisplayText("Select Start Bus Stop");
+													setStartCityDisplayText(state?.state);
+												}}>
+												{state?.state}
+											</a>
+										),
+										key: Math.random() * 4000
+									};
+								})
+							}}
+							trigger={["click"]}>
+							<button
+								className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+								onClick={() => {
+									setStartCityIsOpen(!startCityOpen);
+								}}>
+								{startCityDisplayText}
+								<FaCaretDown className="ml-auto" />
+							</button>
+						</Dropdown>
 					</div>
 				</div>
 
@@ -280,36 +256,31 @@ const CreateTripFormComponent = () => {
 						Busstops
 					</div>
 					<div className="relative z-40 inline w-full text-left">
-						<button
-							className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={() => {
-								setStartBusStopIsOpen(!startBusStopOpen);
-							}}>
-							{startBusStopDisplayText}
-							<FaCaretDown className="ml-auto" />
-						</button>
-
-						{startBusStopOpen && (
-							<div className="absolute w-full mt-2 rounded-md shadow-lg">
-								<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{startCityBusStopList?.map((busstop: string) => {
-										return (
+						<Dropdown
+							trigger={["click"]}
+							menu={{
+								items: startCityBusStopList?.map((busstop: string) => {
+									return {
+										label: (
 											<a
-												key={busstop}
-												href="#"
-												className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+												key={Math.random() * 1000}
 												onClick={() => {
 													setStartBusStop(busstop);
 													setStartBusStopDisplayText(busstop);
-													setStartBusStopIsOpen(!startBusStopOpen);
 												}}>
 												{busstop}
 											</a>
-										);
-									})}
-								</div>
-							</div>
-						)}
+										),
+										key: Math.random() * 2000
+									};
+								})
+							}}>
+							<button className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800">
+								{" "}
+								{startBusStopDisplayText}
+								<FaCaretDown className="ml-auto" />
+							</button>
+						</Dropdown>
 					</div>
 				</div>
 			</div>
@@ -322,45 +293,35 @@ const CreateTripFormComponent = () => {
 						State
 					</div>
 					<div className="relative z-30 inline w-full text-left">
-						<button
-							className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={() => {
-								setDestinationCityIsOpen(!destinationCityOpen);
+						<Dropdown
+							trigger={["click"]}
+							menu={{
+								items: states?.map((state: State_interface) => {
+									return {
+										label: (
+											<a
+												key={Math.random() * 1000}
+												onClick={() => {
+													setDestinationCityDisplayText(state?.state);
+													setEndCity(state?._id);
+													setStopCityBusStopList(state?.bus_stops);
+												}}>
+												{state?.state}
+											</a>
+										),
+										key: Math.random() * 6000
+									};
+								})
 							}}>
-							{destinationCityDisplayText}
-							<FaCaretDown className="ml-auto" />
-						</button>
-
-						{destinationCityOpen && (
-							<div className="absolute w-full mt-2 rounded-md shadow-lg">
-								<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{states
-										.filter(
-											(state: State_interface) =>
-												state.state !== startCityDisplayText
-										)
-										?.map((state: State_interface) => {
-											return (
-												<a
-													key={state?._id}
-													href="#"
-													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-													onClick={() => {
-														setDestinationCityDisplayText(state?.state);
-														setEndCity(state?._id);
-														setStopCityBusStopList(state?.bus_stops);
-														setDestinationBusStopDisplayText(
-															"Select Destination Bus Stop"
-														);
-														setDestinationCityIsOpen(!destinationCityOpen);
-													}}>
-													{state?.state}
-												</a>
-											);
-										})}
-								</div>
-							</div>
-						)}
+							<button
+								className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+								onClick={() => {
+									setDestinationCityIsOpen(!destinationCityOpen);
+								}}>
+								{destinationCityDisplayText}
+								<FaCaretDown className="ml-auto" />
+							</button>
+						</Dropdown>
 					</div>
 				</div>
 
@@ -369,43 +330,32 @@ const CreateTripFormComponent = () => {
 					<div className="w-1/4 px-4 py-2 mr-2 text-sm text-white bg-black rounded-md ">
 						Busstops
 					</div>
+
 					<div className="relative z-20 inline w-full text-left">
-						<button
-							className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={() =>
-								setDestinationBusStopIsOpen(!destinationBusStopOpen)
-							}>
-							{destinationBuStopDisplayText}
-							<FaCaretDown className="ml-auto" />
-						</button>
-						{destinationBusStopOpen && (
-							<div className="absolute w-full mt-2 rounded-md shadow-lg">
-								<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{stopCityBusStopList?.map((busstop: string) => {
-										return (
+						<Dropdown
+							trigger={["click"]}
+							menu={{
+								items: stopCityBusStopList?.map((busstop: string) => {
+									return {
+										label: (
 											<a
-												key={busstop}
-												href="#"
-												className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+												key={Math.random() * 6000}
 												onClick={() => {
-													setDestinationBusStopIsOpen(!destinationBusStopOpen);
 													setDestinationBusStopDisplayText(busstop);
 													setStopBusStop(busstop);
-													setDestinationBusStopDisplayText(busstop);
 												}}>
 												{busstop}
 											</a>
-										);
-									})}
-								</div>
-
-								{/* <div
-									onClick={() => {}}
-									className={`absolute bottom-0 cursor-pointer text-[#22B11E] bg-[#EFF3EF] border-t w-full rounded-b-md text-center py-3 z-50`}>
-									+Add New
-								</div> */}
-							</div>
-						)}
+										),
+										key: Math.random() * 6000
+									};
+								})
+							}}>
+							<button className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800">
+								{destinationBuStopDisplayText}
+								<FaCaretDown className="ml-auto" />
+							</button>
+						</Dropdown>
 					</div>
 				</div>
 			</div>
@@ -439,43 +389,6 @@ const CreateTripFormComponent = () => {
 			{/* VEHICLE AND DRIVER */}
 			<div className="mt-3">
 				<p className="w-full text-sm text-gray-500">Vehicle and Driver</p>
-				{/*	<div className="flex items-center w-full mt-2">
-					<div className="w-1/4 px-4 py-2 mr-2 text-sm text-white bg-black rounded-md ">
-						Vehicle
-					</div>
-					<div className="relative z-50 inline w-full text-left">
-						<button
-							className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={() => {
-								setVehicleIsOpen(!vehicleOpen);
-							}}>
-							{vehicleDisplayText}
-							<FaCaretDown className="ml-auto" />
-						</button>
-
-						{vehicleOpen && (
-							<div className="absolute w-full mt-2 rounded-md shadow-lg">
-								<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs ">
-									{buses?.map((bus: BusStop_interface) => {
-										return (
-											<a
-												key={bus?._id}
-												href="#"
-												className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-												onClick={() => {
-													setVehicleDisplayText(bus?.name);
-													setBus(bus?._id);
-													setVehicleIsOpen(!vehicleOpen);
-												}}>
-												{bus?.name}
-											</a>
-										);
-									})}
-								</div>
-							</div>
-						)}
-					</div>
-				</div> */}
 
 				{/* DRIVERS FROM BACKEND */}
 				<div className="flex items-center w-full mt-2">
@@ -483,48 +396,42 @@ const CreateTripFormComponent = () => {
 						Driver
 					</div>
 					<div className="relative z-40 inline w-full text-left">
-						<button
-							className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-							onClick={() => {
-								setDriverIsOpen(!driverOpen);
-							}}>
-							{driverDisplayText}
-							<FaCaretDown className="ml-auto" />
-						</button>
-
-						{driverOpen && (
-							<div className="absolute z-10 w-full mt-2 rounded-md shadow-lg">
-								<div className="w-full py-2 pb-4 overflow-y-scroll bg-white rounded-md shadow-xs scroll-my-0 h-[120px]">
-									{drivers
-										?.filter(
-											(d: User_interface) =>
-												d?.driver_verification_status === true
-										)
-										// .filter(
-										//   (e: User_interface) =>
-										//     e?.location === startCityDisplayText
-										// )
-										.map((driver: User_interface) => {
-											return (
+						<Dropdown
+							trigger={["click"]}
+							menu={{
+								items: drivers
+									?.filter(
+										(d: User_interface) =>
+											d?.driver_verification_status === true
+									)
+									.map((driver: User_interface) => {
+										return {
+											label: (
 												<a
-													key={driver?._id}
-													href="#"
-													className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
 														setDriver(driver?._id);
 														setDriverDisplayText(
 															`${driver?.first_name} ${driver?.last_name}`
 														);
 														setBus(driver?.bus?._id);
-														setDriverIsOpen(!driverOpen);
 													}}>
+													{" "}
 													{driver?.first_name} {driver?.last_name}
 												</a>
-											);
-										})}
-								</div>
-							</div>
-						)}
+											),
+											key: driver?._id
+										};
+									})
+							}}>
+							<button
+								className="inline-flex w-full px-4 py-1 text-sm leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+								onClick={() => {
+									setDriverIsOpen(!driverOpen);
+								}}>
+								{driverDisplayText}
+								<FaCaretDown className="ml-auto" />
+							</button>
+						</Dropdown>
 					</div>
 				</div>
 			</div>

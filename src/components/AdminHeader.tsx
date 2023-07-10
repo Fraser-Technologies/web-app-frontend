@@ -1,4 +1,3 @@
-import React from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { RootState } from "../state/redux-store";
 import { logOut } from "../state/slices/user.slice";

@@ -139,23 +139,23 @@ const BookRide = () => {
 		return dispatch(userLoginAction("+234" + phone));
 	};
 
-	// useEffect(() => {
-	// 	if (!userInfo?._id) {
-	// 		setIsModalOpen(true);
-	// 	} else {
-	// 		setIsModalOpen(false);
-	// 	}
-	// }, [dispatch, navigate, userInfo]);
+	useEffect(() => {
+		if (!userInfo?._id) {
+			setIsModalOpen(true);
+		} else {
+			setIsModalOpen(false);
+		}
+	}, [dispatch, navigate, userInfo]);
 
-	// useEffect(() => {
-	// 	if (!userInfo && loginError) {
-	// 		messageApi.open({
-	// 			type: "error",
-	// 			content: loginError,
-	// 		});
-	// 		setFlip("signin");
-	// 	}
-	// }, [loginError, messageApi, userInfo]);
+	useEffect(() => {
+		if (!userInfo && loginError) {
+			messageApi.open({
+				type: "error",
+				content: loginError
+			});
+			setFlip("signin");
+		}
+	}, [loginError, messageApi, userInfo]);
 
 	useEffect(() => {
 		if (userInfo?._id) {
@@ -169,8 +169,6 @@ const BookRide = () => {
 	useEffect(() => {
 		dispatch(getAllStateAction());
 	}, [dispatch]);
-
-	console.log("the available trip is ", availableTripData);
 
 	// useEffect(() => {
 	// 	if (!userInfo?._id) navigate(_paths_.SIGNIN);
@@ -187,7 +185,7 @@ const BookRide = () => {
 					<h1 className="mt-16 md:mt-0 leading-tight bg-gradient-to-b from-[#00ff6a] to-[#FFEFC1] text-transparent bg-clip-text text-[2.6rem] md:text-[4rem] font-semibold">
 						Move Freely <br /> between cities
 					</h1>
-					<h3 className="text-white text-[14px] w-10/12 text-gray-400 md:text-[15px] mt-2 font-light">
+					<h3 className=" text-[14px] w-10/12 text-gray-400 md:text-[15px] mt-2 font-light">
 						Get started by simply inputting your location and destination
 					</h3>
 					<div className="absolute top-32 z-0 right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
@@ -497,11 +495,6 @@ const BookRide = () => {
 									stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
 								/>
 							</div>
-							{/* <FraserButton
-                size="regular"
-                title="Get Started"
-                onClick={() => {}}
-              /> */}
 						</div>
 					</div>
 				</div>

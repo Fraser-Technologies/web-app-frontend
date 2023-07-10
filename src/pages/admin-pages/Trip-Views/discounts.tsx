@@ -54,8 +54,6 @@ const Discounts = () => {
 	const [menuToggle, setMenuToggle] = useState("");
 	const [randomString, setRandomString] = useState("");
 
-	console.log("the mark paid entity are ", markPaidEntity);
-
 	const handleOk = () => {
 		setModalVisible(false);
 	};
@@ -117,8 +115,6 @@ const Discounts = () => {
 	useEffect(() => {
 		dispatch(getAllEntityAction());
 	}, [dispatch, entity]);
-
-	// console.log("the modal data is ", modalData);
 
 	useEffect(() => {
 		setModalData(markPaidEntity as Entity_interface);
