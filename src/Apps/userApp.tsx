@@ -14,31 +14,33 @@ import LandingPage from "../pages/landingPage";
 import { checkForTest } from "../utils/route_helper";
 import { changeAppStateAction } from "../state/action/app.action";
 import { useAppDispatch } from "../state/hooks";
+import AiesecPage from "../pages/user-pages/aisecpage";
 
 const UserApp: FC = () => {
-	const dispatch = useAppDispatch();
+  const dispatch = useAppDispatch();
 
-	useEffect(() => {
-		if (checkForTest() === "test") {
-			dispatch(changeAppStateAction("development"));
-		} else {
-			dispatch(changeAppStateAction("production"));
-		}
-	}, [dispatch]);
+  useEffect(() => {
+    if (checkForTest() === "test") {
+      dispatch(changeAppStateAction("development"));
+    } else {
+      dispatch(changeAppStateAction("production"));
+    }
+  }, [dispatch]);
 
-	return (
-		<Routes>
-			{/* <Route path={_paths_.LANDING_PAGE} element={<LandingPage />} /> */}
-			<Route path={_paths_.LANDING_PAGE} element={<BookRide />} />
-			<Route path={_paths_.AVAILABLE_TRIP} element={<Bookings />} />
-			<Route path={_paths_.TERMS_OF_SERVICE} element={<TermsOfService />} />
-			<Route path={_paths_.SIGNIN} element={<SignIn />} />
-			<Route path={_paths_.SIGNUP} element={<SignUp />} />
-			<Route path={_paths_.BOOKRIDE} element={<BookRide />} />
-			<Route path={_paths_.CHECKOUT} element={<Checkout />} />
-			<Route path={_paths_.NOTFOUND} element={<NotFound />} />
-		</Routes>
-	);
+  return (
+    <Routes>
+      {/* <Route path={_paths_.LANDING_PAGE} element={<LandingPage />} /> */}
+      <Route path={_paths_.LANDING_PAGE} element={<BookRide />} />
+      <Route path={_paths_.NYSC_PAGE} element={<AiesecPage />} />
+      <Route path={_paths_.AVAILABLE_TRIP} element={<Bookings />} />
+      <Route path={_paths_.TERMS_OF_SERVICE} element={<TermsOfService />} />
+      <Route path={_paths_.SIGNIN} element={<SignIn />} />
+      <Route path={_paths_.SIGNUP} element={<SignUp />} />
+      <Route path={_paths_.BOOKRIDE} element={<BookRide />} />
+      <Route path={_paths_.CHECKOUT} element={<Checkout />} />
+      <Route path={_paths_.NOTFOUND} element={<NotFound />} />
+    </Routes>
+  );
 };
 
 export default UserApp;

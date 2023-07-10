@@ -11,11 +11,11 @@ import {
 	updateBusSliceReducer
 } from "./slices/bus.slice";
 import {
-	createCityReducer,
-	deleteCityReducer,
-	getAllCityReducer,
-	updateCityReducer
-} from "./slices/city.slice";
+	createStateReducer,
+	deleteStateReducer,
+	getAllStateReducer,
+	updateStateReducer
+} from "./slices/state.slice";
 import { adminPageReducer } from "./slices/adminPageSlice";
 import { verifyOtpReducer, getOtpReducer } from "./slices/otp.Slice";
 import { combineReducers } from "@reduxjs/toolkit";
@@ -37,6 +37,7 @@ import {
 	removeBusStopReducer
 } from "./slices/busstop.slice";
 import {
+	NYSCTripReducer,
 	allTripReducer,
 	availableTripReducer,
 	createTripReducer,
@@ -111,15 +112,16 @@ const rootReducer = combineReducers({
 	updateTrip: updateTripReducer,
 	deleteTrip: deleteTripByIdReducer,
 	endTrip: endTripReducer,
+	NYSCTrip: NYSCTripReducer,
 
 	// trip reducers
 	verifyPayment: verifyPaymentReducer,
 
-	// city
-	createCity: createCityReducer,
-	allCity: getAllCityReducer,
-	deleteCity: deleteCityReducer,
-	updateCity: updateCityReducer,
+	// State
+	createState: createStateReducer,
+	allState: getAllStateReducer,
+	deleteState: deleteStateReducer,
+	updateState: updateStateReducer,
 	removeBusStop: removeBusStopReducer,
 	addBusStop: addBusStopReducer,
 

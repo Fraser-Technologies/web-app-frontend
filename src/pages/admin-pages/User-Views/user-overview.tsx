@@ -4,7 +4,7 @@ import {
 	FaBus,
 	FaCheckCircle,
 	FaEllipsisV,
-	FaExclamationCircle,
+	FaExclamationCircle
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { Booking_interface } from "../../../interfaces/Booking_interface";
@@ -13,14 +13,14 @@ import {
 	blockUserAction,
 	clearBlockUserAction,
 	clearUnblockUserAction,
-	getAllUserAction,
+	getAllUserAction
 } from "../../../state/action/user.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { FraserButton } from "../../../components/Button";
 import {
 	createDiscountCodeAction,
 	deactivateDiscountCodeAction,
-	resetDiscountCodeUserAction,
+	resetDiscountCodeUserAction
 } from "../../../state/action/discountAction";
 import { RootState } from "../../../state/redux-store";
 
@@ -36,12 +36,12 @@ const UserOverview: React.FC = () => {
 	const {
 		loading: discountLoading,
 		error: discountError,
-		user: discountUser,
+		user: discountUser
 	} = useAppSelector((state: RootState) => state.createDiscountCode);
 	const {
 		loading: deactivateDiscount,
 		error: deactivateDiscountError,
-		user: deactivateDiscountUser,
+		user: deactivateDiscountUser
 	} = useAppSelector((state: RootState) => state.deactivateCode);
 	const { bookings } = useAppSelector((state: RootState) => state.allBooking);
 	const [selectedUser, setSelectedUser] = useState<User_interface>();
@@ -100,13 +100,6 @@ const UserOverview: React.FC = () => {
 		setModalVisible(false);
 		setFlip("");
 	};
-
-	console.log(
-		"the vale from the discount creation",
-		discountLoading,
-		discountError,
-		discountUser
-	);
 
 	useEffect(() => {
 		if (blockUser?._id || unblockUser?._id) {
@@ -365,9 +358,9 @@ const UserOverview: React.FC = () => {
 											</div>
 											<div>
 												<div className="text-base truncate">
-													{book?.trip?.travel_destination?.from?.city?.city}
+													{book?.trip?.travel_destination?.from?.state?.state}
 													to
-													{book?.trip?.travel_destination?.to?.city?.city}
+													{book?.trip?.travel_destination?.to?.state?.state}
 												</div>
 												<div className="text-[#949292] ">
 													{book?.trip?.take_off_date}
@@ -552,7 +545,7 @@ const UserOverview: React.FC = () => {
 								setShowDiscountError("");
 								dispatch(
 									createDiscountCodeAction(selectedUser?._id || "", {
-										discount_percent: discountPercent,
+										discount_percent: discountPercent
 									})
 								);
 								setDiscountPercent(0);
@@ -575,7 +568,6 @@ const UserOverview: React.FC = () => {
 			)}
 		</div>
 	);
-
 };
 
 export default UserOverview;

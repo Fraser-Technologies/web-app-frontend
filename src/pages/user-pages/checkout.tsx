@@ -61,7 +61,7 @@ const Checkout = () => {
 	const [couponCode, setCouponCode] = useState("");
 	const [discountPercentage, setDiscountPercentage] = useState(0);
 
-	const newUser = userInfo?.bookings?.length === 0;
+	// const newUser = userInfo?.bookings?.length === 0;
 	// useEffect(() => {
 	// 	if (newUser) {
 	// 		setCouponCode("NEW15");
@@ -139,7 +139,7 @@ const Checkout = () => {
 			showDiscountAlert(true);
 			setAlertType("success");
 			setAlertMessage(
-				`You have applied a coupen of ${
+				`You have applied a coupon of ${
 					couponOwner?.discount_code?.discount_percent * 100
 				}% discount`
 			);
@@ -314,13 +314,13 @@ const Checkout = () => {
 							<div className="text-[#949292] text-sm flex space-x-8 items-center">
 								<div>{myBooking?.take_off_time}</div>
 								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
-								<div>{`${myBooking?.travel_destination?.from?.start_busstop}, ${myBooking?.travel_destination?.from?.city?.city}`}</div>
+								<div>{`${myBooking?.travel_destination?.from?.state?.state}, ${myBooking?.travel_destination?.from?.start_busstop}`}</div>
 							</div>
 							<div className="h-4 border-l-[1.5px] ml-20 border-primary-200 mt-2 "></div>
 							<div className="text-[#949292] text-sm flex space-x-8 items-center mt-2">
 								<div>{myBooking?.arrival_time}</div>
 								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
-								<div>{`${myBooking?.travel_destination?.to?.stop_busstop}, ${myBooking?.travel_destination?.to?.city?.city}`}</div>
+								<div>{`${myBooking?.travel_destination?.to?.state?.state}, ${myBooking?.travel_destination?.to?.stop_busstop}`}</div>
 							</div>
 						</div>
 

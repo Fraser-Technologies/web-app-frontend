@@ -8,12 +8,12 @@ import { useNavigate } from "react-router-dom";
 import { Alert, Input, message, Modal } from "antd";
 import {
 	registerUserAction,
-	userLoginAction,
+	userLoginAction
 } from "../../state/action/user.action";
 import { getAvailableTripAction } from "../../state/action/trip.action";
 import { FaCaretDown } from "react-icons/fa";
-import { City_interface } from "../../interfaces/city_interface";
-import { getAllCityAction } from "../../state/action/city.action";
+import { State_interface } from "../../interfaces/state_interface";
+import { getAllStateAction } from "../../state/action/state.action";
 import { RootState } from "../../state/redux-store";
 import { FraserButton } from "../../components/Button";
 import Offeringcard from "../../components/offeringcard";
@@ -28,17 +28,17 @@ const BookRide = () => {
 		startCityOption = "Current City",
 		destinationCityOption = "Where to?",
 		destinationBusStopOption = "Station",
-		startBusStopOption = "Station",
+		startBusStopOption = "Station"
 	}
 
 	const {
 		userInfo,
 		error: loginError,
-		loading: userLoginLoading,
+		loading: userLoginLoading
 	} = useAppSelector((state: RootState) => state.userLogin);
 	const { error: registerUserError, loading: userRegisterLoading } =
 		useAppSelector((state: RootState) => state.registerUser);
-	const { cities } = useAppSelector((state: any) => state.allCity);
+	const { states } = useAppSelector((state: any) => state.allState);
 
 	const { trips: availableTripData } = useAppSelector(
 		(state: any) => state.availableTrip
@@ -100,8 +100,8 @@ const BookRide = () => {
 				startCity,
 				destinationCity,
 				destinationBusStop,
-				startBusStop,
-			},
+				startBusStop
+			}
 		});
 	};
 
@@ -130,7 +130,7 @@ const BookRide = () => {
 				email: email.trim(),
 				phone: "+234" + phone.trim(),
 				referred_by: referred_by.trim(),
-				home_state: homeState,
+				home_state: homeState
 			})
 		);
 	};
@@ -139,23 +139,23 @@ const BookRide = () => {
 		return dispatch(userLoginAction("+234" + phone));
 	};
 
-	// useEffect(() => {
-	// 	if (!userInfo?._id) {
-	// 		setIsModalOpen(true);
-	// 	} else {
-	// 		setIsModalOpen(false);
-	// 	}
-	// }, [dispatch, navigate, userInfo]);
+	useEffect(() => {
+		if (!userInfo?._id) {
+			setIsModalOpen(true);
+		} else {
+			setIsModalOpen(false);
+		}
+	}, [dispatch, navigate, userInfo]);
 
-	// useEffect(() => {
-	// 	if (!userInfo && loginError) {
-	// 		messageApi.open({
-	// 			type: "error",
-	// 			content: loginError,
-	// 		});
-	// 		setFlip("signin");
-	// 	}
-	// }, [loginError, messageApi, userInfo]);
+	useEffect(() => {
+		if (!userInfo && loginError) {
+			messageApi.open({
+				type: "error",
+				content: loginError
+			});
+			setFlip("signin");
+		}
+	}, [loginError, messageApi, userInfo]);
 
 	useEffect(() => {
 		if (userInfo?._id) {
@@ -167,10 +167,8 @@ const BookRide = () => {
 	}, [userInfo]);
 
 	useEffect(() => {
-		dispatch(getAllCityAction());
+		dispatch(getAllStateAction());
 	}, [dispatch]);
-
-	console.log("the available trip is ", availableTripData);
 
 	// useEffect(() => {
 	// 	if (!userInfo?._id) navigate(_paths_.SIGNIN);
@@ -187,7 +185,7 @@ const BookRide = () => {
 					<h1 className="mt-16 md:mt-0 leading-tight bg-gradient-to-b from-[#00ff6a] to-[#FFEFC1] text-transparent bg-clip-text text-[2.6rem] md:text-[4rem] font-semibold">
 						Move Freely <br /> between cities
 					</h1>
-					<h3 className="text-white text-[14px] w-10/12 text-gray-400 md:text-[15px] mt-2 font-light">
+					<h3 className=" text-[14px] w-10/12 text-gray-400 md:text-[15px] mt-2 font-light">
 						Get started by simply inputting your location and destination
 					</h3>
 					<div className="absolute top-32 z-0 right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
@@ -237,22 +235,23 @@ const BookRide = () => {
 								</button>
 								{startCityIsOpen && (
 									<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-										{cities
+										{states
 											?.filter(
-												(city: City_interface) => city?.city !== destinationCity
+												(city: State_interface) =>
+													city?.state !== destinationCity
 											)
-											.map((city: City_interface) => {
+											.map((city: State_interface) => {
 												return (
 													<a
 														href="#"
 														className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 														onClick={() => {
-															setStartCity(city?.city);
+															setStartCity(city?.state);
 															setStartBusStopList(city?.bus_stops);
 															setStartCityIsOpen(false);
-															setFrom(city?.city);
+															setFrom(city?.state);
 														}}>
-														{city?.city}
+														{city?.state}
 													</a>
 												);
 											})}
@@ -334,11 +333,11 @@ const BookRide = () => {
 								</button>
 								{destinationCityIsOpen && (
 									<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-										{cities
+										{states
 											?.filter(
-												(city: City_interface) => city.city !== startCity
+												(city: State_interface) => city.state !== startCity
 											)
-											.map((city: City_interface) => {
+											.map((city: State_interface) => {
 												return (
 													<a
 														href="#"
@@ -346,10 +345,10 @@ const BookRide = () => {
 														onClick={() => {
 															setDestinationBusStopList(city?.bus_stops);
 															setDestinationCityIsOpen(!destinationCityIsOpen);
-															setDestinationCity(city?.city);
-															setTo(city?.city);
+															setDestinationCity(city?.state);
+															setTo(city?.state);
 														}}>
-														{city?.city}
+														{city?.state}
 													</a>
 												);
 											})}
@@ -496,11 +495,6 @@ const BookRide = () => {
 									stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
 								/>
 							</div>
-							{/* <FraserButton
-                size="regular"
-                title="Get Started"
-                onClick={() => {}}
-              /> */}
 						</div>
 					</div>
 				</div>

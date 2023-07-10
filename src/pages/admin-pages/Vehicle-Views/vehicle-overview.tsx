@@ -5,7 +5,7 @@ import {
 	FaBus,
 	FaCheckCircle,
 	FaEllipsisV,
-	FaExclamationCircle,
+	FaExclamationCircle
 } from "react-icons/fa";
 import ReactPaginate from "react-paginate";
 import { FraserButton } from "../../../components/Button";
@@ -14,7 +14,7 @@ import { Trip_interface } from "../../../interfaces/trip_interface";
 import {
 	getAllBusAction,
 	resetUpdateBusAction,
-	updateBusAction,
+	updateBusAction
 } from "../../../state/action/bus.action";
 import { getTripByBusAction } from "../../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../../state/hooks";
@@ -24,7 +24,7 @@ const VehicleOverview: React.FC = () => {
 		SUCCESS = "success",
 		DEACTIVATE = "deactivate",
 		OPEN = "open",
-		CLOSE = "",
+		CLOSE = ""
 	}
 	const { buses } = useAppSelector((state: any) => state?.allBus);
 	const { loading, error, trips } = useAppSelector(
@@ -50,7 +50,7 @@ const VehicleOverview: React.FC = () => {
 	// calculate the start and end index of the items to display on the current page
 	const startIndex = currentPage * itemsPerPage;
 	const endIndex = startIndex + itemsPerPage;
-	  const items = buses.slice(startIndex, endIndex); // items to display on the current page
+	const items = buses.slice(startIndex, endIndex); // items to display on the current page
 
 	// ROW ACTION MENU
 	const [menuVisible, setMenuVisible] = useState(false);
@@ -84,7 +84,7 @@ const VehicleOverview: React.FC = () => {
 		if (updatedBus?._id) {
 			messageApi.open({
 				type: "info",
-				content: "bus have been updated",
+				content: "bus have been updated"
 			});
 
 			dispatch(getAllBusAction());
@@ -100,7 +100,7 @@ const VehicleOverview: React.FC = () => {
 			</h2>{" "}
 			{/* PAGINATION */}
 			<div className="px-4 mt-24">
-			<div className="px-6 mb-4 bg-[#F6F8FA] border border-[#d0d7de] rounded-md items-center align-center flex">
+				<div className="px-6 mb-4 bg-[#F6F8FA] border border-[#d0d7de] rounded-md items-center align-center flex">
 					<ReactPaginate
 						className="inline-flex items-center w-full py-2"
 						pageCount={pageCount}
@@ -186,7 +186,6 @@ const VehicleOverview: React.FC = () => {
 										className="px-4  font-normal text-center text-gray-700">
 										{bus?.driver?.location}
 									</td>
-
 									<td
 										onClick={() => {
 											handleOpenModal(bus);
@@ -225,7 +224,7 @@ const VehicleOverview: React.FC = () => {
 														setFlip(tripType.DEACTIVATE);
 														dispatch(
 															updateBusAction(bus?._id, {
-																status: "unavailable",
+																status: "unavailable"
 															})
 														);
 													}}
@@ -235,6 +234,7 @@ const VehicleOverview: React.FC = () => {
 											</ul>
 										)}
 									</td>
+									ƒ
 								</tr>
 							);
 						})}
@@ -281,8 +281,8 @@ const VehicleOverview: React.FC = () => {
 											</div>
 											<div>
 												<div className="text-base truncate">
-													{trip?.travel_destination?.from?.city?.city} to{" "}
-													{trip?.travel_destination?.to?.city?.city}
+													{trip?.travel_destination?.from?.state?.state} to{" "}
+													{trip?.travel_destination?.to?.state?.state}
 												</div>
 												<div className="text-[#949292] ">
 													{trip?.take_off_date}

@@ -1,13 +1,10 @@
 /* eslint-disable array-callback-return */
 /* eslint-disable jsx-a11y/anchor-is-valid */
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../../components/bookingCard";
 import Layout from "../../components/layouts/SignInLayout";
-import {
-	getAllAvailableTripAction,
-	getAvailableTripAction,
-} from "../../state/action/trip.action";
+import { getAvailableTripAction } from "../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -15,14 +12,14 @@ import { Alert, Drawer, Input, message, Modal } from "antd";
 import { addToMyBookinAction } from "../../state/action/booking.action";
 import GeometricPatterns from "../../components/GeometricPatterns";
 import { FaCaretDown, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
-import { City_interface } from "../../interfaces/city_interface";
-import { getAllCityAction } from "../../state/action/city.action";
+import { State_interface } from "../../interfaces/state_interface";
+import { getAllStateAction } from "../../state/action/state.action";
 import { Trip_interface } from "../../interfaces/trip_interface";
 import { RootState } from "../../state/redux-store";
 import { FraserButton } from "../../components/Button";
 import {
 	registerUserAction,
-	userLoginAction,
+	userLoginAction
 } from "../../state/action/user.action";
 import allState from "../../utils/allState";
 
@@ -30,12 +27,12 @@ const Bookings = () => {
 	const {
 		userInfo,
 		error: loginError,
-		loading: userLoginLoading,
+		loading: userLoginLoading
 	} = useAppSelector((state: RootState) => state.userLogin);
 	const { error: registerUserError, loading: userRegisterLoading } =
 		useAppSelector((state: RootState) => state.registerUser);
 
-	const { cities } = useAppSelector((state: RootState) => state.allCity);
+	const { states } = useAppSelector((state: RootState) => state.allState);
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 	const [from, setFrom] = useState<string>("");
@@ -95,18 +92,18 @@ const Bookings = () => {
 		phone.length === 10 &&
 		email.match(emailRegex);
 
-		const CreateUser = () => {
-			return dispatch(
-				registerUserAction({
-					first_name: firstName.trim(),
-					last_name: lastName.trim(),
-					email: email.trim(),
-					phone: "+234" + phone.trim(),
-					referred_by: referred_by.trim(),
-					home_state: homeState,
-				})
-			);
-		};
+	const CreateUser = () => {
+		return dispatch(
+			registerUserAction({
+				first_name: firstName.trim(),
+				last_name: lastName.trim(),
+				email: email.trim(),
+				phone: "+234" + phone.trim(),
+				referred_by: referred_by.trim(),
+				home_state: homeState
+			})
+		);
+	};
 
 	const LoginUser = () => {
 		return dispatch(userLoginAction("+234" + phone));
@@ -122,7 +119,7 @@ const Bookings = () => {
 	const {
 		loading: availableTripLoading,
 		error: availableTripError,
-		trips: availableTripData,
+		trips: availableTripData
 	} = useAppSelector((state: any) => state.availableTrip);
 
 	const FindAvailableTrip = () => {
@@ -202,7 +199,7 @@ const Bookings = () => {
 		if (!userInfo && loginError) {
 			messageApi.open({
 				type: "error",
-				content: loginError,
+				content: loginError
 			});
 			setFlip("signin");
 			// handleOpenModal(undefined, "signin");
@@ -243,40 +240,38 @@ const Bookings = () => {
 	// }, [availableTripData, dispatch]);
 
 	useEffect(() => {
-		if (!cities.length) {
-			dispatch(getAllCityAction());
-
-			console.log("i am the function tht is running up and down");
+		if (!states.length) {
+			dispatch(getAllStateAction());
 		}
-	}, [cities, dispatch]);
+	}, [states, dispatch]);
 
 	useEffect(() => {
-	  if (!userInfo?._id || loginError) {
-	    setModalVisible(true);
-	    setFlip("signin");
-	  } else {
-	    setModalVisible(false);
-	  }
-	}, [dispatch, navigate, userInfo]);
+		if (!userInfo?._id || loginError) {
+			setModalVisible(true);
+			setFlip("signin");
+		} else {
+			setModalVisible(false);
+		}
+	}, [dispatch, loginError, navigate, userInfo]);
 
 	useEffect(() => {
-	  if (!userInfo && loginError) {
-	    messageApi.open({
-	      type: "error",
-	      content: loginError,
-	    });
-	    setFlip("signin");
-	    // handleOpenModal(undefined, "signin");
-	  }
+		if (!userInfo && loginError) {
+			messageApi.open({
+				type: "error",
+				content: loginError
+			});
+			setFlip("signin");
+			// handleOpenModal(undefined, "signin");
+		}
 	}, [loginError, messageApi, userInfo, dispatch, navigate]);
 
 	useEffect(() => {
-	  if (userInfo?._id) {
-	    setFirstName("");
-	    setLastName("");
-	    setEmail("");
-	    setPhone("");
-	  }
+		if (userInfo?._id) {
+			setFirstName("");
+			setLastName("");
+			setEmail("");
+			setPhone("");
+		}
 	}, [userInfo]);
 
 	return (
@@ -345,23 +340,23 @@ const Bookings = () => {
 
 										{startCityIsOpen && (
 											<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-												{cities
+												{states
 													.filter(
-														(city: City_interface) => city?.city !== toCity
+														(state: State_interface) => state?.state !== toCity
 													)
-													?.map((city: City_interface) => {
+													?.map((city: State_interface) => {
 														return (
 															<a
 																key={city?._id}
 																href="#"
 																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																onClick={() => {
-																	setFromCity(city?.city);
+																	setFromCity(city?.state);
 																	setStartBusStopList(city?.bus_stops);
 																	setStartCityIsOpen(!startCityIsOpen);
-																	setFrom(city.city);
+																	setFrom(city.state);
 																}}>
-																{city?.city}
+																{city?.state}
 															</a>
 														);
 													})}
@@ -440,25 +435,25 @@ const Bookings = () => {
 										</button>
 										{destinationCityIsOpen && (
 											<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-												{cities
+												{states
 													?.filter(
-														(city: City_interface) => city?.city !== fromCity
+														(city: State_interface) => city?.state !== fromCity
 													)
-													?.map((city: City_interface) => {
+													?.map((city: State_interface) => {
 														return (
 															<a
 																key={city?._id}
 																href="#"
 																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																onClick={() => {
-																	setToCity(city?.city);
+																	setToCity(city?.state);
 																	setDestinationCityIsOpen(
 																		!destinationCityIsOpen
 																	);
 																	setDestinationBusStopList(city?.bus_stops);
-																	setTo(city?.city);
+																	setTo(city?.state);
 																}}>
-																{city?.city}
+																{city?.state}
 															</a>
 														);
 													})}
@@ -980,7 +975,6 @@ const Bookings = () => {
 			)}
 		</Layout>
 	);
-
 };
 
 export default Bookings;

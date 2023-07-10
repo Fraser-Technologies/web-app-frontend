@@ -36,9 +36,13 @@ import {
 	endTripFailed,
 	endTripRequest,
 	endTripSuccess,
+	getAvailableNYSCTripFailed,
+	getAvailableNYSCTripRequest,
+	getAvailableNYSCTripSuccess
 } from "../slices/trip.slice";
-import { resetDeleteCity } from "../slices/city.slice";
+import { resetDeleteState } from "../slices/state.slice";
 import { api } from "../../utils/api";
+import { requestHeader } from "../../utils/requestHeader";
 
 export const getAvailableTripAction =
 	({ from, to }: { from: string; to: string }): AppThunk =>
@@ -46,11 +50,11 @@ export const getAvailableTripAction =
 		dispatch(getAvailableTripRequest());
 		try {
 			const {
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).post("/trip/available", {
 				from,
-				to,
+				to
 			});
 
 			dispatch(getAvailableTripSuccess(data));
@@ -64,7 +68,7 @@ export const getAllAvailableTripAction =
 		dispatch(getAllAvailableTripRequest());
 		try {
 			const {
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).get("/trip/uncompleted");
 			dispatch(getAvailableTripSuccess(data));
@@ -78,7 +82,7 @@ export const getAllTripAction = (): AppThunk => async (dispatch, getState) => {
 	dispatch(getAllTripsRequest());
 	try {
 		const {
-			appState: { app_type },
+			appState: { app_type }
 		} = getState();
 		const { data } = await api(app_type).get("/trip");
 		dispatch(getAllTripsSuccess(data));
@@ -94,12 +98,12 @@ export const createTripAction =
 			dispatch(createTripRequest());
 			const {
 				userLogin: { userInfo },
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).post("/trip", trip, {
 				headers: {
-					Authorization: `Bearer ${userInfo?.user_token}`,
-				},
+					Authorization: `Bearer ${userInfo?.user_token}`
+				}
 			});
 			dispatch(createTripSuccess(data));
 		} catch (error: any) {
@@ -119,15 +123,15 @@ export const updateTripAction =
 
 			const {
 				userLogin: { userInfo },
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).put(
 				`/trip/${id}`,
 				{ ...input },
 				{
 					headers: {
-						Authorization: `Bearer ${userInfo?.user_token}`,
-					},
+						Authorization: `Bearer ${userInfo?.user_token}`
+					}
 				}
 			);
 
@@ -144,7 +148,7 @@ export const endTripAction =
 			dispatch(endTripRequest());
 			const {
 				userLogin: { userInfo },
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).put(
 				`/trip/endtrip/${id}`,
@@ -152,8 +156,8 @@ export const endTripAction =
 
 				{
 					headers: {
-						Authorization: `Bearer ${userInfo?.user_token}`,
-					},
+						Authorization: `Bearer ${userInfo?.user_token}`
+					}
 				}
 			);
 			dispatch(endTripSuccess(data));
@@ -172,7 +176,7 @@ export const getTripByBusAction =
 		try {
 			dispatch(getTripByBusRequest());
 			const {
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).get(`/trip/tripbybus/${bus_id}`);
 			dispatch(getTripByBusSuccess(data));
@@ -187,7 +191,7 @@ export const getTripByDriverAction =
 		try {
 			dispatch(getTripByDriverRequest());
 			const {
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).get(
 				`/trip/tripbydriver/${driver_id}`
@@ -206,12 +210,12 @@ export const deleteTripByIdAction =
 
 			const {
 				userLogin: { userInfo },
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).delete(`/trip/${trip_id}`, {
 				headers: {
-					Authorization: `Bearer ${userInfo?.user_token}`,
-				},
+					Authorization: `Bearer ${userInfo?.user_token}`
+				}
 			});
 
 			dispatch(deleteTripByIdSuccess(data));
@@ -221,7 +225,7 @@ export const deleteTripByIdAction =
 	};
 
 export const resetDeleteTripAction = (): AppThunk => (dispatch) => {
-	dispatch(resetDeleteCity());
+	dispatch(resetDeleteState());
 };
 
 export const verifyPassengerOnboardAction =
@@ -231,17 +235,17 @@ export const verifyPassengerOnboardAction =
 			dispatch(verifyPassengerOnBoardRequest());
 			const {
 				userLogin: { userInfo },
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).post(
 				`/trip/passenger/onboard/${trip_id}`,
 				{
-					passenger_id,
+					passenger_id
 				},
 				{
 					headers: {
-						Authorization: `Bearer ${userInfo?.user_token}`,
-					},
+						Authorization: `Bearer ${userInfo?.user_token}`
+					}
 				}
 			);
 
@@ -258,22 +262,40 @@ export const unverifyPassengerOnboardAction =
 			dispatch(unverifyPassengerOnBoardRequest());
 			const {
 				userLogin: { userInfo },
-				appState: { app_type },
+				appState: { app_type }
 			} = getState();
 			const { data } = await api(app_type).post(
 				`/trip/passenger/onboard/${trip_id}`,
 				{
-					passenger_id,
+					passenger_id
 				},
 				{
 					headers: {
-						Authorization: `Bearer ${userInfo?.user_token}`,
-					},
+						Authorization: `Bearer ${userInfo?.user_token}`
+					}
 				}
 			);
 
 			dispatch(unverifyPassengerOnBoardSuccess(data));
 		} catch (error: any) {
 			dispatch(unverifyPassengerOnBoardFailed(RequestError(error)));
+		}
+	};
+
+export const getAvailableNYSCTripAction =
+	({ from, to }: { from: string; to: string }): AppThunk =>
+	async (dispatch, getState) => {
+		try {
+			const {
+				appState: { app_type }
+			} = getState();
+
+			dispatch(getAvailableNYSCTripRequest());
+			const { data } = await api(app_type).get(
+				`/trip/availableNYSCTrip?from=${from}&to=${to}`
+			);
+			dispatch(getAvailableNYSCTripSuccess(data));
+		} catch (error: any) {
+			dispatch(getAvailableNYSCTripFailed(RequestError(error)));
 		}
 	};
