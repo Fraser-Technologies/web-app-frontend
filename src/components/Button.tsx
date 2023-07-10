@@ -34,9 +34,9 @@ export const FraserButton = ({
       onClick={active === false ? () => {} : onClick}
       className={`
 	  ${className}
-	  ${size === "large" && "px-12 py-4"} 
-	  ${size === "regular" && "px-8 py-3"} 
-	  ${size === "small" && "px-4 py-2"} 
+	  ${size === "large" && "px-8 h-[56px]"} 
+	  ${size === "regular" && "px-6 h-[48px]"} 
+	  ${size === "small" && "px-3 h-[36px]"} 
 	  
 	  ${
       buttonType === "primary" &&

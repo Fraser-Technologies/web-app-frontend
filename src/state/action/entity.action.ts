@@ -1,7 +1,7 @@
 import { api } from "../../utils/api";
 import { RequestError } from "../../utils/requestError";
 import { AppThunk } from "../redux-store";
-import { deleteCityFailed } from "../slices/city.slice";
+import { deleteStateFailed } from "../slices/state.slice";
 import {
 	createEntityFailure,
 	createEntityRequest,

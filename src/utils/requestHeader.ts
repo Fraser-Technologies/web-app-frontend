@@ -2,14 +2,15 @@ export const requestHeader = (userInfo: any) => {
 	if (userInfo) {
 		return {
 			headers: {
-				Authorization: `Bearer ${userInfo?.user_token}`,
-			},
+				"Content-type": "application/json",
+				Authorization: `Bearer ${userInfo?.user_token}`
+			}
 		};
 	} else {
 		return {
 			headers: {
-				"Content-type": "application/json",
-			},
+				"Content-type": "application/json"
+			}
 		};
 	}
 };

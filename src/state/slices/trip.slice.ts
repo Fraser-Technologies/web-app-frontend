@@ -9,7 +9,7 @@ export type initialType = {
 export const allTripState: initialType = {
 	trips: [],
 	loading: false,
-	error: "",
+	error: ""
 };
 
 export type initialTypeForOne = {
@@ -21,7 +21,7 @@ export type initialTypeForOne = {
 export const oneTrip: initialTypeForOne = {
 	loading: false,
 	error: "",
-	trip: { _id: "" },
+	trip: { _id: "" }
 };
 
 export const getAvailableTripSlice = createSlice({
@@ -40,14 +40,14 @@ export const getAvailableTripSlice = createSlice({
 			state.loading = false;
 			state.error = payload;
 			state.trips = [];
-		},
-	},
+		}
+	}
 });
 
 export const {
 	getAvailableTripRequest,
 	getAvailableTripSuccess,
-	getAvailableTripFailed,
+	getAvailableTripFailed
 } = getAvailableTripSlice.actions;
 export const availableTripReducer = getAvailableTripSlice.reducer;
 
@@ -67,14 +67,14 @@ export const allAvailableTripSlice = createSlice({
 			state.error = payload as unknown as string;
 			state.loading = false;
 			state.trips = [];
-		},
-	},
+		}
+	}
 });
 
 export const {
 	getAllAvailableTripFailed,
 	getAllAvailableTripRequest,
-	getAllAvailableTripSuccess,
+	getAllAvailableTripSuccess
 } = allAvailableTripSlice.actions;
 export const getAllAvailableTripReducer = allAvailableTripSlice.reducer;
 
@@ -94,8 +94,8 @@ const getAllTripSlice = createSlice({
 			state.error = payload as unknown as string;
 			state.loading = false;
 			state.trips = [];
-		},
-	},
+		}
+	}
 });
 
 export const { getAllTripsFailed, getAllTripsRequest, getAllTripsSuccess } =
@@ -111,7 +111,7 @@ type initialStateType = {
 const initialState: initialStateType = {
 	loading: false,
 	error: "",
-	trip: { _id: "" },
+	trip: { _id: "" }
 };
 
 const createTripSlice = createSlice({
@@ -130,15 +130,15 @@ const createTripSlice = createSlice({
 			state.error = payload;
 			state.loading = false;
 		},
-		resetCreateTrip: () => initialState,
-	},
+		resetCreateTrip: () => initialState
+	}
 });
 
 export const {
 	createTripFailed,
 	createTripRequest,
 	createTripSuccess,
-	resetCreateTrip,
+	resetCreateTrip
 } = createTripSlice.actions;
 export const createTripReducer = createTripSlice.reducer;
 
@@ -158,15 +158,15 @@ const updateTripSlice = createSlice({
 			state.loading = false;
 			state.error = payload;
 		},
-		updateTripReset: () => initialState,
-	},
+		updateTripReset: () => initialState
+	}
 });
 
 export const {
 	updateTripRequest,
 	updateTripFailed,
 	updateTripSuccess,
-	updateTripReset,
+	updateTripReset
 } = updateTripSlice.actions;
 export const updateTripReducer = updateTripSlice.reducer;
 
@@ -186,8 +186,8 @@ export const endTripSlice = createSlice({
 			state.loading = false;
 			state.error = payload;
 		},
-		endTripReset: () => initialState,
-	},
+		endTripReset: () => initialState
+	}
 });
 
 export const { endTripRequest, endTripFailed, endTripReset, endTripSuccess } =
@@ -210,8 +210,8 @@ const getTripByBusSlice = createSlice({
 		getTripByBusFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
-		},
-	},
+		}
+	}
 });
 
 export const { getTripByBusFailed, getTripByBusRequest, getTripByBusSuccess } =
@@ -234,14 +234,14 @@ const getTripByDriverSlice = createSlice({
 		getTripByDriverFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
-		},
-	},
+		}
+	}
 });
 
 export const {
 	getTripByDriverFailed,
 	getTripByDriverRequest,
-	getTripByDriverSuccess,
+	getTripByDriverSuccess
 } = getTripByDriverSlice.actions;
 export const getTripByDriverReducer = getTripByDriverSlice.reducer;
 
@@ -266,15 +266,15 @@ const deleteTripByIdSlice = createSlice({
 			state.loading = false;
 			state.error = "";
 			state.trip = { _id: "" };
-		},
-	},
+		}
+	}
 });
 
 export const {
 	deleteTripByIdFailed,
 	deleteTripByIdRequest,
 	deleteTripByIdSuccess,
-	resetDeleteTripById,
+	resetDeleteTripById
 } = deleteTripByIdSlice.actions;
 export const deleteTripByIdReducer = deleteTripByIdSlice.reducer;
 
@@ -293,14 +293,14 @@ const verifyPassengerOnBoardSlice = createSlice({
 		verifyPassengerOnBoardFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
-		},
-	},
+		}
+	}
 });
 
 export const {
 	verifyPassengerOnBoardFailed,
 	verifyPassengerOnBoardSuccess,
-	verifyPassengerOnBoardRequest,
+	verifyPassengerOnBoardRequest
 } = verifyPassengerOnBoardSlice.actions;
 export const verifyPassengerOnBoardReducer =
 	verifyPassengerOnBoardSlice.reducer;
@@ -320,14 +320,42 @@ const unverifyPassengerOnBoardSlice = createSlice({
 		unverifyPassengerOnBoardFailed: (state, { payload }) => {
 			state.loading = false;
 			state.error = payload;
-		},
-	},
+		}
+	}
 });
 
 export const {
 	unverifyPassengerOnBoardFailed,
 	unverifyPassengerOnBoardSuccess,
-	unverifyPassengerOnBoardRequest,
+	unverifyPassengerOnBoardRequest
 } = unverifyPassengerOnBoardSlice.actions;
 export const unverifyPassengerOnBoardReducer =
 	unverifyPassengerOnBoardSlice.reducer;
+
+export const getAvailableNYSCTripSlice = createSlice({
+	name: "get available NYSC trip",
+	initialState: allTripState,
+	reducers: {
+		getAvailableNYSCTripRequest: (state) => {
+			state.loading = true;
+		},
+
+		getAvailableNYSCTripSuccess: (state, { payload }) => {
+			state.trips = payload;
+			state.loading = false;
+		},
+		getAvailableNYSCTripFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+			state.trips = [];
+		}
+	}
+});
+
+export const {
+	getAvailableNYSCTripFailed,
+	getAvailableNYSCTripRequest,
+	getAvailableNYSCTripSuccess
+} = getAvailableNYSCTripSlice.actions;
+
+export const NYSCTripReducer = getAvailableNYSCTripSlice.reducer;

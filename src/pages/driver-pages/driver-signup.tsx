@@ -8,14 +8,14 @@ import { RootState } from "../../state/redux-store";
 import { _paths_ } from "../../utils/routes";
 import {
 	registerAsADriverAction,
-	updateUserAction,
+	updateUserAction
 } from "../../state/action/user.action";
 import { deleteFileAction } from "../../state/action/image.action";
 import { MdCancel } from "react-icons/md";
 import { RequestError } from "../../utils/requestError";
 import {
 	createBusAction,
-	updateBusAction,
+	updateBusAction
 } from "../../state/action/bus.action";
 import { addAccountAction } from "../../state/action/balance.action";
 import { availableCities } from "../../utils/availableCitiesData";
@@ -34,7 +34,7 @@ const DriverSignUp = () => {
 				user_metadata: {},
 				bus: {},
 				docs: {},
-				account: {},
+				account: {}
 		  };
 
 	const { userInfo } = useAppSelector((state: RootState) => state.userLogin);
@@ -136,16 +136,14 @@ const DriverSignUp = () => {
 		await api(app_type)
 			.post("/image", formData, {
 				headers: {
-					"Content-Type": "multipart/form-data",
-				},
+					"Content-Type": "multipart/form-data"
+				}
 			})
 			.then(({ data }: any) => {
-				console.log("the res ", data);
 				setProfile(data?.image);
 				setUploadingProfile(false);
 			})
 			.catch((error) => {
-				console.log("the errror is ", error?.message);
 				setUploadProfilePicError(RequestError(error));
 				setProfile("");
 				setUploadingProfile(false);
@@ -167,8 +165,8 @@ const DriverSignUp = () => {
 		await api(app_type)
 			.post("/image", formData, {
 				headers: {
-					"Content-Type": "multipart/form-data",
-				},
+					"Content-Type": "multipart/form-data"
+				}
 			})
 			.then(async ({ data }: any) => {
 				setDriverLicense(data?.image);
@@ -194,14 +192,14 @@ const DriverSignUp = () => {
 		await api(app_type)
 			.post("/image", formData, {
 				headers: {
-					"Content-Type": "multipart/form-data",
-				},
+					"Content-Type": "multipart/form-data"
+				}
 			})
 			.then(async ({ data }: any) => {
 				setRoadWorthiness(data?.image);
 				dispatch(
 					updateBusAction(bus?._id, {
-						road_worthiness_cert: data?.image,
+						road_worthiness_cert: data?.image
 					})
 				);
 			})
@@ -225,14 +223,14 @@ const DriverSignUp = () => {
 		await api(app_type)
 			.post("/image", formData, {
 				headers: {
-					"Content-Type": "multipart/form-data",
-				},
+					"Content-Type": "multipart/form-data"
+				}
 			})
 			.then(async ({ data }: any) => {
 				setProofOfInsurance(data?.image);
 				dispatch(
 					updateBusAction(bus?._id, {
-						bus_insurance: data?.image,
+						bus_insurance: data?.image
 					})
 				);
 			});
@@ -275,8 +273,8 @@ const DriverSignUp = () => {
 						driver_license: licenseNumber,
 						location: locationName,
 						image: profile || "",
-						phone: "+234" + phone,
-					},
+						phone: "+234" + phone
+					}
 				})
 			);
 
@@ -299,8 +297,8 @@ const DriverSignUp = () => {
 						make,
 						model,
 						capacity: vehicleCapacity,
-						registration_number: registrationNumber,
-					},
+						registration_number: registrationNumber
+					}
 				})
 			);
 
@@ -322,8 +320,8 @@ const DriverSignUp = () => {
 					docs: {
 						bus_insurance: proofOfInsurance,
 						road_worthiness_cert: roadWorthiness,
-						registration_number: driverLicense,
-					},
+						registration_number: driverLicense
+					}
 				})
 			);
 
@@ -349,8 +347,8 @@ const DriverSignUp = () => {
 				account: {
 					account_number: accountNo,
 					account_name: accountName,
-					bank_name: bankFilter,
-				},
+					bank_name: bankFilter
+				}
 			})
 		);
 
@@ -360,14 +358,14 @@ const DriverSignUp = () => {
 					createBusAction({
 						driver: userInfo?._id,
 						...newDriver?.bus,
-						...newDriver?.docs,
+						...newDriver?.docs
 					})
 				);
 			})
 			.finally(() => {
 				dispatch(
 					addAccountAction({
-						...newDriver?.account,
+						...newDriver?.account
 					})
 				).finally(() => {
 					setLoading(!submitLoading);
