@@ -139,13 +139,13 @@ const BookRide = () => {
 		return dispatch(userLoginAction("+234" + phone));
 	};
 
-	useEffect(() => {
-		if (!userInfo?._id) {
-			setIsModalOpen(true);
-		} else {
-			setIsModalOpen(false);
-		}
-	}, [dispatch, navigate, userInfo]);
+	// useEffect(() => {
+	// 	if (!userInfo?._id) {
+	// 		setIsModalOpen(true);
+	// 	} else {
+	// 		setIsModalOpen(false);
+	// 	}
+	// }, [dispatch, navigate, userInfo]);
 
 	useEffect(() => {
 		if (!userInfo && loginError) {
