@@ -86,7 +86,7 @@ const AiesecPage = () => {
 	};
 
 	const searchForTrip = () => {
-		dispatch(getAvailableNYSCTripAction({ from: "Lagos", to: stateFilter }));
+		dispatch(getAvailableNYSCTripAction({ from: "Oyo", to: stateFilter }));
 	};
 
 	const CreateUser = () => {
