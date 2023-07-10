@@ -22,6 +22,7 @@ import Accordion from "../../components/Accordion";
 import { _paths_ } from "../../utils/routes";
 import Footer from "../../components/footer";
 import allState from "../../utils/allState";
+import { MdOutlineCancel } from "react-icons/md";
 
 const BookRide = () => {
 	enum TripValidOption {
@@ -139,23 +140,23 @@ const BookRide = () => {
 		return dispatch(userLoginAction("+234" + phone));
 	};
 
-	useEffect(() => {
-		if (!userInfo?._id) {
-			setIsModalOpen(true);
-		} else {
-			setIsModalOpen(false);
-		}
-	}, [dispatch, navigate, userInfo]);
+	// useEffect(() => {
+	// 	if (!userInfo?._id) {
+	// 		setIsModalOpen(true);
+	// 	} else {
+	// 		setIsModalOpen(false);
+	// 	}
+	// }, [dispatch, navigate, userInfo]);
 
-	useEffect(() => {
-		if (!userInfo && loginError) {
-			messageApi.open({
-				type: "error",
-				content: loginError
-			});
-			setFlip("signin");
-		}
-	}, [loginError, messageApi, userInfo]);
+	// useEffect(() => {
+	// 	if (!userInfo && loginError) {
+	// 		messageApi.open({
+	// 			type: "error",
+	// 			content: loginError
+	// 		});
+	// 		setFlip("signin");
+	// 	}
+	// }, [loginError, messageApi, userInfo]);
 
 	useEffect(() => {
 		if (userInfo?._id) {
@@ -422,6 +423,9 @@ const BookRide = () => {
 								active={TripValid}
 								onClick={() => {
 									if (TripValid) {
+										if (!userInfo?._id) {
+											return setFlip("signin");
+										}
 										handleAvailableTrips();
 									}
 								}}
@@ -503,12 +507,12 @@ const BookRide = () => {
 						<img
 							alt=""
 							src={"/assets/images/withfriends.051522d885873700dacd.png"}
-							className="mt-12 md:mt-40 w-[90%] md:w-[70%] w-full md:h-[60%] h-full object-contain rounded-lg "
+							className="mt-12 md:mt-40  md:w-[70%] w-full md:h-[60%] h-full object-contain rounded-lg "
 						/>
 					</div>
 
 					<div className="landingpageSessionPadding mt-[20px] md:mt-[30px] md:py-[40px] py-[24px] justify-center items-center">
-						<h1 className="text-black text-[1.65rem] md:text-[2rem] lg:text-[3rem] mb-[32px] md:mb-[72px] text-[25px] text-center font-semibold  spacing-[normal]  ">
+						<h1 className="text-black  md:text-[2rem] lg:text-[3rem] mb-[32px] md:mb-[72px] text-[25px] text-center font-semibold  spacing-[normal]  ">
 							Ride with friends and <br />
 							enjoy multiple benefits
 						</h1>
@@ -538,7 +542,13 @@ const BookRide = () => {
 				<Modal
 					title={
 						<div>
-							<h1 className="pt-2 text-xl">Welcome Back</h1>
+							<div className="flex flex-row w-full items-center justify-between ">
+								<h1 className="pt-2 text-xl">Welcome Back</h1>
+								<MdOutlineCancel
+									className="text-[25px] hover:cursor-pointer"
+									onClick={() => setFlip("")}
+								/>
+							</div>
 							<p className="pt-1 text-sm font-light text-gray-500">
 								Please enter your phone number to continue
 							</p>
@@ -602,7 +612,14 @@ const BookRide = () => {
 				<Modal
 					title={
 						<div>
-							<h1 className="pt-2 text-xl">Let's get you started</h1>
+							<div className="flex flex-row w-full items-center justify-between ">
+								<h1 className="pt-2 text-xl">Let's get you started</h1>
+
+								<MdOutlineCancel
+									className="text-[25px] hover:cursor-pointer"
+									onClick={() => setFlip("")}
+								/>
+							</div>
 							<p className="pt-1 text-sm font-light text-gray-500">
 								You're almost there, create an account in just one simple step.
 							</p>
