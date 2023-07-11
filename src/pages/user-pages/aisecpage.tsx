@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../state/redux-store";
 import { Trip_interface } from "../../interfaces/trip_interface";
-import { getAvailableTripAction } from "../../state/action/trip.action";
+import { getAvailableNYSCTripAction } from "../../state/action/trip.action";
 import {
 	registerUserAction,
 	userLoginAction
@@ -19,7 +19,7 @@ import {
 import { MdOutlineCancel } from "react-icons/md";
 import { addToMyBookinAction } from "../../state/action/booking.action";
 
-const PartnerPage = () => {
+const AiesecPage = () => {
 	const dispatch = useAppDispatch();
 	const navigate = useNavigate();
 
@@ -34,8 +34,8 @@ const PartnerPage = () => {
 	const {
 		loading,
 		error,
-		trips: availableTripData
-	} = useSelector((state: RootState) => state.availableTrip);
+		trips: NYSCAvailableTrip
+	} = useSelector((state: RootState) => state.NYSCTrip);
 
 	const [firstName, setFirstName] = useState<string>("");
 	const [lastName, setLastName] = useState<string>("");
@@ -86,7 +86,7 @@ const PartnerPage = () => {
 	};
 
 	const searchForTrip = () => {
-		dispatch(getAvailableTripAction({ from: "Oyo", to: stateFilter }));
+		dispatch(getAvailableNYSCTripAction({ from: "Oyo", to: stateFilter }));
 	};
 
 	const CreateUser = () => {
@@ -133,10 +133,6 @@ const PartnerPage = () => {
 			setFlip("signin");
 		}
 	}, [loginError, messageApi, userInfo]);
-
-	useEffect(() => {
-		searchForTrip();
-	}, [stateFilter]);
 
 	return (
 		<Layout
@@ -196,7 +192,7 @@ const PartnerPage = () => {
 					</div>
 
 					<div className="h-[300px] overflow-y-auto mx-auto ">
-						{availableTripData?.map((trip: Trip_interface) => (
+						{NYSCAvailableTrip?.map((trip: Trip_interface) => (
 							<BookingCard
 								key={trip?._id}
 								from={trip?.travel_destination?.from?.state?.state}
@@ -388,6 +384,14 @@ const PartnerPage = () => {
 										);
 									})}
 								</select>
+
+								{/* <Input
+								className="w-full h-12 hover:border-green-500 active:border-green-600"
+								placeholder="Email"
+								value={homeState}
+								required={true}
+								onChange={(e) => setHomeState(e.target.value)}
+							/> */}
 							</div>
 
 							<div className="mb-6">
@@ -521,4 +525,4 @@ const PartnerPage = () => {
 	);
 };
 
-export default PartnerPage;
+export default AiesecPage;
