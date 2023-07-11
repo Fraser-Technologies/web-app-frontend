@@ -41,9 +41,9 @@ const BookRide = () => {
     useAppSelector((state: RootState) => state.registerUser);
   const { states } = useAppSelector((state: any) => state.allState);
 
-  const { trips: availableTripData } = useAppSelector(
-    (state: any) => state.availableTrip
-  );
+  //   const { trips: availableTripData } = useAppSelector(
+  //     (state: any) => state.availableTrip
+  //   );
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -53,7 +53,7 @@ const BookRide = () => {
   const [phone, setPhone] = useState<string>("");
   const [flip, setFlip] = useState("signin");
   const [referred_by, setReferred_by] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  //   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("");
   const [homeState, setHomeState] = useState<string>("");
@@ -244,7 +244,7 @@ const BookRide = () => {
                               setStartBusStopList(state?.bus_stops);
                               setStartStateIsOpen(false);
                               setFrom(state?.state);
-							  setStartStateIsOpen(!startStateIsOpen)
+                              setStartStateIsOpen(!startStateIsOpen);
                             }}
                           >
                             {state?.state}
@@ -351,7 +351,9 @@ const BookRide = () => {
                               setDestinationBusStopList(state?.bus_stops);
                               setDestinationState(state?.state);
                               setTo(state?.state);
-							  setDestinationStateIsOpen(!destinationStateIsOpen)
+                              setDestinationStateIsOpen(
+                                !destinationStateIsOpen
+                              );
                             }}
                           >
                             {state?.state}
@@ -507,7 +509,7 @@ const BookRide = () => {
           <h1 className="lg:col-start-1 lg:col-end-6 text-[1.65rem] md:text-[2rem] font-medium text-[#e3e3e3] leading-tight">
             Book a ride in three steps
           </h1>
-          <div className="lg:grid lg:grid-cols-12 lg:flex lg:mx-auto lg:mt-12">
+          <div className="lg:grid-cols-12 lg:flex lg:mx-auto lg:mt-12">
             <div className="hidden col-start-1 col-end-6 mt-6 lg:block">
               <img
                 src="/assets/images/phone.png"
@@ -602,7 +604,7 @@ const BookRide = () => {
               )}
             </div>
           }
-          open={isModalOpen}
+          //   open={isModalOpen}
           centered={true}
           footer={false}
           closable={false}
@@ -676,7 +678,7 @@ const BookRide = () => {
               </div>
             </div>
           }
-          open={isModalOpen}
+          //   open={isModalOpen}
           centered={true}
           footer={false}
           closable={false}

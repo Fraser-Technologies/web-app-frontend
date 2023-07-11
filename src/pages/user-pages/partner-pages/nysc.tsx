@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
 import Layout from "../../../components/layouts/SignInLayout";
 import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
@@ -30,12 +31,10 @@ const NyscPage = () => {
   } = useAppSelector((state: RootState) => state.userLogin);
   const { error: registerUserError, loading: userRegisterLoading } =
     useAppSelector((state: RootState) => state.registerUser);
-  const { trips } = useSelector((state: RootState) => state.allTrip);
-  const {
-    loading,
-    error,
-    trips: availableTripData,
-  } = useSelector((state: RootState) => state.availableTrip);
+  // const { trips } = useSelector((state: RootState) => state.allTrip);
+  const { loading, trips: availableTripData } = useSelector(
+    (state: RootState) => state.availableTrip
+  );
 
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -134,9 +133,9 @@ const NyscPage = () => {
     }
   }, [loginError, messageApi, userInfo]);
 
-  useEffect(() => {
-    searchForTrip();
-  }, [stateFilter]);
+  // useEffect(() => {
+  //   searchForTrip();
+  // }, [stateFilter]);
 
   return (
     <Layout
@@ -200,26 +199,35 @@ const NyscPage = () => {
             </div>
           </div>
 
-          <div className="h-[300px] overflow-y-auto mx-auto ">
-            {availableTripData?.map((trip: Trip_interface) => (
-              <BookingCard
+          {availableTripData?.map((trip: Trip_interface) => {
+            return (
+              <div>
+                {trip?.type_of_trip === "NYSC" && (
+                  <BookingCard
                     key={trip?._id}
                     from={trip?.travel_destination?.from?.state?.state}
-                    to={trip?.travel_destination?.to?.state?.state}
+                    to={trip?.travel_destination?.to?.state.state}
+                    fromBusStop={trip?.travel_destination?.from?.start_busstop}
+                    toBusStop={trip?.travel_destination?.to?.stop_busstop}
                     takeOffTime={trip?.take_off_time}
                     takeOffDate={trip?.take_off_date}
                     price={trip?.price}
                     arrivalTime={trip?.arrival_time}
                     arrivalDate={trip?.arrival_date}
                     onClick={() => {
-                        if (!userInfo?._id) {
-                            return handleOpenModal(null, "signin");
-                        }
-                        handleOpenModal(null, "howmanytickets");
-                        setSelectedTrip(trip);
-                    } } fromBusStop={""} toBusStop={""}              />
-            ))}
-          </div>
+                      if (!userInfo?._id) {
+                        return handleOpenModal(null, "signin");
+                      }
+                      handleOpenModal(trip, "howmanytickets");
+                      setSelectedTrip(trip);
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
+
+          
         </div>
         {flip === "signin" && (
           <Modal
