@@ -540,13 +540,13 @@ const TripsOverview: React.FC = () => {
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
 							<div className="mb-1 text-gray-400">Start</div>
 							<div className="text-xs">
-								{modalData?.travel_destination?.from?.city?.city}
+								{modalData?.travel_destination?.from?.state?.state}
 							</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
 							<div className="mb-1 text-gray-400">Destination</div>
 							<div className="text-xs">
-								{modalData?.travel_destination?.to?.city?.city}
+								{modalData?.travel_destination?.to?.state?.state}
 							</div>
 						</div>
 						<div className="bg-[#fcfcfc] rounded-md py-2 px-4">
@@ -606,7 +606,7 @@ const TripsOverview: React.FC = () => {
 					title={
 						<div className="">
 							<p className="mb-4 text-lg font-medium">Passenger Manifest</p>
-							<p className="text-base font-normal">{`${modalData?.travel_destination?.from?.city?.city} to ${modalData?.travel_destination?.to?.city?.city} Trip`}</p>
+							<p className="text-base font-normal">{`${modalData?.travel_destination?.from?.state?.state} to ${modalData?.travel_destination?.to?.state?.state} Trip`}</p>
 
 							<div className="flex w-full bg-black rounded-md px-2 pt-1 pb-3 font-normal text-[14px] text-white my-2">
 								<div className="w-full flex mt-2 mr-2 rounded-md ">

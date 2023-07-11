@@ -5,7 +5,7 @@ import Layout from "../../components/layouts/SignInLayout";
 
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
-import { Alert, Input, message, Modal } from "antd";
+import { Alert, Dropdown, Input, message, Modal } from "antd";
 import {
 	registerUserAction,
 	userLoginAction
@@ -58,7 +58,6 @@ const BookRide = () => {
 	const [to, setTo] = useState<string>("");
 	const [homeState, setHomeState] = useState<string>("");
 	const [messageApi, contextHolder] = message.useMessage();
-	const [startCityIsOpen, setStartCityIsOpen] = useState(false);
 	const [startBusStopIsOpen, setStartBusStopIsOpen] = useState(false);
 	const [destinationCityIsOpen, setDestinationCityIsOpen] = useState(false);
 	const [destinationBusStopIsOpen, setDestinationBusStopIsOpen] =
@@ -225,39 +224,35 @@ const BookRide = () => {
 								<label className="ml-2 text-gray-600 md:text-[13px]">
 									Pickup City
 								</label>
-								<button
-									type="button"
-									className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-									onClick={() => {
-										setStartCityIsOpen(!startCityIsOpen);
-									}}>
-									{startCity}
-									<FaCaretDown className="ml-auto" />
-								</button>
-								{startCityIsOpen && (
-									<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-										{states
-											?.filter(
-												(city: State_interface) =>
-													city?.state !== destinationCity
-											)
-											.map((city: State_interface) => {
-												return (
+								<Dropdown
+									menu={{
+										items: states?.map((state: State_interface) => {
+											return {
+												label: (
 													<a
 														href="#"
 														className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 														onClick={() => {
-															setStartCity(city?.state);
-															setStartBusStopList(city?.bus_stops);
-															setStartCityIsOpen(false);
-															setFrom(city?.state);
+															setStartCity(state?.state);
+															setStartBusStopList(state?.bus_stops);
+															// setStartCityIsOpen(false);
+															setFrom(state?.state);
 														}}>
-														{city?.state}
+														{state?.state}
 													</a>
-												);
-											})}
-									</div>
-								)}
+												),
+												key: Math.random() * 2000
+											};
+										})
+									}}
+									trigger={["click"]}>
+									<button
+										type="button"
+										className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800">
+										{startCity}
+										<FaCaretDown className="ml-auto" />
+									</button>
+								</Dropdown>
 							</div>
 
 							{/* AFTER START CITY SELECTION */}
@@ -270,91 +265,85 @@ const BookRide = () => {
 								</label>
 
 								{/* START BUSSTOP */}
-								<button
-									type="button"
-									className="z-10 inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-									onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
-									onChange={handleStartBusStop}>
-									{startBusStop}
-									<FaCaretDown className="ml-auto" />
-								</button>
 
-								{startBusStopIsOpen && (
-									<div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-										{!startBusStopList ? (
-											<div className="flex px-6 py-2 space-x-4 animate-pulse">
-												<div className="flex-1 py-1 space-y-6">
-													<div className="h-2 rounded bg-slate-200"></div>
-													<div className="space-y-3">
-														<div className="grid grid-cols-3 gap-4">
-															<div className="h-2 col-span-2 rounded bg-slate-200"></div>
-															<div className="h-2 col-span-1 rounded bg-slate-200"></div>
-														</div>
-														<div className="h-2 rounded bg-slate-200"></div>
-													</div>
-												</div>
-											</div>
-										) : startBusStopList.length === 0 ? (
-											<div className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
-												Sorry, we currently do not have a stop at this location.
-											</div>
-										) : (
-											startBusStopList?.map((stops: any) => {
-												return (
-													<a
-														key={stops}
-														href="#"
-														className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-														onClick={() => {
-															handleStartBusStop(stops);
-															// setFrom(stops);
-														}}>
-														{stops}
-													</a>
-												);
-											})
-										)}
-									</div>
-								)}
+								<Dropdown
+									trigger={["click"]}
+									menu={{
+										items: startBusStopList.length
+											? startBusStopList?.map((stops: string) => {
+													return {
+														label: (
+															<a
+																key={stops}
+																href="#"
+																className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																onClick={() => {
+																	handleStartBusStop(stops);
+																}}>
+																{stops}
+															</a>
+														),
+														key: Math.random() + 2000
+													};
+											  })
+											: [
+													{
+														label: (
+															<a className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
+																Sorry, we currently do not have a stop at this
+																location.
+															</a>
+														),
+														key: Math.random() * 2000
+													}
+											  ]
+									}}>
+									<button
+										type="button"
+										className="z-10 inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+										onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
+										onChange={handleStartBusStop}>
+										{startBusStop}
+										<FaCaretDown className="ml-auto" />
+									</button>
+								</Dropdown>
 							</div>
 
 							<div className="relative z-30 w-full mb-2 mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
 								<label className="ml-2 text-gray-600 md:text-[13px]">
 									Destination City
 								</label>
-
-								<button
-									type="button"
-									className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-									onClick={() => {
-										setDestinationCityIsOpen(!destinationCityIsOpen);
-									}}>
-									{destinationCity}
-									<FaCaretDown className="ml-auto" />
-								</button>
-								{destinationCityIsOpen && (
-									<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-										{states
-											?.filter(
-												(city: State_interface) => city.state !== startCity
-											)
-											.map((city: State_interface) => {
-												return (
+								<Dropdown
+									trigger={["click"]}
+									menu={{
+										items: states.map((state: State_interface) => {
+											return {
+												label: (
 													<a
 														href="#"
 														className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 														onClick={() => {
-															setDestinationBusStopList(city?.bus_stops);
-															setDestinationCityIsOpen(!destinationCityIsOpen);
-															setDestinationCity(city?.state);
-															setTo(city?.state);
+															setDestinationBusStopList(state?.bus_stops);
+															setDestinationCity(state?.state);
+															setTo(state?.state);
 														}}>
-														{city?.state}
+														{state?.state}
 													</a>
-												);
-											})}
-									</div>
-								)}
+												),
+												key: Math.random() * 2000
+											};
+										})
+									}}>
+									<button
+										type="button"
+										className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+										onClick={() => {
+											setDestinationCityIsOpen(!destinationCityIsOpen);
+										}}>
+										{destinationCity}
+										<FaCaretDown className="ml-auto" />
+									</button>
+								</Dropdown>
 							</div>
 							<div
 								className={`ease-in-out duration-300 relative w-full text-left z-20 mr-6 ${
@@ -366,54 +355,50 @@ const BookRide = () => {
 
 								{/* START BUSSTOP */}
 
-								<button
-									type="button"
-									className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-									onClick={() =>
-										setDestinationBusStopIsOpen(!destinationBusStopIsOpen)
-									}
-									onChange={handleDestinationBusStop}>
-									{destinationBusStop}
-									<FaCaretDown className="ml-auto" />
-								</button>
-
-								{destinationBusStopIsOpen && (
-									<div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-										{!desinationBusStopList ? (
-											<div className="flex px-6 py-2 space-x-4 animate-pulse">
-												<div className="flex-1 py-1 space-y-6">
-													<div className="h-2 rounded bg-slate-200"></div>
-													<div className="space-y-3">
-														<div className="grid grid-cols-3 gap-4">
-															<div className="h-2 col-span-2 rounded bg-slate-200"></div>
-															<div className="h-2 col-span-1 rounded bg-slate-200"></div>
-														</div>
-														<div className="h-2 rounded bg-slate-200"></div>
-													</div>
-												</div>
-											</div>
-										) : desinationBusStopList.length === 0 ? (
-											<div className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
-												Sorry, we currently do not have a stop at this location.
-											</div>
-										) : (
-											desinationBusStopList?.map((stops: any) => {
-												return (
-													<a
-														key={stops}
-														href="#"
-														className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-														onClick={() => {
-															handleDestinationBusStop(stops);
-															// setTo(stops);
-														}}>
-														{stops}
-													</a>
-												);
-											})
-										)}
-									</div>
-								)}
+								<Dropdown
+									trigger={["click"]}
+									menu={{
+										items: desinationBusStopList?.length
+											? desinationBusStopList?.map((stops: string) => {
+													return {
+														label: (
+															<a
+																key={stops}
+																href="#"
+																className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+																onClick={() => {
+																	handleDestinationBusStop(stops);
+																	// setTo(stops);
+																}}>
+																{stops}
+															</a>
+														),
+														key: Math.random() * 2000
+													};
+											  })
+											: [
+													{
+														label: (
+															<a className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
+																Sorry, we currently do not have a stop at this
+																location.
+															</a>
+														),
+														key: Math.random() * 2000
+													}
+											  ]
+									}}>
+									<button
+										type="button"
+										className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+										onClick={() =>
+											setDestinationBusStopIsOpen(!destinationBusStopIsOpen)
+										}
+										onChange={handleDestinationBusStop}>
+										{destinationBusStop}
+										<FaCaretDown className="ml-auto" />
+									</button>
+								</Dropdown>
 							</div>
 
 							<FraserButton

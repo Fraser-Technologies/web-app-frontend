@@ -580,8 +580,14 @@ const Bookings = () => {
 												<div>
 													<BookingCard
 														key={trip?._id}
-														from={trip?.travel_destination?.from?.start_busstop}
-														to={trip?.travel_destination?.to?.stop_busstop}
+														from={trip?.travel_destination?.from?.state?.state}
+														to={trip?.travel_destination?.to?.state.state}
+														fromBusStop={
+															trip?.travel_destination?.from?.start_busstop
+														}
+														toBusStop={
+															trip?.travel_destination?.to?.stop_busstop
+														}
 														takeOffTime={trip?.take_off_time}
 														takeOffDate={trip?.take_off_date}
 														price={trip?.price}
