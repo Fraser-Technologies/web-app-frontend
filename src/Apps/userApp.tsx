@@ -14,7 +14,7 @@ import LandingPage from "../pages/landingPage";
 import { checkForTest } from "../utils/route_helper";
 import { changeAppStateAction } from "../state/action/app.action";
 import { useAppDispatch } from "../state/hooks";
-import PartnerPage from "../pages/user-pages/PartnerPage";
+import PartnerPage from "../pages/user-pages/partner-pages/PartnerPage";
 
 const UserApp: FC = () => {
   const dispatch = useAppDispatch();
