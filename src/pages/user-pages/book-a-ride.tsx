@@ -362,40 +362,7 @@ const BookRide = () => {
                       })}
                   </div>
                 )}
-                {/* <Dropdown
-                  trigger={["click"]}
-                  menu={{
-                    items: states.map((state: State_interface) => {
-                      return {
-                        label: (
-                          <a
-                            href="#"
-                            className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                            onClick={() => {
-                              setDestinationBusStopList(state?.bus_stops);
-                              setDestinationState(state?.state);
-                              setTo(state?.state);
-                            }}
-                          >
-                            {state?.state}
-                          </a>
-                        ),
-                        key: Math.random() * 2000,
-                      };
-                    }),
-                  }}
-                >
-                  <button
-                    type="button"
-                    className="inline-flex items-center w-full h-12 px-4 py-2  mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                    onClick={() => {
-                      setDestinationStateIsOpen(!destinationStateIsOpen);
-                    }}
-                  >
-                    {destinationState}
-                    <FaCaretDown className="ml-auto" />
-                  </button>
-                </Dropdown> */}
+                
               </div>
               <div
                 className={`ease-in-out duration-300 relative w-full text-left z-20 mr-6 ${

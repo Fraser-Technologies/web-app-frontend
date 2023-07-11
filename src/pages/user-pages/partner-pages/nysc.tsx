@@ -19,10 +19,12 @@ import {
 } from "../../../state/action/user.action";
 import { MdOutlineCancel } from "react-icons/md";
 import { addToMyBookinAction } from "../../../state/action/booking.action";
+import { State_interface } from "../../../interfaces/state_interface";
 
 const NyscPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { states } = useAppSelector((state: any) => state.allState);
 
   const {
     userInfo,
@@ -161,7 +163,10 @@ const NyscPage = () => {
                 type="text"
                 className="inline-flex  items-center w-full h-[48px] px-2 py-2 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
                 placeholder="State"
-                onClick={() => setisOpen(!isOpen)}
+                onClick={() => {
+                  // console.log(states);
+                  setisOpen(!isOpen);
+                }}
                 onChange={(e) => {
                   setStateFilter(e.target.value);
                 }}
@@ -171,26 +176,28 @@ const NyscPage = () => {
               {isOpen && (
                 <div
                   className={`absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg overflow-y-scroll ${
-                    stateFilter === "" && "h-80"
+                    stateFilter === "" && "h-content"
                   }`}
                 >
-                  {allState
-                    ?.filter((e) =>
-                      e.toLowerCase().includes(stateFilter.toLowerCase())
+                  {states
+                    .filter((e: any) =>
+                      e.state.toLowerCase().includes(stateFilter.toLowerCase())
                     )
-                    .map((e: any) => {
+                    .sort((a: State_interface, b: State_interface) =>
+                      a.state.localeCompare(b.state)
+                    )
+                    .map((state: State_interface) => {
                       return (
                         <a
-                          key={e}
                           href="#"
                           className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                           onClick={() => {
-                            setStateFilter(e);
+                            setStateFilter(state?.state);
                             setisOpen(false);
                             searchForTrip();
                           }}
                         >
-                          {e}
+                          {state?.state}
                         </a>
                       );
                     })}
@@ -226,8 +233,6 @@ const NyscPage = () => {
               </div>
             );
           })}
-
-          
         </div>
         {flip === "signin" && (
           <Modal

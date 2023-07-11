@@ -577,12 +577,7 @@ const Bookings = () => {
                         type="info"
                         message="Sorry there are no available trips to the destination selected"
                       />
-                      <p className="mt-4 text-[14px] text-gray-500">
-                        Request a route or
-                        <a href={`tel:09076736877`}>
-                          <span className="text-blue-500"> contact us</span>
-                        </a>
-                      </p>
+                     
                     </div>
                   )}
                   {!availableTripLoading &&

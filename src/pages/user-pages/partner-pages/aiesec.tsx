@@ -1,3 +1,4 @@
+/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
 import Layout from "../../../components/layouts/SignInLayout";
 import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
@@ -18,10 +19,12 @@ import {
 } from "../../../state/action/user.action";
 import { MdOutlineCancel } from "react-icons/md";
 import { addToMyBookinAction } from "../../../state/action/booking.action";
+import { State_interface } from "../../../interfaces/state_interface";
 
 const AiesecPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
+  const { states } = useAppSelector((state: any) => state.allState);
 
   const {
     userInfo,
@@ -30,12 +33,10 @@ const AiesecPage = () => {
   } = useAppSelector((state: RootState) => state.userLogin);
   const { error: registerUserError, loading: userRegisterLoading } =
     useAppSelector((state: RootState) => state.registerUser);
-  const { trips } = useSelector((state: RootState) => state.allTrip);
-  const {
-    loading,
-    error,
-    trips: availableTripData,
-  } = useSelector((state: RootState) => state.availableTrip);
+  // const { trips } = useSelector((state: RootState) => state.allTrip);
+  const { loading, trips: availableTripData } = useSelector(
+    (state: RootState) => state.availableTrip
+  );
 
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
@@ -86,7 +87,12 @@ const AiesecPage = () => {
   };
 
   const searchForTrip = () => {
-    dispatch(getAvailableTripAction({ from: "Oyo", to: stateFilter }));
+    dispatch(
+      getAvailableTripAction({
+        from: stateFilter,
+        to: "Ilaji Hotels and Sports Resort",
+      })
+    );
   };
 
   const CreateUser = () => {
@@ -134,9 +140,9 @@ const AiesecPage = () => {
     }
   }, [loginError, messageApi, userInfo]);
 
-  useEffect(() => {
-    searchForTrip();
-  }, [stateFilter]);
+  // useEffect(() => {
+  //   searchForTrip();
+  // }, [stateFilter]);
 
   return (
     <Layout
@@ -147,20 +153,25 @@ const AiesecPage = () => {
       <div className="bg-black h-screen w-full text-white px-[64px]">
         {contextHolder}
         <div className="w-2/5 leading-[1.2] pt-40 text-[40px] tracking-tight">
-          Get the best deals to get you to camp
+          Hey AIESEC, let's go to conference
         </div>
 
         <div className="w-full bg-white p-8 mt-12 rounded-md text-black">
           <div className="leading-snug text-[18px] font-medium mb-6">
-            Where were you posted? {loading && <Spin />}
+            Where are you coming from? {loading && <Spin />}
           </div>
           <div className={`${stateFilter !== "" && "mb-8"} flex`}>
             <div className="relative z-30 w-full text-left duration-300 ease-in-out lg:mb-0">
+              {/*  */}
+              {/*  */}
               <input
                 type="text"
                 className="inline-flex  items-center w-full h-[48px] px-2 py-2 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
                 placeholder="State"
-                onClick={() => setisOpen(!isOpen)}
+                onClick={() => {
+                  // console.log(states);
+                  setisOpen(!isOpen);
+                }}
                 onChange={(e) => {
                   setStateFilter(e.target.value);
                 }}
@@ -170,26 +181,28 @@ const AiesecPage = () => {
               {isOpen && (
                 <div
                   className={`absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg overflow-y-scroll ${
-                    stateFilter === "" && "h-80"
+                    stateFilter === "" && "h-content"
                   }`}
                 >
-                  {allState
-                    ?.filter((e) =>
-                      e.toLowerCase().includes(stateFilter.toLowerCase())
+                  {states
+                    .filter((e: any) =>
+                      e.state.toLowerCase().includes(stateFilter.toLowerCase()) && !e.state.includes("Ilaji Hotels and Sports Resort")
                     )
-                    .map((e: any) => {
+                    .sort((a: State_interface, b: State_interface) =>
+                      a.state.localeCompare(b.state)
+                    )
+                    .map((state: State_interface) => {
                       return (
                         <a
-                          key={e}
                           href="#"
                           className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                           onClick={() => {
-                            setStateFilter(e);
+                            setStateFilter(state?.state);
                             setisOpen(false);
                             searchForTrip();
                           }}
                         >
-                          {e}
+                          {state?.state}
                         </a>
                       );
                     })}
@@ -198,26 +211,33 @@ const AiesecPage = () => {
             </div>
           </div>
 
-          <div className="h-[300px] overflow-y-auto mx-auto ">
-            {availableTripData?.map((trip: Trip_interface) => (
-              <BookingCard
+          {availableTripData?.map((trip: Trip_interface) => {
+            return (
+              <div>
+                {trip?.type_of_trip === "AIESEC" && (
+                  <BookingCard
                     key={trip?._id}
                     from={trip?.travel_destination?.from?.state?.state}
-                    to={trip?.travel_destination?.to?.state?.state}
+                    to={trip?.travel_destination?.to?.state.state}
+                    fromBusStop={trip?.travel_destination?.from?.start_busstop}
+                    toBusStop={trip?.travel_destination?.to?.stop_busstop}
                     takeOffTime={trip?.take_off_time}
                     takeOffDate={trip?.take_off_date}
                     price={trip?.price}
                     arrivalTime={trip?.arrival_time}
                     arrivalDate={trip?.arrival_date}
                     onClick={() => {
-                        if (!userInfo?._id) {
-                            return handleOpenModal(null, "signin");
-                        }
-                        handleOpenModal(null, "howmanytickets");
-                        setSelectedTrip(trip);
-                    } } fromBusStop={""} toBusStop={""}              />
-            ))}
-          </div>
+                      if (!userInfo?._id) {
+                        return handleOpenModal(null, "signin");
+                      }
+                      handleOpenModal(trip, "howmanytickets");
+                      setSelectedTrip(trip);
+                    }}
+                  />
+                )}
+              </div>
+            );
+          })}
         </div>
         {flip === "signin" && (
           <Modal
