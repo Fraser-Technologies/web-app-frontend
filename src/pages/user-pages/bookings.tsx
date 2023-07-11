@@ -918,14 +918,6 @@ const Bookings = () => {
 									);
 								})}
 							</select>
-
-							{/* <Input
-								className="w-full h-12 hover:border-green-500 active:border-green-600"
-								placeholder="Email"
-								value={homeState}
-								required={true}
-								onChange={(e) => setHomeState(e.target.value)}
-							/> */}
 						</div>
 						<div className="mb-6">
 							<div className="mb-1">
