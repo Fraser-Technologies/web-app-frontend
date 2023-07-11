@@ -180,18 +180,18 @@ const BookRide = () => {
 			pageDescription="Book affordable and comfortable intercity bus rides in Nigeria with Fraser on ridefraser. Choose from multiple routes and travel dates. Book your ride now!"
 			pageKeywords="intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser">
 			{contextHolder}
-			<div className="bg-[#000000] -mt-16 md:mt-0 w-full overflow-hidden">
-				<div className="flex flex-col py-24 mx-6 overflow-hidden md:mx-16 lg:mx-32">
+			<div className="bg-[#000000] -mt-16 md:mt-0 w-full ">
+				<div className="flex flex-col py-24 mx-6  md:mx-16 lg:mx-32">
 					<h1 className="mt-16 md:mt-0 leading-tight bg-gradient-to-b from-[#00ff6a] to-[#FFEFC1] text-transparent bg-clip-text text-[2.6rem] md:text-[4rem] font-semibold">
 						Move Freely <br /> between cities
 					</h1>
 					<h3 className=" text-[14px] w-10/12 text-gray-400 md:text-[15px] mt-2 font-light">
 						Get started by simply inputting your location and destination
 					</h3>
-					<div className="absolute top-32 z-0 right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
+					<div className="absolute top-32  right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
 						<img
 							src="/assets/images/paper-airplane.png"
-							className="z-0 h-4 filter hue-rotate-90"
+							className=" h-4 filter hue-rotate-90"
 							alt=""
 						/>
 					</div>
@@ -199,7 +199,7 @@ const BookRide = () => {
 					<div className="absolute top-96 -left-8 bg-[#00FF6A] rounded-[100px] p-4">
 						<img
 							src="/assets/images/idea-bulb.png"
-							className="z-0 h-8 filter brightness-75"
+							className=" h-8 filter brightness-75"
 							alt=""
 						/>
 					</div>
@@ -208,13 +208,13 @@ const BookRide = () => {
 						{" "}
 						<img
 							src="/assets/images/bus.png"
-							className="z-0 h-8 filter brightness-75"
+							className=" h-8 filter brightness-75"
 							alt=""
 						/>
 					</div>
 					<img
 						src="/assets/images/bg-overlay-white.png"
-						className="absolute z-0 opacity-5 overflow-hidden h-[18vh] lg:h-[40vh]"
+						className="absolute  opacity-5 overflow-hidden h-[18vh] lg:h-[40vh]"
 						alt=""
 					/>
 

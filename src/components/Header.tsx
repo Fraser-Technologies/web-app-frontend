@@ -249,8 +249,8 @@ export const Header = () => {
 					<Link to="/" className="text-white ">
 						Home
 					</Link>
-					<Link to="/nysc" className="text-white ">
-						Nysc Trip
+					<Link to="/partner" className="text-white ">
+						Partners
 					</Link>
 
 					<Dropdown

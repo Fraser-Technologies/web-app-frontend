@@ -39,7 +39,7 @@ const BookingCard = ({
 							<h3 className=" mr-8 text-lg md:text-base h-14 lg:h-20 lg:mr-0 text-primary-100 ">
 								{from}
 							</h3>
-							<h3 className="mt-[-20px] mr-8 text-[10px] md:text-[12px] h-14 lg:h-20 lg:mr-0 text-primary-100 ">
+							<h3 className="mt-[-30px] mr-8 text-[10px] md:text-[12px] h-14 lg:h-20 lg:mr-0 text-primary-100 ">
 								{fromBusStop}
 							</h3>
 						</div>
@@ -55,7 +55,7 @@ const BookingCard = ({
 							<h3 className=" mr-8 text-lg md:text-base h-14 lg:h-20 lg:mr-0 text-primary-100 ">
 								{to}
 							</h3>
-							<h3 className="mt-[-20px] mr-8 text-[10px] md:text-[12px] h-14 lg:h-20 lg:mr-0 text-primary-100 ">
+							<h3 className="mt-[-30px] mr-8 text-[10px] md:text-[12px] h-14 lg:h-20 lg:mr-0 text-primary-100 ">
 								{toBusStop}
 							</h3>
 						</div>
