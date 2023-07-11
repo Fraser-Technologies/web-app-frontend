@@ -215,10 +215,22 @@ export const Header = () => {
   const partnerItems = () => {
     return (
       <div>
-        <span className="flex mb-8 mr-12" onClick={() => {}}>
+        <span
+          className="flex mb-8 mr-12 cursor-pointer"
+          onClick={() => {
+            navigate(_paths_.NYSC_PAGE);
+          }}
+        >
           NYSC
         </span>
-        <span onClick={() => {}}>AIESEC </span>
+        <span
+          className="cursor-pointer"
+          onClick={() => {
+            navigate(_paths_.AIESEC_PAGE);
+          }}
+        >
+          AIESEC{" "}
+        </span>
       </div>
     );
   };

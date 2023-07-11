@@ -15,6 +15,9 @@ import { checkForTest } from "../utils/route_helper";
 import { changeAppStateAction } from "../state/action/app.action";
 import { useAppDispatch } from "../state/hooks";
 import PartnerPage from "../pages/user-pages/partner-pages/PartnerPage";
+import AiesecPage from "../pages/user-pages/partner-pages/aiesec";
+import NyscPage from "../pages/user-pages/partner-pages/nysc";
+
 
 const UserApp: FC = () => {
   const dispatch = useAppDispatch();
@@ -32,6 +35,8 @@ const UserApp: FC = () => {
       {/* <Route path={_paths_.LANDING_PAGE} element={<LandingPage />} /> */}
       <Route path={_paths_.LANDING_PAGE} element={<BookRide />} />
       <Route path={_paths_.PARTNER_PAGE} element={<PartnerPage />} />
+      <Route path={_paths_.AIESEC_PAGE} element={<AiesecPage />} />
+      <Route path={_paths_.NYSC_PAGE} element={<NyscPage />} />
       <Route path={_paths_.AVAILABLE_TRIP} element={<Bookings />} />
       <Route path={_paths_.TERMS_OF_SERVICE} element={<TermsOfService />} />
       <Route path={_paths_.SIGNIN} element={<SignIn />} />
