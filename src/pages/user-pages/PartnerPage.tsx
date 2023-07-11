@@ -199,8 +199,8 @@ const PartnerPage = () => {
 						{availableTripData?.map((trip: Trip_interface) => (
 							<BookingCard
 								key={trip?._id}
-								from={trip?.travel_destination?.from?.state?.state}
-								to={trip?.travel_destination?.to?.state?.state}
+								from={trip?.travel_destination?.from?.state?.name}
+								to={trip?.travel_destination?.to?.state?.name}
 								fromBusStop={trip?.travel_destination?.from?.start_busstop}
 								toBusStop={trip?.travel_destination?.to?.stop_busstop}
 								takeOffTime={trip?.take_off_time}
@@ -462,14 +462,14 @@ const PartnerPage = () => {
 										<div className="w-1/2 lg:w-1/3">
 											<h3 className="mr-8 text-lg md:text-base lg:h-20 lg:mr-0 text-primary-100">
 												{/* {modalData?.travel_destination?.from?.start_busstop} */}
-												{selectedTrip?.travel_destination?.from?.state?.state}
+												{selectedTrip?.travel_destination?.from?.state?.name}
 											</h3>
 										</div>
 										<BsArrowRight className="top-0 mt-1 mr-8 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
 										<div className="w-1/2 lg:w-1/3 ">
 											<h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
 												{/* {modalData?.travel_destination?.to?.stop_busstop} */}
-												{selectedTrip?.travel_destination?.to?.state?.state}
+												{selectedTrip?.travel_destination?.to?.state?.name}
 											</h3>
 										</div>
 									</div>

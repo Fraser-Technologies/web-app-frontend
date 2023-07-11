@@ -28,5 +28,5 @@ export interface Trip_interface extends Mongo_extra {
 	has_ended: boolean;
 	end_time: string;
 	trip_type: "outbound" | "return";
-	type_of_trip: "NORMAL" | "NYSC" | "AIESEC";
+	type_of_trip: "REGULAR" | "NYSC" | "AIESEC";
 }

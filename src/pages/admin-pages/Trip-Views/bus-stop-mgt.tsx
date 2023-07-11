@@ -78,7 +78,7 @@ const BusStopManagement = () => {
 	const createCity = () => {
 		dispatch(
 			createStateAction({
-				state: cityName
+				name: cityName
 			})
 		);
 
@@ -139,7 +139,7 @@ const BusStopManagement = () => {
 								handleOpenModal(city, "city");
 								setCityModalData(city);
 							}}>
-							<div className="text-xs">{city?.state}</div>
+							<div className="text-xs">{city?.name}</div>
 							<div className="">{city?.bus_stops?.length}</div>
 						</div>
 					);
@@ -195,7 +195,7 @@ const BusStopManagement = () => {
 						title={
 							<div>
 								<div className="text-lg font-medium">
-									{cityModalData?.state}{" "}
+									{cityModalData?.name}{" "}
 								</div>
 								<div className=" mt-1 font-normal text-[#949292]">
 									Number of Bus stops {cityModalData?.bus_stops?.length}
@@ -341,7 +341,7 @@ const BusStopManagement = () => {
 				>
 					<div className="w-full">
 						<div className="boder-b mt-4 w-full text-lg font-medium">
-							Add New Bus Stop to {cityModalData?.state}{" "}
+							Add New Bus Stop to {cityModalData?.name}{" "}
 							{createBusStopLoading && <CircularProgress />}
 						</div>
 					</div>

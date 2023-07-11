@@ -342,7 +342,7 @@ const Bookings = () => {
 											<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
 												{states
 													.filter(
-														(state: State_interface) => state?.state !== toCity
+														(state: State_interface) => state?.name !== toCity
 													)
 													?.map((city: State_interface) => {
 														return (
@@ -351,12 +351,12 @@ const Bookings = () => {
 																href="#"
 																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																onClick={() => {
-																	setFromCity(city?.state);
+																	setFromCity(city?.name);
 																	setStartBusStopList(city?.bus_stops);
 																	setStartCityIsOpen(!startCityIsOpen);
-																	setFrom(city.state);
+																	setFrom(city.name);
 																}}>
-																{city?.state}
+																{city?.name}
 															</a>
 														);
 													})}
@@ -437,7 +437,7 @@ const Bookings = () => {
 											<div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
 												{states
 													?.filter(
-														(city: State_interface) => city?.state !== fromCity
+														(city: State_interface) => city?.name !== fromCity
 													)
 													?.map((city: State_interface) => {
 														return (
@@ -446,14 +446,14 @@ const Bookings = () => {
 																href="#"
 																className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 																onClick={() => {
-																	setToCity(city?.state);
+																	setToCity(city?.name);
 																	setDestinationCityIsOpen(
 																		!destinationCityIsOpen
 																	);
 																	setDestinationBusStopList(city?.bus_stops);
-																	setTo(city?.state);
+																	setTo(city?.name);
 																}}>
-																{city?.state}
+																{city?.name}
 															</a>
 														);
 													})}
@@ -580,8 +580,8 @@ const Bookings = () => {
 												<div>
 													<BookingCard
 														key={trip?._id}
-														from={trip?.travel_destination?.from?.state?.state}
-														to={trip?.travel_destination?.to?.state.state}
+														from={trip?.travel_destination?.from?.state?.name}
+														to={trip?.travel_destination?.to?.state?.name}
 														fromBusStop={
 															trip?.travel_destination?.from?.start_busstop
 														}

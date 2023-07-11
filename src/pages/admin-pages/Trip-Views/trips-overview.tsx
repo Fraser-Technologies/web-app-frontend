@@ -343,14 +343,14 @@ const TripsOverview: React.FC = () => {
 										handleOpenModal(trip, "info");
 									}}
 									className="px-4 py-4 text-center text-gray-700">
-									{trip?.travel_destination?.from?.state?.state}
+									{trip?.travel_destination?.from?.state?.name}
 								</td>
 								<td
 									onClick={() => {
 										handleOpenModal(trip, "info");
 									}}
 									className="text-center text-gray-700 ">
-									{trip?.travel_destination?.to?.state?.state}
+									{trip?.travel_destination?.to?.state?.name}
 								</td>
 
 								<td
@@ -460,8 +460,8 @@ const TripsOverview: React.FC = () => {
 									<div className="mb-2 border-b pb-4">
 										<div className="flex">
 											<div className="text-lg mr-2">
-												{trip?.travel_destination?.from?.state?.state} to{" "}
-												{trip?.travel_destination?.to?.state?.state}
+												{trip?.travel_destination?.from?.state?.name} to{" "}
+												{trip?.travel_destination?.to?.state?.name}
 											</div>
 											{/* <div className="items-center flex bg-[#C1D2FF] border border-[#8D98FF] text-[#314075] px-3 rounded-md">
                       {" "}
