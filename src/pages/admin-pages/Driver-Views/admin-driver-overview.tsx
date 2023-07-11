@@ -343,8 +343,8 @@ const AdminDriverOverview: React.FC = () => {
 													</div>
 													<div className="flex items-center justify-between w-full">
 														<div className="text-lg font-semibold truncate">
-															{trip?.travel_destination?.from?.state?.state} to{" "}
-															{trip?.travel_destination?.to?.state?.state}
+															{trip?.travel_destination?.from?.state?.name} to{" "}
+															{trip?.travel_destination?.to?.state?.name}
 														</div>
 														<div>
 															<div className="text-[#949292] text-xs">
@@ -375,8 +375,8 @@ const AdminDriverOverview: React.FC = () => {
 													</div>
 													<div className="flex items-center justify-between w-full">
 														<div className="text-lg font-semibold truncate">
-															{trip?.travel_destination?.from?.state?.state} to{" "}
-															{trip?.travel_destination?.to?.state?.state}
+															{trip?.travel_destination?.from?.state?.name} to{" "}
+															{trip?.travel_destination?.to?.state?.name}
 														</div>
 														<div>
 															<div className="text-[#949292] text-xs">

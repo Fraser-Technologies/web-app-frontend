@@ -65,7 +65,7 @@ const EditTripFormComponent = ({
 	//   START CITY CONTROLLERS
 	const [startCityOpen, setStartCityIsOpen] = useState<boolean>(false);
 	const [startCityDisplayText, setStartCityDisplayText] = useState<string>(
-		trip?.travel_destination?.from?.state?.state || "Select Start City"
+		trip?.travel_destination?.from?.state?.name || "Select Start City"
 	);
 
 	//   START BUSSTOP CONTROLLERS
@@ -77,7 +77,7 @@ const EditTripFormComponent = ({
 	//   DESITNATION CITY CONTROLLERS
 	const [destinationCityOpen, setDestinationCityIsOpen] = useState(false);
 	const [destinationCityDisplayText, setDestinationCityDisplayText] = useState(
-		trip?.travel_destination?.to?.state?.state || "Select Destination City"
+		trip?.travel_destination?.to?.state?.name || "Select Destination City"
 	);
 
 	//   DESITNATION BUSSTOP CONTROLLERS
@@ -177,7 +177,7 @@ const EditTripFormComponent = ({
 									{states
 										.filter(
 											(city: State_interface) =>
-												city?.state !== destinationCityDisplayText
+												city?.name !== destinationCityDisplayText
 										)
 										.map((city: State_interface) => {
 											return (
@@ -186,15 +186,15 @@ const EditTripFormComponent = ({
 													href="#"
 													className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
-														setStartBusStopDisplayText(city?.state);
+														setStartBusStopDisplayText(city?.name);
 														setStartCityIsOpen(!startCityOpen);
 														setStartCity(city?._id);
 														setStartCityBusStopList(city?.bus_stops);
 														setStartBusStop("");
 														setStartBusStopDisplayText("Select Start Bus Stop");
-														setStartCityDisplayText(city?.state);
+														setStartCityDisplayText(city?.name);
 													}}>
-													{city?.state}
+													{city?.name}
 												</a>
 											);
 										})}
@@ -281,7 +281,7 @@ const EditTripFormComponent = ({
 									{states
 										.filter(
 											(city: State_interface) =>
-												city?.state !== startCityDisplayText
+												city?.name !== startCityDisplayText
 										)
 										?.map((city: State_interface) => {
 											return (
@@ -290,7 +290,7 @@ const EditTripFormComponent = ({
 													href="#"
 													className="inline-block w-full px-4 py-4 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 													onClick={() => {
-														setDestinationCityDisplayText(city?.state);
+														setDestinationCityDisplayText(city?.name);
 														setEndCity(city?._id);
 														setStopCityBusStopList(city?.bus_stops);
 														setDestinationBusStopDisplayText(
@@ -298,7 +298,7 @@ const EditTripFormComponent = ({
 														);
 														setDestinationCityIsOpen(!destinationCityOpen);
 													}}>
-													{city?.state}
+													{city?.name}
 												</a>
 											);
 										})}

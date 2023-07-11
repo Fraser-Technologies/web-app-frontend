@@ -1,42 +1,41 @@
-/* eslint-disable jsx-a11y/anchor-is-valid */
 import { useEffect, useState } from "react";
-import Layout from "../../../components/layouts/SignInLayout";
+import Layout from "../../components/layouts/SignInLayout";
 import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
-import { FraserButton } from "../../../components/Button";
-import allState from "../../../utils/allState";
-import BookingCard from "../../../components/bookingCard";
+import { FraserButton } from "../../components/Button";
+import allState from "../../utils/allState";
+import BookingCard from "../../components/bookingCard";
 import { Alert, Drawer, Input, Modal, Spin, message } from "antd";
 import { BsArrowRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useSelector } from "react-redux";
-import { RootState } from "../../../state/redux-store";
-import { Trip_interface } from "../../../interfaces/trip_interface";
-import { getAvailableTripAction } from "../../../state/action/trip.action";
+import { RootState } from "../../state/redux-store";
+import { Trip_interface } from "../../interfaces/trip_interface";
+import { getAvailableTripAction } from "../../state/action/trip.action";
 import {
 	registerUserAction,
 	userLoginAction
-} from "../../../state/action/user.action";
+} from "../../state/action/user.action";
 import { MdOutlineCancel } from "react-icons/md";
-import { addToMyBookinAction } from "../../../state/action/booking.action";
-import { State_interface } from "../../../interfaces/state_interface";
+import { addToMyBookinAction } from "../../state/action/booking.action";
 
-const AiesecPage = () => {
-  const dispatch = useAppDispatch();
-  const navigate = useNavigate();
-  const { states } = useAppSelector((state: any) => state.allState);
+const PartnerPage = () => {
+	const dispatch = useAppDispatch();
+	const navigate = useNavigate();
 
-  const {
-    userInfo,
-    error: loginError,
-    loading: userLoginLoading,
-  } = useAppSelector((state: RootState) => state.userLogin);
-  const { error: registerUserError, loading: userRegisterLoading } =
-    useAppSelector((state: RootState) => state.registerUser);
-  // const { trips } = useSelector((state: RootState) => state.allTrip);
-  const { loading, trips: availableTripData } = useSelector(
-    (state: RootState) => state.availableTrip
-  );
+	const {
+		userInfo,
+		error: loginError,
+		loading: userLoginLoading
+	} = useAppSelector((state: RootState) => state.userLogin);
+	const { error: registerUserError, loading: userRegisterLoading } =
+		useAppSelector((state: RootState) => state.registerUser);
+	const { trips } = useSelector((state: RootState) => state.allTrip);
+	const {
+		loading,
+		error,
+		trips: availableTripData
+	} = useSelector((state: RootState) => state.availableTrip);
 
 	const [firstName, setFirstName] = useState<string>("");
 	const [lastName, setLastName] = useState<string>("");
@@ -86,14 +85,9 @@ const AiesecPage = () => {
 		setModalVisible(true);
 	};
 
-  const searchForTrip = () => {
-    dispatch(
-      getAvailableTripAction({
-        from: stateFilter,
-        to: "Ilaji Hotels and Sports Resort",
-      })
-    );
-  };
+	const searchForTrip = () => {
+		dispatch(getAvailableTripAction({ from: "Oyo", to: stateFilter }));
+	};
 
 	const CreateUser = () => {
 		return dispatch(
@@ -140,106 +134,97 @@ const AiesecPage = () => {
 		}
 	}, [loginError, messageApi, userInfo]);
 
-  // useEffect(() => {
-  //   searchForTrip();
-  // }, [stateFilter]);
+	useEffect(() => {
+		searchForTrip();
+	}, [stateFilter]);
 
-  return (
-    <Layout
-      title="Book Intercity Bus Rides in Nigeria with Fraser | RideFraser.com"
-      pageDescription="Find the best intercity bus transportation options in Nigeria with Fraser. Book your ride today on RideFraser.com and travel in comfort and style."
-      pageKeywords="Fraser, intercity bus, Nigeria, ride booking, transportation, travel, comfort, style, RideFraser.com, intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser"
-    >
-      <div className="bg-black h-screen w-full text-white px-[64px]">
-        {contextHolder}
-        <div className="w-2/5 leading-[1.2] pt-40 text-[40px] tracking-tight">
-          Hey AIESEC, let's go to conference
-        </div>
+	return (
+		<Layout
+			title="Book Intercity Bus Rides in Nigeria with Fraser | RideFraser.com"
+			pageDescription="Find the best intercity bus transportation options in Nigeria with Fraser. Book your ride today on RideFraser.com and travel in comfort and style."
+			pageKeywords="Fraser, intercity bus, Nigeria, ride booking, transportation, travel, comfort, style, RideFraser.com, intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser">
+			<div className="bg-black h-screen w-full text-white px-[64px]">
+				{contextHolder}
+				<div className="w-2/5 leading-[1.2] pt-40 text-[40px] tracking-tight">
+					Get the best deals to get you to camp
+				</div>
 
-        <div className="w-full bg-white p-8 mt-12 rounded-md text-black">
-          <div className="leading-snug text-[18px] font-medium mb-6">
-            Where were you posted? {loading && <Spin />}
-          </div>
-          <div className={`${stateFilter !== "" && "mb-8"} flex`}>
-            <div className="relative z-30 w-full text-left duration-300 ease-in-out lg:mb-0">
-              <input
-                type="text"
-                className="inline-flex  items-center w-full h-[48px] px-2 py-2 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                placeholder="State"
-                onClick={() => setisOpen(!isOpen)}
-                onChange={(e) => {
-                  setStateFilter(e.target.value);
-                }}
-                value={stateFilter}
-              />
+				<div className="w-full bg-white p-8 mt-12 rounded-md text-black">
+					<div className="leading-snug text-[18px] font-medium mb-6">
+						Where were you posted? {loading && <Spin />}
+					</div>
+					<div className={`${stateFilter !== "" && "mb-8"} flex`}>
+						<div className="relative z-30 w-full text-left duration-300 ease-in-out lg:mb-0">
+							<input
+								type="text"
+								className="inline-flex  items-center w-full h-[48px] px-2 py-2 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+								placeholder="State"
+								onClick={() => setisOpen(!isOpen)}
+								onChange={(e) => {
+									setStateFilter(e.target.value);
+								}}
+								value={stateFilter}
+							/>
 
-              {isOpen && (
-                <div
-                  className={`absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg overflow-y-scroll ${
-                    stateFilter === "" && "h-content"
-                  }`}
-                >
-                  {states
-                    .filter((e: any) =>
-                      e.state.toLowerCase().includes(stateFilter.toLowerCase()) && !e.state.includes("Ilaji Hotels and Sports Resort")
-                    )
-                    .sort((a: State_interface, b: State_interface) =>
-                      a.name.localeCompare(b.name)
-                    )
-                    .map((state: State_interface) => {
-                      return (
-                        <a
-                          href="#"
-                          className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                          onClick={() => {
-                            setStateFilter(state?.name);
-                            setisOpen(false);
-                            searchForTrip();
-                          }}
-                        >
-                          {state?.name}
-                        </a>
-                      );
-                    })}
-                </div>
-              )}
-            </div>
-          </div>
+							{isOpen && (
+								<div
+									className={`absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg overflow-y-scroll ${
+										stateFilter === "" && "h-80"
+									}`}>
+									{allState
+										?.filter((e) =>
+											e.toLowerCase().includes(stateFilter.toLowerCase())
+										)
+										.map((e: any) => {
+											return (
+												<a
+													key={e}
+													href="#"
+													className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+													onClick={() => {
+														setStateFilter(e);
+														setisOpen(false);
+														searchForTrip();
+													}}>
+													{e}
+												</a>
+											);
+										})}
+								</div>
+							)}
+						</div>
+					</div>
 
-          {availableTripData?.map((trip: Trip_interface) => {
-            return (
-              <div>
-                {trip?.type_of_trip === "AIESEC" && (
-                  <BookingCard
-                    key={trip?._id}
-                    from={trip?.travel_destination?.from?.state?.name}
-                    to={trip?.travel_destination?.to?.state.name}
-                    fromBusStop={trip?.travel_destination?.from?.start_busstop}
-                    toBusStop={trip?.travel_destination?.to?.stop_busstop}
-                    takeOffTime={trip?.take_off_time}
-                    takeOffDate={trip?.take_off_date}
-                    price={trip?.price}
-                    arrivalTime={trip?.arrival_time}
-                    arrivalDate={trip?.arrival_date}
-                    onClick={() => {
-                      if (!userInfo?._id) {
-                        return handleOpenModal(null, "signin");
-                      }
-                      handleOpenModal(trip, "howmanytickets");
-                      setSelectedTrip(trip);
-                    }}
-                  />
-                )}
-              </div>
-            );
-          })}
-        </div>
-        {flip === "signin" && (
-          <Modal
-            title={
-              <div>
-                <div className="flex flex-row w-full items-center justify-between ">
-                  <h1 className="pt-2 text-xl">Welcome Back</h1>
+					<div className="h-[300px] overflow-y-auto mx-auto ">
+						{availableTripData?.map((trip: Trip_interface) => (
+							<BookingCard
+								key={trip?._id}
+								from={trip?.travel_destination?.from?.state?.name}
+								to={trip?.travel_destination?.to?.state?.name}
+								fromBusStop={trip?.travel_destination?.from?.start_busstop}
+								toBusStop={trip?.travel_destination?.to?.stop_busstop}
+								takeOffTime={trip?.take_off_time}
+								takeOffDate={trip?.take_off_date}
+								price={trip?.price}
+								arrivalTime={trip?.arrival_time}
+								arrivalDate={trip?.arrival_date}
+								onClick={() => {
+									if (!userInfo?._id) {
+										return handleOpenModal(null, "signin");
+									}
+									handleOpenModal(null, "howmanytickets");
+									setSelectedTrip(trip);
+								}}
+							/>
+						))}
+					</div>
+				</div>
+				{flip === "signin" && (
+					<Modal
+						title={
+							<div>
+								<div className="flex flex-row w-full items-center justify-between ">
+									<h1 className="pt-2 text-xl">Welcome Back</h1>
 
 									<MdOutlineCancel
 										className="text-[25px] hover:cursor-pointer"
@@ -536,4 +521,4 @@ const AiesecPage = () => {
 	);
 };
 
-export default AiesecPage;
+export default PartnerPage;

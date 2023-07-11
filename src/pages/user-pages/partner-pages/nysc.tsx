@@ -184,7 +184,7 @@ const NyscPage = () => {
                       e.state.toLowerCase().includes(stateFilter.toLowerCase())
                     )
                     .sort((a: State_interface, b: State_interface) =>
-                      a.state.localeCompare(b.state)
+                      a.name.localeCompare(b.name)
                     )
                     .map((state: State_interface) => {
                       return (
@@ -192,12 +192,12 @@ const NyscPage = () => {
                           href="#"
                           className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                           onClick={() => {
-                            setStateFilter(state?.state);
+                            setStateFilter(state?.name);
                             setisOpen(false);
                             searchForTrip();
                           }}
                         >
-                          {state?.state}
+                          {state?.name}
                         </a>
                       );
                     })}
@@ -212,8 +212,8 @@ const NyscPage = () => {
                 {trip?.type_of_trip === "NYSC" && (
                   <BookingCard
                     key={trip?._id}
-                    from={trip?.travel_destination?.from?.state?.state}
-                    to={trip?.travel_destination?.to?.state.state}
+                    from={trip?.travel_destination?.from?.state?.name}
+                    to={trip?.travel_destination?.to?.state.name}
                     fromBusStop={trip?.travel_destination?.from?.start_busstop}
                     toBusStop={trip?.travel_destination?.to?.stop_busstop}
                     takeOffTime={trip?.take_off_time}
@@ -241,23 +241,15 @@ const NyscPage = () => {
                 <div className="flex flex-row w-full items-center justify-between ">
                   <h1 className="pt-2 text-xl">Welcome Back</h1>
 
-                  <MdOutlineCancel
-                    className="text-[25px] hover:cursor-pointer"
-                    onClick={() => setFlip("")}
-                  />
+                  {loginError && (
+                    <Alert
+                      message={loginError}
+                      type="warning"
+                      showIcon
+                      className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
+                    />
+                  )}
                 </div>
-                <p className="pt-1 text-sm font-light text-gray-500">
-                  Please enter your phone number to continue
-                </p>
-
-                {loginError && (
-                  <Alert
-                    message={loginError}
-                    type="warning"
-                    showIcon
-                    className="bg-blue-50 w-[100%] text-[0.8rem] font-normal border-blue-200 text-blue-500 px-4 py-3 rounded relative mt-4"
-                  />
-                )}
               </div>
             }
             open={isModalOpen}
@@ -480,14 +472,14 @@ const NyscPage = () => {
                     <div className="w-1/2 lg:w-1/3">
                       <h3 className="mr-8 text-lg md:text-base lg:h-20 lg:mr-0 text-primary-100">
                         {/* {modalData?.travel_destination?.from?.start_busstop} */}
-                        {selectedTrip?.travel_destination?.from?.state?.state}
+                        {selectedTrip?.travel_destination?.from?.state?.name}
                       </h3>
                     </div>
                     <BsArrowRight className="top-0 mt-1 mr-8 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
                     <div className="w-1/2 lg:w-1/3 ">
                       <h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
                         {/* {modalData?.travel_destination?.to?.stop_busstop} */}
-                        {selectedTrip?.travel_destination?.to?.state?.state}
+                        {selectedTrip?.travel_destination?.to?.state?.name}
                       </h3>
                     </div>
                   </div>

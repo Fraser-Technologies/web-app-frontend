@@ -233,7 +233,7 @@ const DriverOverview = () => {
 													<div className="items-center justify-between lg:flex lg:mt-2">
 														<div className="py-3 rounded-md lg:py-0">
 															<p className="text-xl text-white lg:text-base">
-																{`${trip?.travel_destination?.from?.state?.state} to ${trip?.travel_destination?.to?.state?.state}`}
+																{`${trip?.travel_destination?.from?.state?.name} to ${trip?.travel_destination?.to?.state?.name}`}
 															</p>
 															<div className="text-[#929292] flex mt-2 lg:mt-0">
 																<div className="flex items-center mt-1 mr-4">
@@ -357,7 +357,7 @@ const DriverOverview = () => {
 													<div className="items-center justify-between lg:flex lg:mt-3">
 														<div className="py-3 rounded-md lg:py-0">
 															<p className="text-xl text-white lg:text-base">
-																{`${trip?.travel_destination?.from?.state?.state} to ${trip?.travel_destination?.to?.state?.state}`}
+																{`${trip?.travel_destination?.from?.state?.name} to ${trip?.travel_destination?.to?.state?.name}`}
 															</p>
 															<div className="flex mt-2 lg:mt-0">
 																<div className="flex items-center mt-1 mr-4">
@@ -516,7 +516,7 @@ const DriverOverview = () => {
 																handleOpenModal(trip, "view");
 															}}
 															className="py-4 pl-4 text-gray-700">
-															{`${trip?.travel_destination?.from?.state?.state} to ${trip?.travel_destination?.to?.state?.state}`}
+															{`${trip?.travel_destination?.from?.state?.name} to ${trip?.travel_destination?.to?.state?.name}`}
 														</td>
 														<td
 															onClick={() => {
@@ -615,7 +615,7 @@ const DriverOverview = () => {
 										>
 											<div className="py-3 rounded-md lg:py-0">
 												<p className="text-xl text-white lg:text-base">
-													{`${trip?.travel_destination?.from?.state?.state} to ${trip?.travel_destination?.to?.state?.state}`}
+													{`${trip?.travel_destination?.from?.state?.name} to ${trip?.travel_destination?.to?.state?.name}`}
 												</p>
 												<div className="flex mt-2 text-gray-600 lg:mt-2">
 													<div className="flex items-center mt-1 mr-4">
