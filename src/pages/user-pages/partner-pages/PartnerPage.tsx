@@ -201,22 +201,21 @@ const PartnerPage = () => {
           <div className="h-[300px] overflow-y-auto mx-auto ">
             {availableTripData?.map((trip: Trip_interface) => (
               <BookingCard
-                key={trip?._id}
-                from={trip?.travel_destination?.from?.state?.state}
-                to={trip?.travel_destination?.to?.state?.state}
-                takeOffTime={trip?.take_off_time}
-                takeOffDate={trip?.take_off_date}
-                price={trip?.price}
-                arrivalTime={trip?.arrival_time}
-                arrivalDate={trip?.arrival_date}
-                onClick={() => {
-                  if (!userInfo?._id) {
-                    return handleOpenModal(null, "signin");
-                  }
-                  handleOpenModal(null, "howmanytickets");
-                  setSelectedTrip(trip);
-                }}
-              />
+                    key={trip?._id}
+                    from={trip?.travel_destination?.from?.state?.state}
+                    to={trip?.travel_destination?.to?.state?.state}
+                    takeOffTime={trip?.take_off_time}
+                    takeOffDate={trip?.take_off_date}
+                    price={trip?.price}
+                    arrivalTime={trip?.arrival_time}
+                    arrivalDate={trip?.arrival_date}
+                    onClick={() => {
+                        if (!userInfo?._id) {
+                            return handleOpenModal(null, "signin");
+                        }
+                        handleOpenModal(null, "howmanytickets");
+                        setSelectedTrip(trip);
+                    } } fromBusStop={""} toBusStop={""}              />
             ))}
           </div>
         </div>
