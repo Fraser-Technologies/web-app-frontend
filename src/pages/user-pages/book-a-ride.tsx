@@ -226,7 +226,7 @@ const BookRide = () => {
                   <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     {states
                       ?.filter((e: any) =>
-                        e.state
+                        e.name
                           .toLowerCase()
                           .includes(startStateFilter.toLowerCase())
                       )
@@ -334,7 +334,7 @@ const BookRide = () => {
                   <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     {states
                       ?.filter((e: any) =>
-                        e.state
+                        e.name
                           .toLowerCase()
                           .includes(destinationStateFilter.toLowerCase())
                       )

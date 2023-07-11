@@ -181,7 +181,7 @@ const AiesecPage = () => {
                 >
                   {states
                     .filter((e: any) =>
-                      e.state.toLowerCase().includes(stateFilter.toLowerCase()) && !e.state.includes("Ilaji Hotels and Sports Resort")
+                      e.name.toLowerCase().includes(stateFilter.toLowerCase()) && !e.name.includes("Ilaji Hotels and Sports Resort")
                     )
                     .sort((a: State_interface, b: State_interface) =>
                       a.name.localeCompare(b.name)

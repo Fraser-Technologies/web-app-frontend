@@ -181,7 +181,7 @@ const NyscPage = () => {
                 >
                   {states
                     .filter((e: any) =>
-                      e.state.toLowerCase().includes(stateFilter.toLowerCase())
+                      e.name.toLowerCase().includes(stateFilter.toLowerCase())
                     )
                     .sort((a: State_interface, b: State_interface) =>
                       a.name.localeCompare(b.name)
