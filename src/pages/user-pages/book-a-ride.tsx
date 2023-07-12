@@ -166,13 +166,17 @@ const BookRide = () => {
       pageKeywords="interState bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
     >
       {contextHolder}
-      <div className="bg-[#000000] -mt-16 md:mt-0 w-full rounded-b-[12px] pb-12 md:pb-40">
-        <div className="flex flex-col pt-24 pb-6 mx-6 md:mx-16 lg:mx-32">
-          <h1 className="text-white mt-16 mb-0 md:mb-8 md:mt-24 leading-tight text-[1.5rem] md:text-[3rem] font-medium">
+
+      <div className="bg-white">
+        <div
+          className="flex flex-col items-center md:max-w-[1080px] mx-4 pt-56 md:mx-auto md:pt-72 pb-24 md:pb-32 bg-cover bg-no-repeat bg-center"
+          style={{ backgroundImage: `url(../assets/images/Thumbnails.svg)` }}
+        >
+          <h1 className="text-grey-700 leading-tight text-[1.8rem] md:text-[3rem] font-medium">
             Interstate Bus Trips
           </h1>
 
-          <div className="w-full md:w-full lg:w-2/3 px-4 py-4 mt-6 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
+          <div className="w-full px-4 pt-4 pb-6 mt-6 md:mt-12 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8 shadow-md border border-gray-300">
             <div className="md:flex">
               <div className="relative w-full mr-4 md:-mr-2 text-left duration-300 ease-in-out lg:mb-0 ">
                 <div className="relative flex mt-2">
@@ -303,7 +307,7 @@ const BookRide = () => {
               <FraserButton
                 title="Search"
                 size="regular"
-                className="h-14 md:h-[60px] w-full mt-2"
+                className="h-14 md:h-[60px] w-full mt-4"
                 // active={TripValid}
                 onClick={() => {
                   // if (TripValid) {
@@ -315,56 +319,6 @@ const BookRide = () => {
                 }}
               />
             </div>
-          </div>
-        </div>
-      </div>
-
-      {/* <div className="px-6">
-        <div className="mt-6 text-gray-600 font-medium mb-2">Locations</div>
-        <div className="mt-2 md:p-6 flex border border-gray-400 rounded-[8px] bg-[##F4F4F4]">
-          <div className="rounded-l-[8px] h-32 w-28 overflow-hidden">
-            <div
-              className="h-full w-full bg-cover bg-no-repeat bg-center"
-              style={{ backgroundImage: `url(../assets/images/ibadan.jpg)` }}
-            ></div>
-          </div>
-          <div className="ml-2 my-2">
-            <h3 className="text-[18px] font-semibold text-gray-800">Lagos</h3>
-            <p className="text-[13px]">August 10</p>
-            <div className="flex">
-              <img src="#" alt="" />
-              <p className="text-[13px]">1 Stop</p>
-              <p className="text-[13px]">11hrs 45 mins</p>
-            </div>
-            <div>NGN</div>
-          </div>
-        </div>
-      </div> */}
-
-      <div className="flex md:bg-black md:rounded-[32px] md:mx-24 md:my-24">
-        <div className="pt-[32px] md:my-12 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
-          <h1 className="text-gray-800 md:text-gray-300 text-left md:text-center mb-8 lg:mb-12 md:w-full text-[1.3rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
-            Experience Comfort and Affordability
-          </h1>
-
-          <div className="w-full mt-4 mb-0 lg:mb-6 lg:flex lg:mt-10">
-            <Offeringcard
-              classname="mb-4 mr-4 lg:mb-0"
-              title="Safe"
-              subtitleClassname="text-[#8E8E93]"
-              subtitle="Travel with peace of mind knowing your safety is our top priority. Our experienced drivers and quality buses ensure a safe journey."
-            />
-            <Offeringcard
-              classname="mb-4 mr-4 bg-primary-100 lg:mb-0"
-              title="Comfy"
-              subtitleClassname="text-[#353535]"
-              subtitle="Enjoy a comfortable journey with free Wi-Fi and entertainment. Book your ticket today and experience stress-free travel."
-            />
-            <Offeringcard
-              title="Affordable"
-              subtitleClassname="text-[#8E8E93]"
-              subtitle="Affordable travel made easy. Book with Fraser for guaranteed seats starting at ₦ 1,000. Travel comfortably without breaking the bank."
-            />
           </div>
         </div>
       </div>
