@@ -573,7 +573,7 @@ const Bookings = () => {
                     availableTripData?.map((trip: Trip_interface) => {
                       return (
                         <div>
-                          {trip?.type_of_trip === "REGULAR" && (
+                          {trip?.type_of_trip === "NORMAL" && (
                             <BookingCard
                               key={trip?._id}
                               from={

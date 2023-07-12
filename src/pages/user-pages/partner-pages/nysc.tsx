@@ -20,6 +20,7 @@ import {
 import { MdOutlineCancel } from "react-icons/md";
 import { addToMyBookinAction } from "../../../state/action/booking.action";
 import { State_interface } from "../../../interfaces/state_interface";
+import { getAllStateAction } from "../../../state/action/state.action";
 
 const NyscPage = () => {
   const dispatch = useAppDispatch();
@@ -135,6 +136,10 @@ const NyscPage = () => {
     }
   }, [loginError, messageApi, userInfo]);
 
+  useEffect(() => {
+    dispatch(getAllStateAction());
+  }, [dispatch]);
+
   // useEffect(() => {
   //   searchForTrip();
   // }, [stateFilter]);
@@ -179,8 +184,7 @@ const NyscPage = () => {
                     stateFilter === "" && "h-content"
                   }`}
                 >
-                  {states
-                    .filter((e: any) =>
+                  {states?.filter((e: any) =>
                       e.name.toLowerCase().includes(stateFilter.toLowerCase())
                     )
                     .sort((a: State_interface, b: State_interface) =>

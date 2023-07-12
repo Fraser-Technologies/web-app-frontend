@@ -52,16 +52,16 @@ const BookingCard = ({
 					<BsArrowRight className="top-0 mt-1 mr-8 lg:w-4  lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
 					<div className="w-1/2 lg:w-1/3 ">
 						<div className="">
-							<h3 className=" mr-8 text-lg md:text-base h-14 lg:h-20 lg:mr-0 text-primary-100 ">
+							<h3 className="ml-4 mr-8 text-lg md:text-base h-14 lg:h-20 lg:mr-0 text-primary-100 ">
 								{to}
 							</h3>
-							<h3 className="mt-[-30px] mr-8 text-[10px] md:text-[12px] h-14 lg:h-20 lg:mr-0 text-primary-100 ">
+							<h3 className="ml-4 mt-[-30px] mr-8 text-[10px] md:text-[12px] h-14 lg:h-20 lg:mr-0 text-primary-100 ">
 								{toBusStop}
 							</h3>
 						</div>
 						<div className="text-white ">
-							<p className="text-sm text-gray-400 md:text-sm">Take Off Time</p>
-							<p className="mt-1 text-xs md:text-xs">
+							<p className="ml-4 text-sm text-gray-400 md:text-sm">Take Off Time</p>
+							<p className="ml-4 mt-1 text-xs md:text-xs">
 								{takeOffTime.replace(timeRegex, "$1:$2 $3").toUpperCase()}
 							</p>
 						</div>

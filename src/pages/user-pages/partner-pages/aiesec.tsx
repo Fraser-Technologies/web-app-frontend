@@ -20,6 +20,7 @@ import {
 import { MdOutlineCancel } from "react-icons/md";
 import { addToMyBookinAction } from "../../../state/action/booking.action";
 import { State_interface } from "../../../interfaces/state_interface";
+import { getAllStateAction } from "../../../state/action/state.action";
 
 const AiesecPage = () => {
   const dispatch = useAppDispatch();
@@ -140,6 +141,10 @@ const AiesecPage = () => {
 		}
 	}, [loginError, messageApi, userInfo]);
 
+  useEffect(() => {
+    dispatch(getAllStateAction());
+  }, [dispatch]);
+
   // useEffect(() => {
   //   searchForTrip();
   // }, [stateFilter]);
@@ -158,7 +163,7 @@ const AiesecPage = () => {
 
         <div className="w-full bg-white p-8 mt-12 rounded-md text-black">
           <div className="leading-snug text-[18px] font-medium mb-6">
-            Where were you posted? {loading && <Spin />}
+            Where are you coming from? {loading && <Spin />}
           </div>
           <div className={`${stateFilter !== "" && "mb-8"} flex`}>
             <div className="relative z-30 w-full text-left duration-300 ease-in-out lg:mb-0">
@@ -181,7 +186,7 @@ const AiesecPage = () => {
                 >
                   {states
                     .filter((e: any) =>
-                      e.name.toLowerCase().includes(stateFilter.toLowerCase()) && !e.name.includes("Ilaji Hotels and Sports Resort")
+                      e.name.toLowerCase().includes(stateFilter.toLowerCase()) 
                     )
                     .sort((a: State_interface, b: State_interface) =>
                       a.name.localeCompare(b.name)
