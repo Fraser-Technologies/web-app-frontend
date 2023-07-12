@@ -358,9 +358,9 @@ const UserOverview: React.FC = () => {
 											</div>
 											<div>
 												<div className="text-base truncate">
-													{book?.trip?.travel_destination?.from?.state?.state}
+													{book?.trip?.travel_destination?.from?.state?.name}
 													to
-													{book?.trip?.travel_destination?.to?.state?.state}
+													{book?.trip?.travel_destination?.to?.state?.name}
 												</div>
 												<div className="text-[#949292] ">
 													{book?.trip?.take_off_date}

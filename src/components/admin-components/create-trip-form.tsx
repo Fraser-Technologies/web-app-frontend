@@ -223,14 +223,14 @@ const CreateTripFormComponent = () => {
 												href="#"
 												className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 												onClick={() => {
-													setStartBusStopDisplayText(state?.state);
+													setStartBusStopDisplayText(state?.name);
 													setStartCity(state?._id);
 													setStartCityBusStopList(state?.bus_stops);
 													setStartBusStop("");
 													setStartBusStopDisplayText("Select Start Bus Stop");
-													setStartCityDisplayText(state?.state);
+													setStartCityDisplayText(state?.name);
 												}}>
-												{state?.state}
+												{state?.name}
 											</a>
 										),
 										key: Math.random() * 4000
@@ -302,11 +302,11 @@ const CreateTripFormComponent = () => {
 											<a
 												key={Math.random() * 1000}
 												onClick={() => {
-													setDestinationCityDisplayText(state?.state);
+													setDestinationCityDisplayText(state?.name);
 													setEndCity(state?._id);
 													setStopCityBusStopList(state?.bus_stops);
 												}}>
-												{state?.state}
+												{state?.name}
 											</a>
 										),
 										key: Math.random() * 6000

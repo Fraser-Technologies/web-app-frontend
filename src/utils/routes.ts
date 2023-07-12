@@ -1,6 +1,8 @@
 export const _paths_ = {
   LANDING_PAGE: "/",
   PARTNER_PAGE: "/partner",
+  AIESEC_PAGE: "/partner/aiesec",
+  NYSC_PAGE: "/partner/nysc",
   AVAILABLE_TRIP: "/bookings",
   SIGNIN: "/signin",
   SIGNUP: "/signup",

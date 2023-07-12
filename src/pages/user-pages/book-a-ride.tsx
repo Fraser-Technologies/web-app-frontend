@@ -5,7 +5,7 @@ import Layout from "../../components/layouts/SignInLayout";
 
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
-import { Alert, Input, message, Modal } from "antd";
+import { Alert, Dropdown, Input, message, Modal } from "antd";
 import {
   registerUserAction,
   userLoginAction,
@@ -22,11 +22,12 @@ import Accordion from "../../components/Accordion";
 import { _paths_ } from "../../utils/routes";
 import Footer from "../../components/footer";
 import allState from "../../utils/allState";
+import { MdOutlineCancel } from "react-icons/md";
 
 const BookRide = () => {
   enum TripValidOption {
-    startCityOption = "Current City",
-    destinationCityOption = "Where to?",
+    startStateOption = "Current State",
+    destinationStateOption = "Where to?",
     destinationBusStopOption = "Station",
     startBusStopOption = "Station",
   }
@@ -40,9 +41,9 @@ const BookRide = () => {
     useAppSelector((state: RootState) => state.registerUser);
   const { states } = useAppSelector((state: any) => state.allState);
 
-  const { trips: availableTripData } = useAppSelector(
-    (state: any) => state.availableTrip
-  );
+  //   const { trips: availableTripData } = useAppSelector(
+  //     (state: any) => state.availableTrip
+  //   );
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -52,26 +53,28 @@ const BookRide = () => {
   const [phone, setPhone] = useState<string>("");
   const [flip, setFlip] = useState("signin");
   const [referred_by, setReferred_by] = useState<string>("");
-  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
+  //   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("");
   const [homeState, setHomeState] = useState<string>("");
   const [messageApi, contextHolder] = message.useMessage();
-  const [startCityIsOpen, setStartCityIsOpen] = useState(false);
+  const [startStateIsOpen, setStartStateIsOpen] = useState(false);
   const [startBusStopIsOpen, setStartBusStopIsOpen] = useState(false);
-  const [destinationCityIsOpen, setDestinationCityIsOpen] = useState(false);
+  const [destinationStateIsOpen, setDestinationStateIsOpen] = useState(false);
   const [destinationBusStopIsOpen, setDestinationBusStopIsOpen] =
     useState(false);
   const [startBusStopList, setStartBusStopList] = useState<string[]>([]);
   const [desinationBusStopList, setDestinationBusStopList] = useState<string[]>(
     []
   );
+  const [startStateFilter, setStartStateFilter] = useState("");
+  const [destinationStateFilter, setDestinationStateFilter] = useState("");
 
-  const [startCity, setStartCity] = useState<string>(
-    TripValidOption.startCityOption || ""
+  const [startState, setStartState] = useState<string>(
+    TripValidOption.startStateOption || ""
   );
-  const [destinationCity, setDestinationCity] = useState<string>(
-    TripValidOption.destinationCityOption || ""
+  const [destinationState, setDestinationState] = useState<string>(
+    TripValidOption.destinationStateOption || ""
   );
 
   const [startBusStop, setStartBusStop] = useState<string>(
@@ -97,8 +100,8 @@ const BookRide = () => {
 
     navigate("/bookings", {
       state: {
-        startCity,
-        destinationCity,
+        startState,
+        destinationState,
         destinationBusStop,
         startBusStop,
       },
@@ -106,7 +109,7 @@ const BookRide = () => {
   };
 
   const TripValid =
-    startCity !== TripValidOption.startCityOption &&
+    startState !== TripValidOption.startStateOption &&
     destinationBusStop !== TripValidOption.destinationBusStopOption &&
     startBusStop !== TripValidOption.startBusStopOption;
 
@@ -140,24 +143,6 @@ const BookRide = () => {
   };
 
   useEffect(() => {
-    if (!userInfo?._id) {
-      setIsModalOpen(true);
-    } else {
-      setIsModalOpen(false);
-    }
-  }, [dispatch, navigate, userInfo]);
-
-  useEffect(() => {
-    if (!userInfo && loginError) {
-      messageApi.open({
-        type: "error",
-        content: loginError,
-      });
-      setFlip("signin");
-    }
-  }, [loginError, messageApi, userInfo]);
-
-  useEffect(() => {
     if (userInfo?._id) {
       setFirstName("");
       setLastName("");
@@ -176,252 +161,141 @@ const BookRide = () => {
 
   return (
     <Layout
-      title="Book Intercity Bus Rides in Nigeria | RideFraser"
-      pageDescription="Book affordable and comfortable intercity bus rides in Nigeria with Fraser on ridefraser. Choose from multiple routes and travel dates. Book your ride now!"
-      pageKeywords="intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
+      title="Book InterState Bus Rides in Nigeria | RideFraser"
+      pageDescription="Book affordable and comfortable interState bus rides in Nigeria with Fraser on ridefraser. Choose from multiple routes and travel dates. Book your ride now!"
+      pageKeywords="interState bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
     >
       {contextHolder}
-      <div className="bg-[#000000] -mt-16 md:mt-0 w-full ">
-        <div className="flex flex-col py-24 mx-6  md:mx-16 lg:mx-32">
-          <h1 className="mt-16 md:mt-0 leading-tight bg-gradient-to-b from-[#00ff6a] to-[#FFEFC1] text-transparent bg-clip-text text-[2.6rem] md:text-[4rem] font-semibold">
-            Move Freely <br /> between cities
+      <div className="bg-[#000000] -mt-16 md:mt-0 w-full rounded-b-[12px] pb-12 md:pb-40">
+        <div className="flex flex-col pt-24 pb-6 mx-6 md:mx-16 lg:mx-32">
+          <h1 className="text-white mt-16 mb-0 md:mb-8 md:mt-24 leading-tight text-[1.5rem] md:text-[3rem] font-medium">
+            Interstate Bus Trips
           </h1>
-          <h3 className=" text-[14px] w-10/12 text-gray-400 md:text-[15px] mt-2 font-light">
-            Get started by simply inputting your location and destination
-          </h3>
-          <div className="absolute top-32  right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
-            <img
-              src="/assets/images/paper-airplane.png"
-              className=" h-4 filter hue-rotate-90"
-              alt=""
-            />
-          </div>
 
-          <div className="absolute top-96 -left-8 bg-[#00FF6A] rounded-[100px] p-4">
-            <img
-              src="/assets/images/idea-bulb.png"
-              className=" h-8 filter brightness-75"
-              alt=""
-            />
-          </div>
+          <div className="w-full md:w-full lg:w-2/3 px-4 py-4 mt-6 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
+            <div className="md:flex">
+              <div className="relative w-full mr-4 md:-mr-2 text-left duration-300 ease-in-out lg:mb-0 ">
+                <div className="relative flex mt-2">
+                  <input
+                    type="text"
+                    className="inline-flex items-center mt-2 md:mt-0 w-full h-14 pl-12 pr-4 py-4 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    placeholder="Where From?"
+                    onClick={() => setStartStateIsOpen(!startStateIsOpen)}
+                    onChange={(e) => {
+                      setStartStateFilter(e.target.value);
+                    }}
+                    value={startStateFilter}
+                  />
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    focusable="false"
+                    className=" h-full absolute ml-4 md:-mt-1 text-gray-600"
+                  >
+                    <path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z"></path>
+                  </svg>
+                </div>
 
-          <div className="absolute top-96 md:top-56 lg:top-56 -right-0 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
-            {" "}
-            <img
-              src="/assets/images/bus.png"
-              className=" h-8 filter brightness-75"
-              alt=""
-            />
-          </div>
-          <img
-            src="/assets/images/bg-overlay-white.png"
-            className="absolute  opacity-5 overflow-hidden h-[18vh] lg:h-[40vh]"
-            alt=""
-          />
-
-          <div className="z-40 px-4 py-4 mt-12 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
-            <div className="mb-4 md:flex">
-              <div className="relative z-50 w-full mb-2 mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
-                <label className="ml-2 text-gray-600 md:text-[13px]">
-                  Pickup City
-                </label>
-                <button
-                  type="button"
-                  className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                  onClick={() => {
-                    setStartCityIsOpen(!startCityIsOpen);
-                  }}
-                >
-                  {startCity}
-                  <FaCaretDown className="ml-auto" />
-                </button>
-                {startCityIsOpen && (
-                  <div className="absolute z-50 w-full py-4 mt-2 bg-white rounded-md shadow-lg h-[240px] overflow-y-scroll">
+                {startStateIsOpen && (
+                  <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     {states
-                      ?.filter(
-                        (city: State_interface) =>
-                          city?.state !== destinationCity
+                      ?.filter((e: any) =>
+                        e.name
+                          .toLowerCase()
+                          .includes(startStateFilter.toLowerCase())
                       )
-                      .map((city: State_interface) => {
+                      .sort((a: State_interface, b: State_interface) =>
+                        a.name.localeCompare(b.name)
+                      )
+                      .map((state: State_interface) => {
                         return (
                           <a
                             href="#"
                             className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                             onClick={() => {
-                              setStartCity(city?.state);
-                              setStartBusStopList(city?.bus_stops);
-                              setStartCityIsOpen(false);
-                              setFrom(city?.state);
+                              setStartStateFilter(state?.name);
+                              setStartState(state?.name);
+                              setStartBusStopList(state?.bus_stops);
+                              setStartStateIsOpen(false);
+                              setFrom(state?.name);
+                              setStartStateIsOpen(!startStateIsOpen);
                             }}
                           >
-                            {city?.state}
+                            {state?.name}
                           </a>
                         );
                       })}
                   </div>
                 )}
               </div>
-
-              {/* AFTER START CITY SELECTION */}
-              <div
-                className={`ease-in-out duration-300 relative w-full text-left z-40 mb-6 lg:mb-0 mr-4 lg:mr-6 ${
-                  startCity === "Current City" ? "hidden " : ""
-                }`}
-              >
-                <label className="ml-2 text-gray-600 md:text-[13px]">
-                  Station
-                </label>
-
-                {/* START BUSSTOP */}
-                <button
-                  type="button"
-                  className="z-10 inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                  onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
-                  onChange={handleStartBusStop}
+              <div className="absolute md:relative -mt-4 md:mt-4 ml-2 md:ml-0 bg-white h-6 w-6 z-10 p-4 rounded-[24px] border border-gray-300">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  focusable="false"
+                  className="-mt-2 -ml-2"
                 >
-                  {startBusStop}
-                  <FaCaretDown className="ml-auto" />
-                </button>
-
-                {startBusStopIsOpen && (
-                  <div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-lg h-[240px] overflow-y-scroll">
-                    {!startBusStopList ? (
-                      <div className="flex px-6 py-2 space-x-4 animate-pulse">
-                        <div className="flex-1 py-1 space-y-6">
-                          <div className="h-2 rounded bg-slate-200"></div>
-                          <div className="space-y-3">
-                            <div className="grid grid-cols-3 gap-4">
-                              <div className="h-2 col-span-2 rounded bg-slate-200"></div>
-                              <div className="h-2 col-span-1 rounded bg-slate-200"></div>
-                            </div>
-                            <div className="h-2 rounded bg-slate-200"></div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : startBusStopList.length === 0 ? (
-                      <div className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
-                        Sorry, we currently do not have a stop at this location.
-                      </div>
-                    ) : (
-                      startBusStopList?.map((stops: any) => {
-                        return (
-                          <a
-                            key={stops}
-                            href="#"
-                            className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                            onClick={() => {
-                              handleStartBusStop(stops);
-                              // setFrom(stops);
-                            }}
-                          >
-                            {stops}
-                          </a>
-                        );
-                      })
-                    )}
-                  </div>
-                )}
+                  <path d="M17 4l-1.41 1.41L18.17 8H11v2h7.17l-2.58 2.59L17 14l5-5-5-5zM7 20l1.41-1.41L5.83 16H13v-2H5.83l2.58-2.59L7 10l-5 5 5 5z"></path>
+                </svg>
               </div>
+              <div className="relative w-full mb-2 mr-4 md:-ml-2 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
+                <div className="relative flex">
+                  <input
+                    type="text"
+                    className="inline-flex items-center mt-2 w-full h-14 pl-12 pr-4 py-4 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    placeholder="Where to?"
+                    onClick={() =>
+                      setDestinationStateIsOpen(!destinationStateIsOpen)
+                    }
+                    onChange={(e) => {
+                      setDestinationStateFilter(e.target.value);
+                    }}
+                    value={destinationStateFilter}
+                  />
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    focusable="false"
+                    className=" h-full absolute ml-4 text-gray-600"
+                  >
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
+                    <circle cx="12" cy="9" r="2.5"></circle>
+                  </svg>
+                </div>
 
-              <div className="relative z-30 w-full mb-2 mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
-                <label className="ml-2 text-gray-600 md:text-[13px]">
-                  Destination City
-                </label>
-
-                <button
-                  type="button"
-                  className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                  onClick={() => {
-                    setDestinationCityIsOpen(!destinationCityIsOpen);
-                  }}
-                >
-                  {destinationCity}
-                  <FaCaretDown className="ml-auto" />
-                </button>
-                {destinationCityIsOpen && (
-                  <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-lg h-[240px] overflow-y-scroll">
+                {destinationStateIsOpen && (
+                  <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     {states
-                      ?.filter(
-                        (city: State_interface) => city.state !== startCity
+                      ?.filter((e: any) =>
+                        e.name
+                          .toLowerCase()
+                          .includes(destinationStateFilter.toLowerCase())
                       )
-                      .map((city: State_interface) => {
+                      .sort((a: State_interface, b: State_interface) =>
+                        a.name.localeCompare(b.name)
+                      )
+                      .map((state: State_interface) => {
                         return (
                           <a
                             href="#"
-                            className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                            className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                             onClick={() => {
-                              setDestinationBusStopList(city?.bus_stops);
-                              setDestinationCityIsOpen(!destinationCityIsOpen);
-                              setDestinationCity(city?.state);
-                              setTo(city?.state);
+                              setDestinationStateFilter(state?.name);
+                              setDestinationBusStopList(state?.bus_stops);
+                              setDestinationState(state?.name);
+                              setTo(state?.name);
+                              setDestinationStateIsOpen(
+                                !destinationStateIsOpen
+                              );
                             }}
                           >
-                            {city?.state}
+                            {state?.name}
                           </a>
                         );
                       })}
-                  </div>
-                )}
-              </div>
-              <div
-                className={`ease-in-out duration-300 relative w-full text-left z-20 mr-6 ${
-                  destinationCity === "Where to?" ? "hidden " : ""
-                }`}
-              >
-                <label className="ml-2 text-gray-600 md:text-[13px]">
-                  Station
-                </label>
-
-                {/* START BUSSTOP */}
-
-                <button
-                  type="button"
-                  className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                  onClick={() =>
-                    setDestinationBusStopIsOpen(!destinationBusStopIsOpen)
-                  }
-                  onChange={handleDestinationBusStop}
-                >
-                  {destinationBusStop}
-                  <FaCaretDown className="ml-auto" />
-                </button>
-
-                {destinationBusStopIsOpen && (
-                  <div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-lg h-[240px] overflow-y-scroll">
-                    {!desinationBusStopList ? (
-                      <div className="flex px-6 py-2 space-x-4 animate-pulse">
-                        <div className="flex-1 py-1 space-y-6">
-                          <div className="h-2 rounded bg-slate-200"></div>
-                          <div className="space-y-3">
-                            <div className="grid grid-cols-3 gap-4">
-                              <div className="h-2 col-span-2 rounded bg-slate-200"></div>
-                              <div className="h-2 col-span-1 rounded bg-slate-200"></div>
-                            </div>
-                            <div className="h-2 rounded bg-slate-200"></div>
-                          </div>
-                        </div>
-                      </div>
-                    ) : desinationBusStopList.length === 0 ? (
-                      <div className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
-                        Sorry, we currently do not have a stop at this location.
-                      </div>
-                    ) : (
-                      desinationBusStopList?.map((stops: any) => {
-                        return (
-                          <a
-                            key={stops}
-                            href="#"
-                            className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                            onClick={() => {
-                              handleDestinationBusStop(stops);
-                              // setTo(stops);
-                            }}
-                          >
-                            {stops}
-                          </a>
-                        );
-                      })
-                    )}
                   </div>
                 )}
               </div>
@@ -429,27 +303,51 @@ const BookRide = () => {
               <FraserButton
                 title="Search"
                 size="regular"
-                className="w-full mt-8"
-                active={TripValid}
+                className="h-14 md:h-[60px] w-full mt-2"
+                // active={TripValid}
                 onClick={() => {
-					handleAvailableTrips();
-                  if (TripValid) {
-                    handleAvailableTrips();
+                  // if (TripValid) {
+                  if (!userInfo?._id) {
+                    return setFlip("signin");
                   }
+                  handleAvailableTrips();
+                  // }
                 }}
               />
             </div>
           </div>
         </div>
       </div>
-      <div className="flex">
-        <div className="pt-[40px] md:my-16 lg:my-24 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
-          <h1 className="text-black text-left md:text-center mb-8 lg:mb-16 md:w-full text-[1.65rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
-            Experience Comfortable and Affordable Intercity Bus Travel with
-            Fraser
+
+      {/* <div className="px-6">
+        <div className="mt-6 text-gray-600 font-medium mb-2">Locations</div>
+        <div className="mt-2 md:p-6 flex border border-gray-400 rounded-[8px] bg-[##F4F4F4]">
+          <div className="rounded-l-[8px] h-32 w-28 overflow-hidden">
+            <div
+              className="h-full w-full bg-cover bg-no-repeat bg-center"
+              style={{ backgroundImage: `url(../assets/images/ibadan.jpg)` }}
+            ></div>
+          </div>
+          <div className="ml-2 my-2">
+            <h3 className="text-[18px] font-semibold text-gray-800">Lagos</h3>
+            <p className="text-[13px]">August 10</p>
+            <div className="flex">
+              <img src="#" alt="" />
+              <p className="text-[13px]">1 Stop</p>
+              <p className="text-[13px]">11hrs 45 mins</p>
+            </div>
+            <div>NGN</div>
+          </div>
+        </div>
+      </div> */}
+
+      <div className="flex md:bg-black md:rounded-[32px] md:mx-24 md:my-24">
+        <div className="pt-[32px] md:my-12 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
+          <h1 className="text-gray-800 md:text-gray-300 text-left md:text-center mb-8 lg:mb-12 md:w-full text-[1.3rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
+            Experience Comfort and Affordability
           </h1>
 
-          <div className="w-full mt-4 mb-0 lg:mb-24 lg:flex lg:mt-10">
+          <div className="w-full mt-4 mb-0 lg:mb-6 lg:flex lg:mt-10">
             <Offeringcard
               classname="mb-4 mr-4 lg:mb-0"
               title="Safe"
@@ -471,86 +369,19 @@ const BookRide = () => {
         </div>
       </div>
 
-      <div className="bg-[#000000] pt-12 md:pt-24">
-        <div className="mx-8 md:mx-16 lg:mx-32">
-          <h1 className="lg:col-start-1 lg:col-end-6 text-[1.65rem] md:text-[2rem] font-medium text-[#e3e3e3] leading-tight">
-            Book a ride in three steps
-          </h1>
-          <div className="lg:grid lg:grid-cols-12 lg:flex lg:mx-auto lg:mt-12">
-            <div className="hidden col-start-1 col-end-6 mt-6 lg:block">
-              <img
-                src="/assets/images/phone.png"
-                alt=""
-                className="object-cover flex h-[65vh] ml-4"
-              />
-            </div>
-
-            <div className="col-start-6 col-end-13 pb-24 lg:-mt-12 lg:mx-16">
-              <div className="flex flex-col justify-between w-full mt-16 lg:mt-32">
-                <StepComp
-                  stepNumber="1"
-                  stepTitle="Sign up"
-                  stepSubtitle="This is easy – we only need a few details and then you can get started. It only takes a minute to fill in your details!"
-                  classname="mb-8"
-                  cardclassname="bg-primary-100"
-                />
-                <StepComp
-                  stepNumber="2"
-                  stepTitle="Book a trip"
-                  classname="mb-8"
-                  cardclassname="bg-white"
-                  stepSubtitle="Booking a bus ticket is easy. You can easily buy your tickets in advance and have them delivered straight to your smartphone - register via the mobile app or on the website!"
-                />
-                <StepComp
-                  stepNumber="3"
-                  stepTitle="Ride"
-                  stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white">
-          <div className="flex items-center justify-center w-full bg-center ">
-            <img
-              alt=""
-              src={"/assets/images/withfriends.051522d885873700dacd.png"}
-              className="mt-12 md:mt-40 w-[90%] md:w-[70%] w-full md:h-[60%] h-full object-contain rounded-lg "
-            />
-          </div>
-
-          <div className="landingpageSessionPadding mt-[20px] md:mt-[30px] md:py-[40px] py-[24px] justify-center items-center">
-            <h1 className="text-black text-[1.65rem] md:text-[2rem] lg:text-[3rem] mb-[32px] md:mb-[72px] text-[25px] text-center font-semibold  spacing-[normal]  ">
-              Ride with friends and <br />
-              enjoy multiple benefits
-            </h1>
-            <div className="md:mx-12 lg:mx-40">
-              <Accordion />
-            </div>
-          </div>
-
-          {/* All abour session */}
-
-          <div className="px-8 lg:px-32 w-full bg-black py-[100px] flex-col ">
-            <h1 className="text-[#00ff6a]  md:text-[55px] text-[25px] font-semibold ">
-              All aboard
-            </h1>
-            <br />
-            <FraserButton
-              size="regular"
-              title="Get Started"
-              onClick={() => navigate(_paths_.LANDING_PAGE)}
-            />
-          </div>
-        </div>
-        <Footer />
-      </div>
+      <Footer />
 
       {flip === "signin" && (
         <Modal
           title={
             <div>
-              <h1 className="pt-2 text-xl">Welcome Back</h1>
+              <div className="flex flex-row w-full items-center justify-between ">
+                <h1 className="pt-2 text-xl">Welcome Back</h1>
+                <MdOutlineCancel
+                  className="text-[25px] hover:cursor-pointer"
+                  onClick={() => setFlip("")}
+                />
+              </div>
               <p className="pt-1 text-sm font-light text-gray-500">
                 Please enter your phone number to continue
               </p>
@@ -565,7 +396,7 @@ const BookRide = () => {
               )}
             </div>
           }
-          open={isModalOpen}
+          //   open={isModalOpen}
           centered={true}
           footer={false}
           closable={false}
@@ -615,7 +446,14 @@ const BookRide = () => {
         <Modal
           title={
             <div>
-              <h1 className="pt-2 text-xl">Let's get you started</h1>
+              <div className="flex flex-row w-full items-center justify-between ">
+                <h1 className="pt-2 text-xl">Let's get you started</h1>
+
+                <MdOutlineCancel
+                  className="text-[25px] hover:cursor-pointer"
+                  onClick={() => setFlip("")}
+                />
+              </div>
               <p className="pt-1 text-sm font-light text-gray-500">
                 You're almost there, create an account in just one simple step.
               </p>
@@ -632,7 +470,7 @@ const BookRide = () => {
               </div>
             </div>
           }
-          open={isModalOpen}
+          //   open={isModalOpen}
           centered={true}
           footer={false}
           closable={false}
@@ -703,14 +541,6 @@ const BookRide = () => {
                   );
                 })}
               </select>
-
-              {/* <Input
-								className="w-full h-12 hover:border-green-500 active:border-green-600"
-								placeholder="Email"
-								value={homeState}
-								required={true}
-								onChange={(e) => setHomeState(e.target.value)}
-							/> */}
             </div>
 
             <div className="mb-6">

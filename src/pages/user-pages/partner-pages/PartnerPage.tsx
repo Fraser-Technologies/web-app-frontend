@@ -1,23 +1,23 @@
 import { useEffect, useState } from "react";
-import Layout from "../../components/layouts/SignInLayout";
+import Layout from "../../../components/layouts/SignInLayout";
 import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
-import { FraserButton } from "../../components/Button";
-import allState from "../../utils/allState";
-import BookingCard from "../../components/bookingCard";
+import { FraserButton } from "../../../components/Button";
+import allState from "../../../utils/allState";
+import BookingCard from "../../../components/bookingCard";
 import { Alert, Drawer, Input, Modal, Spin, message } from "antd";
 import { BsArrowRight } from "react-icons/bs";
 import { useNavigate } from "react-router-dom";
-import { useAppDispatch, useAppSelector } from "../../state/hooks";
+import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { useSelector } from "react-redux";
-import { RootState } from "../../state/redux-store";
-import { Trip_interface } from "../../interfaces/trip_interface";
-import { getAvailableTripAction } from "../../state/action/trip.action";
+import { RootState } from "../../../state/redux-store";
+import { Trip_interface } from "../../../interfaces/trip_interface";
+import { getAvailableTripAction } from "../../../state/action/trip.action";
 import {
 	registerUserAction,
 	userLoginAction
-} from "../../state/action/user.action";
+} from "../../../state/action/user.action";
 import { MdOutlineCancel } from "react-icons/md";
-import { addToMyBookinAction } from "../../state/action/booking.action";
+import { addToMyBookinAction } from "../../../state/action/booking.action";
 
 const PartnerPage = () => {
 	const dispatch = useAppDispatch();
@@ -201,8 +201,6 @@ const PartnerPage = () => {
 								key={trip?._id}
 								from={trip?.travel_destination?.from?.state?.name}
 								to={trip?.travel_destination?.to?.state?.name}
-								fromBusStop={trip?.travel_destination?.from?.start_busstop}
-								toBusStop={trip?.travel_destination?.to?.stop_busstop}
 								takeOffTime={trip?.take_off_time}
 								takeOffDate={trip?.take_off_date}
 								price={trip?.price}
@@ -215,6 +213,8 @@ const PartnerPage = () => {
 									handleOpenModal(null, "howmanytickets");
 									setSelectedTrip(trip);
 								}}
+								fromBusStop={""}
+								toBusStop={""}
 							/>
 						))}
 					</div>

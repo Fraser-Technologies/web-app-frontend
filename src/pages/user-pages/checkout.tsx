@@ -314,13 +314,13 @@ const Checkout = () => {
 							<div className="text-[#949292] text-sm flex space-x-8 items-center">
 								<div>{myBooking?.take_off_time}</div>
 								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
-								<div>{`${myBooking?.travel_destination?.from?.state?.state}, ${myBooking?.travel_destination?.from?.start_busstop}`}</div>
+								<div>{`${myBooking?.travel_destination?.from?.state?.name}, ${myBooking?.travel_destination?.from?.start_busstop}`}</div>
 							</div>
 							<div className="h-4 border-l-[1.5px] ml-20 border-primary-200 mt-2 "></div>
 							<div className="text-[#949292] text-sm flex space-x-8 items-center mt-2">
 								<div>{myBooking?.arrival_time}</div>
 								<div className="w-2 h-2 rounded-full bg-primary-200"></div>
-								<div>{`${myBooking?.travel_destination?.to?.state?.state}, ${myBooking?.travel_destination?.to?.stop_busstop}`}</div>
+								<div>{`${myBooking?.travel_destination?.to?.state?.name}, ${myBooking?.travel_destination?.to?.stop_busstop}`}</div>
 							</div>
 						</div>
 
