@@ -159,8 +159,8 @@ const AiesecPage = () => {
     >
       <div className="bg-black h-screen w-full text-white px-[28px] md:px-[64px]">
         {contextHolder}
-        <div className="w-full md:w-2/5 leading-[1.2] pt-24 md:pt-40 text-[32px] md:text-[40px] tracking-tight">
-          Let's get you to conference
+        <div className="w-3/5 md:w-2/5 leading-[1.2] pt-24 md:pt-40 text-[1.5rem] md:text-[4rem] font-medium tracking-tight">
+          Let's get you to NC Ibadan
         </div>
 
         <div className="w-full bg-white p-4 md:p-8  mt-12 rounded-md text-black">

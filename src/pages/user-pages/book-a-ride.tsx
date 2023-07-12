@@ -172,7 +172,7 @@ const BookRide = () => {
             Interstate Bus Trips
           </h1>
 
-          <div className="px-4 py-4 mt-8 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
+          <div className="px-4 py-4 mt-6 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
             <div className="md:flex">
               <div className="relative w-full mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
                 <div className="relative flex mt-2">
@@ -343,7 +343,7 @@ const BookRide = () => {
 
       <div className="flex">
         <div className="pt-[40px] md:my-16 lg:my-24 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
-          <h1 className="text-black text-left md:text-center mb-8 lg:mb-16 md:w-full text-[1.65rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
+          <h1 className="text-gray-800 text-left md:text-center mb-8 lg:mb-16 md:w-full text-[1.3rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
             Experience Comfort and Affordability
           </h1>
 
