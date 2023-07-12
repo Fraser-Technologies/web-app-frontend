@@ -37,7 +37,7 @@ const BookingCard = ({
         className="flex-row justify-between px-3 py-5 mb-4 bg-black rounded-lg lg:flex lg:px-8"
       >
         <div className=" lg:w-4/5">
-          <div className="text-white">{typeOfTrip}</div>
+          <div className=" bg-[#CAFFC1] text-[#327531] border border-[#A4FF8D] rounded-md px-2 py-1 text-sm mb-4 w-fit">{typeOfTrip}</div>
           <div className="flex">
             <div className="w-1/2 lg:w-1/3">
               <div className="">

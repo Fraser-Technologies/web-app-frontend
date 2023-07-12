@@ -166,64 +166,39 @@ const BookRide = () => {
       pageKeywords="interState bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
     >
       {contextHolder}
-      <div className="bg-[#000000] -mt-16 md:mt-0 w-full ">
-        <div className="flex flex-col py-24 mx-6  md:mx-16 lg:mx-32">
-          <h1 className="mt-16 md:mt-0 leading-tight bg-gradient-to-b from-[#00ff6a] to-[#FFEFC1] text-transparent bg-clip-text text-[2.6rem] md:text-[4rem] font-semibold">
-            Move Freely <br /> between cities
+      <div className="bg-[#000000] -mt-16 md:mt-0 w-full rounded-b-[12px] pb-6">
+        <div className="flex flex-col pt-24 pb-6 mx-6 md:mx-16 lg:mx-32">
+          <h1 className="text-white mt-16 md:mt-0 leading-tight text-[1.5rem] md:text-[4rem] font-medium">
+            Interstate Bus Trips
           </h1>
-          <h3 className=" text-[14px] w-10/12 text-gray-400 md:text-[15px] mt-2 font-light">
-            Get started by simply inputting your location and destination
-          </h3>
-          <div className="absolute top-32  right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
-            <img
-              src="/assets/images/paper-airplane.png"
-              className=" h-4 filter hue-rotate-90"
-              alt=""
-            />
-          </div>
 
-          <div className="absolute top-96 -left-8 bg-[#00FF6A] rounded-[100px] p-4">
-            <img
-              src="/assets/images/idea-bulb.png"
-              className=" h-8 filter brightness-75"
-              alt=""
-            />
-          </div>
-
-          <div className="absolute top-96 md:top-56 lg:top-56 -right-0 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
-            {" "}
-            <img
-              src="/assets/images/bus.png"
-              className=" h-8 filter brightness-75"
-              alt=""
-            />
-          </div>
-          <img
-            src="/assets/images/bg-overlay-white.png"
-            className="absolute  opacity-5 overflow-hidden h-[18vh] lg:h-[40vh]"
-            alt=""
-          />
-
-          <div className="z-40 px-4 py-4 mt-12 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
-            <div className="mb-4 md:flex">
-              <div className="relative z-50 w-full mb-2 mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
-                <label className="ml-2 text-gray-600 md:text-[13px]">
-                  Pickup State
-                </label>
-
-                <input
-                  type="text"
-                  className="inline-flex  items-center w-full h-12 px-2 py-2 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                  placeholder="State"
-                  onClick={() => setStartStateIsOpen(!startStateIsOpen)}
-                  onChange={(e) => {
-                    setStartStateFilter(e.target.value);
-                  }}
-                  value={startStateFilter}
-                />
+          <div className="px-4 py-4 mt-8 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
+            <div className="md:flex">
+              <div className="relative w-full mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
+                <div className="relative flex mt-2">
+                  <input
+                    type="text"
+                    className="inline-flex items-center mt-2 w-full h-14 pl-12 pr-4 py-4 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    placeholder="Where From?"
+                    onClick={() => setStartStateIsOpen(!startStateIsOpen)}
+                    onChange={(e) => {
+                      setStartStateFilter(e.target.value);
+                    }}
+                    value={startStateFilter}
+                  />
+                  <svg
+                    width="16"
+                    height="16"
+                    viewBox="0 0 24 24"
+                    focusable="false"
+                    className=" h-full absolute ml-4 text-gray-600"
+                  >
+                    <path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z"></path>
+                  </svg>
+                </div>
 
                 {startStateIsOpen && (
-                  <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                  <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     {states
                       ?.filter((e: any) =>
                         e.name
@@ -254,84 +229,45 @@ const BookRide = () => {
                   </div>
                 )}
               </div>
-
-              {/* AFTER START State SELECTION */}
-              <div
-                className={`ease-in-out duration-300 relative w-full text-left z-40 mb-6 lg:mb-0 mr-4 lg:mr-6 ${
-                  startState === "Current State" ? "hidden " : ""
-                }`}
-              >
-                <label className="ml-2 text-gray-600 md:text-[13px]">
-                  Station
-                </label>
-
-                {/* START BUSSTOP */}
-
-                <Dropdown
-                  trigger={["click"]}
-                  menu={{
-                    items: startBusStopList.length
-                      ? startBusStopList?.map((stops: string) => {
-                          return {
-                            label: (
-                              <a
-                                key={stops}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  handleStartBusStop(stops);
-                                }}
-                              >
-                                {stops}
-                              </a>
-                            ),
-                            key: Math.random() + 2000,
-                          };
-                        })
-                      : [
-                          {
-                            label: (
-                              <a className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
-                                Sorry, we currently do not have a stop at this
-                                location.
-                              </a>
-                            ),
-                            key: Math.random() * 2000,
-                          },
-                        ],
-                  }}
+              <div className="absolute -mt-4 ml-2 bg-white h-6 w-6 z-10 p-4 rounded-[24px] border border-gray-300">
+                <svg
+                  width="18"
+                  height="18"
+                  viewBox="0 0 24 24"
+                  focusable="false"
+                  className="-mt-2 -ml-2"
                 >
-                  <button
-                    type="button"
-                    className="z-10 inline-flex items-center w-full h-12 px-4 py-2  mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                    onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
-                    onChange={handleStartBusStop}
-                  >
-                    {startBusStop}
-                    <FaCaretDown className="ml-auto" />
-                  </button>
-                </Dropdown>
+                  <path d="M17 4l-1.41 1.41L18.17 8H11v2h7.17l-2.58 2.59L17 14l5-5-5-5zM7 20l1.41-1.41L5.83 16H13v-2H5.83l2.58-2.59L7 10l-5 5 5 5z"></path>
+                </svg>
               </div>
-
-              <div className="relative z-30 w-full mb-2 mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
-                <label className="ml-2 text-gray-600 md:text-[13px]">
-                  Destination State
-                </label>
-                <input
-                  type="text"
-                  className="inline-flex  items-center w-full h-12 px-2 py-2 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                  placeholder="State"
-                  onClick={() =>
-                    setDestinationStateIsOpen(!destinationStateIsOpen)
-                  }
-                  onChange={(e) => {
-                    setDestinationStateFilter(e.target.value);
-                  }}
-                  value={destinationStateFilter}
-                />
+              <div className="relative w-full mb-2 mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
+                <div className="relative flex">
+                  <input
+                    type="text"
+                    className="inline-flex items-center mt-2 w-full h-14 pl-12 pr-4 py-4 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    placeholder="Where to?"
+                    onClick={() =>
+                      setDestinationStateIsOpen(!destinationStateIsOpen)
+                    }
+                    onChange={(e) => {
+                      setDestinationStateFilter(e.target.value);
+                    }}
+                    value={destinationStateFilter}
+                  />
+                  <svg
+                    width="24"
+                    height="24"
+                    viewBox="0 0 24 24"
+                    focusable="false"
+                    className=" h-full absolute ml-4 text-gray-600"
+                  >
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
+                    <circle cx="12" cy="9" r="2.5"></circle>
+                  </svg>
+                </div>
 
                 {destinationStateIsOpen && (
-                  <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                  <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     {states
                       ?.filter((e: any) =>
                         e.name
@@ -362,124 +298,53 @@ const BookRide = () => {
                       })}
                   </div>
                 )}
-                {/* <Dropdown
-                  trigger={["click"]}
-                  menu={{
-                    items: states.map((state: State_interface) => {
-                      return {
-                        label: (
-                          <a
-                            href="#"
-                            className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                            onClick={() => {
-                              setDestinationBusStopList(state?.bus_stops);
-                              setDestinationState(state?.state);
-                              setTo(state?.state);
-                            }}
-                          >
-                            {state?.state}
-                          </a>
-                        ),
-                        key: Math.random() * 2000,
-                      };
-                    }),
-                  }}
-                >
-                  <button
-                    type="button"
-                    className="inline-flex items-center w-full h-12 px-4 py-2  mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                    onClick={() => {
-                      setDestinationStateIsOpen(!destinationStateIsOpen);
-                    }}
-                  >
-                    {destinationState}
-                    <FaCaretDown className="ml-auto" />
-                  </button>
-                </Dropdown> */}
-              </div>
-              <div
-                className={`ease-in-out duration-300 relative w-full text-left z-20 mr-6 ${
-                  destinationState === "Where to?" ? "hidden " : ""
-                }`}
-              >
-                <label className="ml-2 text-gray-600 md:text-[13px]">
-                  Station
-                </label>
-
-                {/* START BUSSTOP */}
-
-                <Dropdown
-                  trigger={["click"]}
-                  menu={{
-                    items: desinationBusStopList?.length
-                      ? desinationBusStopList?.map((stops: string) => {
-                          return {
-                            label: (
-                              <a
-                                key={stops}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  handleDestinationBusStop(stops);
-                                  // setTo(stops);
-                                }}
-                              >
-                                {stops}
-                              </a>
-                            ),
-                            key: Math.random() * 2000,
-                          };
-                        })
-                      : [
-                          {
-                            label: (
-                              <a className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
-                                Sorry, we currently do not have a stop at this
-                                location.
-                              </a>
-                            ),
-                            key: Math.random() * 2000,
-                          },
-                        ],
-                  }}
-                >
-                  <button
-                    type="button"
-                    className="inline-flex items-center w-full h-12 px-4 py-2  font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                    onClick={() =>
-                      setDestinationBusStopIsOpen(!destinationBusStopIsOpen)
-                    }
-                    onChange={handleDestinationBusStop}
-                  >
-                    {destinationBusStop}
-                    <FaCaretDown className="ml-auto" />
-                  </button>
-                </Dropdown>
               </div>
 
               <FraserButton
                 title="Search"
                 size="regular"
-                className="h-12 w-full mt-6"
-                active={TripValid}
+                className="h-12 w-full mt-4"
+                // active={TripValid}
                 onClick={() => {
-                  if (TripValid) {
-                    if (!userInfo?._id) {
-                      return setFlip("signin");
-                    }
-                    handleAvailableTrips();
+                  // if (TripValid) {
+                  if (!userInfo?._id) {
+                    return setFlip("signin");
                   }
+                  handleAvailableTrips();
+                  // }
                 }}
               />
             </div>
           </div>
         </div>
       </div>
+
+      {/* <div className="px-6">
+        <div className="mt-6 text-gray-600 font-medium mb-2">Locations</div>
+        <div className="mt-2 md:p-6 flex border border-gray-400 rounded-[8px] bg-[##F4F4F4]">
+          <div className="rounded-l-[8px] h-32 w-28 overflow-hidden">
+            <div
+              className="h-full w-full bg-cover bg-no-repeat bg-center"
+              style={{ backgroundImage: `url(../assets/images/ibadan.jpg)` }}
+            ></div>
+          </div>
+          <div className="ml-2 my-2">
+            <h3 className="text-[18px] font-semibold text-gray-800">Lagos</h3>
+            <p className="text-[13px]">August 10</p>
+            <div className="flex">
+              <img src="#" alt="" />
+              <p className="text-[13px]">1 Stop</p>
+              <p className="text-[13px]">11hrs 45 mins</p>
+            </div>
+            <div>NGN</div>
+          </div>
+        </div>
+      </div> */}
+
       <div className="flex">
         <div className="pt-[40px] md:my-16 lg:my-24 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
           <h1 className="text-black text-left md:text-center mb-8 lg:mb-16 md:w-full text-[1.65rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
-            Experience Comfortable and Affordable InterState Bus Travel with
-            Fraser
+            Experience Comfort and Affordability
           </h1>
 
           <div className="w-full mt-4 mb-0 lg:mb-24 lg:flex lg:mt-10">
@@ -504,80 +369,7 @@ const BookRide = () => {
         </div>
       </div>
 
-      <div className="bg-[#000000] pt-12 md:pt-24">
-        <div className="mx-8 md:mx-16 lg:mx-32">
-          <h1 className="lg:col-start-1 lg:col-end-6 text-[1.65rem] md:text-[2rem] font-medium text-[#e3e3e3] leading-tight">
-            Book a ride in three steps
-          </h1>
-          <div className="lg:grid-cols-12 lg:flex lg:mx-auto lg:mt-12">
-            <div className="hidden col-start-1 col-end-6 mt-6 lg:block">
-              <img
-                src="/assets/images/phone.png"
-                alt=""
-                className="object-cover flex h-[65vh] ml-4"
-              />
-            </div>
-
-            <div className="col-start-6 col-end-13 pb-24 lg:-mt-12 lg:mx-16">
-              <div className="flex flex-col justify-between w-full mt-16 lg:mt-32">
-                <StepComp
-                  stepNumber="1"
-                  stepTitle="Sign up"
-                  stepSubtitle="This is easy – we only need a few details and then you can get started. It only takes a minute to fill in your details!"
-                  classname="mb-8"
-                  cardclassname="bg-primary-100"
-                />
-                <StepComp
-                  stepNumber="2"
-                  stepTitle="Book a trip"
-                  classname="mb-8"
-                  cardclassname="bg-white"
-                  stepSubtitle="Booking a bus ticket is easy. You can easily buy your tickets in advance and have them delivered straight to your smartphone - register via the mobile app or on the website!"
-                />
-                <StepComp
-                  stepNumber="3"
-                  stepTitle="Ride"
-                  stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
-                />
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="bg-white">
-          <div className="flex items-center justify-center w-full bg-center ">
-            <img
-              alt=""
-              src={"/assets/images/withfriends.051522d885873700dacd.png"}
-              className="mt-12 md:mt-40  md:w-[70%] w-full md:h-[60%] h-full object-contain rounded-lg "
-            />
-          </div>
-
-          <div className="landingpageSessionPadding mt-[20px] md:mt-[30px] md:py-[40px] py-[24px] justify-center items-center">
-            <h1 className="text-black  md:text-[2rem] lg:text-[3rem] mb-[32px] md:mb-[72px] text-[25px] text-center font-semibold  spacing-[normal]  ">
-              Ride with friends and <br />
-              enjoy multiple benefits
-            </h1>
-            <div className="md:mx-12 lg:mx-40">
-              <Accordion />
-            </div>
-          </div>
-
-          {/* All abour session */}
-
-          <div className="px-8 lg:px-32 w-full bg-black py-[100px] flex-col ">
-            <h1 className="text-[#00ff6a]  md:text-[55px] text-[25px] font-semibold ">
-              All aboard
-            </h1>
-            <br />
-            <FraserButton
-              size="regular"
-              title="Get Started"
-              onClick={() => navigate(_paths_.LANDING_PAGE)}
-            />
-          </div>
-        </div>
-        <Footer />
-      </div>
+      <Footer />
 
       {flip === "signin" && (
         <Modal
