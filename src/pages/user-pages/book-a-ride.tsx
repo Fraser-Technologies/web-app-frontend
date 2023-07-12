@@ -166,19 +166,19 @@ const BookRide = () => {
       pageKeywords="interState bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
     >
       {contextHolder}
-      <div className="bg-[#000000] -mt-16 md:mt-0 w-full rounded-b-[12px] pb-6">
+      <div className="bg-[#000000] -mt-16 md:mt-0 w-full rounded-b-[12px] pb-12 md:pb-40">
         <div className="flex flex-col pt-24 pb-6 mx-6 md:mx-16 lg:mx-32">
-          <h1 className="text-white mt-16 md:mt-0 leading-tight text-[1.5rem] md:text-[4rem] font-medium">
+          <h1 className="text-white mt-16 mb-0 md:mb-8 md:mt-24 leading-tight text-[1.5rem] md:text-[3rem] font-medium">
             Interstate Bus Trips
           </h1>
 
-          <div className="px-4 py-4 mt-6 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
+          <div className="w-full md:w-full lg:w-2/3 px-4 py-4 mt-6 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
             <div className="md:flex">
-              <div className="relative w-full mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
+              <div className="relative w-full mr-4 md:-mr-2 text-left duration-300 ease-in-out lg:mb-0 ">
                 <div className="relative flex mt-2">
                   <input
                     type="text"
-                    className="inline-flex items-center mt-2 w-full h-14 pl-12 pr-4 py-4 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    className="inline-flex items-center mt-2 md:mt-0 w-full h-14 pl-12 pr-4 py-4 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
                     placeholder="Where From?"
                     onClick={() => setStartStateIsOpen(!startStateIsOpen)}
                     onChange={(e) => {
@@ -191,7 +191,7 @@ const BookRide = () => {
                     height="16"
                     viewBox="0 0 24 24"
                     focusable="false"
-                    className=" h-full absolute ml-4 text-gray-600"
+                    className=" h-full absolute ml-4 md:-mt-1 text-gray-600"
                   >
                     <path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z"></path>
                   </svg>
@@ -229,7 +229,7 @@ const BookRide = () => {
                   </div>
                 )}
               </div>
-              <div className="absolute -mt-4 ml-2 bg-white h-6 w-6 z-10 p-4 rounded-[24px] border border-gray-300">
+              <div className="absolute md:relative -mt-4 md:mt-4 ml-2 md:ml-0 bg-white h-6 w-6 z-10 p-4 rounded-[24px] border border-gray-300">
                 <svg
                   width="18"
                   height="18"
@@ -240,7 +240,7 @@ const BookRide = () => {
                   <path d="M17 4l-1.41 1.41L18.17 8H11v2h7.17l-2.58 2.59L17 14l5-5-5-5zM7 20l1.41-1.41L5.83 16H13v-2H5.83l2.58-2.59L7 10l-5 5 5 5z"></path>
                 </svg>
               </div>
-              <div className="relative w-full mb-2 mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
+              <div className="relative w-full mb-2 mr-4 md:-ml-2 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
                 <div className="relative flex">
                   <input
                     type="text"
@@ -303,7 +303,7 @@ const BookRide = () => {
               <FraserButton
                 title="Search"
                 size="regular"
-                className="h-12 w-full mt-4"
+                className="h-14 md:h-[60px] w-full mt-2"
                 // active={TripValid}
                 onClick={() => {
                   // if (TripValid) {
@@ -341,13 +341,13 @@ const BookRide = () => {
         </div>
       </div> */}
 
-      <div className="flex">
-        <div className="pt-[40px] md:my-16 lg:my-24 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
-          <h1 className="text-gray-800 text-left md:text-center mb-8 lg:mb-16 md:w-full text-[1.3rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
+      <div className="flex md:bg-black md:rounded-[32px] md:mx-24 md:my-24">
+        <div className="pt-[32px] md:my-12 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
+          <h1 className="text-gray-800 md:text-gray-300 text-left md:text-center mb-8 lg:mb-12 md:w-full text-[1.3rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
             Experience Comfort and Affordability
           </h1>
 
-          <div className="w-full mt-4 mb-0 lg:mb-24 lg:flex lg:mt-10">
+          <div className="w-full mt-4 mb-0 lg:mb-6 lg:flex lg:mt-10">
             <Offeringcard
               classname="mb-4 mr-4 lg:mb-0"
               title="Safe"
