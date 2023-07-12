@@ -16,7 +16,7 @@ import { changeAppStateAction } from "../state/action/app.action";
 import { useAppDispatch } from "../state/hooks";
 import PartnerPage from "../pages/user-pages/partner-pages/PartnerPage";
 import AiesecPage from "../pages/user-pages/partner-pages/aiesec";
-import NyscPage from "../pages/user-pages/partner-pages/nysc";
+import NyscPage from "../pages/user-pages/partner-pages/n_ysc";
 
 
 const UserApp: FC = () => {

@@ -52,6 +52,8 @@ const NyscPage = () => {
   const [messageApi, contextHolder] = message.useMessage();
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   const [referred_by, setReferred_by] = useState<string>("");
+  const [from, setFrom] = useState<string>("");
+  const [to, setTo] = useState<string>("");
   const [selectedTrip, setSelectedTrip] = useState<Trip_interface>();
 
   const loginValid = phone !== "" && phone.length === 10;
@@ -88,7 +90,12 @@ const NyscPage = () => {
   };
 
   const searchForTrip = () => {
-    dispatch(getAvailableTripAction({ from: "Oyo", to: stateFilter }));
+    console.log("break");
+    console.log(from);
+    console.log(to);
+    if (from && to) {
+      dispatch(getAvailableTripAction({ from: from, to: to }));
+    }
   };
 
   const CreateUser = () => {
@@ -150,18 +157,18 @@ const NyscPage = () => {
       pageDescription="Find the best intercity bus transportation options in Nigeria with Fraser. Book your ride today on RideFraser.com and travel in comfort and style."
       pageKeywords="Fraser, intercity bus, Nigeria, ride booking, transportation, travel, comfort, style, RideFraser.com, intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser"
     >
-      <div className="bg-black h-screen w-full text-white px-[64px]">
+      <div className="bg-black h-screen w-full text-white px-[28px] md:px-[64px]">
         {contextHolder}
-        <div className="w-2/5 leading-[1.2] pt-40 text-[40px] tracking-tight">
+        <div className="w-full md:w-2/5 leading-[1.2] pt-24 md:pt-40 text-[32px] md:text-[40px] tracking-tight">
           Get the best deals to get you to camp
         </div>
 
-        <div className="w-full bg-white p-8 mt-12 rounded-md text-black">
+        <div className="w-full bg-white p-4 md:p-8 mt-12 rounded-md text-black">
           <div className="leading-snug text-[18px] font-medium mb-6">
             Where were you posted? {loading && <Spin />}
           </div>
-          <div className={`${stateFilter !== "" && "mb-8"} flex`}>
-            <div className="relative z-30 w-full text-left duration-300 ease-in-out lg:mb-0">
+          <div className={`${stateFilter !== "" && "mb-8"} md:flex`}>
+            <div className="relative z-30 w-full text-left duration-300 ease-in-out lg:mb-0 mr-4">
               {/*  */}
               {/*  */}
               <input
@@ -181,10 +188,11 @@ const NyscPage = () => {
               {isOpen && (
                 <div
                   className={`absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg overflow-y-scroll ${
-                    stateFilter === "" && "h-content"
+                    stateFilter !== "" && "h-content"
                   }`}
                 >
-                  {states?.filter((e: any) =>
+                  {states
+                    ?.filter((e: any) =>
                       e.name.toLowerCase().includes(stateFilter.toLowerCase())
                     )
                     .sort((a: State_interface, b: State_interface) =>
@@ -193,12 +201,16 @@ const NyscPage = () => {
                     .map((state: State_interface) => {
                       return (
                         <a
+                          key={state?._id}
                           href="#"
                           className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                           onClick={() => {
                             setStateFilter(state?.name);
-                            setisOpen(false);
-                            searchForTrip();
+                            setFrom("Oyo");
+                            setTo(state?.name);
+                            setisOpen(!isOpen);
+                            console.log(from);
+                            console.log(to);
                           }}
                         >
                           {state?.name}
@@ -208,13 +220,35 @@ const NyscPage = () => {
                 </div>
               )}
             </div>
+            <FraserButton
+              className="w-full md:w-fit"
+              title={"Search"}
+              active={stateFilter !== ""}
+              size={"regular"}
+              onClick={() => searchForTrip()}
+            />
           </div>
 
+          {availableTripData.length === 0 && to !== "" && (
+            <div>
+              <Alert
+                type="info"
+                message="Sorry there are no available trips to the destination selected"
+              />
+              <p className="mt-4 text-[14px] text-gray-500">
+                Request a route or
+                <a href={`tel:09076736877`}>
+                  <span className="text-blue-500"> contact us</span>
+                </a>
+              </p>
+            </div>
+          )}
           {availableTripData?.map((trip: Trip_interface) => {
             return (
               <div>
                 {trip?.type_of_trip === "NYSC" && (
                   <BookingCard
+                    typeOfTrip={trip?.type_of_trip}
                     key={trip?._id}
                     from={trip?.travel_destination?.from?.state?.name}
                     to={trip?.travel_destination?.to?.state.name}

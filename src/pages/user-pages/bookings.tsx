@@ -573,7 +573,7 @@ const Bookings = () => {
                     availableTripData?.map((trip: Trip_interface) => {
                       return (
                         <div>
-                          {trip?.type_of_trip === "NORMAL" && (
+                          {/* {trip?.type_of_trip === "NORMAL" && ( */}
                             <BookingCard
                               key={trip?._id}
                               from={
@@ -595,7 +595,7 @@ const Bookings = () => {
                                 handleOpenModal(trip, "howmanytickets");
                               }}
                             />
-                          )}
+                          {/* )} */}
                         </div>
                       );
                     })}

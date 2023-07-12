@@ -157,48 +157,35 @@ const TripsOverview: React.FC = () => {
     }
   }, [dispatch, menuVisible, trip]);
 
-  useEffect(() => {
-    if (updatedTrip?._id) {
-      setFlip("");
-      dispatch(resetUpdateTripAction());
-      dispatch(getAllTripAction());
-    }
-  }, [dispatch, updatedTrip]);
+  //   useEffect(() => {
+  //     if (updatedTrip?._id) {
+  //       setFlip("");
+  //       dispatch(resetUpdateTripAction());
+  //       dispatch(getAllTripAction());
+  //     }
+  //   }, [dispatch, updatedTrip]);
 
-  useEffect(() => {
-    if (deletedTrip?._id) {
-      messageApi.open({
-        type: "info",
-        content: "This trip have been deleted",
-      });
+  //   useEffect(() => {
+  //     if (trips) {
+  //       setModalData(trips.find((trip) => trip._id === modalData?._id));
+  //     }
+  //   }, [trips, onBoardedTrip, unBoardedTrip, modalData]);
 
-      dispatch(resetDeleteTripAction());
-      dispatch(getAllTripAction());
-      setFlip(TripOption.NONE);
-    }
-  }, [TripOption, deletedTrip, dispatch, messageApi]);
+  //   useEffect(() => {
+  //     dispatch(getAllTripAction());
+  //     setLoading(false);
+  //   }, [dispatch, onBoardedTrip, userInfo, unBoardedTrip]);
 
-  useEffect(() => {
-    if (trips) {
-      setModalData(trips.find((trip) => trip._id === modalData?._id));
-    }
-  }, [trips, onBoardedTrip, unBoardedTrip, modalData]);
+  //   useEffect(() => {
+  //     dispatch(getBalanceByUserAction());
+  //   }, [dispatch]);
 
-  useEffect(() => {
-    dispatch(getAllTripAction());
-    setLoading(false);
-  }, [dispatch, onBoardedTrip, userInfo, unBoardedTrip]);
-
-  useEffect(() => {
-    dispatch(getBalanceByUserAction());
-  }, [dispatch]);
-
-  useEffect(() => {
-    dispatch(resetUpdateTripAction());
-    if (trip || onBoardedTrip || unBoardedTrip) {
-      dispatch(getTripByDriverAction(userInfo?._id));
-    }
-  }, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
+  //   useEffect(() => {
+  //     dispatch(resetUpdateTripAction());
+  //     if (trip || onBoardedTrip || unBoardedTrip) {
+  //       dispatch(getTripByDriverAction(userInfo?._id));
+  //     }
+  //   }, [dispatch, onBoardedTrip, trip, unBoardedTrip, userInfo]);
 
   return (
     <div className="px-4 pt-12">
@@ -212,6 +199,7 @@ const TripsOverview: React.FC = () => {
           {/* <h2 className="text-xs font-medium ">Trips</h2> */}
           {/* {loading && <Spinner />} */}
           <FraserButton
+		//   className="w-full"
             title="+ Create new trip"
             type="submit"
             size="regular"
@@ -520,6 +508,8 @@ const TripsOverview: React.FC = () => {
           </div>
 
           <FraserButton
+		  buttonType="tertiary"
+		  className="w-full"
             title="Close"
             type="submit"
             size="regular"
@@ -599,6 +589,7 @@ const TripsOverview: React.FC = () => {
             </div>
           </div>
           <FraserButton
+		  className="w-full"
             title="Edit"
             type="submit"
             size="regular"
@@ -607,6 +598,7 @@ const TripsOverview: React.FC = () => {
             }}
           />
           <FraserButton
+		  className="w-full"
             title="Delete"
             type="submit"
             size="regular"
@@ -809,7 +801,7 @@ const TripsOverview: React.FC = () => {
           centered={true}
           footer={false}
           closable={true}
-          width={240}
+          width={300}
         >
           <div className="w-full text-center place-items-center">
             <FaExclamationCircle
@@ -825,22 +817,32 @@ const TripsOverview: React.FC = () => {
             </div>
           </div>
 
-          <FraserButton
-            title={`Delete`}
-            type="submit"
-            size="regular"
-            onClick={() => {
-              dispatch(deleteTripByIdAction(modalData?._id || ""));
-            }}
-          />
-          <FraserButton
-            title="Cancel"
-            type="submit"
-            size="regular"
-            onClick={() => {
-              setFlip(TripOption.INFO);
-            }}
-          />
+          <div className=" mt-8">
+		  
+            <FraserButton
+              className="mr-2 w-full"
+              title={`Delete`}
+              type="submit"
+              size="regular"
+              onClick={() => {
+                dispatch(deleteTripByIdAction(modalData?._id || ""))
+                  .finally(dispatch(resetDeleteTripAction()))
+                  .finally(dispatch(getAllTripAction()));
+                setFlip(TripOption.NONE);
+              }}
+            />
+			<FraserButton
+		  buttonType="tertiary"
+              className="w-full"
+              title="Close"
+              type="submit"
+              size="regular"
+              onClick={() => {
+                setFlip(TripOption.INFO);
+              }}
+            />
+            
+          </div>
         </Modal>
       )}
       {/* }   SUCESS MODAL SHOWS AFTER API RETURNS SUCCESS FOR TRIP UPDATES */}
@@ -862,6 +864,7 @@ const TripsOverview: React.FC = () => {
           </div>
 
           <FraserButton
+		  className="w-full"
             title="View"
             type="submit"
             size="regular"
@@ -871,6 +874,7 @@ const TripsOverview: React.FC = () => {
             }}
           />
           <FraserButton
+		  className="w-full"
             title="Close"
             type="submit"
             size="regular"

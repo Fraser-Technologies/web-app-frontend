@@ -137,8 +137,24 @@ export const Header = () => {
 
           {partnerOpenOptions && (
             <div className="mt-[10px] flex flex-col pl-[30px] text-white">
-              <p className="hover:cursor-pointer">NYSC</p>
-              <p className="mt-[30px] mb-[30px] hover:cursor-pointer">AIESEC</p>
+              <p
+                className="hover:cursor-pointer"
+                onClick={() => {
+                  navigate(_paths_.NYSC_PAGE);
+                  setOpenNavBar(false);
+                }}
+              >
+                NYSC
+              </p>
+              <p
+                className="mt-[30px] mb-[30px] hover:cursor-pointer"
+                onClick={() => {
+                  navigate(_paths_.AIESEC_PAGE);
+                  setOpenNavBar(false);
+                }}
+              >
+                AIESEC
+              </p>
             </div>
           )}
         </div>
@@ -208,7 +224,13 @@ export const Header = () => {
         >
           Referral Code: {userInfo?.referral_code} <FaCopy className="ml-2" />
         </span>
-        <span onClick={() => logOutUser()}>Logout</span>
+        <span
+          onClick={() => {
+            logOutUser();
+          }}
+        >
+          Logout
+        </span>
       </div>
     );
   };
@@ -219,6 +241,7 @@ export const Header = () => {
           className="flex mb-8 mr-12 cursor-pointer"
           onClick={() => {
             navigate(_paths_.NYSC_PAGE);
+            setPartnerOpen(!partnerOpen);
           }}
         >
           NYSC
@@ -227,6 +250,7 @@ export const Header = () => {
           className="cursor-pointer"
           onClick={() => {
             navigate(_paths_.AIESEC_PAGE);
+            setPartnerOpen(!partnerOpen);
           }}
         >
           AIESEC{" "}
