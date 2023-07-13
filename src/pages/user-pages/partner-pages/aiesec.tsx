@@ -55,9 +55,33 @@ const AiesecPage = () => {
   const [from, setFrom] = useState<string>("");
   const [to, setTo] = useState<string>("");
   const [selectedTrip, setSelectedTrip] = useState<Trip_interface>();
+  const [useDrawer, setUseDrawer] = useState(false);
+  const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  useEffect(() => {
+    function handleResize() {
+      setScreenWidth(window.innerWidth);
+    }
+
+    if (screenWidth < 640) {
+      setUseDrawer(true);
+    } else {
+      setUseDrawer(false);
+    }
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, [screenWidth]);
+
+  const handleOk = () => {
+    setModalVisible(false);
+  };
 
   const loginValid = phone !== "" && phone.length === 10;
 
+ 
   const handleCancel = () => {
     setModalVisible(false);
     setFlip("");
@@ -500,7 +524,7 @@ const AiesecPage = () => {
           </Modal>
         )}
 
-        {flip === "howmanytickets" && modalVisible && (
+        {useDrawer && flip === "howmanytickets" && modalVisible && (
           <Drawer
             title={
               <div>
@@ -518,14 +542,13 @@ const AiesecPage = () => {
                   <div className="flex lg:w-4/5">
                     <div className="w-1/2 lg:w-1/3">
                       <h3 className="mr-8 text-lg md:text-base lg:h-20 lg:mr-0 text-primary-100">
-                        {/* {modalData?.travel_destination?.from?.start_busstop} */}
                         {selectedTrip?.travel_destination?.from?.state?.name}
                       </h3>
                     </div>
+
                     <BsArrowRight className="top-0 mt-1 mr-8 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
                     <div className="w-1/2 lg:w-1/3 ">
                       <h3 className="text-lg md:text-base lg:h-20 text-primary-100 ">
-                        {/* {modalData?.travel_destination?.to?.stop_busstop} */}
                         {selectedTrip?.travel_destination?.to?.state?.name}
                       </h3>
                     </div>
@@ -573,6 +596,81 @@ const AiesecPage = () => {
               }}
             />
           </Drawer>
+        )}
+
+        {!useDrawer && flip === "howmanytickets" && modalVisible && (
+          <Modal
+            title={
+              <div>
+                <div className="mt-8 text-lg font-medium boder-b">
+                  Number of Tickets
+                </div>
+                <div className="text-[#929292] font-light text-xs mt-1">
+                  {" "}
+                  Available Seats:{" "}
+                  {selectedTrip &&
+                    selectedTrip?.bus?.capacity -
+                      selectedTrip?.bookings?.length}
+                </div>
+                <div className="flex-row px-6 py-4 mt-6 text-center bg-black rounded-lg justify-evenly lg:flex lg:px-8">
+                  <div className="flex lg:w-4/5">
+                    <div className="w-1/2 lg:w-1/3">
+                      <h3 className="mr-8 text-lg md:text-base lg:mr-0 text-primary-100">
+                        {selectedTrip?.travel_destination?.from?.state?.name}
+                      </h3>
+                    </div>
+
+                    <BsArrowRight className="top-0 mt-1 lg:w-4 lg:mr-0 text-primary-100 md:top-2 left-10 md:left-10" />
+                    <div className="w-1/2 lg:w-1/3 ">
+                      <h3 className="text-lg md:text-base text-primary-100 ">
+                        {selectedTrip?.travel_destination?.to?.stop_busstop}
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            }
+            onOk={handleOk}
+            onCancel={handleCancel}
+            open={modalVisible}
+            centered={true}
+            footer={false}
+            closable={true}
+            //   width="240px"
+          >
+            <div className="flex items-center mt-6 justify-evenly">
+              <FaMinusCircle
+                size={32}
+                onClick={minusItem}
+                className="cursor-pointer"
+              />
+              <div className="w-full my-8 place-content-center">
+                <input
+                  type="number"
+                  value={value}
+                  onChange={handleChange}
+                  placeholder="0"
+                  className=" w-full text-center rounded-md focus:outline-none focus:shadow-outline-blue placeholder-black text-[28px]"
+                />
+              </div>
+              <FaPlusCircle
+                size={32}
+                onClick={addItem}
+                className="cursor-pointer"
+              />
+            </div>
+            <FraserButton
+              title="Continue"
+              size="regular"
+              className="w-full mt-8"
+              onClick={() => {
+                dispatch(
+                  addToMyBookinAction({ ...selectedTrip, no_of_ticket: value })
+                );
+                navigate("/checkout");
+              }}
+            />
+          </Modal>
         )}
       </div>
     </Layout>
