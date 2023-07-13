@@ -1,5 +1,5 @@
 import { CircularProgress } from "@mui/material";
-import { Alert, Input } from "antd";
+import { Alert, Input, Select, message } from "antd";
 import Modal from "antd/es/modal/Modal";
 import React, { useEffect } from "react";
 import { useState } from "react";
@@ -39,9 +39,11 @@ const BusStopManagement = () => {
 	const { states } = useAppSelector((state: any) => state?.allState);
 	const [modalVisible, setModalVisible] = useState<boolean>(false);
 	const [cityName, setCityName] = React.useState("");
+	const [forWhat, setForWhat] = React.useState("");
 	const [cityModalData, setCityModalData] = useState<State_interface>();
 	const [busStop, setBusStop] = useState<string>("");
 	const [deleteBusStop, setDeleteBusStop] = useState<deleteBusStopType>();
+	const [messageApi, contextHolder] = message.useMessage();
 
 	const handleOpenModal = (data: State_interface, flipValue: any) => {
 		setFlip(flipValue);
@@ -76,9 +78,19 @@ const BusStopManagement = () => {
 	}; // generate a random pattern
 
 	const createCity = () => {
+		if (!forWhat) {
+			messageApi.open({
+				type: "error",
+				content: "Select a for option"
+			});
+
+			return;
+		}
+
 		dispatch(
 			createStateAction({
-				name: cityName
+				name: cityName,
+				for: forWhat
 			})
 		);
 
@@ -111,6 +123,7 @@ const BusStopManagement = () => {
 
 	return (
 		<div className="pt-12 px-4 pb-12">
+			{contextHolder}
 			<h2 className="mb-4 pl-4 bg-white fixed border-b top-24 py-8 w-full text-xl font-medium">
 				Bus Stops{" "}
 			</h2>
@@ -169,6 +182,24 @@ const BusStopManagement = () => {
 								setCityName(e.target.value);
 							}}
 						/>
+					</div>
+
+					<div className="mt-2">
+						<div className="mb-2">
+							<label className="text-gray-500  ml-2">For</label>
+						</div>
+						<select
+							className="hover:border-green-500 focus:border-green-600 h-10 w-full border"
+							placeholder="State name"
+							value={forWhat}
+							onChange={(e) => {
+								setForWhat(e.target.value);
+							}}>
+							<option value={""}>Select For</option>
+							<option value={"REGULAR"}>Regular</option>
+							<option value={"NYSC"}>NYSC</option>
+							<option value={"AISEIC"}>AISEIC</option>
+						</select>
 					</div>
 					<br />
 

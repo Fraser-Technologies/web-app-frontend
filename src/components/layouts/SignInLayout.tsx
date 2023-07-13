@@ -21,7 +21,7 @@ const Layout = ({
 	title,
 	pageDescription,
 	pageKeywords,
-	showHeader = true,
+	showHeader = true
 }: Props) => {
 	return (
 		<div className="overflow-hidden h-full font-sans">
@@ -34,8 +34,6 @@ const Layout = ({
 			</Helmet>
 			<div className={`h-full ${bg}`}>
 				{showHeader && <Header />}
-				{/* <Header /> */}
-				{/* <div className="h-[70px]"></div> */}
 				<div className={`${childClass}`}>{children}</div>
 				<Footer />
 			</div>

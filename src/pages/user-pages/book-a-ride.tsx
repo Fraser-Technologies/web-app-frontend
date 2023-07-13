@@ -226,24 +226,26 @@ const BookRide = () => {
 								</label>
 								<Dropdown
 									menu={{
-										items: states?.map((state: State_interface) => {
-											return {
-												label: (
-													<a
-														href="#"
-														className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-														onClick={() => {
-															setStartCity(state?.name);
-															setStartBusStopList(state?.bus_stops);
-															// setStartCityIsOpen(false);
-															setFrom(state?.name);
-														}}>
-														{state?.name}
-													</a>
-												),
-												key: Math.random() * 2000
-											};
-										})
+										items: states
+											.filter((fil: State_interface) => fil?.for === "REGULAR")
+											?.map((state: State_interface) => {
+												return {
+													label: (
+														<a
+															href="#"
+															className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+															onClick={() => {
+																setStartCity(state?.name);
+																setStartBusStopList(state?.bus_stops);
+																// setStartCityIsOpen(false);
+																setFrom(state?.name);
+															}}>
+															{state?.name}
+														</a>
+													),
+													key: Math.random() * 2000
+												};
+											})
 									}}
 									trigger={["click"]}>
 									<button
@@ -316,23 +318,25 @@ const BookRide = () => {
 								<Dropdown
 									trigger={["click"]}
 									menu={{
-										items: states.map((state: State_interface) => {
-											return {
-												label: (
-													<a
-														href="#"
-														className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-														onClick={() => {
-															setDestinationBusStopList(state?.bus_stops);
-															setDestinationCity(state?.name);
-															setTo(state?.name);
-														}}>
-														{state?.name}
-													</a>
-												),
-												key: Math.random() * 2000
-											};
-										})
+										items: states
+											.filter((fil: State_interface) => fil?.for === "REGULAR")
+											.map((state: State_interface) => {
+												return {
+													label: (
+														<a
+															href="#"
+															className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+															onClick={() => {
+																setDestinationBusStopList(state?.bus_stops);
+																setDestinationCity(state?.name);
+																setTo(state?.name);
+															}}>
+															{state?.name}
+														</a>
+													),
+													key: Math.random() * 2000
+												};
+											})
 									}}>
 									<button
 										type="button"
