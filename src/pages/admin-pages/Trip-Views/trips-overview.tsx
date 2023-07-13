@@ -199,7 +199,7 @@ const TripsOverview: React.FC = () => {
           {/* <h2 className="text-xs font-medium ">Trips</h2> */}
           {/* {loading && <Spinner />} */}
           <FraserButton
-		//   className="w-full"
+            //   className="w-full"
             title="+ Create new trip"
             type="submit"
             size="regular"
@@ -508,8 +508,8 @@ const TripsOverview: React.FC = () => {
           </div>
 
           <FraserButton
-		  buttonType="tertiary"
-		  className="w-full"
+            buttonType="tertiary"
+            className="w-full"
             title="Close"
             type="submit"
             size="regular"
@@ -589,7 +589,7 @@ const TripsOverview: React.FC = () => {
             </div>
           </div>
           <FraserButton
-		  className="w-full"
+            className="w-full"
             title="Edit"
             type="submit"
             size="regular"
@@ -598,7 +598,7 @@ const TripsOverview: React.FC = () => {
             }}
           />
           <FraserButton
-		  className="w-full"
+            className="w-full"
             title="Delete"
             type="submit"
             size="regular"
@@ -818,7 +818,6 @@ const TripsOverview: React.FC = () => {
           </div>
 
           <div className=" mt-8">
-		  
             <FraserButton
               className="mr-2 w-full"
               title={`Delete`}
@@ -831,8 +830,8 @@ const TripsOverview: React.FC = () => {
                 setFlip(TripOption.NONE);
               }}
             />
-			<FraserButton
-		  buttonType="tertiary"
+            <FraserButton
+              buttonType="tertiary"
               className="w-full"
               title="Close"
               type="submit"
@@ -841,7 +840,6 @@ const TripsOverview: React.FC = () => {
                 setFlip(TripOption.INFO);
               }}
             />
-            
           </div>
         </Modal>
       )}
@@ -864,7 +862,7 @@ const TripsOverview: React.FC = () => {
           </div>
 
           <FraserButton
-		  className="w-full"
+            className="w-full"
             title="View"
             type="submit"
             size="regular"
@@ -874,7 +872,7 @@ const TripsOverview: React.FC = () => {
             }}
           />
           <FraserButton
-		  className="w-full"
+            className="w-full"
             title="Close"
             type="submit"
             size="regular"

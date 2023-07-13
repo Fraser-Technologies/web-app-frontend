@@ -198,7 +198,7 @@ const BusStopManagement = () => {
 							<option value={""}>Select For</option>
 							<option value={"REGULAR"}>Regular</option>
 							<option value={"NYSC"}>NYSC</option>
-							<option value={"AISEIC"}>AISEIC</option>
+							<option value={"AIESEC"}>AIESEC</option>
 						</select>
 					</div>
 					<br />
