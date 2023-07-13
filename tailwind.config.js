@@ -15,7 +15,7 @@ module.exports = {
 
 				"landing-page":
 					"url('https://res.cloudinary.com/du2jabqay/image/upload/v1666715036/app%20images/website%20images/shutterstock_1791760502_1fraser-landing_page_oolsgb.png')",
-				heroImage: "url('/public/assets/images/bg.png')",
+				
 				withFriends:
 					"url('/public/assets/withfriends.051522d885873700dacd.png')",
 			},

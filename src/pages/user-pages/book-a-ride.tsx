@@ -167,22 +167,22 @@ const BookRide = () => {
     >
       {contextHolder}
 
-      <div className="bg-white">
+      <div className="bg-black">
         <div
-          className="flex flex-col items-center md:max-w-[1080px] mx-4 pt-56 md:mx-auto md:pt-72 pb-24 md:pb-32 bg-cover bg-no-repeat bg-center"
-          style={{ backgroundImage: `url(../assets/images/Thumbnails.svg)` }}
+          className="flex flex-col md:items-center md:w-1/2 mx-4 pt-32 md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center"
+          // style={{ backgroundImage: `url(../assets/images/Thumbnails.svg)` }}
         >
-          <h1 className="text-grey-700 leading-tight text-[1.8rem] md:text-[3rem] font-medium">
+          <h1 className="text-gray-100 leading-tight text-[1.8rem] md:text-[3rem] font-medium">
             Interstate Bus Trips
           </h1>
 
-          <div className="w-full px-4 pt-4 pb-6 mt-6 md:mt-12 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8 shadow-md border border-gray-300">
+          <div className="w-full pt-6 pb-6 px-5 mt-6 md:mt-12 md:p-8 bg-white rounded-lg  shadow-sm border border-gray-200">
             <div className="md:flex">
-              <div className="relative w-full mr-4 md:-mr-2 text-left duration-300 ease-in-out lg:mb-0 ">
-                <div className="relative flex mt-2">
+              <div className="relative w-full mr-4 md:-mr-3 mb-3 text-left duration-300 ease-in-out ">
+                <div className="relative flex">
                   <input
                     type="text"
-                    className="inline-flex items-center mt-2 md:mt-0 w-full h-14 pl-12 pr-4 py-4 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    className="inline-flex items-center w-full h-12 pl-12 pr-4 mb-2 md:mb-0 leading-5 text-gray-700 bg-white border border-gray-300 rounded-md justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
                     placeholder="Where From?"
                     onClick={() => setStartStateIsOpen(!startStateIsOpen)}
                     onChange={(e) => {
@@ -195,7 +195,7 @@ const BookRide = () => {
                     height="16"
                     viewBox="0 0 24 24"
                     focusable="false"
-                    className=" h-full absolute ml-4 md:-mt-1 text-gray-600"
+                    className=" h-full absolute ml-4 pb-2 md:pb-0 text-gray-600"
                   >
                     <path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z"></path>
                   </svg>
@@ -233,7 +233,7 @@ const BookRide = () => {
                   </div>
                 )}
               </div>
-              <div className="absolute md:relative -mt-4 md:mt-4 ml-2 md:ml-0 bg-white h-6 w-6 z-10 p-4 rounded-[24px] border border-gray-300">
+              <div className="absolute md:relative -mt-7 md:mt-2 ml-2 md:ml-0 bg-white h-6 w-6 z-10 p-4 rounded-[24px] border border-gray-300">
                 <svg
                   width="18"
                   height="18"
@@ -244,11 +244,11 @@ const BookRide = () => {
                   <path d="M17 4l-1.41 1.41L18.17 8H11v2h7.17l-2.58 2.59L17 14l5-5-5-5zM7 20l1.41-1.41L5.83 16H13v-2H5.83l2.58-2.59L7 10l-5 5 5 5z"></path>
                 </svg>
               </div>
-              <div className="relative w-full mb-2 mr-4 md:-ml-2 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
+              <div className="relative w-full mb-2 mr-4 md:-ml-3 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
                 <div className="relative flex">
                   <input
                     type="text"
-                    className="inline-flex items-center mt-2 w-full h-14 pl-12 pr-4 py-4 mb-2 leading-5 text-gray-700 bg-white border border-gray-300 rounded-[4px] justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                    className="inline-flex items-center w-full h-[52px] pl-12 pr-4 mb-2 md:mb-0 leading-5 text-gray-700 bg-white border border-gray-300 rounded-md justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
                     placeholder="Where to?"
                     onClick={() =>
                       setDestinationStateIsOpen(!destinationStateIsOpen)
@@ -263,7 +263,7 @@ const BookRide = () => {
                     height="24"
                     viewBox="0 0 24 24"
                     focusable="false"
-                    className=" h-full absolute ml-4 text-gray-600"
+                    className=" h-full absolute ml-4 pb-2 md:pb-0 text-gray-600"
                   >
                     <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
                     <circle cx="12" cy="9" r="2.5"></circle>
@@ -307,7 +307,7 @@ const BookRide = () => {
               <FraserButton
                 title="Search"
                 size="regular"
-                className="h-14 md:h-[60px] w-full mt-4"
+                className=" w-full md:w-content"
                 // active={TripValid}
                 onClick={() => {
                   // if (TripValid) {
@@ -318,6 +318,80 @@ const BookRide = () => {
                   // }
                 }}
               />
+            </div>
+          </div>
+        </div>
+      </div>
+      <div className="w-full pt-8 pb-14 bg-white px-4 ">
+        <div className="md:w-1/2  mx-auto">
+          <h3 className="text-gray-500 text-[16px] font-medium">
+            Partner Trips
+          </h3>
+          <div className="md:flex mt-4">
+            {/*  */}
+            <div
+              className="cursor-pointer w-full md:mr-6 mb-4 md:mb-0 flex rounded-lg border border-gray-300 items-center pr-8"
+              onClick={() => navigate(_paths_.AIESEC_PAGE)}
+            >
+              <div
+                className="bg-cover bg-no-repeat bg-center h-24 md:h-28 w-32 md:w-40 rounded-l-md"
+                style={{
+                  backgroundImage: `url(../assets/images/aiesec.png)`,
+                }}
+              ></div>
+              <div className="p-4">
+                <div className="text-gray-700 text-[18px] md:text-[24px] font-semibold">
+                  AIESEC
+                </div>
+                <div className="flex items-center">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    focusable="false"
+                    // className=" h-full absolute ml-4 text-gray-600"
+                  >
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
+                    <circle cx="12" cy="9" r="2.5"></circle>
+                  </svg>
+                  <div className="ml-2 text-[14px] md:text-[16px] text-gray-500">
+                    Conference Trip
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            {/*  */}
+            <div
+              className="w-full flex rounded-lg border border-gray-300 items-center"
+              onClick={() => navigate(_paths_.NYSC_PAGE)}
+            >
+              <div
+                className="bg-cover bg-no-repeat bg-center h-24 md:h-28 w-32 md:w-40 rounded-l-md"
+                style={{
+                  backgroundImage: `url(../assets/images/nysc.jpg)`,
+                }}
+              ></div>
+              <div className="p-4">
+                <div className="text-gray-700 text-[18px] md:text-[24px] font-semibold">
+                  NYSC
+                </div>
+                <div className="flex items-center">
+                  <svg
+                    width="18"
+                    height="18"
+                    viewBox="0 0 24 24"
+                    focusable="false"
+                    // className=" h-full absolute ml-4 text-gray-600"
+                  >
+                    <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
+                    <circle cx="12" cy="9" r="2.5"></circle>
+                  </svg>
+                  <div className="ml-2 text-[14px] md:text-[16px] text-gray-500">
+                    Camp Trips
+                  </div>
+                </div>
+              </div>
             </div>
           </div>
         </div>
@@ -358,7 +432,7 @@ const BookRide = () => {
           <div>
             <div className="pt-8 mt-3 mb-3">
               <Input
-                className="w-full h-12 hover:border-green-500 active:border-green-600"
+                className="w-full h-[52px] hover:border-green-500 active:border-green-600"
                 placeholder="903 123 1234"
                 value={phone}
                 prefix={"+234"}
