@@ -23,7 +23,7 @@ const Offeringcard = ({
           alt=""
           className="h-[30px] w-[30px]"
         />
-        <h3 className="mt-4 text-[1.5rem] md:text-[2rem] font-medium text-[#353535]">
+        <h3 className="mt-4 text-[1.3rem] md:text-[2rem] font-medium text-[#353535]">
           {title}
         </h3>
         <p className={` ${subtitleClassname} text-[0.9rem] mt-2`}>{subtitle}</p>

@@ -22,7 +22,7 @@ import { addToMyBookinAction } from "../../../state/action/booking.action";
 import { State_interface } from "../../../interfaces/state_interface";
 import { getAllStateAction } from "../../../state/action/state.action";
 
-const AiesecPage = () => {
+const NyscPage = () => {
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
   const { states } = useAppSelector((state: any) => state.allState);
@@ -159,13 +159,13 @@ const AiesecPage = () => {
     >
       <div className="bg-black h-screen w-full text-white px-[28px] md:px-[64px]">
         {contextHolder}
-        <div className="w-3/5 md:w-2/5 leading-[1.2] pt-24 md:pt-40 text-[1.5rem] md:text-[4rem] font-medium tracking-tight">
-          Let's get you to NC Ibadan
+        <div className="w-3/4 md:w-2/5 leading-[1.2] pt-24 md:pt-40 text-[1.5rem] md:text-[4rem] font-medium tracking-tight">
+          Get the best deals to NYSC camp
         </div>
 
-        <div className="w-full bg-white p-4 md:p-8  mt-12 rounded-md text-black">
+        <div className="w-full bg-white p-4 md:p-8 mt-12 rounded-md text-black">
           <div className="leading-snug text-[18px] font-medium mb-6">
-            Where are you coming from? {loading && <Spin />}
+            Where were you posted? {loading && <Spin />}
           </div>
           <div className={`${stateFilter !== "" && "mb-8"} md:flex`}>
             <div className="relative z-30 w-full text-left duration-300 ease-in-out lg:mb-0 mr-4">
@@ -193,15 +193,10 @@ const AiesecPage = () => {
                 >
                   {states
                     ?.filter((e: any) =>
-                      e?.name
-                        .toLowerCase()
-                        .includes(
-                          stateFilter.toLowerCase() &&
-                            !e?.state?.includes("Conference")
-                        )
+                      e.name.toLowerCase().includes(stateFilter.toLowerCase())
                     )
                     .sort((a: State_interface, b: State_interface) =>
-                      a?.name.localeCompare(b?.name)
+                      a.name.localeCompare(b.name)
                     )
                     .map((state: State_interface) => {
                       return (
@@ -211,8 +206,8 @@ const AiesecPage = () => {
                           className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                           onClick={() => {
                             setStateFilter(state?.name);
-                            setTo("Conference");
-                            setFrom(state?.name);
+                            setFrom("Oyo");
+                            setTo(state?.name);
                             setisOpen(!isOpen);
                             console.log(from);
                             console.log(to);
@@ -234,11 +229,11 @@ const AiesecPage = () => {
             />
           </div>
 
-          {availableTripData.length === 0 && from !== "" && (
+          {availableTripData.length === 0 && to !== "" && (
             <div>
               <Alert
                 type="info"
-                message="Sorry there are no available trips from the location selected"
+                message="Sorry there are no available trips to the destination selected"
               />
               <p className="mt-4 text-[14px] text-gray-500">
                 Request a route or
@@ -251,7 +246,7 @@ const AiesecPage = () => {
           {availableTripData?.map((trip: Trip_interface) => {
             return (
               <div>
-                {trip?.type_of_trip === "AIESEC" && (
+                {trip?.type_of_trip === "NYSC" && (
                   <BookingCard
                     typeOfTrip={trip?.type_of_trip}
                     key={trip?._id}
@@ -575,4 +570,4 @@ const AiesecPage = () => {
   );
 };
 
-export default AiesecPage;
+export default NyscPage;

@@ -35,7 +35,7 @@ export const FraserButton = ({
       className={`
 	  ${className}
 	  ${size === "large" && "px-8 h-[56px]"} 
-	  ${size === "regular" && "px-6 h-[48px]"} 
+	  ${size === "regular" && "px-6 h-[52px]"} 
 	  ${size === "small" && "px-3 h-[36px]"} 
 	  
 	  ${

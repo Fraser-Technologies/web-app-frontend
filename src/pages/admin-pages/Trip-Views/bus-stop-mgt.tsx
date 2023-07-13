@@ -99,17 +99,17 @@ const BusStopManagement = () => {
 		setCityName("");
 	};
 
-	useEffect(() => {
-		if (state?._id) {
-			dispatch(getAllStateAction());
-		}
-	}, [state, dispatch]);
+	// useEffect(() => {
+	// 	if (state?._id) {
+	// 		dispatch(getAllStateAction());
+	// 	}
+	// }, [state, dispatch]);
 
-	useEffect(() => {
-		if (addBusStopToCity?._id || deletedState?._id) {
-			dispatch(getAllStateAction());
-		}
-	}, [addBusStopToCity?._id, deletedState?._id, dispatch]);
+	// useEffect(() => {
+	// 	if (addBusStopToCity?._id || deletedState?._id) {
+	// 		dispatch(getAllStateAction());
+	// 	}
+	// }, [addBusStopToCity?._id, deletedState?._id, dispatch]);
 
 	useEffect(() => {
 		if (states) {
@@ -268,6 +268,7 @@ const BusStopManagement = () => {
 							} `}
 							onClick={() => {
 								setFlip("createBusStop");
+								dispatch(getAllStateAction());
 							}}>
 							Add new stop
 						</button>
@@ -276,9 +277,9 @@ const BusStopManagement = () => {
 								true ? " hover:text-[#C81027]" : "bg-[#f5f5f5]"
 							} `}
 							onClick={() => {
-								// setFlip("createBusStop");
-								//LEKAN WE'LL NEED TO FIX THIS
-								dispatch(deleteState(cityModalData?._id || ""));
+								dispatch(deleteState(cityModalData?._id || "")).finally(
+									dispatch(getAllStateAction())
+								);
 								setFlip("");
 							}}>
 							Delete State
@@ -307,28 +308,33 @@ const BusStopManagement = () => {
 						</div>
 					</div>
 
-					<FraserButton
-						title="Delete"
-						type="submit"
-						size="regular"
-						onClick={() => {
-							dispatch(
-								removeBusStopToStateAction(
-									deleteBusStop?.id || "",
-									deleteBusStop?.busstop || ""
-								)
-							);
-							setModalVisible(false);
-						}}
-					/>
-					<FraserButton
-						title="Cancel"
-						type="submit"
-						size="regular"
-						onClick={() => {
-							setFlip("info");
-						}}
-					/>
+					<div className="mt-8">
+						<FraserButton
+							className="w-full"
+							title="Delete"
+							type="submit"
+							size="regular"
+							onClick={() => {
+								dispatch(
+									removeBusStopToStateAction(
+										deleteBusStop?.id || "",
+										deleteBusStop?.busstop || ""
+									)
+								).finally(dispatch(getAllStateAction()));
+								setModalVisible(false);
+							}}
+						/>
+						<FraserButton
+							className="w-full"
+							buttonType="tertiary"
+							title="Cancel"
+							type="submit"
+							size="regular"
+							onClick={() => {
+								setFlip("info");
+							}}
+						/>
+					</div>
 				</Modal>
 			)}
 
@@ -349,11 +355,13 @@ const BusStopManagement = () => {
 					</div>
 
 					<FraserButton
+						className="w-full"
 						title="Close"
 						type="submit"
 						size="regular"
 						onClick={() => {
 							setModalVisible(false);
+							dispatch(getAllStateAction());
 						}}
 					/>
 				</Modal>
@@ -395,6 +403,7 @@ const BusStopManagement = () => {
 					</div>
 
 					<FraserButton
+						className="w-full"
 						title="Okay"
 						type="submit"
 						size="regular"
@@ -402,7 +411,7 @@ const BusStopManagement = () => {
 							if (busStop) {
 								dispatch(
 									addBusStopToStateAction(cityModalData?._id || "", busStop)
-								);
+								).finally(dispatch(getAllStateAction()));
 								setFlip("city");
 								setCityName("");
 								setBusStop("");

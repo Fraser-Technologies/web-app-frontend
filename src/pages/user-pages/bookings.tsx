@@ -545,81 +545,80 @@ const Bookings = () => {
 							<div className="mx-4 lg:mx-0 ">
 								{/* HEADER */}
 
-								<div className="w-full px-8 py-4 pb-24 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
-									{availableTripLoading && (
-										<div className="flex px-6 py-2 mb-8 space-x-4 animate-pulse">
-											<div className="flex-1 py-1 space-y-6">
-												<div className="h-2 rounded bg-slate-200"></div>
-												<div className="space-y-3">
-													<div className="grid grid-cols-3 gap-4">
-														<div className="h-2 col-span-2 rounded bg-slate-200"></div>
-														<div className="h-2 col-span-1 rounded bg-slate-200"></div>
-													</div>
-													<div className="h-2 rounded bg-slate-200"></div>
-												</div>
-											</div>
-										</div>
-									)}{" "}
-									{!availableTripLoading && availableTripData?.length === 0 && (
-										<div>
-											<Alert
-												type="info"
-												message="Sorry there are no available trips to the destination selected"
-											/>
-											<p className="mt-4 text-[14px] text-gray-500">
-												Request a route or
-												<a href={`tel:09076736877`}>
-													<span className="text-blue-500"> contact us</span>
-												</a>
-											</p>
-										</div>
-									)}
-									{!availableTripLoading &&
-										availableTripData?.map((trip: Trip_interface) => {
-											return (
-												<div>
-													<BookingCard
-														key={trip?._id}
-														from={trip?.travel_destination?.from?.state?.name}
-														to={trip?.travel_destination?.to?.state?.name}
-														fromBusStop={
-															trip?.travel_destination?.from?.start_busstop
-														}
-														toBusStop={
-															trip?.travel_destination?.to?.stop_busstop
-														}
-														takeOffTime={trip?.take_off_time}
-														takeOffDate={trip?.take_off_date}
-														price={trip?.price}
-														arrivalTime={trip?.arrival_time}
-														arrivalDate={trip?.arrival_date}
-														onClick={() => {
-															handleOpenModal(trip, "howmanytickets");
-														}}
-													/>
-													<p className="mt-4 text-[14px] text-gray-500">
-														Request a route or
-														<a href={`tel:09076736877`}>
-															<span className="text-blue-500"> contact us</span>
-														</a>
-													</p>
-												</div>
-											);
-										})}
-									{!availableTripLoading && availableTripError && (
-										<Alert
-											message="An error occured"
-											description={availableTripError}
-											type="error"
-											showIcon
-										/>
-									)}
-								</div>
-							</div>
-						</div>
-					</div>
-				</div>
-			</div>
+                <div className="w-full px-8 py-4 pb-24 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
+                  {availableTripLoading && (
+                    <div className="flex px-6 py-2 mb-8 space-x-4 animate-pulse">
+                      <div className="flex-1 py-1 space-y-6">
+                        <div className="h-2 rounded bg-slate-200"></div>
+                        <div className="space-y-3">
+                          <div className="grid grid-cols-3 gap-4">
+                            <div className="h-2 col-span-2 rounded bg-slate-200"></div>
+                            <div className="h-2 col-span-1 rounded bg-slate-200"></div>
+                          </div>
+                          <div className="h-2 rounded bg-slate-200"></div>
+                        </div>
+                      </div>
+                    </div>
+                  )}{" "}
+                  {!availableTripLoading && availableTripData?.length === 0 && (
+                    <div>
+                      <Alert
+                        type="info"
+                        message="Sorry there are no available trips to the destination selected"
+                      />
+                     
+                    </div>
+                  )}
+                  {!availableTripLoading &&
+                    availableTripData?.map((trip: Trip_interface) => {
+                      return (
+                        <div>
+                          {/* {trip?.type_of_trip === "NORMAL" && ( */}
+                            <BookingCard
+                              key={trip?._id}
+                              from={
+                                trip?.travel_destination?.from?.state?.name
+                              }
+                              to={trip?.travel_destination?.to?.state.name}
+                              fromBusStop={
+                                trip?.travel_destination?.from?.start_busstop
+                              }
+                              toBusStop={
+                                trip?.travel_destination?.to?.stop_busstop
+                              }
+                              takeOffTime={trip?.take_off_time}
+                              takeOffDate={trip?.take_off_date}
+                              price={trip?.price}
+                              arrivalTime={trip?.arrival_time}
+                              arrivalDate={trip?.arrival_date}
+                              onClick={() => {
+                                handleOpenModal(trip, "howmanytickets");
+                              }}
+                            />
+                          {/* )} */}
+                        </div>
+                      );
+                    })}
+                  <p className="mt-4 text-[14px] text-gray-500">
+                    Request a route or
+                    <a href={`tel:09076736877`}>
+                      <span className="text-blue-500"> contact us</span>
+                    </a>
+                  </p>
+                  {!availableTripLoading && availableTripError && (
+                    <Alert
+                      message="An error occured"
+                      description={availableTripError}
+                      type="error"
+                      showIcon
+                    />
+                  )}
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
 
 			{useDrawer && flip === "howmanytickets" && modalVisible && (
 				<Drawer
