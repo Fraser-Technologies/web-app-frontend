@@ -110,8 +110,7 @@ const BookRide = () => {
 
   const TripValid =
     startState !== TripValidOption.startStateOption &&
-    destinationBusStop !== TripValidOption.destinationBusStopOption &&
-    startBusStop !== TripValidOption.startBusStopOption;
+    destinationState !== TripValidOption.destinationStateOption;
 
   const loginValid = phone !== "" && phone.length === 10;
 
@@ -166,39 +165,38 @@ const BookRide = () => {
       pageKeywords="interState bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
     >
       {contextHolder}
-      
 
       <div className="bg-black">
-      <div className="absolute top-32  right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
-            <img
-              src="/assets/images/paper-airplane.png"
-              className=" h-4 filter hue-rotate-90"
-              alt=""
-            />
-          </div>
-
-          <div className="absolute md:top-96 md:-left-8 bg-[#00FF6A] rounded-[100px] p-4">
-            <img
-              src="/assets/images/idea-bulb.png"
-              className=" h-8 filter brightness-75"
-              alt=""
-            />
-          </div>
-
-          <div className="hidden md:block absolute top-12 md:top-56 lg:top-56 -right-0 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
-            {" "}
-            <img
-              src="/assets/images/bus.png"
-              className=" h-8 filter brightness-75"
-              alt=""
-            />
-          </div>
+        <div className="absolute top-32  right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
           <img
-            src="/assets/images/bg-overlay-white.png"
-            className="md:absolute left-32 h-3/4 opacity-10 overflow-hidden"
+            src="/assets/images/paper-airplane.png"
+            className=" h-4 filter hue-rotate-90"
             alt=""
           />
-        
+        </div>
+
+        <div className="absolute md:top-96 md:-left-8 bg-[#00FF6A] rounded-[100px] p-4">
+          <img
+            src="/assets/images/idea-bulb.png"
+            className=" h-8 filter brightness-75"
+            alt=""
+          />
+        </div>
+
+        <div className="hidden md:block absolute top-12 md:top-56 lg:top-56 -right-0 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
+          {" "}
+          <img
+            src="/assets/images/bus.png"
+            className=" h-8 filter brightness-75"
+            alt=""
+          />
+        </div>
+        <img
+          src="/assets/images/bg-overlay-white.png"
+          className="md:absolute left-32 h-3/4 opacity-10 overflow-hidden"
+          alt=""
+        />
+
         <div
           className="flex flex-col md:items-center md:w-1/2 mx-4  md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center"
           // style={{ backgroundImage: `url(../assets/images/bg-overlay-white.png)` }}
@@ -207,7 +205,7 @@ const BookRide = () => {
             Interstate Bus Trips
           </h1>
 
-          <div className="w-full pt-6 pb-6 px-5 mt-6 md:mt-12 md:p-8 bg-white rounded-lg  shadow-sm border border-gray-200">
+          <div className="z-10 w-full pt-6 pb-6 px-5 mt-6 md:mt-12 md:p-8 bg-white rounded-lg  shadow-sm border border-gray-200">
             <div className="md:flex">
               <div className="relative w-full mr-4 md:-mr-3 mb-3 text-left duration-300 ease-in-out ">
                 <div className="relative flex">
@@ -245,20 +243,24 @@ const BookRide = () => {
                       )
                       .map((state: State_interface) => {
                         return (
-                          <a
-                            href="#"
-                            className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                            onClick={() => {
-                              setStartStateFilter(state?.name);
-                              setStartState(state?.name);
-                              setStartBusStopList(state?.bus_stops);
-                              setStartStateIsOpen(false);
-                              setFrom(state?.name);
-                              setStartStateIsOpen(!startStateIsOpen);
-                            }}
-                          >
-                            {state?.name}
-                          </a>
+                          <div>
+                            {state?.for === "REGULAR" && (
+                              <a
+                                href="#"
+                                className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                onClick={() => {
+                                  setStartStateFilter(state?.name);
+                                  setStartState(state?.name);
+                                  setStartBusStopList(state?.bus_stops);
+                                  setStartStateIsOpen(false);
+                                  setFrom(state?.name);
+                                  setStartStateIsOpen(!startStateIsOpen);
+                                }}
+                              >
+                                {state?.name}
+                              </a>
+                            )}
+                          </div>
                         );
                       })}
                   </div>
@@ -339,14 +341,14 @@ const BookRide = () => {
                 title="Search"
                 size="regular"
                 className=" w-full md:w-content cursor-pointer"
-                // active={TripValid}
+                active={TripValid}
                 onClick={() => {
-                  // if (TripValid) {
-                  if (!userInfo?._id) {
-                    return setFlip("signin");
+                  if (TripValid) {
+                    if (!userInfo?._id) {
+                      return setFlip("signin");
+                    }
+                    handleAvailableTrips();
                   }
-                  handleAvailableTrips();
-                  // }
                 }}
               />
             </div>

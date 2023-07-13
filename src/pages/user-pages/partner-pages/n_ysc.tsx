@@ -200,21 +200,25 @@ const NyscPage = () => {
                     )
                     .map((state: State_interface) => {
                       return (
-                        <a
-                          key={state?._id}
-                          href="#"
-                          className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                          onClick={() => {
-                            setStateFilter(state?.name);
-                            setFrom("Oyo");
-                            setTo(state?.name);
-                            setisOpen(!isOpen);
-                            console.log(from);
-                            console.log(to);
-                          }}
-                        >
-                          {state?.name}
-                        </a>
+                        <div>
+                          {state?.for === "NYSC" && (
+                            <a
+                              key={state?._id}
+                              href="#"
+                              className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                              onClick={() => {
+                                setStateFilter(state?.name);
+                                setFrom("Oyo");
+                                setTo(state?.name);
+                                setisOpen(!isOpen);
+                                console.log(from);
+                                console.log(to);
+                              }}
+                            >
+                              {state?.name}
+                            </a>
+                          )}
+                        </div>
                       );
                     })}
                 </div>
