@@ -166,11 +166,42 @@ const BookRide = () => {
       pageKeywords="interState bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser"
     >
       {contextHolder}
+      
 
       <div className="bg-black">
+      <div className="absolute top-32  right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
+            <img
+              src="/assets/images/paper-airplane.png"
+              className=" h-4 filter hue-rotate-90"
+              alt=""
+            />
+          </div>
+
+          <div className="absolute md:top-96 md:-left-8 bg-[#00FF6A] rounded-[100px] p-4">
+            <img
+              src="/assets/images/idea-bulb.png"
+              className=" h-8 filter brightness-75"
+              alt=""
+            />
+          </div>
+
+          <div className="hidden md:block absolute top-12 md:top-56 lg:top-56 -right-0 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
+            {" "}
+            <img
+              src="/assets/images/bus.png"
+              className=" h-8 filter brightness-75"
+              alt=""
+            />
+          </div>
+          <img
+            src="/assets/images/bg-overlay-white.png"
+            className="md:absolute left-32 h-3/4 opacity-10 overflow-hidden"
+            alt=""
+          />
+        
         <div
-          className="flex flex-col md:items-center md:w-1/2 mx-4 pt-32 md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center"
-          // style={{ backgroundImage: `url(../assets/images/Thumbnails.svg)` }}
+          className="flex flex-col md:items-center md:w-1/2 mx-4  md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center"
+          // style={{ backgroundImage: `url(../assets/images/bg-overlay-white.png)` }}
         >
           <h1 className="text-gray-100 leading-tight text-[1.8rem] md:text-[3rem] font-medium">
             Interstate Bus Trips
