@@ -12,10 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../state/redux-store";
 import { Trip_interface } from "../../../interfaces/trip_interface";
-import {
-	getAvailableNYSCTripAction,
-	getAvailableTripAction
-} from "../../../state/action/trip.action";
+import { getAvailableNYSCTripAction } from "../../../state/action/trip.action";
 import {
 	registerUserAction,
 	userLoginAction
