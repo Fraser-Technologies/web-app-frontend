@@ -1,1 +1,1 @@
-export default ["NORMAL", "NYSC", "AIESEC"];
+export default ["REGULAR", "NYSC", "AIESEC"];

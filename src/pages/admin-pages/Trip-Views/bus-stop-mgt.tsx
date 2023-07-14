@@ -19,6 +19,7 @@ import { FraserButton } from "../../../components/Button";
 import LoadingWheel from "../../../components/loading-svg";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../state/redux-store";
+import TripTypes from "../../../utils/allTripType";
 
 const BusStopManagement = () => {
 	const [flip, setFlip] = useState("");
@@ -99,17 +100,17 @@ const BusStopManagement = () => {
 		setCityName("");
 	};
 
-	// useEffect(() => {
-	// 	if (state?._id) {
-	// 		dispatch(getAllStateAction());
-	// 	}
-	// }, [state, dispatch]);
+	useEffect(() => {
+		if (state?._id) {
+			dispatch(getAllStateAction());
+		}
+	}, [state, dispatch]);
 
-	// useEffect(() => {
-	// 	if (addBusStopToCity?._id || deletedState?._id) {
-	// 		dispatch(getAllStateAction());
-	// 	}
-	// }, [addBusStopToCity?._id, deletedState?._id, dispatch]);
+	useEffect(() => {
+		if (addBusStopToCity?._id || deletedState?._id) {
+			dispatch(getAllStateAction());
+		}
+	}, [addBusStopToCity?._id, deletedState?._id, dispatch]);
 
 	useEffect(() => {
 		if (states) {
@@ -196,9 +197,14 @@ const BusStopManagement = () => {
 								setForWhat(e.target.value);
 							}}>
 							<option value={""}>Select For</option>
+
+							{TripTypes?.map((tripType: String) => {
+								return <option value={`${tripType}`}>{tripType}</option>;
+							})}
+							{/* <option value={""}>Select For</option>
 							<option value={"REGULAR"}>Regular</option>
 							<option value={"NYSC"}>NYSC</option>
-							<option value={"AISEIC"}>AISEIC</option>
+							<option value={"AISEIC"}>AISEIC</option> */}
 						</select>
 					</div>
 					<br />

@@ -13,7 +13,6 @@ import { resetCreateTrip } from "../../state/slices/trip.slice";
 import { User_interface } from "../../interfaces/user.interface";
 import { FraserButton } from "../Button";
 import TripTypes from "../../utils/allTripType";
-import AllState from "../../utils/allState";
 
 // FORM TO CREATE A TRIP
 const CreateTripFormComponent = () => {
