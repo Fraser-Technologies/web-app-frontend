@@ -153,7 +153,7 @@ const BusStopManagement = () => {
 								handleOpenModal(city, "city");
 								setCityModalData(city);
 							}}>
-							<div className="text-xs">{city?.name}</div>
+							<div className="text-xs">{`${city?.name}   -   ${city?.for}`}</div>
 							<div className="">{city?.bus_stops?.length}</div>
 						</div>
 					);
@@ -201,10 +201,6 @@ const BusStopManagement = () => {
 							{TripTypes?.map((tripType: String) => {
 								return <option value={`${tripType}`}>{tripType}</option>;
 							})}
-							{/* <option value={""}>Select For</option>
-							<option value={"REGULAR"}>Regular</option>
-							<option value={"NYSC"}>NYSC</option>
-							<option value={"AISEIC"}>AISEIC</option> */}
 						</select>
 					</div>
 					<br />

@@ -11,14 +11,10 @@ import {
 	userLoginAction
 } from "../../state/action/user.action";
 import { getAvailableTripAction } from "../../state/action/trip.action";
-import { FaCaretDown } from "react-icons/fa";
 import { State_interface } from "../../interfaces/state_interface";
 import { getAllStateAction } from "../../state/action/state.action";
 import { RootState } from "../../state/redux-store";
 import { FraserButton } from "../../components/Button";
-import Offeringcard from "../../components/offeringcard";
-import StepComp from "../../components/StepComp";
-import Accordion from "../../components/Accordion";
 import { _paths_ } from "../../utils/routes";
 import Footer from "../../components/footer";
 import allState from "../../utils/allState";
@@ -26,8 +22,8 @@ import { MdOutlineCancel } from "react-icons/md";
 
 const BookRide = () => {
 	enum TripValidOption {
-		startCityOption = "Current City",
-		destinationCityOption = "Where to?",
+		startStateOption = "Current State",
+		destinationStateOption = "Where to?",
 		destinationBusStopOption = "Station",
 		startBusStopOption = "Station"
 	}
@@ -58,33 +54,23 @@ const BookRide = () => {
 	const [to, setTo] = useState<string>("");
 	const [homeState, setHomeState] = useState<string>("");
 	const [messageApi, contextHolder] = message.useMessage();
-	const [startBusStopIsOpen, setStartBusStopIsOpen] = useState(false);
-	const [destinationCityIsOpen, setDestinationCityIsOpen] = useState(false);
-	const [destinationBusStopIsOpen, setDestinationBusStopIsOpen] =
-		useState(false);
 	const [startBusStopList, setStartBusStopList] = useState<string[]>([]);
 	const [desinationBusStopList, setDestinationBusStopList] = useState<string[]>(
 		[]
 	);
+	const [startStateFilter, setStartStateFilter] = useState("");
+	const [destinationStateFilter, setDestinationStateFilter] = useState("");
 
-	const [startCity, setStartCity] = useState<string>(
-		TripValidOption.startCityOption || ""
+	const [startState, setStartState] = useState<string>(
+		TripValidOption.startStateOption || ""
 	);
-	const [destinationCity, setDestinationCity] = useState<string>(
-		TripValidOption.destinationCityOption || ""
+	const [destinationState, setDestinationState] = useState<string>(
+		TripValidOption.destinationStateOption || ""
 	);
 
 	const [startBusStop, setStartBusStop] = useState<string>(
 		TripValidOption.startBusStopOption || ""
 	);
-	const handleStartBusStop = (option: any) => {
-		setStartBusStop(option);
-		setStartBusStopIsOpen(false);
-	};
-	const handleDestinationBusStop = (option: any) => {
-		setDestinationBusStop(option);
-		setDestinationBusStopIsOpen(false);
-	};
 
 	const [destinationBusStop, setDestinationBusStop] = useState<string>(
 		TripValidOption.destinationBusStopOption || ""
@@ -97,8 +83,8 @@ const BookRide = () => {
 
 		navigate("/bookings", {
 			state: {
-				startCity,
-				destinationCity,
+				startState,
+				destinationState,
 				destinationBusStop,
 				startBusStop
 			}
@@ -106,9 +92,8 @@ const BookRide = () => {
 	};
 
 	const TripValid =
-		startCity !== TripValidOption.startCityOption &&
-		destinationBusStop !== TripValidOption.destinationBusStopOption &&
-		startBusStop !== TripValidOption.startBusStopOption;
+		startState !== TripValidOption.startStateOption &&
+		destinationState !== TripValidOption.destinationStateOption;
 
 	const loginValid = phone !== "" && phone.length === 10;
 
@@ -121,6 +106,16 @@ const BookRide = () => {
 		phone !== "" &&
 		phone.length === 10 &&
 		email.match(emailRegex);
+
+	const showModal = () => {
+		setIsModalOpen(true);
+	};
+	const handleOk = () => {
+		setIsModalOpen(false);
+	};
+	const handleCancel = () => {
+		setIsModalOpen(false);
+	};
 
 	const CreateUser = () => {
 		return dispatch(
@@ -139,24 +134,6 @@ const BookRide = () => {
 		return dispatch(userLoginAction("+234" + phone));
 	};
 
-	// useEffect(() => {
-	// 	if (!userInfo?._id) {
-	// 		setIsModalOpen(true);
-	// 	} else {
-	// 		setIsModalOpen(false);
-	// 	}
-	// }, [dispatch, navigate, userInfo]);
-
-	// useEffect(() => {
-	// 	if (!userInfo && loginError) {
-	// 		messageApi.open({
-	// 			type: "error",
-	// 			content: loginError
-	// 		});
-	// 		setFlip("signin");
-	// 	}
-	// }, [loginError, messageApi, userInfo]);
-
 	useEffect(() => {
 		if (userInfo?._id) {
 			setFirstName("");
@@ -170,64 +147,69 @@ const BookRide = () => {
 		dispatch(getAllStateAction());
 	}, [dispatch]);
 
+	useEffect(() => {
+		if (userInfo?._id) {
+			setFlip("");
+		}
+	}, [userInfo?._id]);
+
 	// useEffect(() => {
 	// 	if (!userInfo?._id) navigate(_paths_.SIGNIN);
 	// }, [navigate, userInfo]);
 
 	return (
 		<Layout
-			title="Book Intercity Bus Rides in Nigeria | RideFraser"
-			pageDescription="Book affordable and comfortable intercity bus rides in Nigeria with Fraser on ridefraser. Choose from multiple routes and travel dates. Book your ride now!"
-			pageKeywords="intercity bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser">
+			title="Book InterState Bus Rides in Nigeria | RideFraser"
+			pageDescription="Book affordable and comfortable interState bus rides in Nigeria with Fraser on ridefraser. Choose from multiple routes and travel dates. Book your ride now!"
+			pageKeywords="interState bus transportation, Nigeria, book bus rides, affordable bus tickets, comfortable bus rides, RideFraser, Fraser">
 			{contextHolder}
-			<div className="bg-[#000000] -mt-16 md:mt-0 w-full ">
-				<div className="flex flex-col py-24 mx-6  md:mx-16 lg:mx-32">
-					<h1 className="mt-16 md:mt-0 leading-tight bg-gradient-to-b from-[#00ff6a] to-[#FFEFC1] text-transparent bg-clip-text text-[2.6rem] md:text-[4rem] font-semibold">
-						Move Freely <br /> between cities
-					</h1>
-					<h3 className=" text-[14px] w-10/12 text-gray-400 md:text-[15px] mt-2 font-light">
-						Get started by simply inputting your location and destination
-					</h3>
-					<div className="absolute top-32  right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
-						<img
-							src="/assets/images/paper-airplane.png"
-							className=" h-4 filter hue-rotate-90"
-							alt=""
-						/>
-					</div>
 
-					<div className="absolute top-96 -left-8 bg-[#00FF6A] rounded-[100px] p-4">
-						<img
-							src="/assets/images/idea-bulb.png"
-							className=" h-8 filter brightness-75"
-							alt=""
-						/>
-					</div>
-
-					<div className="absolute top-96 md:top-56 lg:top-56 -right-0 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
-						{" "}
-						<img
-							src="/assets/images/bus.png"
-							className=" h-8 filter brightness-75"
-							alt=""
-						/>
-					</div>
+			<div className="bg-black">
+				<div className="absolute top-32  right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
 					<img
-						src="/assets/images/bg-overlay-white.png"
-						className="absolute  opacity-5 overflow-hidden h-[18vh] lg:h-[40vh]"
+						src="/assets/images/paper-airplane.png"
+						className=" h-4 filter hue-rotate-90"
 						alt=""
 					/>
+				</div>
 
-					<div className="z-40 px-4 py-4 mt-12 bg-white rounded-lg md:pt-6 md:px-4 lg:px-8 lg:py-8">
-						<div className="mb-4 md:flex">
-							<div className="relative z-50 w-full mb-2 mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
-								<label className="ml-2 text-gray-600 md:text-[13px]">
-									Pickup City
-								</label>
+				<div className="absolute md:top-96 md:-left-8 bg-[#00FF6A] rounded-[100px] p-4">
+					<img
+						src="/assets/images/idea-bulb.png"
+						className=" h-8 filter brightness-75"
+						alt=""
+					/>
+				</div>
+
+				<div className="hidden md:block absolute top-12 md:top-56 lg:top-56 -right-0 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
+					{" "}
+					<img
+						src="/assets/images/bus.png"
+						className=" h-8 filter brightness-75"
+						alt=""
+					/>
+				</div>
+				<img
+					src="/assets/images/bg-overlay-white.png"
+					className="md:absolute left-32 h-3/4 opacity-10 overflow-hidden"
+					alt=""
+				/>
+
+				<div
+					className="flex flex-col md:items-center md:w-1/2 mx-4  md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center"
+					// style={{ backgroundImage: `url(../assets/images/bg-overlay-white.png)` }}
+				>
+					<h1 className="text-gray-100 leading-tight text-[1.8rem] md:text-[3rem] font-medium">
+						Interstate Bus Trips
+					</h1>
+
+					<div className="z-10 w-full pt-6 pb-6 px-5 mt-6 md:mt-12 md:p-8 bg-white rounded-lg  shadow-sm border border-gray-200">
+						<div className="md:flex">
+							<div className="relative w-full mr-4 md:-mr-3 mb-3 text-left duration-300 ease-in-out ">
 								<Dropdown
 									menu={{
 										items: states
-											.filter((fil: State_interface) => fil?.for === "REGULAR")
+											?.filter((e: State_interface) => e.for === "REGULAR")
 											?.map((state: State_interface) => {
 												return {
 													label: (
@@ -235,297 +217,182 @@ const BookRide = () => {
 															href="#"
 															className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 															onClick={() => {
-																setStartCity(state?.name);
+																setStartStateFilter(state?.name);
+																setStartState(state?.name);
 																setStartBusStopList(state?.bus_stops);
-																// setStartCityIsOpen(false);
 																setFrom(state?.name);
 															}}>
 															{state?.name}
 														</a>
 													),
-													key: Math.random() * 2000
+													key: Math.random() * 20000
 												};
 											})
 									}}
 									trigger={["click"]}>
-									<button
-										type="button"
-										className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800">
-										{startCity}
-										<FaCaretDown className="ml-auto" />
-									</button>
+									<div className="relative flex">
+										<input
+											type="text"
+											className="inline-flex items-center w-full h-12 pl-12 pr-4 mb-2 md:mb-0 leading-5 text-gray-700 bg-white border border-gray-300 rounded-md justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+											placeholder="Where From?"
+											onChange={(e) => {
+												setStartStateFilter(e.target.value);
+											}}
+											value={startStateFilter}
+										/>
+										<svg
+											width="16"
+											height="16"
+											viewBox="0 0 24 24"
+											focusable="false"
+											className=" h-full absolute ml-4 pb-2 md:pb-0 text-gray-600">
+											<path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z"></path>
+										</svg>
+									</div>
 								</Dropdown>
 							</div>
-
-							{/* AFTER START CITY SELECTION */}
-							<div
-								className={`ease-in-out duration-300 relative w-full text-left z-40 mb-6 lg:mb-0 mr-4 lg:mr-6 ${
-									startCity === "Current City" ? "hidden " : ""
-								}`}>
-								<label className="ml-2 text-gray-600 md:text-[13px]">
-									Station
-								</label>
-
-								{/* START BUSSTOP */}
-
-								<Dropdown
-									trigger={["click"]}
-									menu={{
-										items: startBusStopList.length
-											? startBusStopList?.map((stops: string) => {
-													return {
-														label: (
-															<a
-																key={stops}
-																href="#"
-																className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-																onClick={() => {
-																	handleStartBusStop(stops);
-																}}>
-																{stops}
-															</a>
-														),
-														key: Math.random() + 2000
-													};
-											  })
-											: [
-													{
-														label: (
-															<a className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
-																Sorry, we currently do not have a stop at this
-																location.
-															</a>
-														),
-														key: Math.random() * 2000
-													}
-											  ]
-									}}>
-									<button
-										type="button"
-										className="z-10 inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-										onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
-										onChange={handleStartBusStop}>
-										{startBusStop}
-										<FaCaretDown className="ml-auto" />
-									</button>
-								</Dropdown>
+							<div className="absolute md:relative -mt-7 md:mt-2 ml-2 md:ml-0 bg-white h-6 w-6 z-10 p-4 rounded-[24px] border border-gray-300">
+								<svg
+									width="18"
+									height="18"
+									viewBox="0 0 24 24"
+									focusable="false"
+									className="-mt-2 -ml-2">
+									<path d="M17 4l-1.41 1.41L18.17 8H11v2h7.17l-2.58 2.59L17 14l5-5-5-5zM7 20l1.41-1.41L5.83 16H13v-2H5.83l2.58-2.59L7 10l-5 5 5 5z"></path>
+								</svg>
 							</div>
-
-							<div className="relative z-30 w-full mb-2 mr-4 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
-								<label className="ml-2 text-gray-600 md:text-[13px]">
-									Destination City
-								</label>
+							<div className="relative w-full mb-2 mr-4 md:-ml-3 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
 								<Dropdown
-									trigger={["click"]}
 									menu={{
-										items: states
-											.filter((fil: State_interface) => fil?.for === "REGULAR")
-											.map((state: State_interface) => {
-												return {
-													label: (
-														<a
-															href="#"
-															className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-															onClick={() => {
-																setDestinationBusStopList(state?.bus_stops);
-																setDestinationCity(state?.name);
-																setTo(state?.name);
-															}}>
-															{state?.name}
-														</a>
-													),
-													key: Math.random() * 2000
-												};
-											})
-									}}>
-									<button
-										type="button"
-										className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 mb-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-										onClick={() => {
-											setDestinationCityIsOpen(!destinationCityIsOpen);
-										}}>
-										{destinationCity}
-										<FaCaretDown className="ml-auto" />
-									</button>
-								</Dropdown>
-							</div>
-							<div
-								className={`ease-in-out duration-300 relative w-full text-left z-20 mr-6 ${
-									destinationCity === "Where to?" ? "hidden " : ""
-								}`}>
-								<label className="ml-2 text-gray-600 md:text-[13px]">
-									Station
-								</label>
-
-								{/* START BUSSTOP */}
-
-								<Dropdown
-									trigger={["click"]}
-									menu={{
-										items: desinationBusStopList?.length
-											? desinationBusStopList?.map((stops: string) => {
-													return {
-														label: (
-															<a
-																key={stops}
-																href="#"
-																className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-																onClick={() => {
-																	handleDestinationBusStop(stops);
-																	// setTo(stops);
-																}}>
-																{stops}
-															</a>
-														),
-														key: Math.random() * 2000
-													};
-											  })
-											: [
-													{
-														label: (
-															<a className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900">
-																Sorry, we currently do not have a stop at this
-																location.
-															</a>
-														),
-														key: Math.random() * 2000
-													}
-											  ]
-									}}>
-									<button
-										type="button"
-										className="inline-flex items-center w-full h-12 px-4 py-2 mt-1 mt-2 font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-										onClick={() =>
-											setDestinationBusStopIsOpen(!destinationBusStopIsOpen)
-										}
-										onChange={handleDestinationBusStop}>
-										{destinationBusStop}
-										<FaCaretDown className="ml-auto" />
-									</button>
+										items: states.map((state: State_interface) => {
+											return {
+												label: (
+													<a
+														href="#"
+														className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+														onClick={() => {
+															setDestinationStateFilter(state?.name);
+															setDestinationBusStopList(state?.bus_stops);
+															setDestinationState(state?.name);
+															setTo(state?.name);
+														}}>
+														{state?.name}
+													</a>
+												),
+												key: Math.random() * 3000
+											};
+										})
+									}}
+									trigger={["click"]}>
+									<div className="relative flex">
+										<input
+											type="text"
+											className="inline-flex items-center w-full h-[52px] pl-12 pr-4 mb-2 md:mb-0 leading-5 text-gray-700 bg-white border border-gray-300 rounded-md justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+											placeholder="Where to?"
+											value={destinationStateFilter}
+										/>
+										<svg
+											width="24"
+											height="24"
+											viewBox="0 0 24 24"
+											focusable="false"
+											className=" h-full absolute ml-4 pb-2 md:pb-0 text-gray-600">
+											<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
+											<circle cx="12" cy="9" r="2.5"></circle>
+										</svg>
+									</div>
 								</Dropdown>
 							</div>
 
 							<FraserButton
 								title="Search"
 								size="regular"
-								className="w-full mt-8"
+								className=" w-full md:w-content cursor-pointer"
 								active={TripValid}
 								onClick={() => {
-									if (TripValid) {
-										if (!userInfo?._id) {
-											return setFlip("signin");
-										}
-										handleAvailableTrips();
+									if (!userInfo?._id) {
+										showModal();
+										return setFlip("signin");
 									}
+									handleAvailableTrips();
 								}}
 							/>
 						</div>
 					</div>
 				</div>
 			</div>
-			<div className="flex">
-				<div className="pt-[40px] md:my-16 lg:my-24 mx-6 md:mx-16 lg:mx-32 bg-[#fffff] mb-12 md:mb-24">
-					<h1 className="text-black text-left md:text-center mb-8 lg:mb-16 md:w-full text-[1.65rem] md:text-[2rem] font-semibold leading-tight spacing-[normal]  ">
-						Experience Comfortable and Affordable Intercity Bus Travel with
-						Fraser
-					</h1>
-
-					<div className="w-full mt-4 mb-0 lg:mb-24 lg:flex lg:mt-10">
-						<Offeringcard
-							classname="mb-4 mr-4 lg:mb-0"
-							title="Safe"
-							subtitleClassname="text-[#8E8E93]"
-							subtitle="Travel with peace of mind knowing your safety is our top priority. Our experienced drivers and quality buses ensure a safe journey."
-						/>
-						<Offeringcard
-							classname="mb-4 mr-4 bg-primary-100 lg:mb-0"
-							title="Comfy"
-							subtitleClassname="text-[#353535]"
-							subtitle="Enjoy a comfortable journey with free Wi-Fi and entertainment. Book your ticket today and experience stress-free travel."
-						/>
-						<Offeringcard
-							title="Affordable"
-							subtitleClassname="text-[#8E8E93]"
-							subtitle="Affordable travel made easy. Book with Fraser for guaranteed seats starting at ₦ 1,000. Travel comfortably without breaking the bank."
-						/>
-					</div>
-				</div>
-			</div>
-
-			<div className="bg-[#000000] pt-12 md:pt-24">
-				<div className="mx-8 md:mx-16 lg:mx-32">
-					<h1 className="lg:col-start-1 lg:col-end-6 text-[1.65rem] md:text-[2rem] font-medium text-[#e3e3e3] leading-tight">
-						Book a ride in three steps
-					</h1>
-					<div className="lg:grid lg:grid-cols-12 lg:flex lg:mx-auto lg:mt-12">
-						<div className="hidden col-start-1 col-end-6 mt-6 lg:block">
-							<img
-								src="/assets/images/phone.png"
-								alt=""
-								className="object-cover flex h-[65vh] ml-4"
-							/>
+			<div className="w-full pt-8 pb-14 bg-white px-4 ">
+				<div className="md:w-1/2  mx-auto">
+					<h3 className="text-gray-500 text-[16px] font-medium">
+						Partner Trips
+					</h3>
+					<div className="md:flex mt-4">
+						{/*  */}
+						<div
+							className="cursor-pointer w-full md:mr-6 mb-4 md:mb-0 flex rounded-lg border border-gray-300 items-center pr-8"
+							onClick={() => navigate(_paths_.AIESEC_PAGE)}>
+							<div
+								className="bg-cover bg-no-repeat bg-center h-24 md:h-28 w-32 md:w-40 rounded-l-md"
+								style={{
+									backgroundImage: `url(../assets/images/aiesec.png)`
+								}}></div>
+							<div className="p-4">
+								<div className="text-gray-700 text-[18px] md:text-[24px] font-semibold">
+									AIESEC
+								</div>
+								<div className="flex items-center">
+									<svg
+										width="18"
+										height="18"
+										viewBox="0 0 24 24"
+										focusable="false"
+										// className=" h-full absolute ml-4 text-gray-600"
+									>
+										<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
+										<circle cx="12" cy="9" r="2.5"></circle>
+									</svg>
+									<div className="ml-2 text-[14px] md:text-[16px] text-gray-500">
+										Conference Trip
+									</div>
+								</div>
+							</div>
 						</div>
 
-						<div className="col-start-6 col-end-13 pb-24 lg:-mt-12 lg:mx-16">
-							<div className="flex flex-col justify-between w-full mt-16 lg:mt-32">
-								<StepComp
-									stepNumber="1"
-									stepTitle="Sign up"
-									stepSubtitle="This is easy – we only need a few details and then you can get started. It only takes a minute to fill in your details!"
-									classname="mb-8"
-									cardclassname="bg-primary-100"
-								/>
-								<StepComp
-									stepNumber="2"
-									stepTitle="Book a trip"
-									classname="mb-8"
-									cardclassname="bg-white"
-									stepSubtitle="Booking a bus ticket is easy. You can easily buy your tickets in advance and have them delivered straight to your smartphone - register via the mobile app or on the website!"
-								/>
-								<StepComp
-									stepNumber="3"
-									stepTitle="Ride"
-									stepSubtitle="With fast connections you can travel in comfort. Buses are equipped with Wi-Fi so you can work, catch up on your favourite shows and have fun all on the move."
-								/>
+						{/*  */}
+						<div
+							className="w-full flex rounded-lg border border-gray-300 items-center cursor-pointer"
+							onClick={() => navigate(_paths_.NYSC_PAGE)}>
+							<div
+								className="bg-cover bg-no-repeat bg-center h-24 md:h-28 w-32 md:w-40 rounded-l-md"
+								style={{
+									backgroundImage: `url(../assets/images/nysc.jpg)`
+								}}></div>
+							<div className="p-4">
+								<div className="text-gray-700 text-[18px] md:text-[24px] font-semibold">
+									NYSC
+								</div>
+								<div className="flex items-center">
+									<svg
+										width="18"
+										height="18"
+										viewBox="0 0 24 24"
+										focusable="false"
+										// className=" h-full absolute ml-4 text-gray-600"
+									>
+										<path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
+										<circle cx="12" cy="9" r="2.5"></circle>
+									</svg>
+									<div className="ml-2 text-[14px] md:text-[16px] text-gray-500">
+										Camp Trips
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
 				</div>
-				<div className="bg-white">
-					<div className="flex items-center justify-center w-full bg-center ">
-						<img
-							alt=""
-							src={"/assets/images/withfriends.051522d885873700dacd.png"}
-							className="mt-12 md:mt-40  md:w-[70%] w-full md:h-[60%] h-full object-contain rounded-lg "
-						/>
-					</div>
-
-					<div className="landingpageSessionPadding mt-[20px] md:mt-[30px] md:py-[40px] py-[24px] justify-center items-center">
-						<h1 className="text-black  md:text-[2rem] lg:text-[3rem] mb-[32px] md:mb-[72px] text-[25px] text-center font-semibold  spacing-[normal]  ">
-							Ride with friends and <br />
-							enjoy multiple benefits
-						</h1>
-						<div className="md:mx-12 lg:mx-40">
-							<Accordion />
-						</div>
-					</div>
-
-					{/* All abour session */}
-
-					<div className="px-8 lg:px-32 w-full bg-black py-[100px] flex-col ">
-						<h1 className="text-[#00ff6a]  md:text-[55px] text-[25px] font-semibold ">
-							All aboard
-						</h1>
-						<br />
-						<FraserButton
-							size="regular"
-							title="Get Started"
-							onClick={() => navigate(_paths_.LANDING_PAGE)}
-						/>
-					</div>
-				</div>
-				<Footer />
 			</div>
+
+			<Footer />
 
 			{flip === "signin" && (
 				<Modal
@@ -555,11 +422,13 @@ const BookRide = () => {
 					open={isModalOpen}
 					centered={true}
 					footer={false}
-					closable={false}>
+					closable={false}
+					onCancel={handleCancel}
+					onOk={handleOk}>
 					<div>
 						<div className="pt-8 mt-3 mb-3">
 							<Input
-								className="w-full h-12 hover:border-green-500 active:border-green-600"
+								className="w-full h-[52px] hover:border-green-500 active:border-green-600"
 								placeholder="903 123 1234"
 								value={phone}
 								prefix={"+234"}
@@ -628,7 +497,9 @@ const BookRide = () => {
 					open={isModalOpen}
 					centered={true}
 					footer={false}
-					closable={false}>
+					closable={false}
+					onOk={handleOk}
+					onCancel={handleCancel}>
 					<div>
 						{registerUserError && (
 							<Alert
@@ -694,14 +565,6 @@ const BookRide = () => {
 									);
 								})}
 							</select>
-
-							{/* <Input
-								className="w-full h-12 hover:border-green-500 active:border-green-600"
-								placeholder="Email"
-								value={homeState}
-								required={true}
-								onChange={(e) => setHomeState(e.target.value)}
-							/> */}
 						</div>
 
 						<div className="mb-6">

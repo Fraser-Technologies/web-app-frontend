@@ -27,6 +27,9 @@ export const Header = () => {
 	const dispatch = useAppDispatch();
 	const [openNavBar, setOpenNavBar] = useState(false);
 	const [openOptions, setOpenOptions] = useState(false);
+	const [partnerOpenOptions, setPartnerOpenOptions] = useState(false);
+	const [partnerOpen, setPartnerOpen] = useState(false);
+	const [profileOpen, setProfileOpen] = useState(false);
 	const [messageApi, contextHolder] = message.useMessage();
 	const [firstName, setFirstName] = useState<string>("");
 	const [lastName, setLastName] = useState<string>("");
@@ -121,31 +124,35 @@ export const Header = () => {
 						{userInfo?.first_name}
 					</h1>
 
-					<Dropdown
-						menu={{
-							items: [
-								{
-									label: <p className="hover:cursor-pointer">NYSC</p>,
-									key: "0"
-								},
-								{
-									label: (
-										<p className="mt-[30px] mb-[30px] hover:cursor-pointer">
-											AIESEC
-										</p>
-									),
-									key: "1"
-								}
-							]
-						}}
-						trigger={["click"]}>
-						<h1
-							className="flex flex-row items-center text-[20px] font-semibold hover:cursor-pointer"
-							// onClick={() => setPartnerOpenOptions(!partnerOpenOptions)}
-						>
-							Partners
-						</h1>
-					</Dropdown>
+					<h1
+						className="flex flex-row items-center text-[20px] font-semibold hover:cursor-pointer"
+						onClick={() => setPartnerOpenOptions(!partnerOpenOptions)}>
+						Partners
+						<span className="ml-[10px]">
+							{partnerOpenOptions ? <IoMdArrowDropdown /> : <IoMdArrowDropup />}
+						</span>
+					</h1>
+
+					{partnerOpenOptions && (
+						<div className="mt-[10px] flex flex-col pl-[30px] text-white">
+							<p
+								className="hover:cursor-pointer"
+								onClick={() => {
+									navigate(_paths_.NYSC_PAGE);
+									setOpenNavBar(false);
+								}}>
+								NYSC
+							</p>
+							<p
+								className="mt-[30px] mb-[30px] hover:cursor-pointer"
+								onClick={() => {
+									navigate(_paths_.AIESEC_PAGE);
+									setOpenNavBar(false);
+								}}>
+								AIESEC
+							</p>
+						</div>
+					)}
 				</div>
 
 				<div className="absolute bottom-12 hover:cursor-pointer">
@@ -164,6 +171,9 @@ export const Header = () => {
 								Referral Code: {userInfo?.referral_code}{" "}
 								<FaCopy className="ml-2" />
 							</span>
+							<div className="mb-8 border-b pb-8">
+								{/* Total Referrals: {userInfo.referrals.length} */}
+							</div>
 
 							<div
 								className="flex flex-row items-center font-medium"
@@ -175,7 +185,6 @@ export const Header = () => {
 							</div>
 						</div>
 					)}
-
 					{!userInfo?._id && (
 						<FraserButton
 							title="Sign in"
@@ -226,35 +235,41 @@ export const Header = () => {
 					</Link>
 
 					<Dropdown
-						trigger={["click"]}
 						menu={{
 							items: [
 								{
 									label: (
-										<span
-											className="flex mr-12 cursor-pointer"
-											onClick={() => {
-												navigate(_paths_.NYSC_PAGE);
-											}}>
-											NYSC
-										</span>
+										<>
+											<span
+												className="flex mr-12 cursor-pointer"
+												onClick={() => {
+													navigate(_paths_.NYSC_PAGE);
+													setPartnerOpen(!partnerOpen);
+												}}>
+												NYSC
+											</span>
+										</>
 									),
-									key: "0"
+									key: Math.random() * 3000
 								},
 								{
 									label: (
-										<span
-											className="cursor-pointer"
-											onClick={() => {
-												navigate(_paths_.AIESEC_PAGE);
-											}}>
-											AIESEC{" "}
-										</span>
+										<>
+											<span
+												className="cursor-pointer"
+												onClick={() => {
+													navigate(_paths_.AIESEC_PAGE);
+													setPartnerOpen(!partnerOpen);
+												}}>
+												AIESEC{" "}
+											</span>
+										</>
 									),
-									key: "1"
+									key: Math.random() * 3000
 								}
 							]
-						}}>
+						}}
+						trigger={["click"]}>
 						<div className="text-white cursor-pointer inline-flex items-center">
 							Partners <FaCaretDown className="ml-2" />
 						</div>
@@ -262,38 +277,50 @@ export const Header = () => {
 
 					{userInfo?._id && (
 						<Dropdown
-							trigger={["click"]}
 							menu={{
 								items: [
 									{
 										label: (
-											<span
-												className="flex"
-												onClick={() => {
-													navigator.clipboard.writeText(
-														`${userInfo?.referral_code}`
-													);
-													messageApi.info({
-														type: "info",
-														content: `Referral code ${userInfo?.referral_code} has been copied to clipboard!`,
-														duration: 1.5
-													});
-												}}>
-												Referral Code: {userInfo?.referral_code}{" "}
-												<FaCopy className="ml-2" />
-											</span>
+											<>
+												<span
+													className="flex"
+													onClick={() => {
+														navigator.clipboard.writeText(
+															`${userInfo?.referral_code}`
+														);
+														messageApi.info({
+															type: "info",
+															content: `Referral code ${userInfo?.referral_code} has been copied to clipboard!`,
+															duration: 1.5
+														});
+													}}>
+													Referral Code: {userInfo?.referral_code}{" "}
+													<FaCopy className="ml-2" />
+												</span>
+											</>
 										),
-
 										key: Math.random() * 3000
 									},
 									{
-										label: <span onClick={() => logOutUser()}>Logout</span>,
+										label: (
+											<>
+												<div
+													className="flex flex-row items-center font-medium"
+													onClick={() => logOutUser()}>
+													Logout
+													<span className="ml-[10px]">
+														<AiOutlinePoweroff />
+													</span>
+												</div>
+											</>
+										),
 										key: Math.random() * 3000
 									}
 								]
-							}}>
+							}}
+							trigger={["click"]}>
 							<div className="text-white cursor-pointer inline-flex items-center">
-								{userInfo?.first_name} <FaCaretDown className="ml-2" />
+								{userInfo?.first_name} <FaCaretDown className="ml-4" />
 							</div>
 						</Dropdown>
 					)}
@@ -309,6 +336,7 @@ export const Header = () => {
 							}}
 						/>
 					)}
+
 					{userInfo?._id && (
 						<FraserButton
 							title="Book a ride"

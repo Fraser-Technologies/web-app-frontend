@@ -227,9 +227,11 @@ const CreateTripFormComponent = () => {
 													setStartCityBusStopList(state?.bus_stops);
 													setStartBusStop("");
 													setStartBusStopDisplayText("Select Start Bus Stop");
-													setStartCityDisplayText(state?.name);
+													setStartCityDisplayText(
+														String(`${state?.name} - ${state?.for}`)
+													);
 												}}>
-												{state?.name}
+												{`${state?.name}  -  ${state?.for}`}
 											</a>
 										),
 										key: Math.random() * 4000
@@ -301,11 +303,13 @@ const CreateTripFormComponent = () => {
 											<a
 												key={Math.random() * 1000}
 												onClick={() => {
-													setDestinationCityDisplayText(state?.name);
 													setEndCity(state?._id);
 													setStopCityBusStopList(state?.bus_stops);
+													setDestinationCityDisplayText(
+														String(`${state?.name} - ${state?.for}`)
+													);
 												}}>
-												{state?.name}
+												{`${state?.name}  -  ${state?.for}`}
 											</a>
 										),
 										key: Math.random() * 6000
