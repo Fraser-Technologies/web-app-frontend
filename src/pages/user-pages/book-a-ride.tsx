@@ -10,7 +10,10 @@ import {
   registerUserAction,
   userLoginAction,
 } from "../../state/action/user.action";
-import { getAvailableTripAction } from "../../state/action/trip.action";
+import {
+  getAllAvailableTripAction,
+  getAvailableTripAction,
+} from "../../state/action/trip.action";
 import { FaCaretDown } from "react-icons/fa";
 import { State_interface } from "../../interfaces/state_interface";
 import { getAllStateAction } from "../../state/action/state.action";
@@ -41,9 +44,9 @@ const BookRide = () => {
     useAppSelector((state: RootState) => state.registerUser);
   const { states } = useAppSelector((state: any) => state.allState);
 
-  //   const { trips: availableTripData } = useAppSelector(
-  //     (state: any) => state.availableTrip
-  //   );
+  const { trips: availableTripData } = useAppSelector(
+    (state: any) => state.availableTrip
+  );
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -77,35 +80,46 @@ const BookRide = () => {
     TripValidOption.destinationStateOption || ""
   );
 
-  const [startBusStop, setStartBusStop] = useState<string>(
-    TripValidOption.startBusStopOption || ""
-  );
-  const handleStartBusStop = (option: any) => {
-    setStartBusStop(option);
-    setStartBusStopIsOpen(false);
-  };
-  const handleDestinationBusStop = (option: any) => {
-    setDestinationBusStop(option);
-    setDestinationBusStopIsOpen(false);
-  };
+  // const [startBusStop, setStartBusStop] = useState<string>(
+  //   TripValidOption.startBusStopOption || ""
+  // );
+  // const handleStartBusStop = (option: any) => {
+  //   setStartBusStop(option);
+  //   setStartBusStopIsOpen(false);
+  // };
+  // const handleDestinationBusStop = (option: any) => {
+  //   setDestinationBusStop(option);
+  //   setDestinationBusStopIsOpen(false);
+  // };
 
-  const [destinationBusStop, setDestinationBusStop] = useState<string>(
-    TripValidOption.destinationBusStopOption || ""
-  );
+  // const [destinationBusStop, setDestinationBusStop] = useState<string>(
+  //   TripValidOption.destinationBusStopOption || ""
+  // );
 
   const handleAvailableTrips = () => {
-    if (from && to) {
-      dispatch(getAvailableTripAction({ from: from, to: to }));
-    }
+    
+      // dispatch(getAvailableTripAction({ from: from, to: to })).finally(
+      //   navigate("/bookings", {
+      //     state: {
+      //       startState,
+      //       destinationState,
+      //       // destinationBusStop,
+      //       // startBusStop,
+      //     },
+      //   })
+      // );
+    
 
-    navigate("/bookings", {
-      state: {
-        startState,
-        destinationState,
-        destinationBusStop,
-        startBusStop,
-      },
-    });
+    dispatch(getAllAvailableTripAction()).finally(
+      navigate("/bookings", {
+        state: {
+          startState,
+          destinationState,
+          // destinationBusStop,
+          // startBusStop,
+        },
+      })
+    );
   };
 
   const TripValid =
@@ -316,21 +330,25 @@ const BookRide = () => {
                       )
                       .map((state: State_interface) => {
                         return (
-                          <a
-                            href="#"
-                            className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                            onClick={() => {
-                              setDestinationStateFilter(state?.name);
-                              setDestinationBusStopList(state?.bus_stops);
-                              setDestinationState(state?.name);
-                              setTo(state?.name);
-                              setDestinationStateIsOpen(
-                                !destinationStateIsOpen
-                              );
-                            }}
-                          >
-                            {state?.name}
-                          </a>
+                          <div>
+                            {state?.for === "REGULAR" && (
+                              <a
+                                href="#"
+                                className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                onClick={() => {
+                                  setDestinationStateFilter(state?.name);
+                                  setDestinationBusStopList(state?.bus_stops);
+                                  setDestinationState(state?.name);
+                                  setTo(state?.name);
+                                  setDestinationStateIsOpen(
+                                    !destinationStateIsOpen
+                                  );
+                                }}
+                              >
+                                {state?.name}
+                              </a>
+                            )}
+                          </div>
                         );
                       })}
                   </div>

@@ -312,7 +312,7 @@ export const Header = () => {
 
           <div className={`${!userInfo && "hidden"}`}>
             <div
-              className="text-white cursor-pointer inline-flex items-center"
+              className={`text-white cursor-pointer inline-flex items-center `}
               onClick={() => {
                 setProfileOpen(!profileOpen);
                 setPartnerOpen(false);

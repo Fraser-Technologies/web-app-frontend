@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../../components/bookingCard";
 import Layout from "../../components/layouts/SignInLayout";
-import { getAvailableTripAction } from "../../state/action/trip.action";
+import { getAllAvailableTripAction, getAvailableTripAction } from "../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
@@ -47,14 +47,14 @@ const Bookings = () => {
 
   //PASSING DATA USING STATE
   const location = useLocation();
-  const { startCity, destinationCity, destinationBusStop, startBusStop } =
+  const { startState, destinationState, destinationBusStop, startBusStop } =
     location.state || {};
 
   const [fromCity, setFromCity] = useState<string>(
-    startCity || "Set your current city"
+    startState || "Set your current city"
   );
   const [toCity, setToCity] = useState<string>(
-    destinationCity || "Set your destination"
+    destinationState || "Set your destination"
   );
   const [start, setstart] = useState<string>(
     startBusStop || "Select start bus stop"
@@ -127,16 +127,16 @@ const Bookings = () => {
 
     if (location?.state) {
       dispatch(
-        getAvailableTripAction({ from: startCity, to: destinationCity })
+        getAvailableTripAction({ from: startState, to: destinationState })
       );
     }
 
     if (from && to) {
       dispatch(getAvailableTripAction({ from: from, to: to }));
     }
-    // else {
-    // 	dispatch(getAllAvailableTripAction());
-    // }
+    else {
+    	dispatch(getAllAvailableTripAction());
+    }
   };
 
   const [modalData, setModalData] = useState<Trip_interface | any>(
@@ -183,9 +183,8 @@ const Bookings = () => {
   //VALIDATE BUTTON BEFORE CLICK
   const isValid =
     fromCity !== "Set your current city" &&
-    toCity !== "Set your destination" &&
-    destination !== "Select destination bus stop" &&
-    start !== "Select start bus stop";
+    toCity !== "Set your destination" 
+ 
 
   useEffect(() => {
     if (!userInfo?._id) {
@@ -233,15 +232,16 @@ const Bookings = () => {
     };
   }, [screenWidth]);
 
-  // useEffect(() => {
-  // 	if (!availableTripData) {
-  // 		dispatch(getAllAvailableTripAction());
-  // 	}
-  // }, [availableTripData, dispatch]);
+//   useEffect(() => {
+//   	if (!availableTripData) {
+//   		dispatch(getAllAvailableTripAction());
+//   	}
+//   }, [availableTripData, dispatch]);
 
   useEffect(() => {
     if (!states.length) {
       dispatch(getAllStateAction());
+
     }
   }, [states, dispatch]);
 
@@ -472,7 +472,7 @@ const Bookings = () => {
                   {/* AFTER DESTINATION CITY SELECTION */}
                   <div
                     className={`ease-in-out duration-300 relative w-full inline text-left z-20 ${
-                      destinationCity === "Set your destination"
+						destinationState === "Set your destination"
                         ? "hidden "
                         : ""
                     }`}

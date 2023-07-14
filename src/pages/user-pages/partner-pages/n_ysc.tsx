@@ -12,7 +12,7 @@ import { useAppDispatch, useAppSelector } from "../../../state/hooks";
 import { useSelector } from "react-redux";
 import { RootState } from "../../../state/redux-store";
 import { Trip_interface } from "../../../interfaces/trip_interface";
-import { getAvailableTripAction } from "../../../state/action/trip.action";
+import { getAllAvailableTripAction, getAvailableTripAction } from "../../../state/action/trip.action";
 import {
   registerUserAction,
   userLoginAction,
@@ -119,6 +119,7 @@ const NyscPage = () => {
     if (from && to) {
       dispatch(getAvailableTripAction({ from: from, to: to }));
     }
+    // dispatch(getAllAvailableTripAction())
   };
 
   const CreateUser = () => {

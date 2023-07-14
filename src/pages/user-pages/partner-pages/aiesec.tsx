@@ -81,7 +81,6 @@ const AiesecPage = () => {
 
   const loginValid = phone !== "" && phone.length === 10;
 
- 
   const handleCancel = () => {
     setModalVisible(false);
     setFlip("");
@@ -120,6 +119,7 @@ const AiesecPage = () => {
     if (from && to) {
       dispatch(getAvailableTripAction({ from: from, to: to }));
     }
+    
   };
 
   const CreateUser = () => {
@@ -217,12 +217,7 @@ const AiesecPage = () => {
                 >
                   {states
                     ?.filter((e: any) =>
-                      e?.name
-                        .toLowerCase()
-                        .includes(
-                          stateFilter.toLowerCase() &&
-                            !e?.state?.includes("Ilaji Resort")
-                        )
+                      e?.name.toLowerCase().includes(stateFilter.toLowerCase())
                     )
                     .sort((a: State_interface, b: State_interface) =>
                       a?.name.localeCompare(b?.name)
@@ -230,23 +225,36 @@ const AiesecPage = () => {
                     .map((state: State_interface) => {
                       return (
                         <div>
-                          {state?.for === "AIESEC" && (
-                            <a
-                              key={state?._id}
-                              href="#"
-                              className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                              onClick={() => {
-                                setStateFilter(state?.name);
-                                setTo("Ilaji Resort");
-                                setFrom(state?.name);
-                                setisOpen(!isOpen);
-                                console.log(from);
-                                console.log(to);
-                              }}
-                            >
-                              {state?.name}
-                            </a>
-                          )}{" "}
+                          {states?.length === 0 && (
+                            <div className="flex px-6 py-2 mb-8 space-x-4 animate-pulse">
+                              <div className="flex-1 py-1 space-y-6">
+                                <div className="h-2 rounded bg-slate-200"></div>
+                                <div className="space-y-3">
+                                  <div className="grid grid-cols-3 gap-4">
+                                    <div className="h-2 col-span-2 rounded bg-slate-200"></div>
+                                    <div className="h-2 col-span-1 rounded bg-slate-200"></div>
+                                  </div>
+                                  <div className="h-2 rounded bg-slate-200"></div>
+                                </div>
+                              </div>
+                            </div>
+                          )}
+                          {state?.for === "AIESEC" &&
+                            state?.name !== "Ilaji" && (
+                              <a
+                                key={state?._id}
+                                href="#"
+                                className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                onClick={() => {
+                                  setStateFilter(state?.name);
+                                  setTo("Ilaji");
+                                  setFrom(state?.name);
+                                  setisOpen(!isOpen);
+                                }}
+                              >
+                                {state?.name}
+                              </a>
+                            )}{" "}
                         </div>
                       );
                     })}
@@ -262,7 +270,7 @@ const AiesecPage = () => {
             />
           </div>
 
-          {availableTripData.length === 0 && from !== "" && (
+          {/* {availableTripData.length === 0 && (
             <div>
               <Alert
                 type="info"
@@ -275,7 +283,7 @@ const AiesecPage = () => {
                 </a>
               </p>
             </div>
-          )}
+          )} */}
           {availableTripData?.map((trip: Trip_interface) => {
             return (
               <div>
