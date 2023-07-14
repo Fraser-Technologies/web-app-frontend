@@ -359,3 +359,31 @@ export const {
 } = getAvailableNYSCTripSlice.actions;
 
 export const NYSCTripReducer = getAvailableNYSCTripSlice.reducer;
+
+export const getAvailableAIESECTripSlice = createSlice({
+	name: "get available AIESEC trip",
+	initialState: allTripState,
+	reducers: {
+		getAvailableAIESECTripRequest: (state) => {
+			state.loading = true;
+		},
+
+		getAvailableAIESECTripSuccess: (state, { payload }) => {
+			state.trips = payload;
+			state.loading = false;
+		},
+		getAvailableAIESECTripFailed: (state, { payload }) => {
+			state.loading = false;
+			state.error = payload;
+			state.trips = [];
+		}
+	}
+});
+
+export const {
+	getAvailableAIESECTripFailed,
+	getAvailableAIESECTripRequest,
+	getAvailableAIESECTripSuccess
+} = getAvailableAIESECTripSlice.actions;
+
+export const AIESECTripReducer = getAvailableAIESECTripSlice.reducer;

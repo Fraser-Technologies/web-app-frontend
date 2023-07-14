@@ -37,6 +37,7 @@ import {
 	removeBusStopReducer
 } from "./slices/busstop.slice";
 import {
+	AIESECTripReducer,
 	NYSCTripReducer,
 	allTripReducer,
 	availableTripReducer,
@@ -113,6 +114,7 @@ const rootReducer = combineReducers({
 	deleteTrip: deleteTripByIdReducer,
 	endTrip: endTripReducer,
 	NYSCTrip: NYSCTripReducer,
+	AIESECTrip: AIESECTripReducer,
 
 	// trip reducers
 	verifyPayment: verifyPaymentReducer,
