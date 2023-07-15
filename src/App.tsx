@@ -7,7 +7,6 @@ import { getSubdomain } from "./utils/route_helper";
 const App = () => {
 	const subdomains = getSubdomain(window.location.hostname);
 	const checkSubDommain = subdomains[0];
-	console.log(subdomains)
 
 	if(checkSubDommain === "driver") {
 		return <DriverApp />
