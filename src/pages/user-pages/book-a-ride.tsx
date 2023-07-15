@@ -264,24 +264,26 @@ const BookRide = () => {
 							<div className="relative w-full mb-2 mr-4 md:-ml-3 text-left duration-300 ease-in-out lg:mb-0 lg:mr-6">
 								<Dropdown
 									menu={{
-										items: states.map((state: State_interface) => {
-											return {
-												label: (
-													<a
-														href="#"
-														className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-														onClick={() => {
-															setDestinationStateFilter(state?.name);
-															setDestinationBusStopList(state?.bus_stops);
-															setDestinationState(state?.name);
-															setTo(state?.name);
-														}}>
-														{state?.name}
-													</a>
-												),
-												key: Math.random() * 3000
-											};
-										})
+										items: states
+											.filter((fil: State_interface) => fil?.for === "REGULAR")
+											.map((state: State_interface) => {
+												return {
+													label: (
+														<a
+															href="#"
+															className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+															onClick={() => {
+																setDestinationStateFilter(state?.name);
+																setDestinationBusStopList(state?.bus_stops);
+																setDestinationState(state?.name);
+																setTo(state?.name);
+															}}>
+															{state?.name}
+														</a>
+													),
+													key: Math.random() * 3000
+												};
+											})
 									}}
 									trigger={["click"]}>
 									<div className="relative flex">
