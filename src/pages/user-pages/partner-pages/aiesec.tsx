@@ -217,7 +217,7 @@ const AiesecPage = () => {
 														className="inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
 														onClick={() => {
 															setStateFilter(state?.name);
-															setTo("Ilaji Resort");
+															setTo("Ilaji");
 															setFrom(state?.name);
 															setisOpen(!isOpen);
 														}}>
