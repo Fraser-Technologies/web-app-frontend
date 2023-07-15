@@ -74,9 +74,10 @@ export const getAvailableNYSCTripAction =
 			} = getState();
 
 			dispatch(getAvailableNYSCTripRequest());
-			const { data } = await api(app_type).get(
-				`/trip/availableNYSCTrip?from=${from}&to=${to}`
-			);
+			const { data } = await api(app_type).post(`/trip/availableNYSCTrip`, {
+				from,
+				to
+			});
 			dispatch(getAvailableNYSCTripSuccess(data));
 		} catch (error: any) {
 			dispatch(getAvailableNYSCTripFailed(RequestError(error)));
@@ -92,9 +93,10 @@ export const getAvailableAIESECTripAction =
 			} = getState();
 
 			dispatch(getAvailableAIESECTripRequest());
-			const { data } = await api(app_type).get(
-				`/trip/availableAIESECTrip?from=${from}&to=${to}`
-			);
+			const { data } = await api(app_type).post(`/trip/availableAIESECTrip`, {
+				from,
+				to
+			});
 			dispatch(getAvailableAIESECTripSuccess(data));
 		} catch (error: any) {
 			dispatch(getAvailableAIESECTripFailed(RequestError(error)));
