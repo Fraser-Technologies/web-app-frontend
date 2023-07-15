@@ -3,6 +3,7 @@ import { Mongo_extra } from "./mongo_extra";
 import { Booking_interface, Passenger_interface } from "./Booking_interface";
 import { Bus_interface } from "./bus_interface";
 import { User_interface } from "./user.interface";
+import TripType from "../utils/allTripType";
 
 export interface Trip_interface extends Mongo_extra {
 	bus: Bus_interface;

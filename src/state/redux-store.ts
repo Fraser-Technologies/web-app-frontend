@@ -3,11 +3,12 @@ import logger from "redux-logger";
 import thunk, { ThunkAction } from "redux-thunk";
 import rootReducer from "./rootReducer";
 
-const middleware = [thunk, logger];
+const middleware =
+	process.env.NODE_ENV === "production" ? [thunk] : [thunk, logger];
 
 export const store = configureStore({
 	reducer: rootReducer,
-	middleware,
+	middleware
 });
 
 export type RootState = ReturnType<typeof store.getState>;
