@@ -1,4 +1,4 @@
-import { FC, useEffect } from "react";
+import React, { FC, useEffect } from "react";
 import { Route, Routes } from "react-router-dom";
 import NotFound from "../pages/404";
 import AdminDashBoard from "../pages/AdminPortal";
