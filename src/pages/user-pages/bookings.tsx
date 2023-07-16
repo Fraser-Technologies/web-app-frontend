@@ -570,6 +570,7 @@ const Bookings = () => {
             />
           </div>
           <FraserButton
+		  className="w-full"
             title="Continue"
             size="regular"
             onClick={() => {
@@ -644,7 +645,7 @@ const Bookings = () => {
           <FraserButton
             title="Continue"
             size="regular"
-            className="w-full mt-8"
+            className=" w-full mt-8"
             onClick={() => {
               dispatch(
                 addToMyBookinAction({ ...modalData, no_of_ticket: value })

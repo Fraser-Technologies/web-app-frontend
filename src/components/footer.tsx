@@ -4,7 +4,7 @@ import { FaInstagram, FaLinkedin, FaTwitter } from "react-icons/fa";
 const Footer = () => {
   return (
     <footer className="bg-white py-12 md:px-8 ">
-      <div className="lg:flex justify-between md:mx-auto lg:mx-auto mb-16 max-w-[1080px]">
+      <div className="lg:flex justify-between md:mx-auto lg:mx-auto mb-16 md:w-2/3">
         <div className="flex justify-between mx-6 w-full mr-12">
           <div className="text-gray-500 w-1/2">
             <h4 className="mb-12 text-black text-lg font-medium">Services</h4>

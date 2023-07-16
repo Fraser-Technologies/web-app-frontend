@@ -554,6 +554,7 @@ const NyscPage = () => {
               <FraserButton
                 title="Continue"
                 size="regular"
+                className="w-full"
                 onClick={() => {
                   dispatch(
                     addToMyBookinAction({

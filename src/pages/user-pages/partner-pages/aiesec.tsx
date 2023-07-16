@@ -558,6 +558,7 @@ const AiesecPage = () => {
               </div>
               <FraserButton
                 title="Continue"
+                className="w-full"
                 size="regular"
                 onClick={() => {
                   dispatch(
