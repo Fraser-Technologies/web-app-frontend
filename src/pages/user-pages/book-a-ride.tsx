@@ -160,7 +160,7 @@ const BookRide = () => {
           />
         </div>
 
-        <div className="absolute md:top-96 md:-left-8 bg-[#00FF6A] rounded-[100px] p-4">
+        <div className="absolute top-24 left-12 md:top-96 md:-left-8 bg-[#00FF6A] rounded-[100px] p-4">
           <img
             src="/assets/images/idea-bulb.png"
             className=" h-8 filter brightness-75"
@@ -182,7 +182,7 @@ const BookRide = () => {
           alt=""
         />
 
-        <div className="flex flex-col md:items-center md:w-1/2 mx-4  md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center">
+        <div className="flex flex-col md:items-center md:w-2/3 mx-4  md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center">
           <h1 className="text-gray-100 leading-tight text-[1.8rem] md:text-[4rem] font-medium">
             Interstate Bus Trips
           </h1>
@@ -331,7 +331,7 @@ const BookRide = () => {
         </div>
       </div>
       <div className="w-full pt-8 pb-14 bg-white px-4 ">
-        <div className="md:w-1/2  mx-auto">
+        <div className="md:w-2/3  mx-auto">
           <h3 className="text-gray-500 text-[16px] font-medium">
             Partner Trips
           </h3>
