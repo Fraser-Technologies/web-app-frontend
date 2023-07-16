@@ -152,7 +152,7 @@ const BookRide = () => {
       {contextHolder}
 
       <div className="bg-black">
-        <div className="absolute top-32  right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
+        4<div className="absolute top-24 right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
           <img
             src="/assets/images/paper-airplane.png"
             className=" h-4 filter hue-rotate-90"
@@ -160,7 +160,7 @@ const BookRide = () => {
           />
         </div>
 
-        <div className="absolute top-24 left-12 md:top-96 md:-left-8 bg-[#00FF6A] rounded-[100px] p-4">
+        <div className="hidden md:block absolute top-12 left-12 md:top-96 md:-left-8 bg-[#00FF6A] rounded-[100px] p-4">
           <img
             src="/assets/images/idea-bulb.png"
             className=" h-8 filter brightness-75"
@@ -176,18 +176,18 @@ const BookRide = () => {
             alt=""
           />
         </div>
-        <img
+        {/* <img
           src="/assets/images/bg-overlay-white.png"
           className="md:absolute left-32 h-3/4 opacity-10 overflow-hidden"
           alt=""
-        />
+        /> */}
 
-        <div className="flex flex-col md:items-center md:w-2/3 mx-4  md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center">
+        <div className="flex pt-32 flex-col md:items-center md:w-2/3 mx-4  md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center">
           <h1 className="text-gray-100 leading-tight text-[1.8rem] md:text-[4rem] font-medium">
             Interstate Bus Trips
           </h1>
 
-          <div className="z-10 w-full pt-6 pb-6 px-5 mt-6 md:mt-12 md:p-8 bg-white rounded-lg  shadow-sm border border-gray-200">
+          <div className="z-10 w-full pt-8 pb-6 px-5 mt-6 md:mt-12 md:p-8 bg-white rounded-lg  shadow-sm border border-gray-200">
             <div className="md:flex">
               <div className="relative w-full mr-4 md:-mr-3 mb-3 text-left duration-300 ease-in-out ">
                 <div className="relative flex">
