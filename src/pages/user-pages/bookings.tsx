@@ -4,14 +4,17 @@ import { useEffect, useState } from "react";
 import { BsArrowRight, BsChevronDown, BsChevronUp } from "react-icons/bs";
 import BookingCard from "../../components/bookingCard";
 import Layout from "../../components/layouts/SignInLayout";
-import { getAllAvailableTripAction, getAvailableTripAction } from "../../state/action/trip.action";
+import {
+  getAllAvailableTripAction,
+  getAvailableTripAction,
+} from "../../state/action/trip.action";
 import { useAppDispatch, useAppSelector } from "../../state/hooks";
 import { useNavigate } from "react-router-dom";
 import { useLocation } from "react-router-dom";
 import { Alert, Drawer, Input, message, Modal } from "antd";
 import { addToMyBookinAction } from "../../state/action/booking.action";
 import GeometricPatterns from "../../components/GeometricPatterns";
-import { FaCaretDown, FaMinusCircle, FaPlusCircle } from "react-icons/fa";
+import { FaMinusCircle, FaPlusCircle } from "react-icons/fa";
 import { State_interface } from "../../interfaces/state_interface";
 import { getAllStateAction } from "../../state/action/state.action";
 import { Trip_interface } from "../../interfaces/trip_interface";
@@ -22,6 +25,7 @@ import {
   userLoginAction,
 } from "../../state/action/user.action";
 import allState from "../../utils/allState";
+import { Loading } from "../../components/loading";
 
 const Bookings = () => {
   const {
@@ -32,11 +36,12 @@ const Bookings = () => {
   const { error: registerUserError, loading: userRegisterLoading } =
     useAppSelector((state: RootState) => state.registerUser);
 
-  const { states } = useAppSelector((state: RootState) => state.allState);
+  const { states, loading: statesLoading } = useAppSelector(
+    (state: RootState) => state.allState
+  );
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
-  const [from, setFrom] = useState<string>("");
-  const [to, setTo] = useState<string>("");
+
   const [flip, setFlip] = useState("");
   const [modalVisible, setModalVisible] = useState<boolean>(false);
   const [value, setValue] = useState<number>(1);
@@ -47,32 +52,21 @@ const Bookings = () => {
 
   //PASSING DATA USING STATE
   const location = useLocation();
-  const { startState, destinationState, destinationBusStop, startBusStop } =
-    location.state || {};
+  const { startState, destinationState } = location.state || {};
 
-  const [fromCity, setFromCity] = useState<string>(
+  const [from, setFrom] = useState<string>(
     startState || "Set your current city"
   );
-  const [toCity, setToCity] = useState<string>(
+  const [to, setTo] = useState<string>(
     destinationState || "Set your destination"
-  );
-  const [start, setstart] = useState<string>(
-    startBusStop || "Select start bus stop"
-  );
-  const [destination, setdestination] = useState<string>(
-    destinationBusStop || "Select destination bus stop"
   );
 
   //FOR DROPDOWNS OPEN AND CLOSE
   const [startCityIsOpen, setStartCityIsOpen] = useState(false);
-  const [startBusStopIsOpen, setStartBusStopIsOpen] = useState(false);
+
   const [destinationCityIsOpen, setDestinationCityIsOpen] = useState(false);
-  const [destinationBusStopIsOpen, setDestinationBusStopIsOpen] =
-    useState(false);
-  const [startBusStopList, setStartBusStopList] = useState<string[]>([]);
-  const [desinationBusStopList, setDestinationBusStopList] = useState<string[]>(
-    []
-  );
+  const [destinationStateFilter, setDestinationStateFilter] = useState("");
+  const [startStateFilter, setStartStateFilter] = useState("");
   const [firstName, setFirstName] = useState<string>("");
   const [lastName, setLastName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -133,9 +127,8 @@ const Bookings = () => {
 
     if (from && to) {
       dispatch(getAvailableTripAction({ from: from, to: to }));
-    }
-    else {
-    	dispatch(getAllAvailableTripAction());
+    } else {
+      dispatch(getAllAvailableTripAction());
     }
   };
 
@@ -182,9 +175,7 @@ const Bookings = () => {
 
   //VALIDATE BUTTON BEFORE CLICK
   const isValid =
-    fromCity !== "Set your current city" &&
-    toCity !== "Set your destination" 
- 
+    from !== "Set your current city" && to !== "Set your destination";
 
   useEffect(() => {
     if (!userInfo?._id) {
@@ -232,16 +223,15 @@ const Bookings = () => {
     };
   }, [screenWidth]);
 
-//   useEffect(() => {
-//   	if (!availableTripData) {
-//   		dispatch(getAllAvailableTripAction());
-//   	}
-//   }, [availableTripData, dispatch]);
+  //   useEffect(() => {
+  //   	if (!availableTripData) {
+  //   		dispatch(getAllAvailableTripAction());
+  //   	}
+  //   }, [availableTripData, dispatch]);
 
   useEffect(() => {
     if (!states.length) {
       dispatch(getAllStateAction());
-
     }
   }, [states, dispatch]);
 
@@ -326,208 +316,108 @@ const Bookings = () => {
                       : "hidden lg:block pb-12 pt-8 px-12 lg:mr-12  ease-in-out lg:pt-16 duration-300 bg-white lg:rounded-md rounded-b-md border-b border-[#EFF3EF]"
                   }
                 >
-                  {/* CITY SELECTION */}
-                  <div className="relative z-50 inline w-full text-left duration-300 ease-in-out">
-                    <label className="ml-2 text-sm text-gray-600">
-                      Pickup City
-                    </label>
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                      onClick={() => {
-                        setStartCityIsOpen(!startCityIsOpen);
-                      }}
-                    >
-                      {fromCity}
-                      <FaCaretDown className="ml-auto" />
-                    </button>
+                  <div className="relative w-full mr-4 md:-mr-3 mb-6 text-left duration-300 ease-in-out ">
+                    <div className="relative flex">
+                      <input
+                        type="text"
+                        className="inline-flex items-center w-full h-12 pl-12 pr-4 mb-2 md:mb-0 leading-5 text-gray-700 bg-white border border-gray-300 rounded-md justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                        placeholder="Where From?"
+                        onClick={() => setStartCityIsOpen(!startCityIsOpen)}
+                        onChange={(e) => {
+                          setStartStateFilter(e.target.value);
+                        }}
+                        value={startStateFilter}
+                      />
+                      <svg
+                        width="16"
+                        height="16"
+                        viewBox="0 0 24 24"
+                        focusable="false"
+                        className=" h-full absolute ml-4 pb-2 md:pb-0 text-gray-600"
+                      >
+                        <path d="M2 12C2 6.48 6.48 2 12 2s10 4.48 10 10-4.48 10-10 10S2 17.52 2 12zm10 6c3.31 0 6-2.69 6-6s-2.69-6-6-6-6 2.69-6 6 2.69 6 6 6z"></path>
+                      </svg>
+                    </div>
 
                     {startCityIsOpen && (
-                      <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                      <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                        <Loading loading={statesLoading}/>
                         {states
-                          .filter(
-                            (state: State_interface) => state?.name !== toCity
-                          )
-                          ?.map((city: State_interface) => {
+                          ?.filter((e: State_interface) => e?.for === "REGULAR")
+                          .map((state: State_interface) => {
                             return (
-                              <a
-                                key={city?._id}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  setFromCity(city?.name);
-                                  setStartBusStopList(city?.bus_stops);
-                                  setStartCityIsOpen(!startCityIsOpen);
-                                  setFrom(city.name);
-                                }}
-                              >
-                                {city?.name}
-                              </a>
+                              <div>
+                                <a
+                                  key={state?._id}
+                                  href="#"
+                                  className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                  onClick={() => {
+                                    setStartStateFilter(state?.name);
+                                    setFrom(state?.name);
+                                    setStartCityIsOpen(!startCityIsOpen);
+                                    setFrom(state.name);
+                                  }}
+                                >
+                                  {state?.name}
+                                </a>
+                              </div>
                             );
                           })}
                       </div>
                     )}
                   </div>
+                  {/* CITY SELECTION */}
+                  <div className="relative w-full mb-4 mr-4 text-left duration-300 ease-in-out">
+                    <div className="relative flex">
+                      <input
+                        type="text"
+                        className="inline-flex items-center w-full h-[52px] pl-12 pr-4 mb-2 md:mb-0 leading-5 text-gray-700 bg-white border border-gray-300 rounded-md justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
+                        placeholder="Where to?"
+                        onClick={() =>
+                          setDestinationCityIsOpen(!destinationCityIsOpen)
+                        }
+                        onChange={(e) => {
+                          setDestinationStateFilter(e.target.value);
+                        }}
+                        value={destinationStateFilter}
+                      />
+                      <svg
+                        width="24"
+                        height="24"
+                        viewBox="0 0 24 24"
+                        focusable="false"
+                        className=" h-full absolute ml-4 pb-2 md:pb-0 text-gray-600"
+                      >
+                        <path d="M12 2C8.13 2 5 5.13 5 9c0 5.25 7 13 7 13s7-7.75 7-13c0-3.87-3.13-7-7-7zM7 9c0-2.76 2.24-5 5-5s5 2.24 5 5c0 2.88-2.88 7.19-5 9.88C9.92 16.21 7 11.85 7 9z"></path>
+                        <circle cx="12" cy="9" r="2.5"></circle>
+                      </svg>
+                    </div>
 
-                  {/* AFTER START CITY SELECTION */}
-                  <div
-                    className={`ease-in-out duration-300 relative w-full inline text-left z-40 `}
-                  >
-                    <label className="ml-2 text-sm text-gray-600">
-                      Pickup Station
-                    </label>
-
-                    {/* START BUSSTOP */}
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                      onClick={() => setStartBusStopIsOpen(!startBusStopIsOpen)}
-                    >
-                      {start}
-                      <FaCaretDown className="ml-auto" />
-                    </button>
-
-                    {startBusStopIsOpen && (
-                      <div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-                        {!startBusStopList ? (
-                          <div className="flex px-6 py-2 space-x-4 animate-pulse">
-                            <div className="flex-1 py-1 space-y-6">
-                              <div className="h-2 rounded bg-slate-200"></div>
-                              <div className="space-y-3">
-                                <div className="grid grid-cols-3 gap-4">
-                                  <div className="h-2 col-span-2 rounded bg-slate-200"></div>
-                                  <div className="h-2 col-span-1 rounded bg-slate-200"></div>
-                                </div>
-                                <div className="h-2 rounded bg-slate-200"></div>
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          startBusStopList?.map((stops: string) => {
-                            return (
-                              <a
-                                key={stops}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  setstart(stops);
-                                  // setFrom(stops);
-                                  setStartBusStopIsOpen(!startBusStopIsOpen);
-                                }}
-                              >
-                                {stops}
-                              </a>
-                            );
-                          })
-                        )}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* DESTINATION */}
-
-                  <div className="relative z-30 inline w-full text-left duration-300 ease-in-out">
-                    <label className="ml-2 text-sm text-gray-600">
-                      Destination City
-                    </label>
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 mt-1 mb-2 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                      onClick={() => {
-                        setDestinationCityIsOpen(!destinationCityIsOpen);
-                      }}
-                    >
-                      {toCity}
-                      <FaCaretDown className="ml-auto" />
-                    </button>
                     {destinationCityIsOpen && (
-                      <div className="absolute z-10 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                      <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
+                        <Loading loading={statesLoading}/>
                         {states
-                          ?.filter(
-                            (city: State_interface) => city?.name !== fromCity
-                          )
-                          ?.map((city: State_interface) => {
+                          ?.filter((e: State_interface) => e?.for === "REGULAR")
+                          .map((state: State_interface) => {
                             return (
-                              <a
-                                key={city?._id}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  setToCity(city?.name);
-                                  setDestinationCityIsOpen(
-                                    !destinationCityIsOpen
-                                  );
-                                  setDestinationBusStopList(city?.bus_stops);
-                                  setTo(city?.name);
-                                }}
-                              >
-                                {city?.name}
-                              </a>
+                              <div>
+                                <a
+                                  key={state?._id}
+                                  href="#"
+                                  className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
+                                  onClick={() => {
+                                    setDestinationStateFilter(state?.name);
+                                    setTo(state?.name);
+                                    setDestinationCityIsOpen(
+                                      !destinationCityIsOpen
+                                    );
+                                  }}
+                                >
+                                  {state?.name}
+                                </a>
+                              </div>
                             );
                           })}
-                      </div>
-                    )}
-                  </div>
-
-                  {/* AFTER DESTINATION CITY SELECTION */}
-                  <div
-                    className={`ease-in-out duration-300 relative w-full inline text-left z-20 ${
-						destinationState === "Set your destination"
-                        ? "hidden "
-                        : ""
-                    }`}
-                  >
-                    <label className="ml-2 text-sm text-gray-600">
-                      Destination Bus Stop
-                    </label>
-
-                    {/* START BUSSTOP */}
-                    <button
-                      type="button"
-                      className="inline-flex w-full px-4 py-2 mt-1 text-sm font-medium leading-5 text-gray-700 bg-white border border-gray-300 rounded-md shadow-sm justify-left focus:outline-none focus:shadow-outline-blue active:bg-gray-50 active:text-gray-800"
-                      onClick={() =>
-                        setDestinationBusStopIsOpen(!destinationBusStopIsOpen)
-                      }
-                    >
-                      {destination}
-                      <FaCaretDown className="ml-auto" />
-                    </button>
-
-                    {destinationBusStopIsOpen && (
-                      <div className="absolute w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-                        {!desinationBusStopList ? (
-                          <div className="flex px-6 py-2 space-x-4 animate-pulse">
-                            <div className="flex-1 py-1 space-y-6">
-                              <div className="h-2 rounded bg-slate-200"></div>
-                              <div className="space-y-3">
-                                <div className="grid grid-cols-3 gap-4">
-                                  <div className="h-2 col-span-2 rounded bg-slate-200"></div>
-                                  <div className="h-2 col-span-1 rounded bg-slate-200"></div>
-                                </div>
-                                <div className="h-2 rounded bg-slate-200"></div>
-                              </div>
-                            </div>
-                          </div>
-                        ) : (
-                          desinationBusStopList?.map((stops: string) => {
-                            return (
-                              <a
-                                key={stops}
-                                href="#"
-                                className="inline-block w-full px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
-                                onClick={() => {
-                                  setdestination(stops);
-                                  // setTo(stops);
-                                  setDestinationBusStopIsOpen(
-                                    !destinationBusStopIsOpen
-                                  );
-                                }}
-                              >
-                                {stops}
-                              </a>
-                            );
-                          })
-                        )}
                       </div>
                     )}
                   </div>
@@ -557,20 +447,7 @@ const Bookings = () => {
                 {/* HEADER */}
 
                 <div className="w-full px-8 py-4 pb-24 overflow-y-scroll bg-white rounded-md mt-14 lg:mt-0 lg:mb-16 lg:pb-12 lg:pt-16 lg:px-12 lg:py-0 h-max scroll-behavior-smooth">
-                  {availableTripLoading && (
-                    <div className="flex px-6 py-2 mb-8 space-x-4 animate-pulse">
-                      <div className="flex-1 py-1 space-y-6">
-                        <div className="h-2 rounded bg-slate-200"></div>
-                        <div className="space-y-3">
-                          <div className="grid grid-cols-3 gap-4">
-                            <div className="h-2 col-span-2 rounded bg-slate-200"></div>
-                            <div className="h-2 col-span-1 rounded bg-slate-200"></div>
-                          </div>
-                          <div className="h-2 rounded bg-slate-200"></div>
-                        </div>
-                      </div>
-                    </div>
-                  )}{" "}
+				<Loading loading={availableTripLoading}/>
                   {!availableTripLoading && availableTripData?.length === 0 && (
                     <div>
                       <Alert
@@ -586,7 +463,7 @@ const Bookings = () => {
                           {/* {trip?.type_of_trip === "NORMAL" && ( */}
                           <BookingCard
                             key={trip?._id}
-							typeOfTrip={trip?.type_of_trip}
+                            typeOfTrip={trip?.type_of_trip}
                             from={trip?.travel_destination?.from?.state?.name}
                             to={trip?.travel_destination?.to?.state.name}
                             fromBusStop={
