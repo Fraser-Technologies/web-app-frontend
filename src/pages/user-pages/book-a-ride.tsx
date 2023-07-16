@@ -183,7 +183,7 @@ const BookRide = () => {
         />
 
         <div className="flex flex-col md:items-center md:w-1/2 mx-4  md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center">
-          <h1 className="text-gray-100 leading-tight text-[1.8rem] md:text-[3rem] font-medium">
+          <h1 className="text-gray-100 leading-tight text-[1.8rem] md:text-[4rem] font-medium">
             Interstate Bus Trips
           </h1>
 
@@ -216,7 +216,9 @@ const BookRide = () => {
                   <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     <Loading loading={statesLoading}/>
                     {states
-                      ?.filter((e: State_interface) => e?.for === "REGULAR")
+                      ?.filter((e: State_interface) => e?.for === "REGULAR"&& e?.name
+                      .toLowerCase()
+                      .includes(startStateFilter.toLowerCase()))
                       .map((state: State_interface) => {
                         return (
                           <div>
@@ -227,7 +229,6 @@ const BookRide = () => {
                               onClick={() => {
                                 setStartStateFilter(state?.name);
                                 setStartState(state?.name);
-
                                 setStartStateIsOpen(false);
                                 setFrom(state?.name);
                                 setStartStateIsOpen(!startStateIsOpen);
@@ -282,7 +283,9 @@ const BookRide = () => {
                   <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                     <Loading loading={statesLoading}/>
                     {states
-                      ?.filter((e: State_interface) => e?.for === "REGULAR")
+                      ?.filter((e: State_interface) => e?.for === "REGULAR" && e?.name
+                      .toLowerCase()
+                      .includes(destinationStateFilter.toLowerCase()))
                       .map((state: State_interface) => {
                         return (
                           <div>

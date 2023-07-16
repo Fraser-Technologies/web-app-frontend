@@ -343,7 +343,9 @@ const Bookings = () => {
                       <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                         <Loading loading={statesLoading}/>
                         {states
-                          ?.filter((e: State_interface) => e?.for === "REGULAR")
+                          ?.filter((e: State_interface) => e?.for === "REGULAR" && e?.name
+						  .toLowerCase()
+						  .includes(startStateFilter.toLowerCase()))
                           .map((state: State_interface) => {
                             return (
                               <div>
@@ -397,7 +399,9 @@ const Bookings = () => {
                       <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
                         <Loading loading={statesLoading}/>
                         {states
-                          ?.filter((e: State_interface) => e?.for === "REGULAR")
+                          ?.filter((e: State_interface) => e?.for === "REGULAR" && e?.name
+						  .toLowerCase()
+						  .includes(destinationStateFilter.toLowerCase()))
                           .map((state: State_interface) => {
                             return (
                               <div>

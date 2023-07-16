@@ -209,7 +209,9 @@ const NyscPage = () => {
                   >
                     <Loading loading={statesLoading}/>
                     {states
-                      ?.filter((fil: State_interface) => fil?.for === "NYSC")
+                      ?.filter((e: State_interface) => e?.for === "NYSC" && e?.name
+                      .toLowerCase()
+                      .includes(stateFilter.toLowerCase()))
                       .map((state: State_interface) => {
                         return (
                           <div>

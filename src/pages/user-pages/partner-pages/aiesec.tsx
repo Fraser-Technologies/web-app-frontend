@@ -214,7 +214,9 @@ const AiesecPage = () => {
                   >
                     <Loading loading={statesLoading}/>
                     {states
-                      ?.filter((e: State_interface) => e?.for === "AIESEC")
+                      ?.filter((e: State_interface) => e?.for === "AIESEC" && e?.name
+                      .toLowerCase()
+                      .includes(stateFilter.toLowerCase()))
                       .map((state: State_interface) => {
                         return (
                           <div>
