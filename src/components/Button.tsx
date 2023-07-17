@@ -23,7 +23,7 @@ export const FraserButton = ({
   loader = false,
   size = "regular",
   icon,
-  active = true,
+  active,
   iconposition = "left",
   buttonType = "primary",
   buttonActionType = "regular",
@@ -31,7 +31,7 @@ export const FraserButton = ({
 }: Props) => {
   return (
     <button
-      onClick={active === false ? () => {} : onClick}
+      onClick={active ? () => {} : onClick}
       className={`
 	  ${className}
 	  ${size === "large" && "px-8 h-[56px]"} 

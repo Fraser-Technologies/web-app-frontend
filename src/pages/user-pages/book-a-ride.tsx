@@ -333,7 +333,9 @@ const BookRide = () => {
                 loader={availableTripsLoading}
                 active={TripValid}
                 onClick={() => {
+                  console.log("Checkpoint 1?")
                   if (!userInfo?._id) {
+                    console.log("Checkpoint 2")
                     return setFlip("signin");
                   }
                   handleAvailableTrips();
