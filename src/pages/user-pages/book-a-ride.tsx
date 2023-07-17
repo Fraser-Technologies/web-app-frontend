@@ -36,11 +36,12 @@ const BookRide = () => {
   } = useAppSelector((state: RootState) => state.userLogin);
   const { error: registerUserError, loading: userRegisterLoading } =
     useAppSelector((state: RootState) => state.registerUser);
-  const { states, loading: statesLoading } = useAppSelector((state: any) => state.allState);
+  const { states, loading: statesLoading } = useAppSelector(
+    (state: any) => state.allState
+  );
 
-  // const { trips: availableTripData } = useAppSelector(
-  //   (state: any) => state.availableTrip
-  // );
+  const { trips: availableTripData, loading: availableTripsLoading } =
+    useAppSelector((state: any) => state.availableTrip);
 
   const dispatch = useAppDispatch();
   const navigate = useNavigate();
@@ -69,15 +70,22 @@ const BookRide = () => {
 
   const handleAvailableTrips = () => {
     if (from && to) {
-      dispatch(getAvailableTripAction({ from: from, to: to }));
+      dispatch(getAvailableTripAction({ from: from, to: to })).finally(
+        navigate("/bookings", {
+          state: {
+            startState,
+            destinationState,
+          },
+        })
+      );
     }
 
-    navigate("/bookings", {
-      state: {
-        startState,
-        destinationState,
-      },
-    });
+    // navigate("/bookings", {
+    //   state: {
+    //     startState,
+    //     destinationState,
+    //   },
+    // });
   };
 
   const TripValid =
@@ -152,14 +160,14 @@ const BookRide = () => {
       {contextHolder}
 
       <div className="bg-black">
-        4<div className="absolute top-24 right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
+        4
+        <div className="absolute top-24 right-2 md:right-64 lg:right-96 bg-[#00FF6A] rounded-[100px] p-4">
           <img
             src="/assets/images/paper-airplane.png"
             className=" h-4 filter hue-rotate-90"
             alt=""
           />
         </div>
-
         <div className="hidden md:block absolute top-12 left-12 md:top-96 md:-left-8 bg-[#00FF6A] rounded-[100px] p-4">
           <img
             src="/assets/images/idea-bulb.png"
@@ -167,7 +175,6 @@ const BookRide = () => {
             alt=""
           />
         </div>
-
         <div className="hidden md:block absolute top-12 md:top-56 lg:top-56 -right-0 md:right-24 lg:right-40 bg-[#FFE28D] p-4 rounded-[100px]">
           {" "}
           <img
@@ -181,7 +188,6 @@ const BookRide = () => {
           className="md:absolute left-32 h-3/4 opacity-10 overflow-hidden"
           alt=""
         /> */}
-
         <div className="flex pt-32 flex-col md:items-center md:w-2/3 mx-4  md:mx-auto md:pt-72 pb-16 md:pb-32 bg-cover bg-no-repeat bg-center">
           <h1 className="text-gray-100 leading-tight text-[1.8rem] md:text-[4rem] font-medium">
             Interstate Bus Trips
@@ -214,11 +220,15 @@ const BookRide = () => {
 
                 {startStateIsOpen && (
                   <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-                    <Loading loading={statesLoading}/>
+                    <Loading loading={statesLoading} />
                     {states
-                      ?.filter((e: State_interface) => e?.for === "REGULAR"&& e?.name
-                      .toLowerCase()
-                      .includes(startStateFilter.toLowerCase()))
+                      ?.filter(
+                        (e: State_interface) =>
+                          e?.for === "REGULAR" &&
+                          e?.name
+                            .toLowerCase()
+                            .includes(startStateFilter.toLowerCase())
+                      )
                       .map((state: State_interface) => {
                         return (
                           <div>
@@ -281,16 +291,20 @@ const BookRide = () => {
 
                 {destinationStateIsOpen && (
                   <div className="absolute z-20 w-full py-4 mt-2 bg-white rounded-md shadow-xs shadow-lg">
-                    <Loading loading={statesLoading}/>
+                    <Loading loading={statesLoading} />
                     {states
-                      ?.filter((e: State_interface) => e?.for === "REGULAR" && e?.name
-                      .toLowerCase()
-                      .includes(destinationStateFilter.toLowerCase()))
+                      ?.filter(
+                        (e: State_interface) =>
+                          e?.for === "REGULAR" &&
+                          e?.name
+                            .toLowerCase()
+                            .includes(destinationStateFilter.toLowerCase())
+                      )
                       .map((state: State_interface) => {
                         return (
                           <div>
                             <a
-                            key={state?._id}
+                              key={state?._id}
                               href="#"
                               className="z-20 inline-block w-full px-4 py-2 text-gray-700 hover:bg-gray-100 focus:outline-none focus:bg-gray-100 focus:text-gray-900"
                               onClick={() => {
@@ -315,15 +329,14 @@ const BookRide = () => {
               <FraserButton
                 title="Search"
                 size="regular"
-                className=" w-full md:w-content cursor-pointer"
+                className=" w-full md:w-content md:cursor-pointer"
+                loader={availableTripsLoading}
                 active={TripValid}
                 onClick={() => {
-                  if (TripValid) {
-                    if (!userInfo?._id) {
-                      return setFlip("signin");
-                    }
-                    handleAvailableTrips();
+                  if (!userInfo?._id) {
+                    return setFlip("signin");
                   }
+                  handleAvailableTrips();
                 }}
               />
             </div>
