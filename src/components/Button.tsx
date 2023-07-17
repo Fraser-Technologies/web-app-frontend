@@ -31,7 +31,7 @@ export const FraserButton = ({
 }: Props) => {
   return (
     <button
-      onClick={active ? () => {} : onClick}
+      onClick={active ? onClick :  () => {}}
       className={`
 	  ${className}
 	  ${size === "large" && "px-8 h-[56px]"} 
@@ -41,7 +41,7 @@ export const FraserButton = ({
 	  ${
       buttonType === "primary" &&
       buttonActionType !== "destructive" &&
-      active !== false
+      active === true
         ? "bg-[#00ff6a] hover:bg-[#58FF9E]"
         : buttonType === "primary" &&
           buttonActionType !== "destructive" &&
@@ -49,7 +49,7 @@ export const FraserButton = ({
         ? "bg-[#f5f5f5] text-gray-500 "
         : buttonType === "primary" &&
           buttonActionType === "destructive" &&
-          active !== false
+          active === true
         ? "bg-[#E71D36] text-white"
         : buttonType === "primary" &&
           buttonActionType === "destructive" &&
@@ -59,7 +59,7 @@ export const FraserButton = ({
 	  ${
       buttonType === "secondary" &&
       buttonActionType !== "destructive" &&
-      active !== false &&
+      active === true &&
       secondaryColor === "white"
         ? "border border-white hover:border-[#929292] text-white hover:text-[#929292]"
         : buttonType === "secondary" &&
@@ -69,7 +69,7 @@ export const FraserButton = ({
         ? "border border-[#353535] text-[#353535]"
         : buttonType === "secondary" &&
           buttonActionType === "destructive" &&
-          active !== false &&
+          active === true &&
           secondaryColor === "white"
         ? "border border-[#E71D36] text-[#E71D36]"
         : buttonType === "secondary" &&
@@ -79,7 +79,7 @@ export const FraserButton = ({
         ? "border border-[#353535] text-[#353535]"
         : buttonType === "secondary" &&
           buttonActionType !== "destructive" &&
-          active !== false &&
+          active === true &&
           secondaryColor !== "white"
         ? "border border-black hover:border-[#929292] text-black hover:text-[#929292]"
         : buttonType === "secondary" &&
@@ -89,7 +89,7 @@ export const FraserButton = ({
         ? "border border-[#353535] text-[#353535]"
         : buttonType === "secondary" &&
           buttonActionType === "destructive" &&
-          active !== false &&
+          active === true &&
           secondaryColor !== "white"
         ? "border border-[#E71D36] text-[#E71D36]"
         : buttonType === "secondary" &&

@@ -193,7 +193,7 @@ const BookRide = () => {
             Interstate Bus Trips
           </h1>
 
-          <div className="z-10 w-full pt-8 pb-6 px-5 mt-6 md:mt-12 md:p-8 bg-white rounded-lg  shadow-sm border border-gray-200">
+          <div className="w-full pt-8 pb-6 px-5 mt-6 md:mt-12 md:p-8 bg-red-900 rounded-lg  shadow-sm border border-gray-200">
             <div className="md:flex">
               <div className="relative w-full mr-4 md:-mr-3 mb-3 text-left duration-300 ease-in-out ">
                 <div className="relative flex">
@@ -329,15 +329,15 @@ const BookRide = () => {
               <FraserButton
                 title="Search"
                 size="regular"
-                className=" w-full md:w-content md:cursor-pointer"
+                className="mt-4 md:mt-0 w-full md:w-content md:cursor-pointer"
                 loader={availableTripsLoading}
                 active={TripValid}
                 onClick={() => {
                   console.log("Checkpoint 1?")
-                  if (!userInfo?._id) {
-                    console.log("Checkpoint 2")
-                    return setFlip("signin");
-                  }
+                  // if (!userInfo?._id) {
+                  //   console.log("Checkpoint 2")
+                  //   return setFlip("signin");
+                  // }
                   handleAvailableTrips();
                 }}
               />
