@@ -82,8 +82,9 @@ const Checkout = () => {
       ) * 100,
     publicKey:
       app_type === "production"
-        ? process.env.REACT_APP_PAYSTACK_KEY
-        : process.env.REACT_APP_PAYSTACK_TEST_KEY,
+        ? process.env.REACT_APP_PAYSTACK_TEST_KEY : process.env.REACT_APP_PAYSTACK_KEY
+        // ? process.env.REACT_APP_PAYSTACK_KEY
+        // : process.env.REACT_APP_PAYSTACK_TEST_KEY,
   };
 
   const initializePayment = usePaystackPayment(config as any);
